@@ -13,6 +13,7 @@ Option Compare Database
 Option Explicit
 
 ' Hauptdatensatz der Klasse
+Private mdbsCurrentDb As DAO.Database
 Private mrstRecordset As DAO.RecordSet
 
 ' dient als Zwischenspeicher für die ID des aktuell
@@ -55,8 +56,7 @@ End Sub
 Public Sub Laden(ByVal varID As Variant)
     Debug.Print "clsAuftragNew.Laden ausführen"
     
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
+    Set mdbsCurrentDb = CurrentDb
 
     ' das Objekt in den Default-Zustand versetzen,
     ' wenn im Unterformular kein Datensatz mit dem
@@ -88,7 +88,7 @@ Public Sub Laden(ByVal varID As Variant)
         Dim bolQueryExistiert As Boolean
         bolQueryExistiert = False
     
-        For Each RecordSet In dbsCurrentDB.QueryDefs
+        For Each RecordSet In mdbsCurrentDb.QueryDefs
             If RecordSet.Name = strAbfrageTitel Then
                 bolQueryExistiert = True
             End If
@@ -106,7 +106,7 @@ Public Sub Laden(ByVal varID As Variant)
         End If
     
         ' Abfrage qryAuftragAuswahl nach varID durchsuchen
-        Set mrstRecordset = dbsCurrentDB.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
+        Set mrstRecordset = mdbsCurrentDb.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
         mrstRecordset.FindFirst (strSucheZiel & " = '" & CStr(varID) & "'")
         
     ' Attribute von mrstRecordset in Objekt laden
@@ -124,17 +124,16 @@ Public Sub Laden(ByVal varID As Variant)
         mvarKunde = !kunde
     End With
     
-    ' dbsCurrentDB schließen
+    ' mdbsCurrentDB schließen
 ExitProc:
-        dbsCurrentDB.Close
-        Set dbsCurrentDB = Nothing
+        mdbsCurrentDb.Close
+        Set mdbsCurrentDb = Nothing
     End Sub
 
 ' mit der 'Speichern' Schaltfläche verknüpfen,
 ' schreibt die Attribute des Objekts in den recordset
 Public Sub Speichern()
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
+    Set mdbsCurrentDb = CurrentDb
     
     Dim strAbfrageTitel As String
     strAbfrageTitel = "qryAuftragAuswahl"
@@ -144,7 +143,7 @@ Public Sub Speichern()
         Dim bolQueryExistiert As Boolean
         bolQueryExistiert = False
     
-        For Each RecordSet In dbsCurrentDB.QueryDefs
+        For Each RecordSet In mdbsCurrentDb.QueryDefs
             If RecordSet.Name = strAbfrageTitel Then
                 bolQueryExistiert = True
             End If
@@ -173,7 +172,7 @@ Public Sub Speichern()
         Dim strSucheAttribut As String
         strSucheAttribut = "AftrID"
 
-        Set mrstRecordset = dbsCurrentDB.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
+        Set mrstRecordset = mdbsCurrentDb.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
         mrstRecordset.FindFirst (strSucheAttribut & " = '" & CStr(varClipboard) & "'")
         
     ' Objektattribute in recordset schreiben
@@ -197,18 +196,17 @@ Public Sub Speichern()
         MsgBox "Datensatz gespeichert", vbInformation, "Speichern"
         
 ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
+    mdbsCurrentDb.Close
+    Set mdbsCurrentDb = Nothing
 End Sub
 
 ' durch Schaltfläche 'Suchen' ausführen,
 ' erzeugt Abfrage unter Berücksichtigung des Suchbegriffs
 Public Sub Suchen(ByVal varSuchbegriff As Variant)
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
+    Set mdbsCurrentDb = CurrentDb
     
     Dim qdfAbfrage As DAO.QueryDef
-    Set qdfAbfrage = dbsCurrentDB.CreateQueryDef
+    Set qdfAbfrage = mdbsCurrentDb.CreateQueryDef
     
     Dim strAbfrageTitel As String
     strAbfrageTitel = "qryAuftragAuswahl"
@@ -227,7 +225,7 @@ Public Sub Suchen(ByVal varSuchbegriff As Variant)
     
     'prüfen ob Abfrage existiert, wenn ja Abfrage löschen
     Dim RecordSet As Object
-    For Each RecordSet In dbsCurrentDB.QueryDefs
+    For Each RecordSet In mdbsCurrentDb.QueryDefs
         If RecordSet.Name = strAbfrageTitel Then
             DoCmd.DeleteObject acQuery, strAbfrageTitel
         End If
@@ -243,21 +241,20 @@ Public Sub Suchen(ByVal varSuchbegriff As Variant)
     End With
     
     ' Query speichern
-    With dbsCurrentDB.QueryDefs
+    With mdbsCurrentDb.QueryDefs
         .Append qdfAbfrage
         .Refresh
     End With
     
 ExitProc:
-        dbsCurrentDB.Close
-        Set dbsCurrentDB = Nothing
+        mdbsCurrentDb.Close
+        Set mdbsCurrentDb = Nothing
         qdfAbfrage.Close
         Set qdfAbfrage = Nothing
 End Sub
 
 Public Function AddRecordset()
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
+    Set mdbsCurrentDb = CurrentDb
     
     Dim strTabelleTitel As String
     strTabelleTitel = "tblAuftrag"
@@ -290,7 +287,7 @@ Public Function AddRecordset()
     End If
     
     ' Neuen Datensatz erzeugen
-    Set mrstRecordset = dbsCurrentDB.OpenRecordset(strTabelleTitel, dbOpenDynaset)
+    Set mrstRecordset = mdbsCurrentDb.OpenRecordset(strTabelleTitel, dbOpenDynaset)
     
     mrstRecordset.AddNew
         mrstRecordset!AftrID = varRecordsetName
@@ -307,8 +304,10 @@ Public Function AddRecordset()
     MsgBox "'" & mvarClipboard & "' erzeugt", vbOKOnly, "Auftrag hinzuf�gen"
         
 ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
+    mrstRecordset.Close
+    Set mrstRecordset = Nothing
+    mdbsCurrentDb.Close
+    Set mdbsCurrentDb = Nothing
 End Function
 
 
