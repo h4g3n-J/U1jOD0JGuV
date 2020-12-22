@@ -283,7 +283,7 @@ Public Function AddRecordset()
     varRecordsetName = CStr(varRecordsetName)
     
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftrag.AddRecordset!strRecordsetName: " + varRecordsetName
+        Debug.Print "clsAuftrag.AddRecordset!varRecordsetName: " + varRecordsetName
     End If
     
     ' Neuen Datensatz erzeugen

@@ -15,8 +15,8 @@ Option Explicit
 ' Hauptdatensatz der Klasse
 Private mrstRecordset As DAO.RecordSet
 
-' dient als Zwischenspeicher fï¿½r die ID des aktuell
-' mit dem Cursor ausgewï¿½hlten Datensatz im Unterformular
+' dient als Zwischenspeicher für die ID des aktuell
+' mit dem Cursor ausgewählten Datensatz im Unterformular
 ' wird mit der Prozedur Laden geschrieben und von der
 ' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
@@ -25,36 +25,36 @@ Private mvarClipboard As Variant
 Private mbolVerbatim As Boolean
 
     Private mvarBWIKey As Variant
-    Private EAkurzKey As Variant
-    Private MengengeruestLink As Variant
-    Private LeistungsbeschreibungLink As Variant
-    Private Bemerkung As Variant
-    Private BeauftragtDatum As Variant
-    Private AbgebrochenDatum As Variant
-    Private MitzeichnungI21Datum As Variant
-    Private MitzeichnungI25Datum As Variant
-    Private AngebotDatum As Variant
-    Private AbgenommenDatum As Variant
-    Private AftrBeginn As Variant
-    Private AftrEnde As Variant
-    Private StorniertDatum As Variant
-    Private AngebotBrutto As Variant
+    Private mvarEAkurzKey As Variant
+    Private mvarMengengeruestLink As Variant
+    Private mvarLeistungsbeschreibungLink As Variant
+    Private mvarBemerkung As Variant
+    Private mvarBeauftragtDatum As Variant
+    Private mvarAbgebrochenDatum As Variant
+    Private mvarMitzeichnungI21Datum As Variant
+    Private mvarMitzeichnungI25Datum As Variant
+    Private mvarAngebotDatum As Variant
+    Private mvarAbgenommenDatum As Variant
+    Private mvarAftrBeginn As Variant
+    Private mvarAftrEnde As Variant
+    Private mvarStorniertDatum As Variant
+    Private mvarAngebotBrutto As Variant
     
 Private Sub Default()
     mvarBWIKey = Null
-    MengengeruestLink = Null
-    LeistungsbeschreibungLink = Null
-    Bemerkung = Null
-    BeauftragtDatum = Null
-    AbgebrochenDatum = Null
-    MitzeichnungI21Datum = Null
-    MitzeichnungI25Datum = Null
-    AngebotDatum = Null
-    AbgenommenDatum = Null
-    AftrBeginn = Null
-    AftrEnde = Null
-    StorniertDatum = Null
-    AngebotBrutto = Null
+    mvarMengengeruestLink = Null
+    mvarLeistungsbeschreibungLink = Null
+    mvarBemerkung = Null
+    mvarBeauftragtDatum = Null
+    mvarAbgebrochenDatum = Null
+    mvarMitzeichnungI21Datum = Null
+    mvarMitzeichnungI25Datum = Null
+    mvarAngebotDatum = Null
+    mvarAbgenommenDatum = Null
+    mvarAftrBeginn = Null
+    mvarAftrEnde = Null
+    mvarStorniertDatum = Null
+    mvarAngebotBrutto = Null
 End Sub
     
 Private Sub Class_Initialize()
@@ -177,4 +177,116 @@ Public Property Let AngebotBrutto(ByVal varAngebotBrutto As Variant)
     mvarAngebotBrutto = basSupport.PruefeWaehrung(varAngebotBrutto)
 End Property
 
-' das ist ein test
+Public Property Let Verbatim(ByVal bolInput As Boolean)
+    mbolVerbatim = basSupport.PruefeBoolean(bolInput)
+End Property
+
+Public Property Get Verbatim() As Boolean
+    Verbatim = basSupport.PruefeBoolean(mbolVerbatim)
+End Property
+
+
+Public Sub AddRecordset()
+    Dim dbsCurrentDb As DAO.Database
+    Set dbsCurrentDb = CurrentDb
+    
+    ' name relevant tables
+    
+    Dim strTabelleTitel As String
+    strTabelleTitel = "tblAngebot"
+    
+    Dim strHilfstabelleTitel As String
+    strHilfstabelleTitel = "tblAuftragZuAngebot"
+    
+    ' check if tables exist, if not prompt error
+    If basSupport.TabelleExistiert(strTabelleTitel) = False Then
+        Debug.Print "clsAngebot.AddRecordset: " & strTabelleTitel _
+            & " existiert nicht."
+    End If
+    
+    If mbolVerbatim = True Then
+        Debug.Print "clsAngebot.AddRecordset: " + strTabelleTitel _
+            + " existiert"
+    End If
+    
+    If basSupport.TabelleExistiert(strHilfstabelleTitel) = False Then
+        Debug.Print "clsAngebot.AddRecordset: " & strHilfstabelleTitel _
+            & " existiert nicht."
+    End If
+    
+    If mbolVerbatim = True Then
+        Debug.Print "clsAngebot.AddRecordset: " + strHilfstabelleTitel _
+            + " existiert"
+    End If
+    
+    If basSupport.TabelleExistiert(strTabelleTitel) = False Or basSupport.TabelleExistiert(strHilfstabelleTitel) = False Then
+        Debug.Print "clsAngebot.AddRecodset: Prozedur abgebrochen"
+        GoTo ExitProc
+    End If
+    
+    ' name the referenced order
+    Dim varOrderTitle As Variant
+    varOrderTitle = InputBox("Titel des referenzierten Auftrags eingeben", "Angebot erfassen")
+    
+    If basSupport.PflichtfeldIstLeer(varOrderTitle) = True Then
+        Debug.Print "clsAngebot.AddRecordset: varOrderTitle ist leer, " _
+            & "Prozedur abgebrochen"
+        GoTo ExitProc
+    End If
+    
+    varOrderTitle = CStr(varOrderTitle)
+    
+    If mbolVerbatim = True Then
+        Debug.Print "clsAngebot.AddRecordset!varOrderTitle: " + varOrderTitle
+    End If
+    
+    ' name the offer
+    Dim varOfferTitle As Variant
+    varOfferTitle = InputBox("BWI Alias des Angebots eingeben.", "Angebot erfassen")
+    
+    If basSupport.PflichtfeldIstLeer(varOfferTitle) = True Then
+        Debug.Print "clsAngebot.AddRecordset: varOfferTitle ist leer, " _
+            & "Prozedur abgebrochen"
+        GoTo ExitProc
+    End If
+    
+    varOfferTitle = CStr(varOfferTitle)
+    
+    If mbolVerbatim = True Then
+        Debug.Print "clsAngebot.AddRecordset!varOfferTitle: " + varOfferTitle
+    End If
+    
+    ' Create RecordSet in Hilfstabelle
+    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strHilfstabelleTitel, dbOpenDynaset)
+    
+    mrstRecordset.AddNew
+        mrstRecordset!AftrID = varOrderTitle
+        mrstRecordset!BWIKey = varOfferTitle
+    mrstRecordset.Update
+    
+    mrstRecordset.Close
+    Set mrstRecordset = Nothing
+    
+    ' Create Recordset in main Tabelle
+    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strTabelleTitel, dbOpenDynaset)
+    
+    mrstRecordset.AddNew
+        mrstRecordset!BWIKey = varOfferTitle
+    mrstRecordset.Update
+    
+    ' copy recordset title to clipboard
+    mvarClipboard = varOfferTitle
+    
+    If mbolVerbatim = True Then
+        Debug.Print "clsAngebot.AddRecordset: clsAngebot!mvarClipboard = " + mvarClipboard
+    End If
+    
+    ' Abschlussmeldung
+    MsgBox "'" & mvarClipboard & "' erzeugt", vbOKOnly, "Angebot hinzufuegen"
+    
+ExitProc:
+    mrstRecordset.Close
+    Set mrstRecordset = Nothing
+    dbsCurrentDb.Close
+    Set dbsCurrentDb = Nothing
+End Sub
