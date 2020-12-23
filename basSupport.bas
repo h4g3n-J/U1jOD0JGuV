@@ -93,9 +93,9 @@ End Function
 ' Prueft ob Abfrage existiert
 Public Function AbfrageExistiert(ByVal strAbfrageName As String) As Boolean
     
-    If dbsCurrentDB = Nothing Then
-        Dim dbsCurrentDB As DAO.Database
-        Set dbsCurrentDB = CurrentDb
+    If dbsCurrentDb = Nothing Then
+        Dim dbsCurrentDb As DAO.Database
+        Set dbsCurrentDb = CurrentDb
     End If
     
     Dim RecordSet As Object
@@ -105,7 +105,7 @@ Public Function AbfrageExistiert(ByVal strAbfrageName As String) As Boolean
     Dim bolQueryExists As Boolean
     bolQueryExists = False
     
-    For Each RecordSet In dbsCurrentDB.QueryDefs
+    For Each RecordSet In dbsCurrentDb.QueryDefs
         If RecordSet.Name = strAbfrageName Then
             bolQueryExists = True
         End If
@@ -114,14 +114,14 @@ Public Function AbfrageExistiert(ByVal strAbfrageName As String) As Boolean
     AbfrageExistiert = bolQueryExists
     
 ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
+    dbsCurrentDb.Close
+    Set dbsCurrentDb = Nothing
 End Function
 
 ' Prueft ob Tabelle existiert
 Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
+    Dim dbsCurrentDb As DAO.Database
+    Set dbsCurrentDb = CurrentDb
     
     Dim RecordSet As Object
     
@@ -130,7 +130,7 @@ Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
     Dim bolTableExists As Boolean
     bolTableExists = False
     
-    For Each RecordSet In dbsCurrentDB.TableDefs
+    For Each RecordSet In dbsCurrentDb.TableDefs
         If RecordSet.Name = strTabelleName Then
             bolTableExists = True
         End If
@@ -139,8 +139,8 @@ Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
     TabelleExistiert = bolTableExists
     
 ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
+    dbsCurrentDb.Close
+    Set dbsCurrentDb = Nothing
 End Function
 
 ' Prueft ob Pflichtfeld befuellt wurde
@@ -153,5 +153,33 @@ Public Function PflichtfeldIstLeer(ByVal varInput As Variant) As Boolean
     End If
     
     PflichtfeldIstLeer = bolStatus
+End Function
+
+' Prueft ob Datensatz existiert
+Public Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName As Variant, ByVal varRecordsetName As Variant) As Boolean
+    Dim bolStatus As Boolean
+    bolStatus = False
+    
+    varTblName = CStr(varTblName)
+    varFieldName = CStr(varFieldName)
+    varRecordsetName = CStr(varRecordsetName)
+    
+    Dim dbsCurrentDb As DAO.Database
+    Set dbsCurrentDb = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDb.OpenRecordset(varTblName, dbOpenDynaset)
+    
+    If DCount(varFieldName, varTblName, varFieldName & " Like '" & varRecordsetName & "'") > 0 Then
+        bolStatus = True
+    End If
+    
+    RecordsetExists = bolStatus
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDb.Close
+    Set dbsCurrentDb = Nothing
 End Function
 
