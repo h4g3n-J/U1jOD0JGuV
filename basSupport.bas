@@ -125,8 +125,8 @@ Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
     
     Dim RecordSet As Object
     
-    ' Default: False, wird zu True, wenn die gesuchte Abfrage
-    ' gefunden wurde
+    ' Default: False
+    ' true if query was found
     Dim bolTableExists As Boolean
     bolTableExists = False
     
@@ -143,7 +143,8 @@ ExitProc:
     Set dbsCurrentDb = Nothing
 End Function
 
-' Prueft ob Pflichtfeld befuellt wurde
+' checks if mandatory field is filled
+' returns FALSE if so
 Public Function PflichtfeldIstLeer(ByVal varInput As Variant) As Boolean
     Dim bolStatus As Boolean
     bolStatus = True
@@ -155,7 +156,8 @@ Public Function PflichtfeldIstLeer(ByVal varInput As Variant) As Boolean
     PflichtfeldIstLeer = bolStatus
 End Function
 
-' Prueft ob Datensatz existiert
+' checks if recordset exists
+' returns TRUE if so
 Public Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName As Variant, ByVal varRecordsetName As Variant) As Boolean
     Dim bolStatus As Boolean
     bolStatus = False

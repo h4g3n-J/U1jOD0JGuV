@@ -189,19 +189,24 @@ Public Sub AddRecordset()
     Dim dbsCurrentDb As DAO.Database
     Set dbsCurrentDb = CurrentDb
     
-    ' name main table
-    Dim strTableMain As String
-    strTableMain = "tblAngebot"
+    ' name table 'order'
+    Dim strTableOrder As String
+    strTableOrder = "tblAuftrag"
     
     ' name assistance table
     Dim strTableAssistance As String
     strTableAssistance = "tblAuftragZuAngebot"
     
+    ' name table 'offer'
+    Dim strTableOffer As String
+    strTableOffer = "tblAngebot"
+    
     ' create table array
-    Dim astrTables(1) As String
+    Dim astrTables(2) As String
     Dim varTable As Variant
-        astrTables(0) = strTableMain
+        astrTables(0) = strTableOrder
         astrTables(1) = strTableAssistance
+        astrTables(2) = strTableOffer
             
     ' check variable
     Dim intStatus As Integer
@@ -226,27 +231,41 @@ Public Sub AddRecordset()
         GoTo ExitProc
     End If
     
+    ' define recordset status
+    Dim bolOrderIsParent As Boolean
+    bolOrderIsParent = True
+    
+    Dim bolOfferIsParent As Boolean
+    bolOfferIsParent = False
+    
     ' create array for order and offer title
-    Dim astrRecordset(3, 1) As String
+    Dim astrRecordset(6, 1) As String
+        
         astrRecordset(0, 0) = "Order Title"
-        astrRecordset(1, 0) = "Titel des referenzierten Auftrags eingeben"
-        astrRecordset(2, 0) = "Angebot erfassen"
-        astrRecordset(3, 0) = ""
+        astrRecordset(1, 0) = strTableOrder
+        astrRecordset(2, 0) = "Titel des referenzierten Auftrags eingeben"
+        astrRecordset(3, 0) = "Angebot erfassen"
+        astrRecordset(4, 0) = ""
+        astrRecordset(5, 0) = CStr(bolOrderIsParent)
+        astrRecordset(6, 0) = "AftrID"
         
         astrRecordset(0, 1) = "Offer Title"
-        astrRecordset(1, 1) = "BWI Alias des Angebots eingeben"
-        astrRecordset(2, 1) = "Angebot erfassen"
-        astrRecordset(3, 1) = ""
+        astrRecordset(1, 1) = strTableOffer
+        astrRecordset(2, 1) = "BWI Alias des Angebots eingeben"
+        astrRecordset(3, 1) = "Angebot erfassen"
+        astrRecordset(4, 1) = ""
+        astrRecordset(5, 1) = CStr(bolOfferIsParent)
+        astrRecordset(6, 1) = "BWIKey"
     
     ' create increment
     Dim lngi As Long
     
     'ask for order title and offer title
     For lngi = LBound(astrRecordset, 2) To UBound(astrRecordset, 2)
-        astrRecordset(3, lngi) = InputBox(astrRecordset(1, lngi), astrRecordset(2, lngi))
+        astrRecordset(4, lngi) = InputBox(astrRecordset(2, lngi), astrRecordset(3, lngi))
         
             ' check if inputbox is empty, if so prompt message and exit procedure
-            If basSupport.PflichtfeldIstLeer(astrRecordset(3, lngi)) = True Then
+            If basSupport.PflichtfeldIstLeer(astrRecordset(4, lngi)) = True Then
                 Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(0, lngi) & " ist leer, " _
                     & "Prozedur abgebrochen"
                 GoTo ExitProc
@@ -255,7 +274,15 @@ Public Sub AddRecordset()
             ' prompt input
             If mbolVerbatim = True Then
                 Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(0, lngi) _
-                    & " = " & astrRecordset(3, lngi)
+                    & " = " & astrRecordset(4, lngi)
+            End If
+            
+            ' check if recordset exists
+            If CStr(basSupport.RecordsetExists(astrRecordset(1, lngi), astrRecordset(6, lngi), astrRecordset(4, lngi))) <> astrRecordset(5, lngi) Then
+                ' error message to be reworked
+                ' Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(4, 0) & " existiert nicht. " _
+                            & "Prozedur abgebrochen."
+                GoTo ExitProc
             End If
     Next
         
@@ -271,8 +298,8 @@ Public Sub AddRecordset()
         mrstRecordset.Close
         Set mrstRecordset = Nothing
         
-    ' create the new offer recordset in the main Tabelle
-    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strTableMain, dbOpenDynaset)
+    ' create the new offer recordset in the main table
+    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strTableOffer, dbOpenDynaset)
     
         mrstRecordset.AddNew
             mrstRecordset!BWIKey = astrRecordset(3, 1)
