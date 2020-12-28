@@ -62,7 +62,7 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub Class_Terminate()
-    Debug.Print "Klasse clsAngebotgNew terminiert."
+    Debug.Print "Klasse clsAngebot terminiert."
 End Sub
 
 Public Property Get BWIKey() As Variant
@@ -185,108 +185,113 @@ Public Property Get Verbatim() As Boolean
     Verbatim = basSupport.PruefeBoolean(mbolVerbatim)
 End Property
 
-
 Public Sub AddRecordset()
     Dim dbsCurrentDb As DAO.Database
     Set dbsCurrentDb = CurrentDb
     
-    ' name relevant tables
+    ' name main table
+    Dim strTableMain As String
+    strTableMain = "tblAngebot"
     
-    Dim strTabelleTitel As String
-    strTabelleTitel = "tblAngebot"
+    ' name assistance table
+    Dim strTableAssistance As String
+    strTableAssistance = "tblAuftragZuAngebot"
     
-    Dim strHilfstabelleTitel As String
-    strHilfstabelleTitel = "tblAuftragZuAngebot"
+    ' create table array
+    Dim astrTables(1) As String
+    Dim varTable As Variant
+        astrTables(0) = strTableMain
+        astrTables(1) = strTableAssistance
+            
+    ' check variable
+    Dim intStatus As Integer
+    intStatus = 0
     
-    ' check if tables exist, if not prompt error
-    If basSupport.TabelleExistiert(strTabelleTitel) = False Then
-        Debug.Print "clsAngebot.AddRecordset: " & strTabelleTitel _
-            & " existiert nicht."
-    End If
+    ' check if tables exist
+    For Each varTable In astrTables
+        If basSupport.TabelleExistiert(varTable) = False Then
+            Debug.Print "clsAngebot.AddRecordset: " & varTable _
+                & " existiert nicht."
+            intStatus = intStatus + 1
+        Else:
+            If mbolVerbatim = True Then
+            Debug.Print "clsAngebot.AddRecordset: " + varTable _
+                + " existiert"
+            End If
+        End If
+    Next
     
-    If mbolVerbatim = True Then
-        Debug.Print "clsAngebot.AddRecordset: " + strTabelleTitel _
-            + " existiert"
-    End If
-    
-    If basSupport.TabelleExistiert(strHilfstabelleTitel) = False Then
-        Debug.Print "clsAngebot.AddRecordset: " & strHilfstabelleTitel _
-            & " existiert nicht."
-    End If
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsAngebot.AddRecordset: " + strHilfstabelleTitel _
-            + " existiert"
-    End If
-    
-    If basSupport.TabelleExistiert(strTabelleTitel) = False Or basSupport.TabelleExistiert(strHilfstabelleTitel) = False Then
+    If intStatus > 0 Then
         Debug.Print "clsAngebot.AddRecodset: Prozedur abgebrochen"
         GoTo ExitProc
     End If
     
-    ' name the referenced order
-    Dim varOrderTitle As Variant
-    varOrderTitle = InputBox("Titel des referenzierten Auftrags eingeben", "Angebot erfassen")
+    ' create array for order and offer title
+    Dim astrRecordset(3, 1) As String
+        astrRecordset(0, 0) = "Order Title"
+        astrRecordset(1, 0) = "Titel des referenzierten Auftrags eingeben"
+        astrRecordset(2, 0) = "Angebot erfassen"
+        astrRecordset(3, 0) = ""
+        
+        astrRecordset(0, 1) = "Offer Title"
+        astrRecordset(1, 1) = "BWI Alias des Angebots eingeben"
+        astrRecordset(2, 1) = "Angebot erfassen"
+        astrRecordset(3, 1) = ""
     
-    If basSupport.PflichtfeldIstLeer(varOrderTitle) = True Then
-        Debug.Print "clsAngebot.AddRecordset: varOrderTitle ist leer, " _
-            & "Prozedur abgebrochen"
-        GoTo ExitProc
-    End If
+    ' create increment
+    Dim lngi As Long
     
-    varOrderTitle = CStr(varOrderTitle)
+    'ask for order title and offer title
+    For lngi = LBound(astrRecordset, 2) To UBound(astrRecordset, 2)
+        astrRecordset(3, lngi) = InputBox(astrRecordset(1, lngi), astrRecordset(2, lngi))
+        
+            ' check if inputbox is empty, if so prompt message and exit procedure
+            If basSupport.PflichtfeldIstLeer(astrRecordset(3, lngi)) = True Then
+                Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(0, lngi) & " ist leer, " _
+                    & "Prozedur abgebrochen"
+                GoTo ExitProc
+            End If
+        
+            ' prompt input
+            If mbolVerbatim = True Then
+                Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(0, lngi) _
+                    & " = " & astrRecordset(3, lngi)
+            End If
+    Next
+        
+    ' create the new recordset in the assistance table
+    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strTableAssistance, dbOpenDynaset)
     
-    If mbolVerbatim = True Then
-        Debug.Print "clsAngebot.AddRecordset!varOrderTitle: " + varOrderTitle
-    End If
+        mrstRecordset.AddNew
+            mrstRecordset!AftrID = astrRecordset(3, 0)
+            mrstRecordset!BWIKey = astrRecordset(3, 1)
+        mrstRecordset.Update
+        
+        ' close mrstRecordset
+        mrstRecordset.Close
+        Set mrstRecordset = Nothing
+        
+    ' create the new offer recordset in the main Tabelle
+    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strTableMain, dbOpenDynaset)
     
-    ' name the offer
-    Dim varOfferTitle As Variant
-    varOfferTitle = InputBox("BWI Alias des Angebots eingeben.", "Angebot erfassen")
+        mrstRecordset.AddNew
+            mrstRecordset!BWIKey = astrRecordset(3, 1)
+        mrstRecordset.Update
+        
+        ' copy offer name to clipboard
+        mvarClipboard = astrRecordset(3, 1)
+        
+        If mbolVerbatim = True Then
+            Debug.Print "clsAngebot.AddRecordset: clsAngebot!mvarClipboard = " + mvarClipboard
+        End If
     
-    If basSupport.PflichtfeldIstLeer(varOfferTitle) = True Then
-        Debug.Print "clsAngebot.AddRecordset: varOfferTitle ist leer, " _
-            & "Prozedur abgebrochen"
-        GoTo ExitProc
-    End If
-    
-    varOfferTitle = CStr(varOfferTitle)
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsAngebot.AddRecordset!varOfferTitle: " + varOfferTitle
-    End If
-    
-    ' Create RecordSet in Hilfstabelle
-    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strHilfstabelleTitel, dbOpenDynaset)
-    
-    mrstRecordset.AddNew
-        mrstRecordset!AftrID = varOrderTitle
-        mrstRecordset!BWIKey = varOfferTitle
-    mrstRecordset.Update
-    
-    mrstRecordset.Close
-    Set mrstRecordset = Nothing
-    
-    ' Create Recordset in main Tabelle
-    Set mrstRecordset = dbsCurrentDb.OpenRecordset(strTabelleTitel, dbOpenDynaset)
-    
-    mrstRecordset.AddNew
-        mrstRecordset!BWIKey = varOfferTitle
-    mrstRecordset.Update
-    
-    ' copy recordset title to clipboard
-    mvarClipboard = varOfferTitle
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsAngebot.AddRecordset: clsAngebot!mvarClipboard = " + mvarClipboard
-    End If
-    
-    ' Abschlussmeldung
     MsgBox "'" & mvarClipboard & "' erzeugt", vbOKOnly, "Angebot hinzufuegen"
     
-ExitProc:
+    ' clean up
     mrstRecordset.Close
     Set mrstRecordset = Nothing
+    
+ExitProc:
     dbsCurrentDb.Close
     Set dbsCurrentDb = Nothing
 End Sub
