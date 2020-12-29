@@ -193,6 +193,10 @@ Public Sub AddRecordset()
     Dim strTableOrder As String
     strTableOrder = "tblAuftrag"
     
+    ' name orderID column
+    Dim strOrderColumn As String
+    strOrderColumn = "AftrID"
+    
     ' name assistance table
     Dim strTableAssistance As String
     strTableAssistance = "tblAuftragZuAngebot"
@@ -200,6 +204,10 @@ Public Sub AddRecordset()
     ' name table 'offer'
     Dim strTableOffer As String
     strTableOffer = "tblAngebot"
+    
+    ' name offerID column
+    Dim strOfferColumn As String
+    strOfferColumn = "BWIKey"
     
     ' create table array
     Dim astrTables(2) As String
@@ -247,7 +255,7 @@ Public Sub AddRecordset()
         astrRecordset(3, 0) = "Angebot erfassen"
         astrRecordset(4, 0) = ""
         astrRecordset(5, 0) = CStr(bolOrderIsParent)
-        astrRecordset(6, 0) = "AftrID"
+        astrRecordset(6, 0) = strOrderColumn
         
         astrRecordset(0, 1) = "Offer Title"
         astrRecordset(1, 1) = strTableOffer
@@ -255,38 +263,46 @@ Public Sub AddRecordset()
         astrRecordset(3, 1) = "Angebot erfassen"
         astrRecordset(4, 1) = ""
         astrRecordset(5, 1) = CStr(bolOfferIsParent)
-        astrRecordset(6, 1) = "BWIKey"
-    
-    ' create increment
-    Dim lngi As Long
+        astrRecordset(6, 1) = strOfferColumn
     
     'ask for order title and offer title
+    Dim lngi As Long
     For lngi = LBound(astrRecordset, 2) To UBound(astrRecordset, 2)
         astrRecordset(4, lngi) = InputBox(astrRecordset(2, lngi), astrRecordset(3, lngi))
         
-            ' check if inputbox is empty, if so prompt message and exit procedure
+            ' check if inputbox is empty, if so notify and exit procedure
             If basSupport.PflichtfeldIstLeer(astrRecordset(4, lngi)) = True Then
                 Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(0, lngi) & " ist leer, " _
                     & "Prozedur abgebrochen"
                 GoTo ExitProc
             End If
         
-            ' prompt input
+            ' return input
             If mbolVerbatim = True Then
                 Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(0, lngi) _
                     & " = " & astrRecordset(4, lngi)
             End If
             
             ' check if recordset exists
-            If CStr(basSupport.RecordsetExists(astrRecordset(1, lngi), astrRecordset(6, lngi), astrRecordset(4, lngi))) <> astrRecordset(5, lngi) Then
-                ' error message to be reworked
-                ' Debug.Print "clsAngebot.AddRecordset: " & astrRecordset(4, 0) & " existiert nicht. " _
-                            & "Prozedur abgebrochen."
+            If CStr(basSupport.RecordsetExists(astrRecordset(1, lngi), astrRecordset(6, lngi), _
+                astrRecordset(4, lngi))) <> astrRecordset(5, lngi) Then
+                ' error message
+                    If astrRecordset(5, lngi) = CStr(False) Then
+                        Debug.Print "clsAngebot.AddRecordset: '" & astrRecordset(4, lngi) _
+                            & "' existiert bereits. Prozedur abgebrochen."
+                        MsgBox "'" & astrRecordset(4, lngi) & "' existiert bereit.", _
+                            vbCritical, "Doppelter Eintrag"
+                    Else:
+                        Debug.Print "clsAngebot.AddRecordset: '" & astrRecordset(4, lngi) _
+                            & "' existiert nicht. Prozedur abgebrochen."
+                        MsgBox "'" & astrRecordset(4, lngi) & "' existiert nicht.", _
+                            vbCritical, "Referenzdantensatz fehlt"
+                    End If
                 GoTo ExitProc
             End If
     Next
         
-    ' create the new recordset in the assistance table
+    ' create recordset in assistance table
     Set mrstRecordset = dbsCurrentDb.OpenRecordset(strTableAssistance, dbOpenDynaset)
     
         mrstRecordset.AddNew

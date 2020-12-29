@@ -67,3 +67,10 @@ Private Sub TestForNext()
     
     Debug.Print "CBool(astrTable(1, 1)): "; CBool(astrTable(1, 1))
 End Sub
+
+Private Sub testGetRechnungsnummer()
+    Dim TestKlasse As clsRechnung
+    Set TestKlasse = New clsRechnung
+    
+    Debug.Print "RechnungNr: " & TestKlasse.RechnungNr
+End Sub
