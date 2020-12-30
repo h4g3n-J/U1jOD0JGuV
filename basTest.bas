@@ -68,9 +68,10 @@ Private Sub TestForNext()
     Debug.Print "CBool(astrTable(1, 1)): "; CBool(astrTable(1, 1))
 End Sub
 
-Private Sub testGetRechnungsnummer()
+Private Sub TestRechnungHinzufuegen()
     Dim TestKlasse As clsRechnung
     Set TestKlasse = New clsRechnung
     
-    Debug.Print "RechnungNr: " & TestKlasse.RechnungNr
+    TestKlasse.Verbatim = True
+    TestKlasse.AddRecordset
 End Sub
