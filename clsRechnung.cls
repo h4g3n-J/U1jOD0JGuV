@@ -231,8 +231,8 @@ Public Sub AddRecordset()
     Set mrstRecordset = dbsCurrentDb.OpenRecordset(astrRecordset(0, 2), dbOpenDynaset)
     
         mrstRecordset.AddNew
-            mrstRecordset!BWIKey = astrRecordset(6, 0)
-            mrstRecordset!RechnungNr = astrRecordset(6, 1)
+            mrstRecordset.Fields(astrRecordset(1, 0)) = astrRecordset(6, 0)
+            mrstRecordset.Fields(astrRecordset(1, 1)) = astrRecordset(6, 1)
         mrstRecordset.Update
         
         ' close mrstRecordset
@@ -243,7 +243,8 @@ Public Sub AddRecordset()
     Set mrstRecordset = dbsCurrentDb.OpenRecordset(astrRecordset(0, 1), dbOpenDynaset)
     
         mrstRecordset.AddNew
-             mrstRecordset!RechnungNr = astrRecordset(6, 1)
+            mrstRecordset!RechnungNr = astrRecordset(6, 1)
+            mrstRecordset.Fields(astrRecordset(1, 1)) = astrRecordset(6, 1)
         mrstRecordset.Update
         
         ' copy offer name to clipboard
