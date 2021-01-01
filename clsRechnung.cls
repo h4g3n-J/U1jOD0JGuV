@@ -24,14 +24,14 @@ Private mvarClipboard As Variant
 ' verbatim setting
 Private mbolVerbatim As Boolean
 
-    Private mvarRechnungNr
-    Private mvarBemerkung
-    Private mvarRechnungLink
-    Private mvarTechnischRichtigDatum
-    Private mvarIstTeilrechnung
-    Private mvarIstSchlussrechnung
-    Private mvarKalkulationLNWLink
-    Private mvarRechnungBrutto
+    Private mvarRechnungNr As Variant
+    Private mvarBemerkung As Variant
+    Private mvarRechnungLink As Variant
+    Private mvarTechnischRichtigDatum As Variant
+    Private mvarIstTeilrechnung As Variant
+    Private mvarIstSchlussrechnung As Variant
+    Private mvarKalkulationLNWLink As Variant
+    Private mvarRechnungBrutto As Variant
 
 Private Sub Default()
     mvarRechnungNr = Null
