@@ -126,10 +126,11 @@ End Property
 
 Public Sub AddRecordset()
        
-mvarClipboard = basSupport.AddRecordsetMN("tblAngebot", "BWIKey", "Angebot Titel", _
-    "Titel des referenzierten Angebots eingeben", "Angebot erfassen", "tblRechnung", _
-    "RechnungNr", "Rechnungsnummer", "Rechnungsnummer eingeben", "Rechnung erfassen", _
-    "tblAngebotZuRechnung", False)
+mvarClipboard = basSupport.AddRecordsetMN( _
+    "tblAngebot", "BWIKey", "Angebot Titel", "Titel des referenzierten Angebots eingeben", "Angebot erfassen", _
+    "tblRechnung", "RechnungNr", "Rechnungsnummer", "Rechnungsnummer eingeben", "Rechnung erfassen", _
+    "tblAngebotZuRechnung", _
+    False)
     
 End Sub
 
