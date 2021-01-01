@@ -90,53 +90,39 @@ Public Function PruefeBoolean(ByVal varInput As Variant) As Variant
     PruefeBoolean = CBool(varInput)
 End Function
 
-' Prueft ob Abfrage existiert
-Public Function AbfrageExistiert(ByVal strAbfrageName As String) As Boolean
+' checks if a specific table or query exists
+' returns true if positive
+' strModus feasible values: "table", "query"
+Public Function ObjectExists(ByVal strObjectName, strModus As String, Optional ByVal bolVerbatim As Boolean = False) As Boolean
     
-    If dbsCurrentDB = Nothing Then
-        Dim dbsCurrentDB As DAO.Database
-        Set dbsCurrentDB = CurrentDb
-    End If
-    
-    Dim RecordSet As Object
-    
-    ' Default: False, wird zu True, wenn die gesuchte Abfrage
-    ' gefunden wurde
-    Dim bolQueryExists As Boolean
-    bolQueryExists = False
-    
-    For Each RecordSet In dbsCurrentDB.QueryDefs
-        If RecordSet.Name = strAbfrageName Then
-            bolQueryExists = True
-        End If
-    Next RecordSet
-        
-    AbfrageExistiert = bolQueryExists
-    
-ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-End Function
-
-' Prueft ob Tabelle existiert
-Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
     
     Dim RecordSet As Object
     
-    ' Default: False
-    ' true if query was found
-    Dim bolTableExists As Boolean
-    bolTableExists = False
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
     
-    For Each RecordSet In dbsCurrentDB.TableDefs
-        If RecordSet.Name = strTabelleName Then
-            bolTableExists = True
-        End If
-    Next RecordSet
+    Select Case strModus
+        Case "table"
+            For Each RecordSet In dbsCurrentDB.TableDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+        Case "query"
+            For Each RecordSet In dbsCurrentDB.QueryDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+    End Select
     
-    TabelleExistiert = bolTableExists
+    If bolVerbatim = True Then
+        Debug.Print "basSupport.ObjectExists: " & strObjectName & " existiert."
+    End If
+    
+    ObjectExists = bolObjectExists
     
 ExitProc:
     dbsCurrentDB.Close
@@ -251,7 +237,8 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     intError = 0
     
     For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
-        If basSupport.TabelleExistiert(astrConfig(0, inti)) = False Then
+        ' If basSupport.TabelleExistiert(astrConfig(0, inti)) = False Then
+        If basSupport.ObjectExists(astrConfig(0, inti), "table", False) = False Then
             Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(0, inti) _
                 & " existiert nicht."
             intError = intError + 1
@@ -366,7 +353,8 @@ Public Function AddRecordsetParent(ByVal _
     End If
 
     ' check if table exists
-    If basSupport.TabelleExistiert(strTableName) = False Then
+    ' If basSupport.TabelleExistiert(strTableName) = False Then
+    If basSupport.ObjectExists(strTableName, "table", False) = False Then
         Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert nicht. Prozedur abgebrochen."
         GoTo ExitProc
     Else:
