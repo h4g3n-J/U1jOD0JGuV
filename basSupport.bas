@@ -93,9 +93,9 @@ End Function
 ' Prueft ob Abfrage existiert
 Public Function AbfrageExistiert(ByVal strAbfrageName As String) As Boolean
     
-    If dbsCurrentDb = Nothing Then
-        Dim dbsCurrentDb As DAO.Database
-        Set dbsCurrentDb = CurrentDb
+    If dbsCurrentDB = Nothing Then
+        Dim dbsCurrentDB As DAO.Database
+        Set dbsCurrentDB = CurrentDb
     End If
     
     Dim RecordSet As Object
@@ -105,7 +105,7 @@ Public Function AbfrageExistiert(ByVal strAbfrageName As String) As Boolean
     Dim bolQueryExists As Boolean
     bolQueryExists = False
     
-    For Each RecordSet In dbsCurrentDb.QueryDefs
+    For Each RecordSet In dbsCurrentDB.QueryDefs
         If RecordSet.Name = strAbfrageName Then
             bolQueryExists = True
         End If
@@ -114,14 +114,14 @@ Public Function AbfrageExistiert(ByVal strAbfrageName As String) As Boolean
     AbfrageExistiert = bolQueryExists
     
 ExitProc:
-    dbsCurrentDb.Close
-    Set dbsCurrentDb = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
 End Function
 
 ' Prueft ob Tabelle existiert
 Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
-    Dim dbsCurrentDb As DAO.Database
-    Set dbsCurrentDb = CurrentDb
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
     
     Dim RecordSet As Object
     
@@ -130,7 +130,7 @@ Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
     Dim bolTableExists As Boolean
     bolTableExists = False
     
-    For Each RecordSet In dbsCurrentDb.TableDefs
+    For Each RecordSet In dbsCurrentDB.TableDefs
         If RecordSet.Name = strTabelleName Then
             bolTableExists = True
         End If
@@ -139,8 +139,8 @@ Public Function TabelleExistiert(ByVal strTabelleName As String) As Boolean
     TabelleExistiert = bolTableExists
     
 ExitProc:
-    dbsCurrentDb.Close
-    Set dbsCurrentDb = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
 End Function
 
 ' checks if mandatory field is filled
@@ -166,11 +166,11 @@ Public Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName 
     varFieldName = CStr(varFieldName)
     varRecordsetName = CStr(varRecordsetName)
     
-    Dim dbsCurrentDb As DAO.Database
-    Set dbsCurrentDb = CurrentDb
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
     
     Dim rstRecordset As DAO.RecordSet
-    Set rstRecordset = dbsCurrentDb.OpenRecordset(varTblName, dbOpenDynaset)
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(varTblName, dbOpenDynaset)
     
     If DCount(varFieldName, varTblName, varFieldName & " Like '" & varRecordsetName & "'") > 0 Then
         bolStatus = True
@@ -181,8 +181,8 @@ Public Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName 
 ExitProc:
     rstRecordset.Close
     Set rstRecordset = Nothing
-    dbsCurrentDb.Close
-    Set dbsCurrentDb = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
 End Function
 
 ' creates a new recordset in a m:n relationship
@@ -230,8 +230,8 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
         ' table name
             astrConfig(0, 2) = strTableAssistanceName
             
-    Dim dbsCurrentDb As DAO.Database
-    Set dbsCurrentDb = CurrentDb
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
     
     Dim rstRecordset As DAO.RecordSet
     
@@ -252,12 +252,12 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     
     For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
         If basSupport.TabelleExistiert(astrConfig(0, inti)) = False Then
-            Debug.Print "basSupport.AddRecordset: " & astrConfig(0, inti) _
+            Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(0, inti) _
                 & " existiert nicht."
             intError = intError + 1
         Else:
             If bolVerbatim = True Then
-            Debug.Print "basSupport.AddRecordset: " + astrConfig(0, inti) _
+            Debug.Print "basSupport.AddRecordsetMN: " + astrConfig(0, inti) _
                 + " existiert"
             End If
         End If
@@ -273,16 +273,17 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     For lngi = LBound(astrConfig, 2) To UBound(astrConfig, 2) - 1
         astrConfig(6, lngi) = InputBox(astrConfig(3, lngi), astrConfig(4, lngi))
         
-            ' check if inputbox is empty, if so send messagebox and exit procedure
+            ' check if inputbox is empty, if true then messagebox + exit procedure
             If basSupport.PflichtfeldIstLeer(astrConfig(6, lngi)) = True Then
-                Debug.Print "basSupport.AddRecordset: " & astrConfig(2, lngi) & " ist leer, " _
+                Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(2, lngi) & " ist leer, " _
                     & "Prozedur abgebrochen"
+                MsgBox astrConfig(2, lngi) & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
                 GoTo ExitProc
             End If
         
             ' return input
             If bolVerbatim = True Then
-                Debug.Print "basSupport.AddRecordset: " & astrConfig(2, lngi) _
+                Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(2, lngi) _
                     & " = " & astrConfig(6, lngi)
             End If
             
@@ -291,12 +292,12 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
                 astrConfig(6, lngi))) <> astrConfig(5, lngi) Then
                 ' error message: messagebox + exit procedure
                     If astrConfig(5, lngi) = CStr(False) Then
-                        Debug.Print "basSupport.AddRecordset: '" & astrConfig(6, lngi) _
+                        Debug.Print "basSupport.AddRecordsetMN: '" & astrConfig(6, lngi) _
                             & "' existiert bereits. Prozedur abgebrochen."
                         MsgBox "'" & astrConfig(6, lngi) & "' existiert bereits.", _
                             vbCritical, "Doppelter Eintrag"
                     Else:
-                        Debug.Print "basSupport.AddRecordset: '" & astrConfig(6, lngi) _
+                        Debug.Print "basSupport.AddRecordsetMN: '" & astrConfig(6, lngi) _
                             & "' existiert nicht. Prozedur abgebrochen."
                         MsgBox "'" & astrConfig(6, lngi) & "' existiert nicht.", _
                             vbCritical, "Referenzdantensatz fehlt"
@@ -306,7 +307,7 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     Next
         
     ' create recordset in assistance table
-    Set rstRecordset = dbsCurrentDb.OpenRecordset(astrConfig(0, 2), dbOpenDynaset)
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(astrConfig(0, 2), dbOpenDynaset)
     
         rstRecordset.AddNew
             rstRecordset.Fields(astrConfig(1, 0)) = astrConfig(6, 0)
@@ -318,11 +319,14 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
         Set rstRecordset = Nothing
         
     ' create recordset in table B
-    Set rstRecordset = dbsCurrentDb.OpenRecordset(astrConfig(0, 1), dbOpenDynaset)
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(astrConfig(0, 1), dbOpenDynaset)
     
         rstRecordset.AddNew
             rstRecordset.Fields(astrConfig(1, 1)) = astrConfig(6, 1)
         rstRecordset.Update
+        
+    ' confirmation message
+    MsgBox astrConfig(6, 1) & " erzeugt.", vbOKOnly, "Datensatz erstellen"
 
         ' return table B recordset name
         AddRecordsetMN = astrConfig(6, 1)
@@ -332,8 +336,84 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     Set rstRecordset = Nothing
     
 ExitProc:
-    dbsCurrentDb.Close
-    Set dbsCurrentDb = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
 End Function
 
+' creates a new recordset in a table with parent character
+' it checks if the referenced table exists, the input box is empty
+' or the recordset already exists
+' returns the name of the new recordset
+Public Function AddRecordsetParent(ByVal _
+    strTableName, strKeyColumn, strArtifact, strDialogMessage, strDialogTitle As String, _
+    bolVerbatim As Boolean) As String
 
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+
+    Dim rstRecordset As DAO.RecordSet
+
+    Dim strRecordsetName As String
+
+    ' debug message: return input
+    If bolVerbatim = True Then
+        Debug.Print "strTableName: " & strTableName & vbCrLf _
+            & "strKeyColumn: " & strKeyColumn & vbCrLf _
+            & "strArtifact: " & strArtifact & vbCrLf _
+            & "strDialogMessage: " & strDialogMessage & vbCrLf _
+            & "strDialogTitle: " & strDialogTitle & vbCrLf _
+            & "bolVerbatim: " & CStr(bolVerbatim)
+    End If
+
+    ' check if table exists
+    If basSupport.TabelleExistiert(strTableName) = False Then
+        Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert nicht. Prozedur abgebrochen."
+        GoTo ExitProc
+    Else:
+        If bolVerbatim = True Then
+            Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert."
+        End If
+    End If
+
+    ' ask for the name of the recordset
+    strRecordsetName = InputBox(strDialogMessage, strDialogTitle)
+
+        ' check if inputbox is empty, if true then messagebox + exit procedure
+        If basSupport.PflichtfeldIstLeer(strRecordsetName) = True Then
+            Debug.Print "basSupport.AddrecordsetParent: " & strArtifact & " ist leer. Prozedur abgebrochen."
+            MsgBox strArtifact & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
+            GoTo ExitProc
+        End If
+
+        ' debug message: return input
+        If bolVerbatim = True Then
+            Debug.Print "basSupport.AddrecordsetParent: RecordsetName = " & strRecordsetName
+        End If
+
+        ' check if recordset exists
+        If basSupport.RecordsetExists(strTableName, strKeyColumn, strRecordsetName) = True Then
+            Debug.Print "basSupport.AddrecordsetParent: " & strRecordsetName & " existiert bereits. Prozedur abgebrochen."
+            MsgBox strRecordsetName & " existiert bereits. Prozedur abgebrochen.", vbCritical, "Doppelter Eintrag"
+            GoTo ExitProc
+        End If
+
+        ' create recordset
+        Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+
+            rstRecordset.AddNew
+                rstRecordset.Fields(strKeyColumn) = strRecordsetName
+            rstRecordset.Update
+            
+        ' confirmation message
+        MsgBox strRecordsetName & " erzeugt.", vbOKOnly, "Datensatz erstellen"
+
+        AddRecordsetParent = strRecordsetName
+
+    ' clean up
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Function

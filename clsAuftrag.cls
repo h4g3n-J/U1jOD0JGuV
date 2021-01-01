@@ -23,7 +23,7 @@ Private mrstRecordset As DAO.RecordSet
 Private mvarClipboard As Variant
 
 ' steuert Debug-Meldungen
-Private mbolVerbatim As Boolean
+Private mbolverbatim As Boolean
 
     Private mvarAftrID As Variant
     Private mvarAftrTitel As Variant
@@ -37,7 +37,7 @@ Private mbolVerbatim As Boolean
     Private mvarErstellt As Variant
     Private mvarKunde As Variant
 
-Private Sub Default()
+Private Sub default()
     mvarAftrID = Null
     mvarAftrTitel = Null
     mvarStatusKey = Null
@@ -63,7 +63,7 @@ Public Sub Laden(ByVal varID As Variant)
     ' Cursor ausgewÃ¤hlt wurde zu ExitProc springen
     If IsEmpty(varID) Or IsNull(varID) Then
         mvarClipboard = Null
-        Default
+        default
         Debug.Print "clsAuftragNew.Laden: varID ist leer, " _
             & "Datensatz Defaultwert zugewiesen"
         GoTo ExitProc
@@ -101,7 +101,7 @@ Public Sub Laden(ByVal varID As Variant)
     ' prÃ¼fen ob varID null ist, wenn ja gehe zu ExitProc
         If IsNull(varID) Or IsEmpty(varID) Then
             Debug.Print "varID ist leer, Prozedur 'AuftragLaden' abgebrochen"
-            Default
+            default
             GoTo ExitProc
         End If
     
@@ -254,60 +254,7 @@ ExitProc:
 End Sub
 
 Public Function AddRecordset()
-    Set mdbsCurrentDb = CurrentDb
-    
-    Dim strTabelleTitel As String
-    strTabelleTitel = "tblAuftrag"
-    
-    ' prüfe ob Tabelle existiert, wenn nicht
-    ' gehe zu Exit Proc
-    If basSupport.TabelleExistiert("tblAuftrag") = False Then
-        Debug.Print "clsAuftrag.Add: tblAuftrag existiert nicht, Prozedur abgebrochen"
-        GoTo ExitProc
-    End If
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsAuftrag.Add: tblAuftrag existiert"
-    End If
-    
-    ' Titel des neuen Datensatzes abfragen, wenn leer dann ExitProc
-    Dim varRecordsetName As Variant
-    varRecordsetName = InputBox("Titel des Datensatzes eingeben", "Auftrag erzeugen")
-    
-    If basSupport.PflichtfeldIstLeer(varRecordsetName) = True Then
-        Debug.Print "clsAuftrag.AddRecordset: RecordsetName ist leer, " _
-            & "Prozedur abgebrochen"
-        GoTo ExitProc
-    End If
-    
-    varRecordsetName = CStr(varRecordsetName)
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsAuftrag.AddRecordset!varRecordsetName: " + varRecordsetName
-    End If
-    
-    ' Neuen Datensatz erzeugen
-    Set mrstRecordset = mdbsCurrentDb.OpenRecordset(strTabelleTitel, dbOpenDynaset)
-    
-    mrstRecordset.AddNew
-        mrstRecordset!AftrID = varRecordsetName
-    mrstRecordset.Update
-    
-    ' Datensatzname an Zwischenablage übergeben
-    mvarClipboard = varRecordsetName
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsAuftrag.AddRecordset: clsAuftrag!mvarClipboard = " + mvarClipboard
-    End If
-    
-    ' Abschlussmeldung
-    MsgBox "'" & mvarClipboard & "' erzeugt", vbOKOnly, "Auftrag hinzufügen"
-        
-ExitProc:
-    mrstRecordset.Close
-    Set mrstRecordset = Nothing
-    mdbsCurrentDb.Close
-    Set mdbsCurrentDb = Nothing
+    mvarClipboard = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", "Auftrag", "AuftragID eingeben", "Auftrag erfassen", True)
 End Function
 
 
@@ -407,9 +354,9 @@ End Property
 ' End Property
 
 Public Property Let Verbatim(ByVal bolInput As Boolean)
-    mbolVerbatim = basSupport.PruefeBoolean(bolInput)
+    mbolverbatim = basSupport.PruefeBoolean(bolInput)
 End Property
 
 Public Property Get Verbatim() As Boolean
-    Verbatim = basSupport.PruefeBoolean(mbolVerbatim)
+    Verbatim = basSupport.PruefeBoolean(mbolverbatim)
 End Property

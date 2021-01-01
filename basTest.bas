@@ -75,3 +75,11 @@ Private Sub TestRechnungHinzufuegen()
     TestKlasse.Verbatim = True
     TestKlasse.AddRecordset
 End Sub
+
+Private Sub testLeistungserfassungsblattHinzufuegen()
+    Dim TestKlasse As clsLeistungserfassungungsblatt
+    Set TestKlasse = New clsLeistungserfassungungsblatt
+    
+    TestKlasse.Verbatim = True
+    TestKlasse.AddRecordset
+End Sub
