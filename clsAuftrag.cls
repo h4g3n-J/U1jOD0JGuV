@@ -36,6 +36,8 @@ Private mbolverbatim As Boolean
     Private mvarEndeSoll As Variant
     Private mvarErstellt As Variant
     Private mvarKunde As Variant
+    
+Public colAuftragProp As Collection
 
 Private Sub default()
     mvarAftrID = Null
@@ -129,6 +131,93 @@ ExitProc:
         mdbsCurrentDb.Close
         Set mdbsCurrentDb = Nothing
     End Sub
+    
+Public Function SelectRecordset(ByVal varID As Variant, Optional ByVal bolVerbatim As Boolean = False) As String
+
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+
+    Dim rstRecordset As DAO.RecordSet
+
+    ' set target query
+    Dim strAbfrageTitel As String
+    strAbfrageTitel = "qryAuftragAuswahl"
+    
+    ' set target keycolumn
+    Dim strKeyColumn As String
+    strKeyColumn = "AftrID"
+
+    ' if no recordset is selected set output to default value
+    ' end exitProc
+    If IsNull(varID) Then
+        default
+        Debug.Print "clsAuftrag.SelectRecordset: varID ist leer, " _
+            & "Defaultwert anzeigen"
+        GoTo ExitProc
+    End If
+        
+    ' check if referenced query exists, when negative
+    ' return error + exitProc
+    If basSupport.ObjectExists(strAbfrageTitel, "query", False) Then
+        Debug.Print "clsAuftrag.SelectRecordset: " & strAbfrage & " existiert nicht. Prozedur abgebrochen."
+        ExitProc
+    End If
+    
+    ' check if input is not null, when negative return error + set default Value + exitProc
+    If IsNull(varID) Then
+        Debug.Print "clsAuftrag.SelectRecordset: Input ist null. Prozedur abgebrochen"
+        default
+        GoTo ExitProc
+    End If
+
+    ' check if recordset exists
+    ' likely obsolete, since the recordset is chosen from a recordset collection
+    If basSupport.RecordExists(strAbfrageTitel, strKeyColumn, varID) <> True Then
+        Debug.Print "clsAuftrag.SelectRecordset: " & varID & " existiert nicht. Prozedur abgebrochen."
+        MsgBox varID & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
+        ExitProc
+    End If
+
+    ' select recordset from query
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
+    rstRecordset.FindFirst (strSucheZiel & " = '" & CStr(varID) & "'")
+        
+    Dim aFields As String
+    Dim aObjects As Object
+    aFields(0) = "AftrID"
+    aObjects(0) = "clsAuftrag.AftrID"
+    
+    ' Attribute von rstRecordset in Objekt laden
+    With rstRecordset
+        mvarAftrID = !AftrID
+        mvarAftrTitel = !AftrTitel
+        mvarStatusKey = !StatusKey
+        mvarOwnerKey = !OwnerKey
+        mvarPrioriteatKey = !PrioritaetKey
+        mvarParentKey = !ParentKey
+        mvarBemerkung = !Bemerkung
+        mvarBeginnSoll = !BeginnSoll
+        mvarEndeSoll = !EndeSoll
+        mvarErstellt = !Erstellt
+        mvarKunde = !kunde
+    End With
+
+    '
+    If bolVerbatim = True Then
+        Debug.Print "clsAuftrag.SelectRecordset: " & varID & " geladen."
+    End If
+
+    ' return varID
+    SelectRecordset = varID
+    
+    ' clean up
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+
+ExitProc:
+        dbsCurrentDB.Close
+        Set dbsCurrentDB = Nothing
+End Function
 
 ' mit der 'Speichern' Schaltfläche verknüpfen,
 ' schreibt die Attribute des Objekts in den recordset
@@ -257,13 +346,31 @@ Public Function AddRecordset()
     mvarClipboard = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", "Auftrag", "AuftragID eingeben", "Auftrag erfassen", True)
 End Function
 
-
 Private Sub Class_Initialize()
-    Debug.Print "Klasse clsAuftrag instanziiert."
+    Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
+    
+    ' creat a list of all class properties
+    Set colAuftragProp = New Collection
+    With colAuftragProp
+        .Add ID
+        .Add Titel
+        .Add ICDStatus
+        .Add Parent
+        .Add Bemerkung
+        .Add BeginnSoll
+        .Add EndeSoll
+        ' .Add Verbatim
+    End With
+    ' confirmation message
+    Debug.Print "clsAuftrag.Class_Initialize: colAuftragProp instanziiert."
+    
 End Sub
 
 Private Sub Class_Terminate()
-    Debug.Print "Klasse clsAuftrag terminiert."
+    Set colAuftragProp = Nothing
+    Debug.Print "clsAuftrag.Class_Terminate: colAuftragProp terminiert."
+    
+    Debug.Print "clsAuftrag.Class_Terminate: Klasse clsAuftrag terminiert."
 End Sub
 
 ' Get holt den Wert aus dem Zwischenspeicher und übergibt ihn in
@@ -360,3 +467,4 @@ End Property
 Public Property Get Verbatim() As Boolean
     Verbatim = basSupport.PruefeBoolean(mbolverbatim)
 End Property
+
