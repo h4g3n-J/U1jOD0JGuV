@@ -13,8 +13,8 @@ Option Compare Database
 Option Explicit
 
 ' Hauptdatensatz der Klasse
-Private mdbsCurrentDb As DAO.Database
-Private mrstRecordset As DAO.RecordSet
+' Private mdbsCurrentDb As DAO.Database
+' Private mrstRecordset As DAO.RecordSet
 
 ' dient als Zwischenspeicher für die ID des aktuell
 ' mit dem Cursor ausgewählten Datensatz im Unterformular
@@ -24,192 +24,132 @@ Private mvarClipboard As Variant
 
 ' steuert Debug-Meldungen
 Private mbolverbatim As Boolean
-
-    Private mvarAftrID As Variant
-    Private mvarAftrTitel As Variant
-    Private mvarStatusKey As Variant
-    Private mvarOwnerKey As Variant
-    Private mvarPrioriteatKey As Variant
-    Private mvarParentKey As Variant
-    Private mvarBemerkung As Variant
-    Private mvarBeginnSoll As Variant
-    Private mvarEndeSoll As Variant
-    Private mvarErstellt As Variant
-    Private mvarKunde As Variant
     
-Public colAuftragProp As Collection
-
-Private Sub default()
-    mvarAftrID = Null
-    mvarAftrTitel = Null
-    mvarStatusKey = Null
-    mvarOwnerKey = Null
-    mvarPrioriteatKey = Null
-    mvarParentKey = Null
-    mvarBemerkung = Null
-    mvarBeginnSoll = Null
-    mvarEndeSoll = Null
-    mvarErstellt = Null
-    mvarKunde = Null
+Dim mastrColumnToVariable(2, 10) As Variant
+    
+Private Sub Class_Initialize()
+    Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
+    
+    mastrColumnToVariable(0, 0) = "AftrID"
+        mastrColumnToVariable(1, 0) = "string"
+        mastrColumnToVariable(2, 0) = Null
+    mastrColumnToVariable(0, 1) = "AftrTitel"
+        mastrColumnToVariable(1, 1) = "string"
+        mastrColumnToVariable(2, 1) = Null
+    mastrColumnToVariable(0, 2) = "StatusKey"
+        mastrColumnToVariable(1, 2) = "string"
+        mastrColumnToVariable(2, 2) = Null
+    mastrColumnToVariable(0, 3) = "OwnerKey"
+        mastrColumnToVariable(1, 3) = "string"
+        mastrColumnToVariable(2, 3) = Null
+    mastrColumnToVariable(0, 4) = "PrioritaetKey"
+        mastrColumnToVariable(1, 4) = "string"
+        mastrColumnToVariable(2, 4) = Null
+    mastrColumnToVariable(0, 5) = "ParentKey"
+        mastrColumnToVariable(1, 5) = "string"
+        mastrColumnToVariable(2, 5) = Null
+    mastrColumnToVariable(0, 6) = "Bemerkung"
+        mastrColumnToVariable(1, 6) = "string"
+        mastrColumnToVariable(2, 6) = Null
+    mastrColumnToVariable(0, 7) = "BeginnSoll"
+        mastrColumnToVariable(1, 7) = "date"
+        mastrColumnToVariable(2, 7) = Null
+    mastrColumnToVariable(0, 8) = "EndeSoll"
+        mastrColumnToVariable(1, 8) = "date"
+        mastrColumnToVariable(2, 8) = Null
+    mastrColumnToVariable(0, 9) = "Erstellt"
+        mastrColumnToVariable(1, 9) = "date"
+        mastrColumnToVariable(2, 9) = Null
+    mastrColumnToVariable(0, 10) = "Kunde"
+        mastrColumnToVariable(1, 10) = "string"
+        mastrColumnToVariable(2, 10) = Null
+        
 End Sub
 
-' wird im Unterformular ausgeführt, lädt den aktuell ausgewählten
-' Datensatz ins Objekt
-Public Sub Laden(ByVal varID As Variant)
-    Debug.Print "clsAuftragNew.Laden ausführen"
-    
-    Set mdbsCurrentDb = CurrentDb
+Private Sub Class_Terminate()
+    Debug.Print "clsAuftrag.Class_Terminate: Klasse clsAuftrag terminiert."
+End Sub
 
-    ' das Objekt in den Default-Zustand versetzen,
-    ' wenn im Unterformular kein Datensatz mit dem
-    ' Cursor ausgewählt wurde zu ExitProc springen
-    If IsEmpty(varID) Or IsNull(varID) Then
-        mvarClipboard = Null
-        default
-        Debug.Print "clsAuftragNew.Laden: varID ist leer, " _
-            & "Datensatz Defaultwert zugewiesen"
-        GoTo ExitProc
-    End If
-    
-    ' der Zwischenspeichervariable 'mvarClipboard' den ausgewählten
-    ' Datensatz zuweisen - wird für die Prozedur Speichern benötigt
-    mvarClipboard = varID
-        
-        ' zu durchsuchende Zielabfrage benennen
-        Dim strAbfrageTitel As String
-        strAbfrageTitel = "qryAuftragAuswahl"
-        
-        ' zu durchsuchendes Zielfeld benennen
-        Dim strSucheZiel As String
-        strSucheZiel = "AftrID"
-    
-        ' prüfen ob die qryAuftragAuswahl existiert,
-        ' wenn nicht: goto ExitProc
+Private Sub default()
+    ' l�schen
+End Sub
 
-        Dim RecordSet As Object
-        Dim bolQueryExistiert As Boolean
-        bolQueryExistiert = False
-    
-        For Each RecordSet In mdbsCurrentDb.QueryDefs
-            If RecordSet.Name = strAbfrageTitel Then
-                bolQueryExistiert = True
-            End If
-        Next RecordSet
-        
-        If bolQueryExistiert = False Then
-            GoTo ExitProc
-        End If
-        
-    ' prüfen ob varID null ist, wenn ja gehe zu ExitProc
-        If IsNull(varID) Or IsEmpty(varID) Then
-            Debug.Print "varID ist leer, Prozedur 'AuftragLaden' abgebrochen"
-            default
-            GoTo ExitProc
-        End If
-    
-        ' Abfrage qryAuftragAuswahl nach varID durchsuchen
-        Set mrstRecordset = mdbsCurrentDb.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
-        mrstRecordset.FindFirst (strSucheZiel & " = '" & CStr(varID) & "'")
-        
-    ' Attribute von mrstRecordset in Objekt laden
-    With mrstRecordset
-        mvarAftrID = !AftrID
-        mvarAftrTitel = !AftrTitel
-        mvarStatusKey = !StatusKey
-        mvarOwnerKey = !OwnerKey
-        mvarPrioriteatKey = !PrioritaetKey
-        mvarParentKey = !ParentKey
-        mvarBemerkung = !Bemerkung
-        mvarBeginnSoll = !BeginnSoll
-        mvarEndeSoll = !EndeSoll
-        mvarErstellt = !Erstellt
-        mvarKunde = !kunde
-    End With
-    
-    ' mdbsCurrentDB schließen
-ExitProc:
-        mdbsCurrentDb.Close
-        Set mdbsCurrentDb = Nothing
-    End Sub
-    
-Public Function SelectRecordset(ByVal varID As Variant, Optional ByVal bolVerbatim As Boolean = False) As String
+' default muss neu definiert werden
+Public Sub SelectRecordset(ByVal varRecordsetName As Variant, Optional ByVal bolVerbatim As Boolean = False)
 
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
+    ' name of the table or query that contains the
+    ' sought-after recordset
+    Dim strObjectTitle As String
+    strObjectTitle = "tblAuftrag"
 
-    Dim rstRecordset As DAO.RecordSet
+    ' the type of the containing table, feasible values:
+    ' table, query
+    Dim strObjectType As String
+    strObjectType = "table"
 
-    ' set target query
-    Dim strAbfrageTitel As String
-    strAbfrageTitel = "qryAuftragAuswahl"
-    
-    ' set target keycolumn
+    ' name of the column that contains the recordset
     Dim strKeyColumn As String
     strKeyColumn = "AftrID"
 
+    ' define database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    ' define recordset
+    Dim rstRecordset As DAO.RecordSet
+    
+    ' loop variable
+    Dim intLoopVar As Integer
+    
+    ' debug message: returns input of the procedure
+    If bolVerbatim = True Then
+        Debug.Print "basSupport.SelectRecordset: varRecordsetName = " & varRecordsetName
+    End If
+
     ' if no recordset is selected set output to default value
     ' end exitProc
-    If IsNull(varID) Then
-        default
-        Debug.Print "clsAuftrag.SelectRecordset: varID ist leer, " _
+    If IsNull(varRecordsetName) Then
+        ' default
+        Debug.Print "clsAuftrag.SelectRecordset: varRecordsetName ist leer, " _
             & "Defaultwert anzeigen"
         GoTo ExitProc
     End If
         
     ' check if referenced query exists, when negative
     ' return error + exitProc
-    If basSupport.ObjectExists(strAbfrageTitel, "query", False) Then
-        Debug.Print "clsAuftrag.SelectRecordset: " & strAbfrage & " existiert nicht. Prozedur abgebrochen."
-        ExitProc
+    If basSupport.ObjectExists(strObjectTitle, strObjectType, True) = False Then
+        Debug.Print "clsAuftrag.SelectRecordset: " & strObjectTitle & " existiert nicht. Prozedur abgebrochen."
+        GoTo ExitProc
     End If
     
-    ' check if input is not null, when negative return error + set default Value + exitProc
-    If IsNull(varID) Then
-        Debug.Print "clsAuftrag.SelectRecordset: Input ist null. Prozedur abgebrochen"
-        default
+    ' check if recordset exists
+    ' likely obsolete, since the recordset is chosen from a recordset selection
+    If basSupport.RecordsetExists(strObjectTitle, strKeyColumn, varRecordsetName) <> True Then
+        Debug.Print "clsAuftrag.SelectRecordset: " & varRecordsetName & " existiert nicht. Prozedur abgebrochen."
+        MsgBox varRecordsetName & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
         GoTo ExitProc
     End If
 
-    ' check if recordset exists
-    ' likely obsolete, since the recordset is chosen from a recordset collection
-    If basSupport.RecordExists(strAbfrageTitel, strKeyColumn, varID) <> True Then
-        Debug.Print "clsAuftrag.SelectRecordset: " & varID & " existiert nicht. Prozedur abgebrochen."
-        MsgBox varID & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
-        ExitProc
-    End If
+    ' select recordset from table or query
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strObjectTitle, dbOpenDynaset)
+    rstRecordset.FindFirst (strKeyColumn & " = '" & CStr(varRecordsetName) & "'")
 
-    ' select recordset from query
-    Set rstRecordset = dbsCurrentDB.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
-    rstRecordset.FindFirst (strSucheZiel & " = '" & CStr(varID) & "'")
-        
-    Dim aFields As String
-    Dim aObjects As Object
-    aFields(0) = "AftrID"
-    aObjects(0) = "clsAuftrag.AftrID"
+    ' assign recordset to array
+    For intLoopVar = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
+        mastrColumnToVariable(2, intLoopVar) = rstRecordset.Fields(mastrColumnToVariable(0, intLoopVar))
+    Next
     
-    ' Attribute von rstRecordset in Objekt laden
-    With rstRecordset
-        mvarAftrID = !AftrID
-        mvarAftrTitel = !AftrTitel
-        mvarStatusKey = !StatusKey
-        mvarOwnerKey = !OwnerKey
-        mvarPrioriteatKey = !PrioritaetKey
-        mvarParentKey = !ParentKey
-        mvarBemerkung = !Bemerkung
-        mvarBeginnSoll = !BeginnSoll
-        mvarEndeSoll = !EndeSoll
-        mvarErstellt = !Erstellt
-        mvarKunde = !kunde
-    End With
-
-    '
+    ' debug message: returns data content of the array
     If bolVerbatim = True Then
-        Debug.Print "clsAuftrag.SelectRecordset: " & varID & " geladen."
+        For intLoopVar = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
+            Debug.Print "clsAuftrag.SelectRecordset: " & mastrColumnToVariable(0, intLoopVar) & vbTab & mastrColumnToVariable(2, intLoopVar)
+        Next
     End If
-
-    ' return varID
-    SelectRecordset = varID
     
+    ' assigne AftrID to Clipboard
+    ' likely obsolete
+    mvarClipboard = mastrColumnToVariable(2, 0)
+
     ' clean up
     rstRecordset.Close
     Set rstRecordset = Nothing
@@ -217,8 +157,8 @@ Public Function SelectRecordset(ByVal varID As Variant, Optional ByVal bolVerbat
 ExitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
-End Function
-
+End Sub
+    
 ' mit der 'Speichern' Schaltfläche verknüpfen,
 ' schreibt die Attribute des Objekts in den recordset
 Public Sub Speichern()
@@ -278,7 +218,7 @@ Public Sub Speichern()
                 !BeginnSoll = mvarBeginnSoll
                 !EndeSoll = mvarEndeSoll
                 !Erstellt = mvarErstellt
-                !kunde = mvarKunde
+                !Kunde = mvarKunde
             .Update
         End With
         
@@ -346,125 +286,151 @@ Public Function AddRecordset()
     mvarClipboard = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", "Auftrag", "AuftragID eingeben", "Auftrag erfassen", True)
 End Function
 
-Private Sub Class_Initialize()
-    Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
+Public Property Let AftrID(ByVal varAftrID As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrID")
     
-    ' creat a list of all class properties
-    Set colAuftragProp = New Collection
-    With colAuftragProp
-        .Add ID
-        .Add Titel
-        .Add ICDStatus
-        .Add Parent
-        .Add Bemerkung
-        .Add BeginnSoll
-        .Add EndeSoll
-        ' .Add Verbatim
-    End With
-    ' confirmation message
-    Debug.Print "clsAuftrag.Class_Initialize: colAuftragProp instanziiert."
-    
-End Sub
-
-Private Sub Class_Terminate()
-    Set colAuftragProp = Nothing
-    Debug.Print "clsAuftrag.Class_Terminate: colAuftragProp terminiert."
-    
-    Debug.Print "clsAuftrag.Class_Terminate: Klasse clsAuftrag terminiert."
-End Sub
-
-' Get holt den Wert aus dem Zwischenspeicher und übergibt ihn in
-' das Property des Objekts
-
-' Let überträgt des Propertys in den Zwischenspeicher, durch die Prozedur 'Speichern'
-' wird der Zwischenspeicher in den Recordset geschrieben
-
-Public Property Let ID(ByVal varInput As Variant)
-    mstrAftrID = PruefeString(varInput)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrID, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-Public Property Get ID() As Variant
-    ID = PruefeString(mvarAftrID)
+Public Property Get AftrID() As Variant
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrID")
+
+    AftrID = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-Public Property Let Titel(ByVal varTitel As Variant)
-    mvarAftrTitel = PruefeString(varTitel)
+Public Property Let AftrTitel(ByVal varAftrTitel As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrTitel")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrTitel, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-Public Property Get Titel() As Variant
-    Titel = PruefeString(mvarAftrTitel)
+Public Property Get AftrTitel() As Variant
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "varTitel")
+    
+    AftrTitel = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
 ' Sollte nur durch den Import eines ICD-Reports geändert werden
-' Public Property Let ICDStatus(ByVal strInput as String)
-'     mstrStatusKey = strInput
-' End Property
-
-Public Property Get ICDStatus() As Variant
-    ICDStatus = PruefeString(mvarStatusKey)
+Public Property Let StatusKey(ByVal varStatusKey As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "StatusKey")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varStatusKey, mastrColumnToVariable(1, intItemPosition, mbolverbatim))
 End Property
 
-' Public Property Let Prio(ByVal strInput as String)
-'     mintPrioriteatKey = strInput
-' End Property
-
-' Public Property Get Prio() As String
-'     Prio = mintPrioriteatKey
-' End Property
-
-Public Property Let Parent(ByVal varParent As Variant)
-    mvarParentKey = PruefeString(varParent)
+Public Property Get StatusKey() As Variant
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "StatusKey")
+    
+    ICDStatus = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-Public Property Get Parent() As Variant
-    Parent = PruefeString(mvarParentKey)
+Public Property Let PrioritaetKey(ByVal varPrioritaetKey As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "PrioritaetKey")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varPrioritaetKey, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+End Property
+
+Public Property Get PrioritaetKey() As Variant
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "PrioritaetKey")
+    
+    PrioritaetKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+End Property
+
+Public Property Let ParentKey(ByVal varParentKey As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "ParentKey")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varParentKey, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+End Property
+
+Public Property Get ParentKey() As Variant
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "ParentKey")
+    
+    ParentKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
 Public Property Let Bemerkung(ByVal varBemerkung As Variant)
-    mvarBemerkung = PruefeString(varBemerkung)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Bemerkung")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
 Public Property Get Bemerkung() As Variant
-    Bemerkung = PruefeString(mvarBemerkung)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Bemerkung")
+    
+    Bemerkung = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-' Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
-'      mvarBeginnSoll = PruefeDatum(varBeginnSoll)
-'  End Property
+Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "BeginnSoll")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+End Property
 
 Public Property Get BeginnSoll() As Variant
-    BeginnSoll = PruefeDatum(mvarBeginnSoll)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "BeginnSoll")
+    
+    BeginnSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-' Public Property Let EndeSoll(ByVal varEndeSoll As Variant)
-'     mvarEndeSoll = PruefeDatum(varEndeSoll)
-' End Property
+Public Property Let EndeSoll(ByVal varEndeSoll As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "EndeSoll")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varEndeSoll, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+End Property
 
 Public Property Get EndeSoll() As Variant
-    EndeSoll = PruefeDatum(mvarEndeSoll)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "EndeSoll")
+    
+    EndeSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-' Public Property Let Erstellt(ByVal dtmInput as Date)
-'     mdtmErstellt = dtmInput
-' End Property
-
-' Public Property Get Erstellt() As Date
-'     Erstellt = mdtmErstellt
-' End Property
-
-' Public Property Let kunde(ByVal strInput as String)
-'     mstrKunde = strInput
-' End Property
-
-' Public Property Get kunde() As String
-'     kunde = mstrKunde
-' End Property
-
-Public Property Let Verbatim(ByVal bolInput As Boolean)
-    mbolverbatim = basSupport.PruefeBoolean(bolInput)
+Public Property Let Erstellt(ByVal varErstellt As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Erstellt")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varErstellt, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
-Public Property Get Verbatim() As Boolean
-    Verbatim = basSupport.PruefeBoolean(mbolverbatim)
+Public Property Get Erstellt() As Variant
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Erstellt")
+    
+    Erstellt = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
 End Property
 
+Public Property Let Kunde(ByVal varKunde As Variant)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Kunde")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varKunde, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+End Property
+
+Public Property Get Kunde() As Variant
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Kunde")
+    
+    Kunde = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+End Property
+
+Public Property Let Verbatim(ByVal varVerbatim As Variant)
+    mbolverbatim = CBool(varVerbatim)
+End Property
+
+Public Property Get Verbatim() As Variant
+    Verbatim = CBool(mbolverbatim)
+End Property

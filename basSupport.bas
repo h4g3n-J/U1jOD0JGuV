@@ -4,10 +4,48 @@ Attribute VB_Name = "basSupport"
 Option Compare Database
 Option Explicit
 
-' Die Pruefe-Prozeduren sollen ermöglichen, dass null Werte in den
-' Recordset geschrieben und von dort ausgelesen als solche ausgelesen
-' werden können, gleichzeitig sollen sie verhindern, dass falsche
-' Datentypen eingegeben werden können
+' enables to write null in recordsets
+Public Function CheckDataType(ByVal varInput, varMode As Variant, Optional ByVal bolVerbatim As Boolean = False) As Variant
+
+    Dim varOutput As Variant
+    
+    If bolVerbatim = True Then
+        Debug.Print "basSupport.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+    End If
+    
+    If IsNull(varInput) Then
+        Debug.Print "basSupport.CheckDataType: varInput ist null"
+        CheckDataType = varInput
+        Exit Function
+    End If
+    
+    Select Case varMode
+        Case "string"
+            varOutput = (varInput)
+        Case "link"
+            ' check if varInput is already in link format (#...#),
+            ' if not convert to link format
+            If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
+                varOutput = CStr(varInput)
+            Else
+                varOutput = "#" + CStr(varInput) + "#"
+            End If
+        Case "date"
+            varOutput = CDate(varInput)
+        Case "Currency"
+            varOutput = CCur(varInput)
+        Case "Integer"
+            varOutput = CInt(varInput)
+        Case "boolean"
+            varOutput = CBool(varInput)
+    End Select
+    
+    If bolVerbatim = True Then
+        Debug.Print "basSupport.CheckDataType: varOutput = " & varOutput
+    End If
+    
+    CheckDataType = varOutput
+End Function
 
 ' Prüft, ob der übergebene Wert vom Typ String ist
 ' und überführt ihn in diesen Typ
@@ -223,13 +261,13 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     
     Dim rstRecordset As DAO.RecordSet
     
-    Dim inti As Integer
+    Dim intI As Integer
     Dim intj As Integer
     
     If bolVerbatim = True Then
-        For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
+        For intI = LBound(astrConfig, 2) To UBound(astrConfig, 2)
             For intj = LBound(astrConfig, 1) To UBound(astrConfig, 1)
-                Debug.Print "astrConfig(" & intj & ", " & inti & ") = " & astrConfig(intj, inti)
+                Debug.Print "astrConfig(" & intj & ", " & intI & ") = " & astrConfig(intj, intI)
             Next
         Next
     End If
@@ -238,15 +276,15 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     Dim intError As Integer
     intError = 0
     
-    For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
+    For intI = LBound(astrConfig, 2) To UBound(astrConfig, 2)
         ' If basSupport.TabelleExistiert(astrConfig(0, inti)) = False Then
-        If basSupport.ObjectExists(astrConfig(0, inti), "table", False) = False Then
-            Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(0, inti) _
+        If basSupport.ObjectExists(astrConfig(0, intI), "table", False) = False Then
+            Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(0, intI) _
                 & " existiert nicht."
             intError = intError + 1
         Else:
             If bolVerbatim = True Then
-            Debug.Print "basSupport.AddRecordsetMN: " + astrConfig(0, inti) _
+            Debug.Print "basSupport.AddRecordsetMN: " + astrConfig(0, intI) _
                 + " existiert"
             End If
         End If
@@ -332,7 +370,7 @@ End Function
 ' creates a new recordset in a table with parent character
 ' it checks if the referenced table exists, the input box is empty
 ' or the recordset already exists
-' returns the name of the new recordset
+' returns the name of the created recordset
 Public Function AddRecordsetParent(ByVal _
     strTableName, strKeyColumn, strArtifact, strDialogMessage, strDialogTitle As String, _
     bolVerbatim As Boolean) As String
@@ -406,4 +444,30 @@ Public Function AddRecordsetParent(ByVal _
 ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
+End Function
+
+Public Function FindItemArray(ByVal avarArray, varItem As Variant, Optional ByVal bolVerbatim As Boolean = False) As Variant
+    
+    Dim intLoop As Integer
+    intLoop = LBound(avarArray, 2)
+    
+    If bolVerbatim = True Then
+        Debug.Print "basSupport.FindItemArray: varItem = " & varItem
+    End If
+    
+    Do While avarArray(0, intLoop) <> varItem
+        If intLoop = UBound(avarArray, 2) Then
+            Debug.Print "basSupport.FindItemArray: '" & varItem & "' im �bergebenen Array nicht gefunden"
+            FindItemArray = Null
+            Exit Function
+        Else
+            intLoop = intLoop + 1
+        End If
+    Loop
+    
+    If bolVerbatim = True Then
+        Debug.Print "basSupport.FindItemArray: intLoop = " & intLoop
+    End If
+    
+    FindItemArray = intLoop
 End Function
