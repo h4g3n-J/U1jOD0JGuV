@@ -5,7 +5,6 @@ Option Compare Database
 Option Explicit
 
 Public gobjAuftrag1 As clsAuftrag
-Public gobjAuftrag As clsAuftragNew
 
 Public gobjSearchMain As clsMenueSearchMain
 Public gobjLiefergegenstand As clsLiefergegenstand
@@ -13,31 +12,29 @@ Public gobjLiefergegenstand As clsLiefergegenstand
 Public gobjMenueSmall As clsMenueSmall
 Public gobjMenueExtraSmall As clsMenueExtraSmall
 
+' set global verbatim mode
+Public Const gconVerbatim As Boolean = True
 
-Public Sub AuftragSuchen()
+Public Sub AuftragSuchen(Optional ByVal bolVerbatim As Boolean = False)
     Debug.Print "basMain.AuftragSuchen ausführen"
     
-    ' Objekt gobjAuftrag instanziieren
-        If gobjAuftrag Is Nothing Then
-            Debug.Print "basMain.AuftragSuchen: " _
-                + "gobjAuftrag is nothing, " _
-                + "gobjAuftrag instanziieren"
-            Set gobjAuftrag = New clsAuftragNew
+    ' set gobjAuftrag1
+        If gobjAuftrag1 Is Nothing And bolVerbatim = True Then
+            Debug.Print "basMain.AuftragSuchen: gobjAuftrag1 is nothing, " _
+                + "gobjAuftrag1 instanziieren"
+            Set gobjAuftrag1 = New clsAuftrag
         End If
         
-    ' Objekt mobjSearchMain instanziieren
+    ' set gobjSearchMain
         If gobjSearchMain Is Nothing Then
             Debug.Print "basMain.AuftragSuchen: " _
                 + "gobjSearchMain is nothing, " _
-                + "gobjAuftrag instanziieren"
+                + "gobjAuftrag1 instanziieren"
             Set gobjSearchMain = New clsMenueSearchMain
         End If
         
-    ' SearchMain in den Modus AuftragSuchen versetzen
-        gobjSearchMain.Modus = "AuftragSuchen"
-    
-    ' Formular frmSearchMain öffnen
-        gobjSearchMain.Oeffnen
+    ' open formular 'search main' in mode 'AuftragSuchen'
+    gobjSearchMain.Oeffnen "AuftragSuchen", True
         
     ' Formular MenueSmall instanziieren
         If gobjMenueSmall Is Nothing Then
@@ -54,11 +51,11 @@ End Sub
 Public Sub LiefergegenstandSuchen()
     Debug.Print "basMain.LiefergegenstandSuchen ausführen"
     
-    ' Objekt gobjAuftrag instanziieren
+    ' Objekt gobjAuftrag1 instanziieren
         If gobjLiefergegenstand Is Nothing Then
             Debug.Print "basMain.LiefergegenstandSuchen: " _
                 + "gobjLiefergegegenstand is nothing, " _
-                + "gobjAuftrag instanziieren"
+                + "gobjAuftrag1 instanziieren"
             Set gobjLiefergegenstand = New clsLiefergegenstand
         End If
     ' Objekt mobjSearchMain instanziieren

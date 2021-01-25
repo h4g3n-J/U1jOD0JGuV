@@ -5,15 +5,18 @@ Option Compare Database
 Option Explicit
 
 ' enables to write null in recordsets
-Public Function CheckDataType(ByVal varInput, varMode As Variant, Optional ByVal bolVerbatim As Boolean = False) As Variant
+' varMode feasible values: string, link, date, currency, integer, boolean
+Public Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
 
     Dim varOutput As Variant
     
-    If bolVerbatim = True Then
-        Debug.Print "basSupport.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.CheckDataType ausfuehren, varInput = " & varInput & " , varMode = " & varMode
     End If
     
     If IsNull(varInput) Then
+        ' error message
         Debug.Print "basSupport.CheckDataType: varInput ist null"
         CheckDataType = varInput
         Exit Function
@@ -32,108 +35,21 @@ Public Function CheckDataType(ByVal varInput, varMode As Variant, Optional ByVal
             End If
         Case "date"
             varOutput = CDate(varInput)
-        Case "Currency"
+        Case "currency"
             varOutput = CCur(varInput)
-        Case "Integer"
+        Case "integer"
             varOutput = CInt(varInput)
         Case "boolean"
             varOutput = CBool(varInput)
     End Select
     
-    If bolVerbatim = True Then
-        Debug.Print "basSupport.CheckDataType: varOutput = " & varOutput
-    End If
-    
     CheckDataType = varOutput
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ String ist
-' und überführt ihn in diesen Typ
-Public Function PruefeString(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        ' Debug.Print "Property ist null oder leer"
-        PruefeString = varInput
-        Exit Function
-    End If
-    
-    PruefeString = CStr(varInput)
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ String ist
-' und überführt ihn in diesen Typ
-' nach dem Speichern muss das Formular akutalisiert werden,
-' um den Link nutzen zu können
-Public Function PruefeLink(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        ' Debug.Print "Property ist null oder leer"
-        PruefeLink = varInput
-        Exit Function
-    End If
-    
-    ' Prüfen, ob varInput bereits im Link-Format (#...#) vorliegt,
-    ' wenn ja, dann nicht mit # einschließen -> verhindert ungültige
-    ' Pfade (##...##)
-    If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
-        PruefeLink = CStr(varInput)
-        Exit Function
-    End If
-        
-    PruefeLink = "#" + CStr(varInput) + "#"
-    
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ Date ist
-' und überführt ihn in diesen Typ
-Public Function PruefeDatum(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        ' Debug.Print "Property ist null oder leer"
-        PruefeDatum = varInput
-        Exit Function
-    End If
-    
-    PruefeDatum = CDate(varInput)
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ Currency ist
-' und überführt ihn in diesen Typ
-Public Function PruefeWaehrung(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        ' Debug.Print "Property ist null oder leer"
-        PruefeWaehrung = varInput
-        Exit Function
-    End If
-    
-    PruefeWaehrung = CCur(varInput)
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ Integer ist
-' und überführt ihn in diesen Typ
-Public Function PruefeInteger(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        ' Debug.Print "Property ist null oder leer"
-        PruefeWahrung = varInput
-        Exit Function
-    End If
-    
-    PruefeInteger = CInt(varInput)
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ Integer ist
-' und überführt ihn in diesen Typ
-Public Function PruefeBoolean(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        ' Debug.Print "barSupport.PruefeBoolean: Property ist null oder Leer"
-        PruefeBoolean = varInput
-        Exit Function
-    End If
-
-    PruefeBoolean = CBool(varInput)
 End Function
 
 ' checks if a specific table or query exists
 ' returns true if positive
 ' strModus feasible values: "table", "query"
-Public Function ObjectExists(ByVal strObjectName, strModus As String, Optional ByVal bolVerbatim As Boolean = False) As Boolean
+Public Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
     
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
@@ -142,6 +58,11 @@ Public Function ObjectExists(ByVal strObjectName, strModus As String, Optional B
     
     Dim bolObjectExists As Boolean
     bolObjectExists = False
+    
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.ObjectExists ausfuehren, strObjectName = " & strObjectName & " , strModus = " & strModus
+    End If
     
     Select Case strModus
         Case "table"
@@ -158,10 +79,6 @@ Public Function ObjectExists(ByVal strObjectName, strModus As String, Optional B
             Next RecordSet
     End Select
     
-    If bolVerbatim = True Then
-        Debug.Print "basSupport.ObjectExists: " & strObjectName & " existiert."
-    End If
-    
     ObjectExists = bolObjectExists
     
 ExitProc:
@@ -175,6 +92,10 @@ Public Function PflichtfeldIstLeer(ByVal varInput As Variant) As Boolean
     Dim bolStatus As Boolean
     bolStatus = True
     
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.PflichtfeldIstLeer ausfuehren, varInput = " & varInput
+    
     If Not (IsEmpty(varInput)) And varInput <> "" Then
         bolStatus = False
     End If
@@ -187,6 +108,11 @@ End Function
 Public Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName As Variant, ByVal varRecordsetName As Variant) As Boolean
     Dim bolStatus As Boolean
     bolStatus = False
+    
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.RecordsetExists ausfuehren, varTblName = " & varTblName & " , varFieldName = " & " , varRecordsetName = " & varRecordsetName
+    End If
     
     varTblName = CStr(varTblName)
     varFieldName = CStr(varFieldName)
@@ -217,7 +143,12 @@ End Function
 Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTableAArtifact, strTableAInputDialogMessage, _
     strTableAInputDialogTitle, strTableBName, strTableBKeyColumn, strTableBArtifact, strTableBInputDialogMessage, _
         strTableBInputDialogTitle, strTableAssistanceName As String, bolVerbatim As Boolean) As String
-            
+        
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.AddRecordsetMN ausfuehren"
+    End If
+    
     Dim astrConfig(6, 2) As String
     
         ' table A - the table on the m-side
@@ -261,13 +192,13 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     
     Dim rstRecordset As DAO.RecordSet
     
-    Dim intI As Integer
+    Dim inti As Integer
     Dim intj As Integer
     
     If bolVerbatim = True Then
-        For intI = LBound(astrConfig, 2) To UBound(astrConfig, 2)
+        For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
             For intj = LBound(astrConfig, 1) To UBound(astrConfig, 1)
-                Debug.Print "astrConfig(" & intj & ", " & intI & ") = " & astrConfig(intj, intI)
+                Debug.Print "astrConfig(" & intj & ", " & inti & ") = " & astrConfig(intj, inti)
             Next
         Next
     End If
@@ -276,15 +207,15 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     Dim intError As Integer
     intError = 0
     
-    For intI = LBound(astrConfig, 2) To UBound(astrConfig, 2)
+    For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
         ' If basSupport.TabelleExistiert(astrConfig(0, inti)) = False Then
-        If basSupport.ObjectExists(astrConfig(0, intI), "table", False) = False Then
-            Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(0, intI) _
+        If basSupport.ObjectExists(astrConfig(0, inti), "table", False) = False Then
+            Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(0, inti) _
                 & " existiert nicht."
             intError = intError + 1
         Else:
             If bolVerbatim = True Then
-            Debug.Print "basSupport.AddRecordsetMN: " + astrConfig(0, intI) _
+            Debug.Print "basSupport.AddRecordsetMN: " + astrConfig(0, inti) _
                 + " existiert"
             End If
         End If
@@ -374,6 +305,11 @@ End Function
 Public Function AddRecordsetParent(ByVal _
     strTableName, strKeyColumn, strArtifact, strDialogMessage, strDialogTitle As String, _
     bolVerbatim As Boolean) As String
+    
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.AddRecordsetParent ausfuehren"
+    End If
 
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
@@ -446,13 +382,14 @@ ExitProc:
     Set dbsCurrentDB = Nothing
 End Function
 
-Public Function FindItemArray(ByVal avarArray, varItem As Variant, Optional ByVal bolVerbatim As Boolean = False) As Variant
+Public Function FindItemArray(ByVal avarArray, varItem As Variant) As Variant
     
     Dim intLoop As Integer
     intLoop = LBound(avarArray, 2)
     
-    If bolVerbatim = True Then
-        Debug.Print "basSupport.FindItemArray: varItem = " & varItem
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.FindItemArray ausfuehren, varItem = " & varItem
     End If
     
     Do While avarArray(0, intLoop) <> varItem
@@ -465,7 +402,7 @@ Public Function FindItemArray(ByVal avarArray, varItem As Variant, Optional ByVa
         End If
     Loop
     
-    If bolVerbatim = True Then
+    If gconVerbatim = True Then
         Debug.Print "basSupport.FindItemArray: intLoop = " & intLoop
     End If
     

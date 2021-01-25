@@ -21,15 +21,12 @@ Option Explicit
 ' wird mit der Prozedur Laden geschrieben und von der
 ' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
-
-' steuert Debug-Meldungen
-Private mbolverbatim As Boolean
-    
+  
 Dim mastrColumnToVariable(2, 10) As Variant
     
 Private Sub Class_Initialize()
-    Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
-    
+
+    ' initialize the variables
     mastrColumnToVariable(0, 0) = "AftrID"
         mastrColumnToVariable(1, 0) = "string"
         mastrColumnToVariable(2, 0) = Null
@@ -63,7 +60,12 @@ Private Sub Class_Initialize()
     mastrColumnToVariable(0, 10) = "Kunde"
         mastrColumnToVariable(1, 10) = "string"
         mastrColumnToVariable(2, 10) = Null
-        
+            
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
+    End If
+    
 End Sub
 
 Private Sub Class_Terminate()
@@ -75,15 +77,15 @@ Private Sub default()
 End Sub
 
 ' default muss neu definiert werden
-Public Sub SelectRecordset(ByVal varRecordsetName As Variant, Optional ByVal bolVerbatim As Boolean = False)
+Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
 
     ' name of the table or query that contains the
     ' sought-after recordset
     Dim strObjectTitle As String
     strObjectTitle = "tblAuftrag"
 
-    ' the type of the containing table, feasible values:
-    ' table, query
+    ' the type of the containing table,
+    ' feasible values are: table, query
     Dim strObjectType As String
     strObjectType = "table"
 
@@ -102,7 +104,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant, Optional ByVal bol
     Dim intLoopVar As Integer
     
     ' debug message: returns input of the procedure
-    If bolVerbatim = True Then
+    If gconVerbatim = True Then
         Debug.Print "basSupport.SelectRecordset: varRecordsetName = " & varRecordsetName
     End If
 
@@ -117,7 +119,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant, Optional ByVal bol
         
     ' check if referenced query exists, when negative
     ' return error + exitProc
-    If basSupport.ObjectExists(strObjectTitle, strObjectType, True) = False Then
+    If basSupport.ObjectExists(strObjectTitle, strObjectType) = False Then
         Debug.Print "clsAuftrag.SelectRecordset: " & strObjectTitle & " existiert nicht. Prozedur abgebrochen."
         GoTo ExitProc
     End If
@@ -140,7 +142,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant, Optional ByVal bol
     Next
     
     ' debug message: returns data content of the array
-    If bolVerbatim = True Then
+    If gconVerbatim = True Then
         For intLoopVar = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
             Debug.Print "clsAuftrag.SelectRecordset: " & mastrColumnToVariable(0, intLoopVar) & vbTab & mastrColumnToVariable(2, intLoopVar)
         Next
@@ -193,7 +195,7 @@ Public Sub Speichern()
         If IsNull(varClipboard) Or IsEmpty(varClipboard) Then
             Debug.Print "clsAuftragNew.Speichern: " _
                 + varClipboard & " is null, clsAuftragNew.Speichern abgebrochen"
-            MsgBox "Kein Datensatz ausgewählt." & vbCrLf & "Speichern nicht erfolgreich.", vbCritical, "Speichern"
+            MsgBox "Kein Datensatz ausgewaehlt." & vbCrLf & "Speichern nicht erfolgreich.", vbCritical, "Speichern"
             GoTo ExitProc
         End If
         
@@ -218,7 +220,7 @@ Public Sub Speichern()
                 !BeginnSoll = mvarBeginnSoll
                 !EndeSoll = mvarEndeSoll
                 !Erstellt = mvarErstellt
-                !Kunde = mvarKunde
+                !kunde = mvarKunde
             .Update
         End With
         
@@ -287,150 +289,262 @@ Public Function AddRecordset()
 End Function
 
 Public Property Let AftrID(ByVal varAftrID As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.AftrID (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrID")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrID, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrID, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get AftrID() As Variant
+    
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.AftrID (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrID")
 
-    AftrID = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    AftrID = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Let AftrTitel(ByVal varAftrTitel As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.AftrTitel (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrTitel")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrTitel, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrTitel, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get AftrTitel() As Variant
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "varTitel")
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.AftrTitel (Get) ausfuehren"
+    End If
     
-    AftrTitel = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrTitel")
+    
+    AftrTitel = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 ' Sollte nur durch den Import eines ICD-Reports geändert werden
 Public Property Let StatusKey(ByVal varStatusKey As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.StatusKey (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "StatusKey")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varStatusKey, mastrColumnToVariable(1, intItemPosition, mbolverbatim))
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varStatusKey, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get StatusKey() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.StatusKey (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "StatusKey")
     
-    ICDStatus = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    StatusKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Let PrioritaetKey(ByVal varPrioritaetKey As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.PrioritaetKey (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "PrioritaetKey")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varPrioritaetKey, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varPrioritaetKey, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get PrioritaetKey() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.PrioritaetKey (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "PrioritaetKey")
     
-    PrioritaetKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    PrioritaetKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Let ParentKey(ByVal varParentKey As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.ParentKey (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "ParentKey")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varParentKey, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varParentKey, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get ParentKey() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.ParentKey (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "ParentKey")
     
-    ParentKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    ParentKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Let Bemerkung(ByVal varBemerkung As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Bemerkung (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Bemerkung")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get Bemerkung() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Bemerkung (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Bemerkung")
     
-    Bemerkung = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    Bemerkung = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.BeginnSoll (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "BeginnSoll")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get BeginnSoll() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.BeginnSoll (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "BeginnSoll")
     
-    BeginnSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    BeginnSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Let EndeSoll(ByVal varEndeSoll As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.EndeSoll (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "EndeSoll")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varEndeSoll, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varEndeSoll, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get EndeSoll() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.EndeSoll (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "EndeSoll")
     
-    EndeSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    EndeSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Let Erstellt(ByVal varErstellt As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Erstellt (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Erstellt")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varErstellt, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varErstellt, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get Erstellt() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Erstellt (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Erstellt")
     
-    Erstellt = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    Erstellt = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
 
-Public Property Let Kunde(ByVal varKunde As Variant)
+Public Property Let kunde(ByVal varKunde As Variant)
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Kunde (Let) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Kunde")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varKunde, mastrColumnToVariable(1, intItemPosition), mbolverbatim)
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varKunde, mastrColumnToVariable(1, intItemPosition))
 End Property
 
-Public Property Get Kunde() As Variant
+Public Property Get kunde() As Variant
+
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Kunde (Get) ausfuehren"
+    End If
+    
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Kunde")
     
-    Kunde = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition), mbolverbatim)
-End Property
-
-Public Property Let Verbatim(ByVal varVerbatim As Variant)
-    mbolverbatim = CBool(varVerbatim)
-End Property
-
-Public Property Get Verbatim() As Variant
-    Verbatim = CBool(mbolverbatim)
+    kunde = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property
