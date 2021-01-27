@@ -45,16 +45,18 @@ End Sub
 
 ' Button 'Auftrag erfassen'
 Private Sub cmd2_Click()
-    Debug.Print "Form_frmSearchMain: " _
-        & "frmSearchMain.cmd2_click ausführen"
+    ' Debug.Print "Form_frmSearchMain: " _
+        ' & "frmSearchMain.cmd2_click ausführen"
         
-    If gobjSearchMain Is Nothing Then
-        Debug.Print "Form_frmSearchMain.cmd2_Click: " _
-                & "gobjSearchMain nicht instanziiert"
-        Exit Sub
-    End If
+    ' If gobjSearchMain Is Nothing Then
+        ' Debug.Print "Form_frmSearchMain.cmd2_Click: " _
+                ' & "gobjSearchMain nicht instanziiert"
+        ' Exit Sub
+    ' End If
     
-    gobjSearchMain.cmd2
+    ' gobjSearchMain.cmd2
+    ' basAuftrag.AuftragErstellen
+    basMenueExtraSmall.AuftragErstellen
 End Sub
 
 Private Sub cmd3_Click()
