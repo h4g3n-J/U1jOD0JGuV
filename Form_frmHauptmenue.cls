@@ -21,7 +21,7 @@ Private Sub cmd0_Click()
         
     ' open frmSearchMain in AuftragSuchen mode
     basAuftrag.OpenFormAuftrag
-    
+    ' basSearchMain.OpenFormAuftrag
 End Sub
 
 Private Sub cmd1_Click()
@@ -62,8 +62,6 @@ Private Sub Form_Current()
         Debug.Print "Form_frmHauptmenue.Form_Current ausfuehren."
     End If
     
-    ' Me!cmd0.Caption = "Ticket Suchen"
-    ' Me!cmd1.Caption = "Liefergegenstand Suchen"
 End Sub
 
 Private Sub Form_Open(Cancel As Integer)
@@ -72,6 +70,5 @@ Private Sub Form_Open(Cancel As Integer)
         Debug.Print "Form_frmHauptmenue.Form_Open ausfuehren."
     End If
     
-    Me!cmd0.Caption = "Ticket Suchen"
-    Me!cmd1.Caption = "Liefergegenstand Suchen"
+    basHauptmenue.OpenFormHauptmenue
 End Sub
