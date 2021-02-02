@@ -19,5 +19,5 @@ Private Sub Form_Current()
         Debug.Print "Form_frmAuftragSuchenSub.Form_Current ausfuehren"
     End If
     
-    basAuftrag.ShowRecordset Me.AftrID
+    basSearchMain.ShowRecordset Me.AftrID
 End Sub

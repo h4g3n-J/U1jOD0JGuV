@@ -54,6 +54,34 @@ Public Sub AuftragErstellen()
         
         Forms.Item("frmMenueExtraSmall").Controls("txt2").SetFocus
         
+    Dim avarCheckbox(4, 0) As Variant
+    
+    ' 0 = object name
+    ' 1 = object visible
+    ' 2 = label name
+    ' 3 = label caption
+    ' 4 = label visible
+    avarCheckbox(0, 0) = "chk0"
+        avarCheckbox(1, 0) = False
+        avarCheckbox(2, 0) = "lbl6"
+        avarCheckbox(3, 0) = Null
+        avarCheckbox(4, 0) = False
+        
+    Dim avarControl(2, 2) As Variant
+    
+    ' 0 = object name
+    ' 1 = object caption
+    ' 2 = object visible
+    avarControl(0, 0) = "cmd0"
+        avarControl(1, 0) = "Schlieﬂen"
+        avarControl(2, 0) = True
+    avarControl(0, 1) = "cmd1"
+        avarControl(1, 1) = "Speichern"
+        avarControl(2, 1) = True
+    avarControl(0, 2) = "cmd2"
+        avarControl(1, 2) = Null
+        avarControl(2, 2) = False
+        
     Dim inti As Integer
     For inti = LBound(avarLayoutMenueExtraSmall, 2) To UBound(avarLayoutMenueExtraSmall, 2)
         
@@ -65,9 +93,27 @@ Public Sub AuftragErstellen()
             Forms.Item("frmMenueExtraSmall").Controls(avarLayoutMenueExtraSmall(0, inti)).Visible = avarLayoutMenueExtraSmall(2, inti)
         End If
         
-        ' set textbox
-        ' set textbox visibility
+        ' set textbox, set textbox visibility
         Forms.Item("frmMenueExtraSmall").Controls(avarLayoutMenueExtraSmall(3, inti)).Visible = avarLayoutMenueExtraSmall(5, inti)
+    Next
+    
+    ' set checkbox, set checkbox label
+    For inti = LBound(avarCheckbox, 2) To UBound(avarCheckbox, 2)
+        ' set checkbox visible
+        Forms.Item("frmMenueExtraSmall").Controls(avarCheckbox(0, inti)).Visible = avarCheckbox(1, inti)
+        ' set label visible
+        Forms.Item("frmMenueExtraSmall").Controls(avarCheckbox(2, inti)).Visible = avarCheckbox(4, inti)
+    Next
+    
+    ' set control
+    For inti = LBound(avarControl, 2) To UBound(avarControl, 2)
+        ' error handler
+        If Not IsNull(avarControl(1, inti)) Then
+            ' set control caption
+            Forms.Item("frmMenueExtraSmall").Controls(avarControl(0, inti)).Caption = avarControl(1, inti)
+        End If
+        ' set control visible
+        Forms.Item("frmMenueExtraSmall").Controls(avarControl(0, inti)).Visible = avarControl(2, inti)
     Next
     
 End Sub
