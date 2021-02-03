@@ -13,21 +13,9 @@ Option Compare Database
 Option Explicit
 
 Private Sub cmd0_Click()
-    DoCmd.Close acForm, Me.Name
+    basMenueExtraSmall.FormularSchlieﬂen
 End Sub
 
 Private Sub cmd1_Click()
-    If gobjMenueExtraSmall Is Nothing Then
-        Debug.Print "Form_fmrMenueExtraSmall: " _
-            & "gobjMenueExtraSmall nicht instanziiert, " _
-            & "speichern nicht erfolgreich"
-        Exit Sub
-    End If
-        
-    gobjMenueExtraSmall.Speichern
-    
-End Sub
-
-Private Sub cmd2_Click()
-
+    basMenueExtraSmall.AuftragErstellen
 End Sub

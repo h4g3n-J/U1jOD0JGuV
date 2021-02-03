@@ -285,7 +285,7 @@ ExitProc:
 End Sub
 
 Public Function AddRecordset()
-    mvarClipboard = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", "Auftrag", "AuftragID eingeben", "Auftrag erfassen", True)
+    basSupport.AddRecordsetParent "tblAuftrag", "AftrID", "Auftrag", "AuftragID eingeben", "Auftrag erfassen", gconVerbatim
 End Function
 
 Public Property Let AftrID(ByVal varAftrID As Variant)
