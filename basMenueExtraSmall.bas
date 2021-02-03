@@ -4,9 +4,10 @@ Attribute VB_Name = "basMenueExtraSmall"
 Option Compare Database
 Option Explicit
 
-Public Sub AuftragErstellen()
+Public Sub AuftragErstellenLayout()
     DoCmd.OpenForm "frmMenueExtraSmall", acNormal
     
+    ' textbox setup
     Dim avarLayoutMenueExtraSmall(5, 5) As Variant
     
     ' 0 = label name
@@ -54,6 +55,7 @@ Public Sub AuftragErstellen()
         
         Forms.Item("frmMenueExtraSmall").Controls("txt2").SetFocus
         
+    ' checkbox setup
     Dim avarCheckbox(4, 0) As Variant
     
     ' 0 = object name
@@ -67,6 +69,7 @@ Public Sub AuftragErstellen()
         avarCheckbox(3, 0) = Null
         avarCheckbox(4, 0) = False
         
+    ' conrols setup
     Dim avarControl(2, 2) As Variant
     
     ' 0 = object name
@@ -76,7 +79,7 @@ Public Sub AuftragErstellen()
         avarControl(1, 0) = "Schlieﬂen"
         avarControl(2, 0) = True
     avarControl(0, 1) = "cmd1"
-        avarControl(1, 1) = "Speichern"
+        avarControl(1, 1) = "Erzeugen"
         avarControl(2, 1) = True
     avarControl(0, 2) = "cmd2"
         avarControl(1, 2) = Null
@@ -115,6 +118,29 @@ Public Sub AuftragErstellen()
         ' set control visible
         Forms.Item("frmMenueExtraSmall").Controls(avarControl(0, inti)).Visible = avarControl(2, inti)
     Next
+    
+End Sub
+
+Public Sub FormularSchlieﬂen()
+    If gconVerbatim = True Then
+        Debug.Print "basMenueExtraSmall.FormularSchlieﬂen ausfuehren"
+    End If
+    
+    DoCmd.Close acForm, "frmMenueExtraSmall", acSaveYes
+End Sub
+
+Public Sub AuftragErstellen()
+    If gconVerbatim = True Then
+        Debug.Print "basMenueExtraSmall.AuftragErstellen ausfuehren"
+    End If
+    
+    ' create class Auftrag
+    Dim Auftrag As clsAuftrag
+    Set Auftrag = New clsAuftrag
+    
+    ' Ist Doppel?
+    Auftrag.AddRecordset
+    ' Auftrag erzeugen
     
 End Sub
 
