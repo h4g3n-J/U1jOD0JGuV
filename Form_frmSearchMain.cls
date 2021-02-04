@@ -55,8 +55,7 @@ Private Sub cmd2_Click()
     ' End If
     
     ' gobjSearchMain.cmd2
-    ' basAuftrag.AuftragErstellen
-    basMenueExtraSmall.AuftragErstellen
+    basMenueExtraSmall.FormOeffnenAuftragErstellen
 End Sub
 
 Private Sub cmd3_Click()

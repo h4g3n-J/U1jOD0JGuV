@@ -4,7 +4,7 @@ Attribute VB_Name = "basMenueExtraSmall"
 Option Compare Database
 Option Explicit
 
-Public Sub AuftragErstellenLayout()
+Public Sub FormOeffnenAuftragErstellen()
     DoCmd.OpenForm "frmMenueExtraSmall", acNormal
     
     ' textbox setup
@@ -138,9 +138,10 @@ Public Sub AuftragErstellen()
     Dim Auftrag As clsAuftrag
     Set Auftrag = New clsAuftrag
     
-    ' Ist Doppel?
-    Auftrag.AddRecordset
-    ' Auftrag erzeugen
+    ' creates recordset, returns error if recordset name is empty or recordset name already exist
+    Auftrag.AddRecordset (Forms.Item("frmMenueExtraSmall").txt2)
+    ' creates entry "Bemerkung"
+    Auftrag.Bemerkung = Forms.Item("frmMenueExtraSmall").txt3
     
 End Sub
 

@@ -95,6 +95,7 @@ Public Function PflichtfeldIstLeer(ByVal varInput As Variant) As Boolean
     ' verbatim message
     If gconVerbatim = True Then
         Debug.Print "basSupport.PflichtfeldIstLeer ausfuehren, varInput = " & varInput
+    End If
     
     If Not (IsEmpty(varInput)) And varInput <> "" Then
         bolStatus = False
@@ -302,9 +303,8 @@ End Function
 ' it checks if the referenced table exists, the input box is empty
 ' or the recordset already exists
 ' returns the name of the created recordset
-Public Function AddRecordsetParent(ByVal _
-    strTableName, strKeyColumn, strArtifact, strDialogMessage, strDialogTitle As String, _
-    bolVerbatim As Boolean) As String
+Public Sub AddRecordsetParent(ByVal _
+    strTableName, strKeyColumn, strRecordsetName, strArtifact, strDialogMessage, strDialogTitle As String)
     
     ' verbatim message
     If gconVerbatim = True Then
@@ -316,7 +316,7 @@ Public Function AddRecordsetParent(ByVal _
 
     Dim rstRecordset As DAO.RecordSet
 
-    Dim strRecordsetName As String
+    ' Dim strRecordsetName As String
 
     ' debug message: return input
     If bolVerbatim = True Then
@@ -330,7 +330,7 @@ Public Function AddRecordsetParent(ByVal _
 
     ' check if table exists
     ' If basSupport.TabelleExistiert(strTableName) = False Then
-    If basSupport.ObjectExists(strTableName, "table", False) = False Then
+    If basSupport.ObjectExists(strTableName, "table") = False Then
         Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert nicht. Prozedur abgebrochen."
         GoTo ExitProc
     Else:
@@ -339,10 +339,10 @@ Public Function AddRecordsetParent(ByVal _
         End If
     End If
 
-    ' ask for the name of the recordset
-    strRecordsetName = InputBox(strDialogMessage, strDialogTitle)
+    ' ask for the recordset name
+    ' strRecordsetName = InputBox(strDialogMessage, strDialogTitle)
 
-        ' check if inputbox is empty, if true then messagebox + exit procedure
+        ' check if recordset name is empty, if true then messagebox + exit procedure
         If basSupport.PflichtfeldIstLeer(strRecordsetName) = True Then
             Debug.Print "basSupport.AddrecordsetParent: " & strArtifact & " ist leer. Prozedur abgebrochen."
             MsgBox strArtifact & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
@@ -350,7 +350,7 @@ Public Function AddRecordsetParent(ByVal _
         End If
 
         ' debug message: return input
-        If bolVerbatim = True Then
+        If gconVerbatim = True Then
             Debug.Print "basSupport.AddrecordsetParent: RecordsetName = " & strRecordsetName
         End If
 
@@ -371,7 +371,8 @@ Public Function AddRecordsetParent(ByVal _
         ' confirmation message
         MsgBox strRecordsetName & " erzeugt.", vbOKOnly, "Datensatz erstellen"
 
-        AddRecordsetParent = strRecordsetName
+        ' return value (deactivated)
+        ' AddRecordsetParent = strRecordsetName
 
     ' clean up
     rstRecordset.Close
@@ -380,7 +381,7 @@ Public Function AddRecordsetParent(ByVal _
 ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
-End Function
+End Sub
 
 Public Function FindItemArray(ByVal avarArray, varItem As Variant) As Variant
     

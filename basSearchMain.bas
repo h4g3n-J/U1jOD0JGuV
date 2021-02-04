@@ -125,7 +125,7 @@ Private Sub FormConfiguration()
         avarSubFormConfig(1, 0) = "frmAuftragSuchenSub"
         
     If gconVerbatim = True Then
-        Debug.Print "basAuftrag.FormConfiguration: avarTextBoxAndLabelConfig, avarCommandButtonConfig and avarSubFormConfig initiated"
+        Debug.Print "basSearchMain.FormConfiguration: avarTextBoxAndLabelConfig, avarCommandButtonConfig and avarSubFormConfig initiated"
     End If
         
 End Sub
@@ -135,7 +135,7 @@ Public Sub OpenFormAuftrag()
     DoCmd.OpenForm "frmSearchMain", acNormal
     
     If gconVerbatim = True Then
-        Debug.Print "basAuftrag.OpenFormAuftrag ausfuehren"
+        Debug.Print "basSearchMain.OpenFormAuftrag ausfuehren"
     End If
     
     ' initialize FormConfiguratoin
@@ -165,5 +165,24 @@ Public Sub OpenFormAuftrag()
         Forms.Item("frmSearchMain").Controls.Item(avarSubFormConfig(0, inti)).SourceObject = avarSubFormConfig(1, inti)
     Next
     
+End Sub
+
+Public Sub ShowRecordset(ByVal strRecordsetName As String)
+    If gconVerbatim = True Then
+        Debug.Print "basSearchMain.ShowRecordset: strRecordsetName = " & strRecordsetName
+    End If
+        
+    Dim Auftrag As clsAuftrag
+    Set Auftrag = New clsAuftrag
+    
+    Auftrag.SelectRecordset strRecordsetName
+    
+    Dim inti As Integer
+    For inti = LBound(avarTextBoxAndLabelConfig, 2) To UBound(avarTextBoxAndLabelConfig)
+        ' handler in case field value is null
+        If Not IsNull(avarTextBoxAndLabelConfig(3, inti)) Then
+            Forms.Item("frmSearchMain").Controls.Item(avarTextBoxAndLabelConfig(2, inti)) = CallByName(Auftrag, avarTextBoxAndLabelConfig(3, inti), VbGet)
+        End If
+    Next
 End Sub
 

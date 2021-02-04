@@ -160,6 +160,32 @@ ExitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
 End Sub
+
+' supposed to replace clsAuftrag.Speicher
+Public Sub SaveRecordset(ByVal strRecordsetName As String)
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstAftr As DAO.RecordSet
+    Set rstAftr = dbsCurrentDB.OpenRecordset("tblAuftrag", dbOpenDynaset)
+    rstAftr.FindFirst (mastrColumnToVariable(0, 0) & " = '" & strRecordsetName & "'")
+    
+    With rstAftr
+        .Edit
+            For inti = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
+                CallByName(rstAftr, mastrColumnToVariable(0, inti), VbLet) = mastrColumnToVariable(2, inti)
+            Next
+        .Update
+    End With
+    
+ExitProc:
+    dbsCurrentDB.Close
+    rstAftr.Close
+    
+    Set dbsCurrentDB = Nothing
+    Set rstAftr = Nothing
+End Sub
     
 ' mit der 'Speichern' Schaltfläche verknüpfen,
 ' schreibt die Attribute des Objekts in den recordset
@@ -284,8 +310,9 @@ ExitProc:
         Set qdfAbfrage = Nothing
 End Sub
 
-Public Function AddRecordset()
-    basSupport.AddRecordsetParent "tblAuftrag", "AftrID", "Auftrag", "AuftragID eingeben", "Auftrag erfassen", gconVerbatim
+' creates recordset, returns error if recordset name is empty or recordset name already exist
+Public Function AddRecordset(ByVal RecordsetName As String)
+    basSupport.AddRecordsetParent "tblAuftrag", "AftrID", RecordsetName, "Auftrag", "AuftragID eingeben", "Auftrag erfassen"
 End Function
 
 Public Property Let AftrID(ByVal varAftrID As Variant)
