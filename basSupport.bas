@@ -143,7 +143,7 @@ End Function
 ' returns name of the new recordset
 Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTableAArtifact, strTableAInputDialogMessage, _
     strTableAInputDialogTitle, strTableBName, strTableBKeyColumn, strTableBArtifact, strTableBInputDialogMessage, _
-        strTableBInputDialogTitle, strTableAssistanceName As String, bolVerbatim As Boolean) As String
+        strTableBInputDialogTitle, strTableAssistanceName As String, gconVerbatim As Boolean) As String
         
     ' verbatim message
     If gconVerbatim = True Then
@@ -196,7 +196,7 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     Dim inti As Integer
     Dim intj As Integer
     
-    If bolVerbatim = True Then
+    If gconVerbatim = True Then
         For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
             For intj = LBound(astrConfig, 1) To UBound(astrConfig, 1)
                 Debug.Print "astrConfig(" & intj & ", " & inti & ") = " & astrConfig(intj, inti)
@@ -215,7 +215,7 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
                 & " existiert nicht."
             intError = intError + 1
         Else:
-            If bolVerbatim = True Then
+            If gconVerbatim = True Then
             Debug.Print "basSupport.AddRecordsetMN: " + astrConfig(0, inti) _
                 + " existiert"
             End If
@@ -241,7 +241,7 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
             End If
         
             ' return input
-            If bolVerbatim = True Then
+            If gconVerbatim = True Then
                 Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(2, lngi) _
                     & " = " & astrConfig(6, lngi)
             End If
@@ -300,11 +300,17 @@ ExitProc:
 End Function
 
 ' creates a new recordset in a table with parent character
-' it checks if the referenced table exists, the input box is empty
-' or the recordset already exists
-' returns the name of the created recordset
-Public Sub AddRecordsetParent(ByVal _
-    strTableName, strKeyColumn, strRecordsetName, strArtifact, strDialogMessage, strDialogTitle As String)
+' returns True if:
+' 1. references table dosn't exist,
+' 2. input box is empty,
+' 3. recordset already exists
+Public Function AddRecordsetParent(ByVal _
+    strTableName, strKeyColumn, strRecordsetName, _
+    strArtifact, strDialogMessage, strDialogTitle As String) As Boolean
+    
+    ' state variable, set True if error detected
+    Dim bolError As Boolean
+    bolError = False
     
     ' verbatim message
     If gconVerbatim = True Then
@@ -316,63 +322,63 @@ Public Sub AddRecordsetParent(ByVal _
 
     Dim rstRecordset As DAO.RecordSet
 
-    ' Dim strRecordsetName As String
-
     ' debug message: return input
-    If bolVerbatim = True Then
-        Debug.Print "strTableName: " & strTableName & vbCrLf _
-            & "strKeyColumn: " & strKeyColumn & vbCrLf _
-            & "strArtifact: " & strArtifact & vbCrLf _
-            & "strDialogMessage: " & strDialogMessage & vbCrLf _
-            & "strDialogTitle: " & strDialogTitle & vbCrLf _
-            & "bolVerbatim: " & CStr(bolVerbatim)
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.AddRecordsetParent: strTableName = " & strTableName & vbCrLf _
+            & "basSupport.AddRecordsetParent: strKeyColumn = " & strKeyColumn & vbCrLf _
+            & "basSupport.AddRecordsetParent: strArtifact = " & strArtifact & vbCrLf _
+            & "basSupport.AddRecordsetParent: strDialogMessage = " & strDialogMessage & vbCrLf _
+            & "basSupport.AddRecordsetParent: strDialogTitle = " & strDialogTitle & vbCrLf _
+            & "basSupport.AddRecordsetParent: gconVerbatim = " & CStr(gconVerbatim)
     End If
 
     ' check if table exists
     ' If basSupport.TabelleExistiert(strTableName) = False Then
     If basSupport.ObjectExists(strTableName, "table") = False Then
         Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert nicht. Prozedur abgebrochen."
+        bolError = True
         GoTo ExitProc
     Else:
-        If bolVerbatim = True Then
+        If gconVerbatim = True Then
             Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert."
         End If
     End If
 
-    ' ask for the recordset name
-    ' strRecordsetName = InputBox(strDialogMessage, strDialogTitle)
+    ' check if recordset name is empty, if true then messagebox + exit procedure
+    If basSupport.PflichtfeldIstLeer(strRecordsetName) = True Then
+        Debug.Print "basSupport.AddrecordsetParent: " & strArtifact & _
+            " ist leer. Prozedur abgebrochen."
+        MsgBox strArtifact & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
+        bolError = True
+        GoTo ExitProc
+    End If
 
-        ' check if recordset name is empty, if true then messagebox + exit procedure
-        If basSupport.PflichtfeldIstLeer(strRecordsetName) = True Then
-            Debug.Print "basSupport.AddrecordsetParent: " & strArtifact & " ist leer. Prozedur abgebrochen."
-            MsgBox strArtifact & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
-            GoTo ExitProc
-        End If
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basSupport.AddrecordsetParent: RecordsetName = " & strRecordsetName
+    End If
 
-        ' debug message: return input
-        If gconVerbatim = True Then
-            Debug.Print "basSupport.AddrecordsetParent: RecordsetName = " & strRecordsetName
-        End If
+    ' check if recordset already exists
+    If basSupport.RecordsetExists(strTableName, strKeyColumn, strRecordsetName) = True Then
+        Debug.Print "basSupport.AddrecordsetParent: " & strRecordsetName _
+            & " existiert bereits. Prozedur abgebrochen."
+        ' error message via messagebox
+        MsgBox "Ein Datensatz mit dem Namen '" & strRecordsetName & _
+            "' existiert bereits." & vbCrLf & "Prozedur abgebrochen.", _
+            vbCritical, "Doppelter Eintrag"
+        bolError = True
+        GoTo ExitProc
+    End If
 
-        ' check if recordset exists
-        If basSupport.RecordsetExists(strTableName, strKeyColumn, strRecordsetName) = True Then
-            Debug.Print "basSupport.AddrecordsetParent: " & strRecordsetName & " existiert bereits. Prozedur abgebrochen."
-            MsgBox strRecordsetName & " existiert bereits. Prozedur abgebrochen.", vbCritical, "Doppelter Eintrag"
-            GoTo ExitProc
-        End If
+    ' create recordset
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
 
-        ' create recordset
-        Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
-
-            rstRecordset.AddNew
-                rstRecordset.Fields(strKeyColumn) = strRecordsetName
-            rstRecordset.Update
-            
-        ' confirmation message
-        MsgBox strRecordsetName & " erzeugt.", vbOKOnly, "Datensatz erstellen"
-
-        ' return value (deactivated)
-        ' AddRecordsetParent = strRecordsetName
+        rstRecordset.AddNew
+            rstRecordset.Fields(strKeyColumn) = strRecordsetName
+        rstRecordset.Update
+        
+    ' confirmation message
+    MsgBox strRecordsetName & " erzeugt.", vbOKOnly, "Datensatz erstellen"
 
     ' clean up
     rstRecordset.Close
@@ -381,7 +387,8 @@ Public Sub AddRecordsetParent(ByVal _
 ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
-End Sub
+    AddRecordsetParent = bolError
+End Function
 
 Public Function FindItemArray(ByVal avarArray, varItem As Variant) As Variant
     
@@ -402,10 +409,6 @@ Public Function FindItemArray(ByVal avarArray, varItem As Variant) As Variant
             intLoop = intLoop + 1
         End If
     Loop
-    
-    If gconVerbatim = True Then
-        Debug.Print "basSupport.FindItemArray: intLoop = " & intLoop
-    End If
     
     FindItemArray = intLoop
 End Function

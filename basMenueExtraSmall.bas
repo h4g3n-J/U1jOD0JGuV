@@ -134,14 +134,27 @@ Public Sub AuftragErstellen()
         Debug.Print "basMenueExtraSmall.AuftragErstellen ausfuehren"
     End If
     
+    ' error state
+    Dim bolError As Boolean
+    bolError = False
+    
     ' create class Auftrag
     Dim Auftrag As clsAuftrag
     Set Auftrag = New clsAuftrag
     
-    ' creates recordset, returns error if recordset name is empty or recordset name already exist
-    Auftrag.AddRecordset (Forms.Item("frmMenueExtraSmall").txt2)
-    ' creates entry "Bemerkung"
-    Auftrag.Bemerkung = Forms.Item("frmMenueExtraSmall").txt3
+    ' create recordset
+    ' ExitProc if recordset name is empty or recordset name already exist
+    bolError = Auftrag.AddRecordset(Forms.Item("frmMenueExtraSmall").txt2)
     
+        If bolError Then
+            GoTo ExitProc
+        End If
+        
+    ' set property "Bemerkung"
+    Auftrag.Bemerkung = Forms.Item("frmMenueExtraSmall").txt3
+    ' save recordset
+    Auftrag.SaveRecordset (Forms.Item("frmMenueExtraSmall").txt2)
+    
+ExitProc:
 End Sub
 

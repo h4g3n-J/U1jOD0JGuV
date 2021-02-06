@@ -171,20 +171,24 @@ Public Sub SaveRecordset(ByVal strRecordsetName As String)
     Set rstAftr = dbsCurrentDB.OpenRecordset("tblAuftrag", dbOpenDynaset)
     rstAftr.FindFirst (mastrColumnToVariable(0, 0) & " = '" & strRecordsetName & "'")
     
+    Dim inti As Integer
     With rstAftr
         .Edit
-            For inti = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
-                CallByName(rstAftr, mastrColumnToVariable(0, inti), VbLet) = mastrColumnToVariable(2, inti)
+            For inti = LBound(mastrColumnToVariable, 2) + 1 To UBound(mastrColumnToVariable, 2)
+                CallByName rstAftr, mastrColumnToVariable(0, inti), VbLet, mastrColumnToVariable(2, inti)
             Next
         .Update
     End With
     
-ExitProc:
-    dbsCurrentDB.Close
-    rstAftr.Close
+    ' success message
+    MsgBox "Datensatz gespeichert", vbInformation, "Gespeichert"
     
-    Set dbsCurrentDB = Nothing
+ExitProc:
+    rstAftr.Close
+    dbsCurrentDB.Close
+    
     Set rstAftr = Nothing
+    Set dbsCurrentDB = Nothing
 End Sub
     
 ' mit der 'Speichern' Schaltfläche verknüpfen,
@@ -310,9 +314,98 @@ ExitProc:
         Set qdfAbfrage = Nothing
 End Sub
 
-' creates recordset, returns error if recordset name is empty or recordset name already exist
-Public Function AddRecordset(ByVal RecordsetName As String)
-    basSupport.AddRecordsetParent "tblAuftrag", "AftrID", RecordsetName, "Auftrag", "AuftragID eingeben", "Auftrag erfassen"
+' creates recordset, returns True if recordset name is empty or recordset name already exist
+Public Function AddRecordset(ByVal RecordsetName As String) As Boolean
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    
+    ' error state
+    Dim bolError As Boolean
+    bolError = False
+    
+    ' create recordset
+    ' return true if recordset name is empty or recordset name already exist
+    ' bolError = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", RecordsetName, "Auftrag", "AuftragID eingeben", "Auftrag erfassen")
+    
+    Dim strTableName As String
+    Dim strKeyColumn As String
+    Dim strRecordsetName As String
+    Dim strArtifact As String
+    Dim strDialogMessage As String
+    Dim strDialogTitle As String
+    
+    strTableName = "tblAuftrag"
+    strKeyColumn = "AftrID"
+    strRecordsetName = RecordsetName
+    strArtifact = "Auftrag"
+    strDialogMessage = "Auftrag ID eingeben"
+    strDialogTitle = "Auftrag erfassen"
+    
+    ' check if strTableName exists
+    If basSupport.ObjectExists(strTableName, "table") = False Then
+        Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert nicht. Prozedur abgebrochen."
+        bolError = True
+        GoTo ExitProc
+    Else:
+        If gconVerbatim = True Then
+            Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert."
+        End If
+    End If
+    
+    ' check if recordset name is empty, if true then messagebox + exit procedure
+    If basSupport.PflichtfeldIstLeer(strRecordsetName) = True Then
+        Debug.Print "clsAuftrag.Addrecordset: " & strArtifact & _
+            " ist leer. Prozedur abgebrochen."
+        MsgBox strArtifact & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
+        bolError = True
+        GoTo ExitProc
+    End If
+    
+    ' check if recordset already exists
+    If basSupport.RecordsetExists(strTableName, strKeyColumn, strRecordsetName) = True Then
+        Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName _
+            & " existiert bereits. Prozedur abgebrochen."
+        ' error message via messagebox
+        MsgBox "Ein Datensatz mit dem Namen '" & strRecordsetName & _
+            "' existiert bereits." & vbCrLf & "Prozedur abgebrochen.", _
+            vbCritical, "Doppelter Eintrag"
+        bolError = True
+        GoTo ExitProc
+    End If
+
+    ' create recordset
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+
+        rstRecordset.AddNew
+            rstRecordset.Fields(strKeyColumn) = strRecordsetName
+        rstRecordset.Update
+        
+    ' success message
+    MsgBox strRecordsetName & " erzeugt.", vbOKOnly, "Datensatz erstellen"
+
+    ' clean up
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    
+ExitProc:
+    AddRecordset = bolError
+End Function
+
+' creates recordset, returns True if recordset name is empty or recordset name already exist
+Public Function AddRecordsetOLD(ByVal RecordsetName As String) As Boolean
+    
+    ' error state
+    Dim bolError As Boolean
+    bolError = False
+    
+    ' create recordset
+    ' return true if recordset name is empty or recordset name already exist
+    bolError = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", RecordsetName, "Auftrag", "AuftragID eingeben", "Auftrag erfassen")
+    
+    AddRecordset = bolError
 End Function
 
 Public Property Let AftrID(ByVal varAftrID As Variant)
