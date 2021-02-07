@@ -17,5 +17,5 @@ Private Sub cmd0_Click()
 End Sub
 
 Private Sub cmd1_Click()
-    basMenueExtraSmall.AuftragErstellen
+    basMenueExtraSmall.CreateAuftrag
 End Sub

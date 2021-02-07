@@ -186,3 +186,22 @@ Public Sub ShowRecordset(ByVal strRecordsetName As String)
     Next
 End Sub
 
+Public Sub SaveAuftrag()
+    ' Propertys schreiben
+    Dim Auftrag As clsAuftrag
+    Set Auftrag = New clsAuftrag
+    
+    ' write textbox values to class properties, skipp ID
+    Dim inti As Integer
+    For inti = LBound(avarTextBoxAndLabelConfig, 2) + 1 To UBound(avarTextBoxAndLabelConfig, 2)
+        ' null value handler
+        If Not IsNull(avarTextBoxAndLabelConfig(3, inti)) Then
+            CallByName Auftrag, avarTextBoxAndLabelConfig(3, inti), VbLet, Forms.Item("frmSearchMain").Controls(avarTextBoxAndLabelConfig(2, inti))
+        End If
+    Next
+    
+    ' save Auftrag
+    Auftrag.SaveRecordset Forms.Item("frmSearchMain").Controls(avarTextBoxAndLabelConfig(2, 0))
+End Sub
+
+

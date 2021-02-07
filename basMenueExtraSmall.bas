@@ -129,7 +129,7 @@ Public Sub FormularSchlieﬂen()
     DoCmd.Close acForm, "frmMenueExtraSmall", acSaveYes
 End Sub
 
-Public Sub AuftragErstellen()
+Public Sub CreateAuftrag()
     If gconVerbatim = True Then
         Debug.Print "basMenueExtraSmall.AuftragErstellen ausfuehren"
     End If

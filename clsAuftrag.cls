@@ -12,14 +12,6 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
-' Hauptdatensatz der Klasse
-' Private mdbsCurrentDb As DAO.Database
-' Private mrstRecordset As DAO.RecordSet
-
-' dient als Zwischenspeicher für die ID des aktuell
-' mit dem Cursor ausgewählten Datensatz im Unterformular
-' wird mit der Prozedur Laden geschrieben und von der
-' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
   
 Dim mastrColumnToVariable(2, 10) As Variant
@@ -161,7 +153,7 @@ ExitProc:
         Set dbsCurrentDB = Nothing
 End Sub
 
-' supposed to replace clsAuftrag.Speicher
+' writes class properties to recordset
 Public Sub SaveRecordset(ByVal strRecordsetName As String)
     
     Dim dbsCurrentDB As DAO.Database
@@ -181,7 +173,7 @@ Public Sub SaveRecordset(ByVal strRecordsetName As String)
     End With
     
     ' success message
-    MsgBox "Datensatz gespeichert", vbInformation, "Gespeichert"
+    MsgBox "Datensatz '" & strRecordsetName & "' gespeichert", vbInformation, "Gespeichert"
     
 ExitProc:
     rstAftr.Close
@@ -189,76 +181,6 @@ ExitProc:
     
     Set rstAftr = Nothing
     Set dbsCurrentDB = Nothing
-End Sub
-    
-' mit der 'Speichern' Schaltfläche verknüpfen,
-' schreibt die Attribute des Objekts in den recordset
-Public Sub Speichern()
-    Set mdbsCurrentDb = CurrentDb
-    
-    Dim strAbfrageTitel As String
-    strAbfrageTitel = "qryAuftragAuswahl"
-    
-    'prüft ob Abfrage existiert, wenn nicht: goto ExitProc
-        Dim RecordSet As Object
-        Dim bolQueryExistiert As Boolean
-        bolQueryExistiert = False
-    
-        For Each RecordSet In mdbsCurrentDb.QueryDefs
-            If RecordSet.Name = strAbfrageTitel Then
-                bolQueryExistiert = True
-            End If
-        Next RecordSet
-        
-        If bolQueryExistiert = False Then
-            Debug.Print "clsAuftragNew.Speichern: " _
-                & strAbfrageTitel & " existiert nicht, " _
-                & "clsAuftragNew.Speichern abgebrochen"
-            GoTo ExitProc
-        End If
-
-    ' prüfe ob mvarClipboard null oder leer ist,
-    ' wenn ja wirf Fehlermeldung (MsgBox) und gehe zu ExitProc
-        Dim varClipboard As Variant
-        varClipboard = mvarClipboard
-        
-        If IsNull(varClipboard) Or IsEmpty(varClipboard) Then
-            Debug.Print "clsAuftragNew.Speichern: " _
-                + varClipboard & " is null, clsAuftragNew.Speichern abgebrochen"
-            MsgBox "Kein Datensatz ausgewaehlt." & vbCrLf & "Speichern nicht erfolgreich.", vbCritical, "Speichern"
-            GoTo ExitProc
-        End If
-        
-    ' Abfrage qryAuftragAuswahl nach mvarClipboard durchsuchen
-        Dim strSucheAttribut As String
-        strSucheAttribut = "AftrID"
-
-        Set mrstRecordset = mdbsCurrentDb.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
-        mrstRecordset.FindFirst (strSucheAttribut & " = '" & CStr(varClipboard) & "'")
-        
-    ' Objektattribute in recordset schreiben
-        With mrstRecordset
-            .Edit
-                ' !AftrID = mvarAftrID
-                !AftrTitel = mvarAftrTitel
-                !EAkurzKey = mvarEAkurzKey
-                !StatusKey = mvarStatusKey
-                !OwnerKey = mvarOwnerKey
-                !PrioritaetKey = mvarPrioriteatKey
-                !ParentKey = mvarParentKey
-                !Bemerkung = mvarBemerkung
-                !BeginnSoll = mvarBeginnSoll
-                !EndeSoll = mvarEndeSoll
-                !Erstellt = mvarErstellt
-                !kunde = mvarKunde
-            .Update
-        End With
-        
-        MsgBox "Datensatz gespeichert", vbInformation, "Speichern"
-        
-ExitProc:
-    mdbsCurrentDb.Close
-    Set mdbsCurrentDb = Nothing
 End Sub
 
 ' durch Schaltfläche 'Suchen' ausführen,
@@ -314,7 +236,10 @@ ExitProc:
         Set qdfAbfrage = Nothing
 End Sub
 
-' creates recordset, returns True if recordset name is empty or recordset name already exist
+' create recordset, return True if
+' 1. referenced table dosn't exist,
+' 2. recordset name is empty,
+' 3. recordset name is taken
 Public Function AddRecordset(ByVal RecordsetName As String) As Boolean
     
     Dim dbsCurrentDB As DAO.Database
@@ -325,10 +250,6 @@ Public Function AddRecordset(ByVal RecordsetName As String) As Boolean
     ' error state
     Dim bolError As Boolean
     bolError = False
-    
-    ' create recordset
-    ' return true if recordset name is empty or recordset name already exist
-    ' bolError = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", RecordsetName, "Auftrag", "AuftragID eingeben", "Auftrag erfassen")
     
     Dim strTableName As String
     Dim strKeyColumn As String
@@ -383,28 +304,16 @@ Public Function AddRecordset(ByVal RecordsetName As String) As Boolean
             rstRecordset.Fields(strKeyColumn) = strRecordsetName
         rstRecordset.Update
         
-    ' success message
-    MsgBox strRecordsetName & " erzeugt.", vbOKOnly, "Datensatz erstellen"
-
+    ' completion message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName & " created."
+    End If
+    
     ' clean up
     rstRecordset.Close
     Set rstRecordset = Nothing
     
 ExitProc:
-    AddRecordset = bolError
-End Function
-
-' creates recordset, returns True if recordset name is empty or recordset name already exist
-Public Function AddRecordsetOLD(ByVal RecordsetName As String) As Boolean
-    
-    ' error state
-    Dim bolError As Boolean
-    bolError = False
-    
-    ' create recordset
-    ' return true if recordset name is empty or recordset name already exist
-    bolError = basSupport.AddRecordsetParent("tblAuftrag", "AftrID", RecordsetName, "Auftrag", "AuftragID eingeben", "Auftrag erfassen")
-    
     AddRecordset = bolError
 End Function
 

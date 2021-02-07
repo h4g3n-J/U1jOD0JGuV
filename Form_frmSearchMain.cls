@@ -128,15 +128,11 @@ End Sub
 
 ' Button 'Speichern'
 Private Sub cmd9_Click()
-    Debug.Print "Form_frmSearchMain: " _
-        & "frmSearchMain.cmd9_click ausführen"
-    If gobjSearchMain Is Nothing Then
-        Debug.Print "gobjSearchMain existiert nicht, " _
-         + "Prozedur 'pcmd9_Click' abgebrochen"
-        Exit Sub
+    If gconVerbatim = True Then
+        Debug.Print "Form_frmSearchMain: cmd9_click ausführen"
     End If
     
-    gobjSearchMain.cmd9
+    basSearchMain.SaveAuftrag
 End Sub
 
 Private Sub cmd10_Click()
