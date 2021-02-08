@@ -147,7 +147,7 @@ Public Sub CreateAuftrag()
     bolError = Auftrag.AddRecordset(Forms.Item("frmMenueExtraSmall").txt2)
     
         If bolError Then
-            GoTo ExitProc
+            Exit Sub
         End If
         
     ' set property "Bemerkung"
@@ -155,6 +155,7 @@ Public Sub CreateAuftrag()
     ' save recordset
     Auftrag.SaveRecordset (Forms.Item("frmMenueExtraSmall").txt2)
     
-ExitProc:
+    ' completion message
+    MsgBox Forms.Item("frmMenueExtraSmall").txt2 & " erzeugt.", vbOKOnly, "Datensatz erstellen"
 End Sub
 

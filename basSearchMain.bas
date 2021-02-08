@@ -175,13 +175,23 @@ Public Sub ShowRecordset(ByVal strRecordsetName As String)
     Dim Auftrag As clsAuftrag
     Set Auftrag = New clsAuftrag
     
+    ' check if necessary -> is necessary
     Auftrag.SelectRecordset strRecordsetName
+    
+    Dim strFormName As String
+    strFormName = "frmSearchMain"
+    
+    If Not CurrentProject.AllForms(strFormName).IsLoaded Then
+        Debug.Print "basSearchMain.ShowRecordset: Formular " & strFormName & _
+            " ist nicht geoeffnet, Prozedur abgebrochen"
+        Exit Sub
+    End If
     
     Dim inti As Integer
     For inti = LBound(avarTextBoxAndLabelConfig, 2) To UBound(avarTextBoxAndLabelConfig)
         ' handler in case field value is null
         If Not IsNull(avarTextBoxAndLabelConfig(3, inti)) Then
-            Forms.Item("frmSearchMain").Controls.Item(avarTextBoxAndLabelConfig(2, inti)) = CallByName(Auftrag, avarTextBoxAndLabelConfig(3, inti), VbGet)
+            Forms.Item(strFormName).Controls.Item(avarTextBoxAndLabelConfig(2, inti)) = CallByName(Auftrag, avarTextBoxAndLabelConfig(3, inti), VbGet)
         End If
     Next
 End Sub
