@@ -17,5 +17,5 @@ Private bolVerbatim As Boolean
 Private Sub Form_Current()
     Dim varTest As Variant
     varTest = Me
-    basAuftragSuchenSub.Test
+    basAuftragSuchenSub.SelectRecordset
 End Sub

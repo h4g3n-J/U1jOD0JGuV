@@ -69,6 +69,10 @@ Private Sub default()
 End Sub
 
 ' default muss neu definiert werden
+' if no recordset is selected, set to default
+' check if query exists
+' check if recordset exists
+' assign recordset to mastrColumnToVariable
 Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
 
     ' name of the table or query that contains the
@@ -140,9 +144,9 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
         Next
     End If
     
-    ' assigne AftrID to Clipboard
+    ' assign AftrID to Clipboard
     ' likely obsolete
-    mvarClipboard = mastrColumnToVariable(2, 0)
+    ' mvarClipboard = mastrColumnToVariable(2, 0)
 
     ' clean up
     rstRecordset.Close
@@ -484,7 +488,7 @@ Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
     Dim intItemPosition
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "BeginnSoll")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition))
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBeginnSoll, mastrColumnToVariable(1, intItemPosition))
 End Property
 
 Public Property Get BeginnSoll() As Variant
@@ -576,4 +580,28 @@ Public Property Get kunde() As Variant
     intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Kunde")
     
     kunde = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+End Property
+
+Public Property Let OwnerKey(ByVal varOwnerKey As Variant)
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Owner (Let) ausfuehren"
+    End If
+    
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "OwnerKey")
+    
+    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varOwnerKey, mastrColumnToVariable(1, intItemPosition))
+End Property
+
+Public Property Get OwnerKey() As Variant
+    'verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Kunde (Get) ausfuehren"
+    End If
+    
+    Dim intItemPosition
+    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "OwnerKey")
+    
+    OwnerKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
 End Property

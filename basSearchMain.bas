@@ -4,7 +4,7 @@ Attribute VB_Name = "basSearchMain"
 Option Compare Database
 Option Explicit
 
-Private avarTextBoxAndLabelConfig(6, 9) As Variant
+Private avarTextBoxAndLabelConfig(7, 9) As Variant
 Private avarCommandButtonConfig(2, 11) As Variant
 Private avarSubFormConfig(1, 0) As Variant
 
@@ -17,6 +17,7 @@ Private Sub FormConfiguration()
     ' 4 = textbox border style
     ' 5 = textbox ishyperlink
     ' 6 = textbox locked
+    ' 7 = textbox format
     avarTextBoxAndLabelConfig(0, 0) = "lbl0"
         avarTextBoxAndLabelConfig(1, 0) = "ID"
         avarTextBoxAndLabelConfig(2, 0) = "txt0"
@@ -24,6 +25,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 0) = 0
         avarTextBoxAndLabelConfig(5, 0) = False
         avarTextBoxAndLabelConfig(6, 0) = True
+        avarTextBoxAndLabelConfig(7, 0) = ""
     avarTextBoxAndLabelConfig(0, 1) = "lbl1"
         avarTextBoxAndLabelConfig(1, 1) = "Titel"
         avarTextBoxAndLabelConfig(2, 1) = "txt1"
@@ -31,6 +33,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 1) = 1
         avarTextBoxAndLabelConfig(5, 1) = False
         avarTextBoxAndLabelConfig(6, 1) = False
+        avarTextBoxAndLabelConfig(7, 1) = ""
     avarTextBoxAndLabelConfig(0, 2) = "lbl2"
         avarTextBoxAndLabelConfig(1, 2) = "ICD Status"
         avarTextBoxAndLabelConfig(2, 2) = "txt2"
@@ -38,6 +41,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 2) = 1
         avarTextBoxAndLabelConfig(5, 2) = False
         avarTextBoxAndLabelConfig(6, 2) = False
+        avarTextBoxAndLabelConfig(7, 2) = ""
     avarTextBoxAndLabelConfig(0, 3) = "lbl3"
         avarTextBoxAndLabelConfig(1, 3) = "Owner"
         avarTextBoxAndLabelConfig(2, 3) = "txt3"
@@ -45,6 +49,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 3) = 1
         avarTextBoxAndLabelConfig(5, 3) = False
         avarTextBoxAndLabelConfig(6, 3) = False
+        avarTextBoxAndLabelConfig(7, 3) = ""
     avarTextBoxAndLabelConfig(0, 4) = "lbl4"
         avarTextBoxAndLabelConfig(1, 4) = "Priorität"
         avarTextBoxAndLabelConfig(2, 4) = "txt4"
@@ -52,6 +57,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 4) = 1
         avarTextBoxAndLabelConfig(5, 4) = False
         avarTextBoxAndLabelConfig(6, 4) = False
+        avarTextBoxAndLabelConfig(7, 4) = ""
     avarTextBoxAndLabelConfig(0, 5) = "lbl5"
         avarTextBoxAndLabelConfig(1, 5) = "Parent"
         avarTextBoxAndLabelConfig(2, 5) = "txt5"
@@ -59,6 +65,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 5) = 1
         avarTextBoxAndLabelConfig(5, 5) = False
         avarTextBoxAndLabelConfig(6, 5) = False
+        avarTextBoxAndLabelConfig(7, 5) = ""
     avarTextBoxAndLabelConfig(0, 6) = "lbl6"
         avarTextBoxAndLabelConfig(1, 6) = "Bemerkung"
         avarTextBoxAndLabelConfig(2, 6) = "txt6"
@@ -66,6 +73,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 6) = 1
         avarTextBoxAndLabelConfig(5, 6) = False
         avarTextBoxAndLabelConfig(6, 6) = False
+        avarTextBoxAndLabelConfig(7, 6) = ""
     avarTextBoxAndLabelConfig(0, 7) = "lbl7"
         avarTextBoxAndLabelConfig(1, 7) = "Beginn (Soll)"
         avarTextBoxAndLabelConfig(2, 7) = "txt7"
@@ -73,6 +81,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 7) = 1
         avarTextBoxAndLabelConfig(5, 7) = False
         avarTextBoxAndLabelConfig(6, 7) = False
+        avarTextBoxAndLabelConfig(7, 7) = "Short Date"
     avarTextBoxAndLabelConfig(0, 8) = "lbl8"
         avarTextBoxAndLabelConfig(1, 8) = "Ende (Soll)"
         avarTextBoxAndLabelConfig(2, 8) = "txt8"
@@ -80,6 +89,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 8) = 1
         avarTextBoxAndLabelConfig(5, 8) = False
         avarTextBoxAndLabelConfig(6, 8) = False
+        avarTextBoxAndLabelConfig(7, 8) = "Short Date"
     avarTextBoxAndLabelConfig(0, 9) = "lbl9"
         avarTextBoxAndLabelConfig(1, 9) = "Kunde"
         avarTextBoxAndLabelConfig(2, 9) = "txt9"
@@ -87,6 +97,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(4, 9) = 1
         avarTextBoxAndLabelConfig(5, 9) = False
         avarTextBoxAndLabelConfig(6, 9) = False
+        avarTextBoxAndLabelConfig(7, 9) = ""
         
         ' 0 = object Name
         ' 1 = object caption
@@ -164,6 +175,8 @@ Public Sub OpenFormAuftrag()
         Forms.Item("frmSearchMain").Controls.Item(avarTextBoxAndLabelConfig(2, inti)).IsHyperlink = avarTextBoxAndLabelConfig(5, inti)
         ' set locked
         Forms.Item("frmSearchMain").Controls.Item(avarTextBoxAndLabelConfig(2, inti)).Locked = avarTextBoxAndLabelConfig(6, inti)
+        ' set format
+        Forms.Item("frmSearchMain").Controls.Item(avarTextBoxAndLabelConfig(2, inti)).Format = avarTextBoxAndLabelConfig(7, inti)
     Next
         
     ' set command buttons
@@ -181,6 +194,8 @@ Public Sub OpenFormAuftrag()
     
 End Sub
 
+' check if form is loaded
+' assign values to textboxes via avarTextBoxAndLabelConfig
 Public Sub ShowRecordset(ByVal strRecordsetName As String)
     If gconVerbatim = True Then
         Debug.Print "basSearchMain.ShowRecordset: strRecordsetName = " & strRecordsetName
@@ -195,14 +210,16 @@ Public Sub ShowRecordset(ByVal strRecordsetName As String)
     Dim strFormName As String
     strFormName = "frmSearchMain"
     
+    ' check if strFormName is loaded
     If Not CurrentProject.AllForms(strFormName).IsLoaded Then
         Debug.Print "basSearchMain.ShowRecordset: Formular " & strFormName & _
             " ist nicht geoeffnet, Prozedur abgebrochen"
         Exit Sub
     End If
     
+    ' assign values to textboxes
     Dim inti As Integer
-    For inti = LBound(avarTextBoxAndLabelConfig, 2) To UBound(avarTextBoxAndLabelConfig)
+    For inti = LBound(avarTextBoxAndLabelConfig, 2) To UBound(avarTextBoxAndLabelConfig, 2)
         ' handler in case field value is null
         If Not IsNull(avarTextBoxAndLabelConfig(3, inti)) Then
             Forms.Item(strFormName).Controls.Item(avarTextBoxAndLabelConfig(2, inti)) = CallByName(Auftrag, avarTextBoxAndLabelConfig(3, inti), VbGet)
