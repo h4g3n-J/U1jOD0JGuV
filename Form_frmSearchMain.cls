@@ -26,21 +26,12 @@ Private Sub cmd0_Click()
     End If
 End Sub
 
-' Suchen-Button
-' Formular muss nach der Suche neu geladen werden,
-' bisher wird das Formular nur geschlossen
-' muss dananch manuell geöffnet werden
+' search
 Private Sub cmd1_Click()
-    Debug.Print "frmSearchMain.cmd1_click ausführen"
-    
-    If gobjSearchMain Is Nothing Then
-        Exit Sub
-    End If
-    
-    gobjSearchMain.Suchen (Me!txt10)
-    
-    ' Formular neu laden
-        gobjSearchMain.Oeffnen
+    ' search
+    basSearchMain.SearchAuftrag
+    ' reload form frmSearchMain
+    basSearchMain.OpenFormAuftrag
 End Sub
 
 ' Button 'Auftrag erfassen'
