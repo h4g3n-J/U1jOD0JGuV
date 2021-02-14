@@ -4,7 +4,7 @@ Option Explicit
 
 Public Sub SelectRecordset()
     If gconVerbatim = True Then
-        Debug.Print "basAuftrag.SuchenSub.SelectRecordset ausfuehren"
+        Debug.Print "basAuftragSuchenSub.SelectRecordset ausfuehren"
     End If
     
     basSearchMain.ShowRecordset Forms.Item("frmSearchMain").Controls("frb1").Controls("AftrID")

@@ -20,8 +20,8 @@ Private Sub cmd0_Click()
     End If
         
     ' open frmSearchMain in AuftragSuchen mode
-    basAuftrag.OpenFormAuftrag
-    ' basSearchMain.OpenFormAuftrag
+    ' basAuftrag.OpenFormAuftrag
+    basSearchMain.OpenFormAuftrag
 End Sub
 
 Private Sub cmd1_Click()

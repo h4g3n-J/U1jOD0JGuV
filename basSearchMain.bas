@@ -231,21 +231,33 @@ End Sub
 
 ' check if form is loaded
 ' assign values to textboxes via avarTextBoxAndLabelConfig
-Public Sub ShowRecordset(ByVal strRecordsetName As String)
+' Public Sub ShowRecordset(ByVal strRecordsetName As String)
+Public Sub ShowRecordset(ByVal varRecordsetName As Variant)
     If gconVerbatim = True Then
-        Debug.Print "basSearchMain.ShowRecordset: strRecordsetName = " & strRecordsetName
+        Debug.Print "basSearchMain.ShowRecordset ausfuehren" & vbCrLf & _
+            "basSearchMain.ShowRecordset: varRecordsetName = " & varRecordsetName
     End If
+    
+    ' set error state
+    Dim bolErrorState As Boolean
+    bolErrorState = False
         
+    ' initiate class Auftrag
     Dim Auftrag As clsAuftrag
     Set Auftrag = New clsAuftrag
     
-    ' check if necessary -> is necessary
-    Auftrag.SelectRecordset strRecordsetName
+    ' set Auftrag to selected Recordset
+    If Auftrag.SelectRecordset(varRecordsetName) = True Then
+        Debug.Print "basSearchMain.ShowRecordset: kein Datensatz ausgewaehlt"
+        MsgBox "Kein Datensatz ausgewaehlt", vbCritical, "Fehler"
+        Exit Sub
+    End If
     
+    ' set form name
     Dim strFormName As String
     strFormName = "frmSearchMain"
     
-    ' check if strFormName is loaded
+    ' error handler, case strFormName is not loaded
     If Not CurrentProject.AllForms(strFormName).IsLoaded Then
         Debug.Print "basSearchMain.ShowRecordset: Formular " & strFormName & _
             " ist nicht geoeffnet, Prozedur abgebrochen"
@@ -256,7 +268,9 @@ Public Sub ShowRecordset(ByVal strRecordsetName As String)
     Dim inti As Integer
     For inti = LBound(avarTextBoxAndLabelConfig, 2) To UBound(avarTextBoxAndLabelConfig, 2)
         ' handler in case field value is null
-        If Not IsNull(avarTextBoxAndLabelConfig(3, inti)) Then
+        ' IsEmpty is neccesary because opening frmSearchMain will open frmAuftragSuchenSub,
+        ' at a time when avarTextBoxAndLabelConfig is not set yet
+        If Not IsEmpty(avarTextBoxAndLabelConfig(3, inti)) And Not IsNull(avarTextBoxAndLabelConfig(3, inti)) Then
             Forms.Item(strFormName).Controls.Item(avarTextBoxAndLabelConfig(2, inti)) = CallByName(Auftrag, avarTextBoxAndLabelConfig(3, inti), VbGet)
         End If
     Next

@@ -73,17 +73,24 @@ End Sub
 ' check if query exists
 ' check if recordset exists
 ' assign recordset to mastrColumnToVariable
-Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
-
+' Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
+Public Function SelectRecordset(ByVal varRecordsetName As Variant)
+    
+    ' set error state
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
     ' name of the table or query that contains the
     ' sought-after recordset
     Dim strObjectTitle As String
-    strObjectTitle = "tblAuftrag"
+    ' strObjectTitle = "tblAuftrag"
+    strObjectTitle = "qryAuftrag"
 
     ' the type of the containing table,
     ' feasible values are: table, query
     Dim strObjectType As String
-    strObjectType = "table"
+    ' strObjectType = "table"
+    strObjectType = "query"
 
     ' name of the column that contains the recordset
     Dim strKeyColumn As String
@@ -101,15 +108,16 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' debug message: returns input of the procedure
     If gconVerbatim = True Then
-        Debug.Print "basSupport.SelectRecordset: varRecordsetName = " & varRecordsetName
+        ' Debug.Print "basSupport.SelectRecordset: varRecordsetName = " & varRecordsetName
     End If
 
-    ' if no recordset is selected set output to default value
+    ' error handler if no recordset is selected
     ' end exitProc
     If IsNull(varRecordsetName) Then
         ' default
         Debug.Print "clsAuftrag.SelectRecordset: varRecordsetName ist leer, " _
             & "Defaultwert anzeigen"
+        bolErrorState = True
         GoTo ExitProc
     End If
         
@@ -137,7 +145,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
         mastrColumnToVariable(2, intLoopVar) = rstRecordset.Fields(mastrColumnToVariable(0, intLoopVar))
     Next
     
-    ' debug message: returns data content of the array
+    ' verbatim message: return data content of the array
     If gconVerbatim = True Then
         For intLoopVar = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
             Debug.Print "clsAuftrag.SelectRecordset: " & mastrColumnToVariable(0, intLoopVar) & vbTab & mastrColumnToVariable(2, intLoopVar)
@@ -155,7 +163,8 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
 ExitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
-End Sub
+        SelectRecordset = bolErrorState
+End Function
 
 ' writes class properties to recordset
 Public Sub SaveRecordset(ByVal strRecordsetName As String)
