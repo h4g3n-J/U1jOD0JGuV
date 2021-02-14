@@ -247,11 +247,7 @@ Public Sub ShowRecordset(ByVal varRecordsetName As Variant)
     Set Auftrag = New clsAuftrag
     
     ' set Auftrag to selected Recordset
-    If Auftrag.SelectRecordset(varRecordsetName) = True Then
-        Debug.Print "basSearchMain.ShowRecordset: kein Datensatz ausgewaehlt"
-        MsgBox "Kein Datensatz ausgewaehlt", vbCritical, "Fehler"
-        Exit Sub
-    End If
+    Auftrag.SelectRecordset varRecordsetName
     
     ' set form name
     Dim strFormName As String

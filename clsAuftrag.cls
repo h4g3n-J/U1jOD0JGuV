@@ -18,7 +18,26 @@ Dim mastrColumnToVariable(2, 10) As Variant
     
 Private Sub Class_Initialize()
 
-    ' initialize the variables
+    ' initialize variables
+    DefaultValue
+            
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
+    End If
+    
+End Sub
+
+Private Sub Class_Terminate()
+    Debug.Print "clsAuftrag.Class_Terminate: Klasse clsAuftrag terminiert."
+End Sub
+
+Private Sub DefaultValue()
+    
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.DefaultValue ausfuehren"
+    End If
+    
     mastrColumnToVariable(0, 0) = "AftrID"
         mastrColumnToVariable(1, 0) = "string"
         mastrColumnToVariable(2, 0) = Null
@@ -52,29 +71,13 @@ Private Sub Class_Initialize()
     mastrColumnToVariable(0, 10) = "Kunde"
         mastrColumnToVariable(1, 10) = "string"
         mastrColumnToVariable(2, 10) = Null
-            
-    ' verbatim message
-    If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
-    End If
-    
 End Sub
 
-Private Sub Class_Terminate()
-    Debug.Print "clsAuftrag.Class_Terminate: Klasse clsAuftrag terminiert."
-End Sub
-
-Private Sub default()
-    ' löschen
-End Sub
-
-' default muss neu definiert werden
 ' if no recordset is selected, set to default
 ' check if query exists
 ' check if recordset exists
 ' assign recordset to mastrColumnToVariable
-' Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
-Public Function SelectRecordset(ByVal varRecordsetName As Variant)
+Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' set error state
     Dim bolErrorState As Boolean
@@ -105,19 +108,17 @@ Public Function SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' loop variable
     Dim intLoopVar As Integer
-    
-    ' debug message: returns input of the procedure
-    If gconVerbatim = True Then
-        ' Debug.Print "basSupport.SelectRecordset: varRecordsetName = " & varRecordsetName
-    End If
 
     ' error handler if no recordset is selected
     ' end exitProc
     If IsNull(varRecordsetName) Then
-        ' default
-        Debug.Print "clsAuftrag.SelectRecordset: varRecordsetName ist leer, " _
-            & "Defaultwert anzeigen"
-        bolErrorState = True
+        ' verbatim message
+        If gconVerbatim = True Then
+            Debug.Print "clsAuftrag.SelectRecordset: varRecordsetName ist leer, " _
+                & "Defaultwert anzeigen"
+        End If
+        ' default Value
+        DefaultValue
         GoTo ExitProc
     End If
         
@@ -152,10 +153,6 @@ Public Function SelectRecordset(ByVal varRecordsetName As Variant)
         Next
     End If
     
-    ' assign AftrID to Clipboard
-    ' likely obsolete
-    ' mvarClipboard = mastrColumnToVariable(2, 0)
-
     ' clean up
     rstRecordset.Close
     Set rstRecordset = Nothing
@@ -163,8 +160,7 @@ Public Function SelectRecordset(ByVal varRecordsetName As Variant)
 ExitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
-        SelectRecordset = bolErrorState
-End Function
+End Sub
 
 ' writes class properties to recordset
 Public Sub SaveRecordset(ByVal strRecordsetName As String)
