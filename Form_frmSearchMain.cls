@@ -17,19 +17,24 @@ Private mstrMode As String
 
 ' Formular schlieﬂen
 Private Sub cmd0_Click()
-    
-    DoCmd.Close acForm, "frmSearchMain", acSaveYes
-    
     ' verbatim message
     If gconVerbatim = True Then
-        Debug.Print "frmSearchMain.cmd0_click ausgefuehrt"
+        Debug.Print "Form_frmSearchMain.cmd0_Click ausfuehren"
     End If
+    ' close frmSearchMain
+    DoCmd.Close acForm, "frmSearchMain", acSaveYes
 End Sub
 
 ' search
 Private Sub cmd1_Click()
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "Form_frmSearchMain.cmd1_Click ausfuehren"
+    End If
+    
     ' search
     basSearchMain.SearchAuftrag
+    
     ' reload form frmSearchMain
     basSearchMain.OpenFormAuftrag
 End Sub

@@ -4,7 +4,7 @@ Attribute VB_Name = "basSearchMain"
 Option Compare Database
 Option Explicit
 
-Private avarTextBoxAndLabelConfig(8, 10) As Variant
+Private avarTextBoxAndLabelConfig(9, 10) As Variant
 Private avarCommandButtonConfig(2, 11) As Variant
 Private avarSubFormConfig(1, 0) As Variant
 Private mstrFocus As String
@@ -23,6 +23,7 @@ Private Sub FormConfiguration()
     ' 6 = textbox locked
     ' 7 = textbox format
     ' 8 = textbox visible
+    ' 9 = textbox defaultValue
     avarTextBoxAndLabelConfig(0, 0) = "lbl0"
         avarTextBoxAndLabelConfig(1, 0) = "ID"
         avarTextBoxAndLabelConfig(2, 0) = "txt0"
@@ -32,6 +33,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 0) = True
         avarTextBoxAndLabelConfig(7, 0) = ""
         avarTextBoxAndLabelConfig(8, 0) = True
+        avarTextBoxAndLabelConfig(9, 0) = Null
     avarTextBoxAndLabelConfig(0, 1) = "lbl1"
         avarTextBoxAndLabelConfig(1, 1) = "Titel"
         avarTextBoxAndLabelConfig(2, 1) = "txt1"
@@ -41,6 +43,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 1) = False
         avarTextBoxAndLabelConfig(7, 1) = ""
         avarTextBoxAndLabelConfig(8, 1) = True
+        avarTextBoxAndLabelConfig(9, 1) = Null
     avarTextBoxAndLabelConfig(0, 2) = "lbl2"
         avarTextBoxAndLabelConfig(1, 2) = "ICD Status"
         avarTextBoxAndLabelConfig(2, 2) = "txt2"
@@ -50,6 +53,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 2) = True
         avarTextBoxAndLabelConfig(7, 2) = ""
         avarTextBoxAndLabelConfig(8, 2) = True
+        avarTextBoxAndLabelConfig(9, 2) = Null
     avarTextBoxAndLabelConfig(0, 3) = "lbl3"
         avarTextBoxAndLabelConfig(1, 3) = "Owner"
         avarTextBoxAndLabelConfig(2, 3) = "txt3"
@@ -59,6 +63,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 3) = True
         avarTextBoxAndLabelConfig(7, 3) = ""
         avarTextBoxAndLabelConfig(8, 3) = True
+        avarTextBoxAndLabelConfig(9, 3) = Null
     avarTextBoxAndLabelConfig(0, 4) = "lbl4"
         avarTextBoxAndLabelConfig(1, 4) = "Priorität"
         avarTextBoxAndLabelConfig(2, 4) = "txt4"
@@ -68,6 +73,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 4) = True
         avarTextBoxAndLabelConfig(7, 4) = ""
         avarTextBoxAndLabelConfig(8, 4) = True
+        avarTextBoxAndLabelConfig(9, 4) = Null
     avarTextBoxAndLabelConfig(0, 5) = "lbl5"
         avarTextBoxAndLabelConfig(1, 5) = "Parent"
         avarTextBoxAndLabelConfig(2, 5) = "txt5"
@@ -77,6 +83,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 5) = True
         avarTextBoxAndLabelConfig(7, 5) = ""
         avarTextBoxAndLabelConfig(8, 5) = True
+        avarTextBoxAndLabelConfig(9, 5) = Null
     avarTextBoxAndLabelConfig(0, 6) = "lbl6"
         avarTextBoxAndLabelConfig(1, 6) = "Bemerkung"
         avarTextBoxAndLabelConfig(2, 6) = "txt6"
@@ -86,6 +93,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 6) = False
         avarTextBoxAndLabelConfig(7, 6) = ""
         avarTextBoxAndLabelConfig(8, 6) = True
+        avarTextBoxAndLabelConfig(9, 6) = Null
     avarTextBoxAndLabelConfig(0, 7) = "lbl7"
         avarTextBoxAndLabelConfig(1, 7) = "Beginn (Soll)"
         avarTextBoxAndLabelConfig(2, 7) = "txt7"
@@ -95,6 +103,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 7) = True
         avarTextBoxAndLabelConfig(7, 7) = "Short Date"
         avarTextBoxAndLabelConfig(8, 7) = True
+        avarTextBoxAndLabelConfig(9, 7) = Null
     avarTextBoxAndLabelConfig(0, 8) = "lbl8"
         avarTextBoxAndLabelConfig(1, 8) = "Ende (Soll)"
         avarTextBoxAndLabelConfig(2, 8) = "txt8"
@@ -104,6 +113,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 8) = True
         avarTextBoxAndLabelConfig(7, 8) = "Short Date"
         avarTextBoxAndLabelConfig(8, 8) = True
+        avarTextBoxAndLabelConfig(9, 8) = Null
     avarTextBoxAndLabelConfig(0, 9) = "lbl9"
         avarTextBoxAndLabelConfig(1, 9) = "Kunde"
         avarTextBoxAndLabelConfig(2, 9) = "txt9"
@@ -113,6 +123,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 9) = False
         avarTextBoxAndLabelConfig(7, 9) = ""
         avarTextBoxAndLabelConfig(8, 9) = True
+        avarTextBoxAndLabelConfig(9, 9) = Null
     avarTextBoxAndLabelConfig(0, 10) = Null
         avarTextBoxAndLabelConfig(1, 10) = Null
         avarTextBoxAndLabelConfig(2, 10) = "txt10"
@@ -122,6 +133,7 @@ Private Sub FormConfiguration()
         avarTextBoxAndLabelConfig(6, 10) = False
         avarTextBoxAndLabelConfig(7, 10) = ""
         avarTextBoxAndLabelConfig(8, 10) = True
+        avarTextBoxAndLabelConfig(9, 10) = ""
         
         ' 0 = object Name
         ' 1 = object caption
@@ -212,6 +224,10 @@ Public Sub OpenFormAuftrag()
         Forms.Item(strFormName).Controls.Item(avarTextBoxAndLabelConfig(2, inti)).Format = avarTextBoxAndLabelConfig(7, inti)
         ' set textbox visible
         Forms.Item(strFormName).Controls.Item(avarTextBoxAndLabelConfig(2, inti)).Visible = avarTextBoxAndLabelConfig(8, inti)
+        ' set textbox defaultValue
+            If Not IsNull(avarTextBoxAndLabelConfig(9, inti)) Then
+                Forms.Item(strFormName).Controls.Item(avarTextBoxAndLabelConfig(2, inti)).DefaultValue = avarTextBoxAndLabelConfig(9, inti)
+            End If
     Next
         
     ' set command buttons
@@ -351,9 +367,9 @@ Public Sub SearchAuftrag()
     
     ' create SQL-code
     With qdfQuery
-        .SQL = " SELECT " & strQuerySourceName & ".*" _
+        .SQL = " SELECT " & strQuerySourceName & ".AftrID, " & strQuerySourceName & ".AftrTitel, " & strQuerySourceName & ".ParentKey, " & strQuerySourceName & ".Bemerkung" _
                 & " FROM " & strQuerySourceName & "" _
-                & " WHERE " & strQuerySourceName & ".AftrID LIKE '*" & varSearchTerm & "*' OR " & strQuerySourceName & ".AftrTitel LIKE '*" & varSearchTerm & "*' OR " & strQuerySourceName & ".ParentKey LIKE '*" & varSearchTerm & "*'" _
+                & " WHERE " & strQuerySourceName & ".AftrID LIKE '*" & varSearchTerm & "*' OR " & strQuerySourceName & ".AftrTitel LIKE '*" & varSearchTerm & "*' OR " & strQuerySourceName & ".ParentKey LIKE '*" & varSearchTerm & "*' OR " & strQuerySourceName & ".ParentKey LIKE '*" & varSearchTerm & "*'" _
                 & " ;"
         .Name = strResultQueryName
     End With
