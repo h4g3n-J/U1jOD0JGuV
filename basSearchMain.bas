@@ -273,11 +273,11 @@ Public Sub ShowRecordset(ByVal varRecordsetName As Variant)
 End Sub
 
 Public Sub SaveAuftrag()
-    ' Propertys schreiben
+    ' initiate object
     Dim Auftrag As clsAuftrag
     Set Auftrag = New clsAuftrag
     
-    ' write textbox values to class properties, skipp ID
+    ' write textbox values to class properties, skip ID
     Dim inti As Integer
     For inti = LBound(avarTextBoxAndLabelConfig, 2) + 1 To UBound(avarTextBoxAndLabelConfig, 2)
         ' null value handler

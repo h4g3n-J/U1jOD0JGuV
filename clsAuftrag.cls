@@ -162,15 +162,32 @@ ExitProc:
         Set dbsCurrentDB = Nothing
 End Sub
 
-' writes class properties to recordset
-Public Sub SaveRecordset(ByVal strRecordsetName As String)
-    
+' write class properties to recordset
+Public Sub SaveRecordset(ByVal varRecordsetName As Variant)
+    ' initiate current database
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
     
+    If gconVerbatim = True Then
+            Debug.Print "clsAuftrag.SaveRecordset ausfuehren"
+    End If
+    
+    ' error handler, case Recordset is not selected
+    If IsNull(varRecordsetName) Then
+        ' verbatim message
+        If gconVerbatim = True Then
+            Debug.Print "clsAuftrag.SaveRecordset: kein Recordset ausgewählt, Speichern abbrechen"
+        End If
+        ' error message
+        MsgBox "Kein Datensatz ausgewaehlt", vbCritical, "Speichern abgebrochen"
+        ' abort procedure
+        GoTo ExitProc
+    End If
+    
+    ' initiate object
     Dim rstAftr As DAO.RecordSet
     Set rstAftr = dbsCurrentDB.OpenRecordset("tblAuftrag", dbOpenDynaset)
-    rstAftr.FindFirst (mastrColumnToVariable(0, 0) & " = '" & strRecordsetName & "'")
+    rstAftr.FindFirst (mastrColumnToVariable(0, 0) & " = '" & varRecordsetName & "'")
     
     Dim inti As Integer
     With rstAftr
@@ -182,13 +199,14 @@ Public Sub SaveRecordset(ByVal strRecordsetName As String)
     End With
     
     ' success message
-    MsgBox "Datensatz '" & strRecordsetName & "' gespeichert", vbInformation, "Gespeichert"
+    MsgBox "Datensatz '" & varRecordsetName & "' gespeichert", vbInformation, "Gespeichert"
+    
+    ' clean up
+    rstAftr.Close
+    Set rstAftr = Nothing
     
 ExitProc:
-    rstAftr.Close
     dbsCurrentDB.Close
-    
-    Set rstAftr = Nothing
     Set dbsCurrentDB = Nothing
 End Sub
 
