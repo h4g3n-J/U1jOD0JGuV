@@ -116,9 +116,9 @@ Private Sub TestCollection()
         .Add strString
     End With
     
-    Dim intI As Integer
-    For intI = 1 To 2
-        Debug.Print "TestCollection: colTestCollection.Item(" & intI & ") = " & colTestCollection.Item(intI)
+    Dim inti As Integer
+    For inti = 1 To 2
+        Debug.Print "TestCollection: colTestCollection.Item(" & inti & ") = " & colTestCollection.Item(inti)
     Next
     
     Dim varEintrag As Variant
@@ -145,9 +145,9 @@ Private Sub TestArray()
     varArray(0) = intInteger
     varArray(1) = strString
     
-    Dim intI As Integer
-    For intI = 0 To 1
-        Debug.Print "TestCollection: varArray(" & intI & ") = " & varArray(intI)
+    Dim inti As Integer
+    For inti = 0 To 1
+        Debug.Print "TestCollection: varArray(" & inti & ") = " & varArray(inti)
     Next
     
     varArray(1) = "Welt"
@@ -179,4 +179,96 @@ Private Sub TestFindItemArrayInProperty()
     TestKlasse.Erstellt = #1/1/1900 11:59:59 PM#
     Debug.Print "basTest.TestFindItemArrayInProperty: TestKlasse.AftrID = " & TestKlasse.AftrID
     Debug.Print "basTest.TestFindItemArrayInProperty: TestKlasse.Erstellt = " & TestKlasse.Erstellt
+End Sub
+
+Public Sub TestformularErstellen()
+    
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "basMain.FomularErstellen ausfuehren"
+    End If
+    
+    ' set form name
+    Dim strFormName As String
+    strFormName = "Testformular"
+    
+    ' initiate Formular
+    Dim objForm As Form
+    
+    ' create Formular
+    Set objForm = CreateForm
+    
+    ' create command button
+    Dim CmdButton As CommandButton
+    Set CmdButton = CreateControl(objForm.Name, acCommandButton, acDetail, , , 100, 100)
+    
+        ' set commandbutton caption
+        CmdButton.Caption = "Auftrag Suchen oeffnen"
+        
+        ' set onclick behaviour
+        CmdButton.OnClick = "=AuftragBearbeitenOeffnen()"
+        
+    ' save temporary form name in variable strFormNameTemp
+    Dim strFormNameTemp As String
+    strFormNameTemp = objForm.Name
+        
+    ' close if form is loaded
+    ' delete if form already exists
+    DeleteForm strFormName
+    
+    ' set objForm.Caption
+    objForm.Caption = strFormName
+    
+    ' close and save form
+    DoCmd.Close acForm, objForm.Name, acSaveYes
+    
+    ' rename form
+    DoCmd.Rename strFormName, acForm, strFormNameTemp
+    
+    If gconVerbatim Then
+        Debug.Print "basMain.FormularErstelle: " & strFormName & " erstellt"
+    End If
+End Sub
+
+Public Function AuftragBearbeitenOeffnen()
+    DoCmd.OpenForm "frmSearchMain"
+End Function
+
+Private Sub DeleteForm(ByVal strFormName As String)
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basMain.DeleteForm ausfuehren"
+    End If
+    
+    ' check if form already exists
+    ' check if formular is loaded
+    ' close loaded form
+    ' delete loaded form
+    Dim objDummy As Object
+    For Each objDummy In Application.CurrentProject.AllForms
+        If objDummy.Name = strFormName Then
+            
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basMain.FormularErstellen: " & strFormName & " ist geoeffnet, Formular schlieﬂen"
+                End If
+            End If
+            
+            ' delete form
+            DoCmd.DeleteObject acForm, strFormName
+            
+            ' verbatim message
+            If gconVerbatim = True Then
+                Debug.Print "basMain.FomularErstellen: " & strFormName & " existiert bereits, Formular loeschen"
+            End If
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+    
 End Sub
