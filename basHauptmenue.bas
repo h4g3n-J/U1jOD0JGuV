@@ -26,12 +26,12 @@ Private Sub LayoutConfig()
         avarCommandButtonsLayout(7, 0) = "=OpenFormAuftragSuchen()"
     avarCommandButtonsLayout(0, 1) = "cmd1"
         avarCommandButtonsLayout(1, 1) = True
-        avarCommandButtonsLayout(2, 1) = True
-        avarCommandButtonsLayout(3, 1) = True
-        avarCommandButtonsLayout(4, 1) = True
-        avarCommandButtonsLayout(5, 1) = True
-        avarCommandButtonsLayout(6, 1) = "Liefergegenstand suchen"
-        avarCommandButtonsLayout(7, 1) = ""
+        avarCommandButtonsLayout(2, 1) = 100
+        avarCommandButtonsLayout(3, 1) = 600
+        avarCommandButtonsLayout(4, 1) = 1701
+        avarCommandButtonsLayout(5, 1) = 283 * 2
+        avarCommandButtonsLayout(6, 1) = "Liefergegenstand" & vbCrLf & "suchen"
+        avarCommandButtonsLayout(7, 1) = "=OpenFormLiefergegenstandSuchen()"
     ' avarCommandButtonsLayout(0, 2) = "cmdEinzelauftrag"
         ' avarCommandButtonsLayout(1, 2) = "Einzelaufträge"
         ' avarCommandButtonsLayout(2, 2) = False
@@ -97,7 +97,8 @@ Private Sub CreateCommandButton(ByVal strFormName As String)
     
     ' create Commandbutton
         Dim inti As Integer
-        For inti = LBound(avarCommandButtonsLayout, 2) To UBound(avarCommandButtonsLayout, 2) - 1
+        ' For inti = LBound(avarCommandButtonsLayout, 2) To UBound(avarCommandButtonsLayout, 2) - 1
+        For inti = LBound(avarCommandButtonsLayout, 2) To UBound(avarCommandButtonsLayout, 2)
             Dim CmdButton As CommandButton
             Set CmdButton = CreateControl(strFormName, acCommandButton, acDetail)
             
@@ -132,12 +133,21 @@ Private Sub CreateCommandButton(ByVal strFormName As String)
 End Sub
 
 Public Function OpenFormAuftragSuchen()
-    
+    ' verbatim message
     If gconVerbatim Then
         Debug.Print "basHautpmenue.OpenFormAuftragSuchen ausfuehren"
     End If
     
     basSearchMain.OpenFormAuftrag
+End Function
+
+Public Function OpenFormLiefergegenstandSuchen()
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basHautpmenue.OpenFormLiefergegenstandSuchen ausfuehren"
+    End If
+    
+    ' basSearchMain.OpenFormLiefergegenstand
 End Function
 
 
