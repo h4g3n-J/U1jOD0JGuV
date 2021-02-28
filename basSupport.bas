@@ -321,3 +321,44 @@ Public Function FindItemArray(ByVal avarArray, varItem As Variant) As Variant
     
     FindItemArray = intLoop
 End Function
+
+' delete form
+' 1. check if form exists
+' 2. close if form is loaded
+' 3. delete form
+Public Sub ClearForm(ByVal strFormName As String)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basSupport.ClearForm ausfuehren"
+    End If
+    
+    Dim objDummy As Object
+    For Each objDummy In Application.CurrentProject.AllForms
+        If objDummy.Name = strFormName Then
+            
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+                
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basSupport.ClearForm: " & strFormName & " ist geoeffnet, Formular schlieﬂen"
+                End If
+            End If
+            
+            ' delete form
+            DoCmd.DeleteObject acForm, strFormName
+            
+            ' verbatim message
+            If gconVerbatim = True Then
+                Debug.Print "basMain.FomularErstellen: " & strFormName & " existiert bereits, Formular loeschen"
+            End If
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+End Sub

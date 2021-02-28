@@ -272,3 +272,50 @@ Private Sub DeleteForm(ByVal strFormName As String)
     Next
     
 End Sub
+
+Sub TestAllforms()
+
+Dim obj As AccessObject, dbs As Object
+Set dbs = Application.CurrentProject
+
+For Each obj In dbs.AllForms
+    Debug.Print obj.Name
+Next obj
+
+End Sub
+
+' only in access project, not available in access datebase
+Sub TestAllFunctions()
+
+Dim obj As AccessObject, dbs As Object
+Set dbs = Application.CurrentData
+
+For Each obj In dbs.AllFunctions
+    Debug.Print obj.Name
+Next obj
+
+End Sub
+
+Sub TestAllMacros()
+
+Dim obj As AccessObject, dbs As Object
+Set dbs = Application.CurrentProject
+
+For Each obj In dbs.AllMacros
+    Debug.Print obj.Name
+Next obj
+
+End Sub
+
+Sub TestAllModules()
+
+Dim obj As AccessObject, dbs As Object
+Set dbs = Application.CurrentProject
+
+For Each obj In dbs.AllModules
+    Debug.Print obj.Name
+Next obj
+
+End Sub
+
+

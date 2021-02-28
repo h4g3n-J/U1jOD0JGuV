@@ -30,7 +30,7 @@ Private Sub LayoutConfig()
         avarCommandButtonsLayout(3, 1) = 600
         avarCommandButtonsLayout(4, 1) = 1701
         avarCommandButtonsLayout(5, 1) = 283 * 2
-        avarCommandButtonsLayout(6, 1) = "Liefergegenstand" & vbCrLf & "suchen"
+        avarCommandButtonsLayout(6, 1) = "Angebot " & vbCrLf & "suchen"
         avarCommandButtonsLayout(7, 1) = "=OpenFormLiefergegenstandSuchen()"
     ' avarCommandButtonsLayout(0, 2) = "cmdEinzelauftrag"
         ' avarCommandButtonsLayout(1, 2) = "Einzelaufträge"
@@ -43,7 +43,7 @@ Private Sub LayoutConfig()
         ' avarCommandButtonsLayout(2, 4) = False
 End Sub
 
-Private Sub CreateFormHautpmenue()
+Public Sub CreateFormHautpmenue()
 
     If gconVerbatim Then
         Debug.Print "basHautpmenue.CreateFormHauptmenue ausfuehren"
@@ -138,7 +138,7 @@ Public Function OpenFormAuftragSuchen()
         Debug.Print "basHautpmenue.OpenFormAuftragSuchen ausfuehren"
     End If
     
-    basSearchMain.OpenFormAuftrag
+    basSearchMain.OpenFormSearchMain "AuftragSuchen"
 End Function
 
 Public Function OpenFormLiefergegenstandSuchen()
@@ -147,7 +147,7 @@ Public Function OpenFormLiefergegenstandSuchen()
         Debug.Print "basHautpmenue.OpenFormLiefergegenstandSuchen ausfuehren"
     End If
     
-    ' basSearchMain.OpenFormLiefergegenstand
+    basSearchMain.OpenFormSearchMain "LiefergegenstandSuchen"
 End Function
 
 
