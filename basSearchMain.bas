@@ -397,10 +397,26 @@ Public Sub OpenFormSearchMain(ByVal strMode As String)
     Dim strFormName As String
     strFormName = "frmSearchMain"
     
-    ' select form mode
+    ' declare variables for
+    ' labels and textboxes
+        Dim varLabelsAndTextboxes As Variant
+    ' commandbuttons
+        Dim varCommandButtons As Variant
+    ' subform
+        Dim varSubForm As Variant
+    ' focus
+        Dim strFocus As String
+    
     Select Case strMode
         Case "AuftragSuchen"
-            FormConfiguration
+            ' commit labels and textboxes
+            varLabelsAndTextboxes = basSearchMain.AuftragTextboxesAndLabels
+            ' commit command buttons
+            varCommandButtons = basSearchMain.AuftragCommandButtons
+            ' commit subform
+            varSubForm = basSearchMain.AuftragSubForm
+            ' commit focus
+            strFocus = basSearchMain.AuftragFocus
         Case "AngebotSuchen"
             LiefergegenstandSuchenConfig
         Case Else
@@ -409,25 +425,11 @@ Public Sub OpenFormSearchMain(ByVal strMode As String)
     End Select
     
     ' set focus
-    Dim strFocus As String
-    strFocus = basSearchMain.AuftragFocus
     Forms.Item(strFormName).Controls.Item(strFocus).SetFocus
-    
-    ' set labels and textboxes
-    Dim varLabelsAndTextboxes As Variant
-    varLabelsAndTextboxes = basSearchMain.AuftragTextboxesAndLabels
-    
-    ' set commandbuttons
-    Dim varCommandButtons As Variant
-    varCommandButtons = basSearchMain.AuftragCommandButtons
-    
-    ' set subform
-    Dim varSubForm As Variant
-    varSubForm = basSearchMain.AuftragSubForm
     
     ' set textboxes and labels
     Dim inti As Integer
-    ' skip columnnames
+    ' skip column names
     For inti = LBound(varLabelsAndTextboxes, 2) + 1 To UBound(varLabelsAndTextboxes, 2)
         ' set label caption
             If Not IsNull(varLabelsAndTextboxes(1, inti)) Then
@@ -483,7 +485,7 @@ Public Sub ShowRecordset(ByVal varRecordsetName As Variant)
     Dim Auftrag As clsAuftrag
     Set Auftrag = New clsAuftrag
     
-    ' set Auftrag to selected Recordset
+    ' set selected Recordset as Auftrag
     Auftrag.SelectRecordset varRecordsetName
     
     ' set form name

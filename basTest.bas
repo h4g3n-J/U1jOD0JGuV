@@ -226,7 +226,7 @@ Public Sub TestformularErstellen()
     DoCmd.Rename strFormName, acForm, strFormNameTemp
     
     If gconVerbatim Then
-        Debug.Print "basMain.FormularErstelle: " & strFormName & " erstellt"
+        Debug.Print "basMain.FormularErstellen: " & strFormName & " erstellt"
     End If
 End Sub
 

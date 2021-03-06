@@ -354,7 +354,7 @@ Public Sub ClearForm(ByVal strFormName As String)
             
             ' verbatim message
             If gconVerbatim = True Then
-                Debug.Print "basMain.FomularErstellen: " & strFormName & " existiert bereits, Formular loeschen"
+                Debug.Print "BasSupport.ClearForm: " & strFormName & " existiert bereits, Formular loeschen"
             End If
             
             ' exit loop
@@ -362,3 +362,42 @@ Public Sub ClearForm(ByVal strFormName As String)
         End If
     Next
 End Sub
+
+' delete query
+' 1. check if form exists
+' 2. close if form is loaded
+' 3. delete form
+Public Sub ClearQuery(ByVal strQueryName As String)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basSupport.ClearQuery ausfuehren"
+    End If
+    
+    Dim objDummy As Object
+    For Each objDummy In Application.CurrentData.AllQueries
+        If objDummy.Name = strQueryName Then
+            ' check if query isloaded
+            If objDummy.IsLoaded Then
+                ' close query
+                DoCmd.Close acQuery, strQueryName, acSaveYes
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basSupport.ClearQuery: " & strQueryName & " ist geoeffnet, Abfrage schlieﬂen"
+                End If
+            End If
+            
+            ' delete query
+            DoCmd.DeleteObject acQuery, strQueryName
+            
+            ' verbatim message
+            If gconVerbatim = True Then
+                Debug.Print "basSupport.ClearQuery: " & strQueryName & " existierte bereits, Abfrage geloescht"
+            End If
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+End Sub
+
