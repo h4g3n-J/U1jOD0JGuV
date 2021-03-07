@@ -6,14 +6,13 @@ Option Explicit
 ' work in progress
 Public Sub BuildApplication()
     ' build querys
-    ' qryAngebot
-    basBuild.buildQuerys
+    basBuild.BuildQuerys
     
-    ' build frmHauptmenue
-    basHauptmenue.CreateFormHautpmenue
+    ' build forms
+    basBuild.BuildForms
 End Sub
 
-Private Sub buildQuerys()
+Private Sub BuildQuerys()
     
     Dim aQuerySet(1, 1) As Variant
     ' 0 = query name
@@ -35,16 +34,6 @@ Private Sub buildQuerys()
         
         ' delete existing query of the same name
         basSupport.ClearQuery aQuerySet(0, inti)
-        
-        ' delete existing query of the same name
-        ' For Each objQuery In dbsCurrentDB.QueryDefs
-            ' If objQuery.Name = aQuerySet(0, inti) Then
-                ' DoCmd.DeleteObject acQuery, aQuerySet(0, inti)
-                ' verbatim message
-                ' Debug.Print "basBuild.buildQuerys: " & aQuerySet(0, inti) _
-                    ; " existiert bereits, Objekt geloescht"
-            ' End If
-        ' Next objQuery
         
         ' write SQL to query
         Set qdfQuery = dbsCurrentDB.CreateQueryDef
@@ -85,38 +74,10 @@ Private Function SqlQryAngebotAuswahl()
             " ;"
 End Function
 
-Private Sub frmAngebotSuchenSub()
-    Dim strFormName As String
-    strFormName = "frmAngebotSuchenSub"
+Private Sub BuildForms()
+    ' build Hauptmenue
+    basHauptmenue.BuildFormHauptmenue
     
-    ' clear form
-    basSupport.ClearForm strFormName
-    
-    ' declare object frm
-    Dim frm As Form
-    
-    ' create new form
-    Set frm = CreateForm
-    
-    ' restore form size
-    DoCmd.Restore
-    
-    ' save temporary form name in strFormNameTemp
-    Dim strFormNameTemp As String
-    strFormNameTemp = frm.Name
-    
-    ' frm.RecordSource "qryAuftragAuswahl"
-    
-    ' close and save form
-    DoCmd.Close acForm, strFormNameTemp, acSaveYes
-    
-    ' rename form
-    DoCmd.Rename strFormName, acForm, strFormNameTemp
-        
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basBuild.frmAngebotSuchenSub: " & strFormName & " erstellt"
-    End If
-
+    ' build AngebotSuchenSub
+    basAngebotSuchenSub.BuildFormAngebotSuchenSub
 End Sub

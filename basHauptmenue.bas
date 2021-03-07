@@ -43,10 +43,10 @@ Private Sub LayoutConfig()
         ' avarCommandButtonsLayout(2, 4) = False
 End Sub
 
-Public Sub CreateFormHautpmenue()
+Public Sub BuildFormHauptmenue()
 
     If gconVerbatim Then
-        Debug.Print "basHautpmenue.CreateFormHauptmenue ausfuehren"
+        Debug.Print "basHautpmenue.BuildFormHauptmenue ausfuehren"
     End If
     
     ' define form name
@@ -85,10 +85,7 @@ Public Sub CreateFormHautpmenue()
     
 End Sub
 
-' Private Sub CreateCommandButton(ByVal aControls As Variant)
-' Private Function CreateCommandButton(ByVal strFormName)
 Private Sub CreateCommandButton(ByVal strFormName As String)
-' Private Sub CreateCommandButton(ByVal strFormName, strButtonName, strCaption, strOnClick As String, intPositionLeft, intPositionTop, intSizeWidth, intSizeHeigth As Integer)
     
     ' verbatim message
     If gconVerbatim Then
