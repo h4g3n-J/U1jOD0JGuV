@@ -5,6 +5,11 @@ Option Explicit
 ' builds the application form scratch
 ' work in progress
 Public Sub BuildApplication()
+    
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildAppliation ausfuehren"
+    End If
+    
     ' build querys
     basBuild.BuildQuerys
     
@@ -13,6 +18,10 @@ Public Sub BuildApplication()
 End Sub
 
 Private Sub BuildQuerys()
+    
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildQuerys ausfuehren"
+    End If
     
     Dim aQuerySet(1, 1) As Variant
     ' 0 = query name
@@ -63,18 +72,33 @@ ExitProc:
 End Sub
     
 Private Function SqlQryAngebot() As String
+    
+    If gconVerbatim Then
+        Debug.Print "basBuild.SqlQryAngebot ausfuehren"
+    End If
+    
     SqlQryAngebot = " SELECT tblAngebot.*" & _
             " FROM tblAngebot" & _
             " ;"
 End Function
 
 Private Function SqlQryAngebotAuswahl()
+    
+    If gconVerbatim Then
+        Debug.Print "basBuild.SqlQryAngebotAuswahl ausfuehren"
+    End If
+    
     SqlQryAngebotAuswahl = " SELECT qryAngebot.*" & _
             " FROM qryAngebot" & _
             " ;"
 End Function
 
 Private Sub BuildForms()
+    
+    If gconVerbatim Then
+        Debug.Print "basBuild.Forms ausfuehren"
+    End If
+    
     ' build Hauptmenue
     basHauptmenue.BuildFormHauptmenue
     
