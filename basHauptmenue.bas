@@ -4,44 +4,50 @@ Attribute VB_Name = "basHauptmenue"
 Option Compare Database
 Option Explicit
 
-Private avarCommandButtonsLayout(7, 1) As Variant
-
-Private Sub LayoutConfig()
-    ' 0 = object name
-    ' 1 = visible
-    ' 2 = position left
-    ' 3 = position top
-    ' 4 = width
-    ' 5 = heigth
-    ' 6 = caption
-    ' 7 = OnClick
+' returns command button settings
+Private Function CommandButtonsSettings()
     
-    avarCommandButtonsLayout(0, 0) = "cmd0"
-        avarCommandButtonsLayout(1, 0) = True
-        avarCommandButtonsLayout(2, 0) = 100
-        avarCommandButtonsLayout(3, 0) = 100
-        avarCommandButtonsLayout(4, 0) = 1701
-        avarCommandButtonsLayout(5, 0) = 283
-        avarCommandButtonsLayout(6, 0) = "Ticket suchen"
-        avarCommandButtonsLayout(7, 0) = "=OpenFormAuftragSuchen()"
-    avarCommandButtonsLayout(0, 1) = "cmd1"
-        avarCommandButtonsLayout(1, 1) = True
-        avarCommandButtonsLayout(2, 1) = 100
-        avarCommandButtonsLayout(3, 1) = 600
-        avarCommandButtonsLayout(4, 1) = 1701
-        avarCommandButtonsLayout(5, 1) = 283 * 2
-        avarCommandButtonsLayout(6, 1) = "Angebot " & vbCrLf & "suchen"
-        avarCommandButtonsLayout(7, 1) = "=OpenFormLiefergegenstandSuchen()"
-    ' avarCommandButtonsLayout(0, 2) = "cmdEinzelauftrag"
-        ' avarCommandButtonsLayout(1, 2) = "Einzelaufträge"
-        ' avarCommandButtonsLayout(2, 2) = False
-    ' avarCommandButtonsLayout(0, 3) = "cmdKontinuierlicheLeistungen"
-        ' avarCommandButtonsLayout(1, 3) = "Liefergegenstand suchen"
-        ' avarCommandButtonsLayout(2, 3) = False
-    ' avarCommandButtonsLayout(0, 4) = "cmdForecast"
-        ' avarCommandButtonsLayout(1, 4) = "Forecast"
-        ' avarCommandButtonsLayout(2, 4) = False
-End Sub
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.CommandButtonsSettings ausfuehren"
+    End If
+    
+    Dim avarCommandButtonsSettings(7, 3) As Variant
+
+    avarCommandButtonsSettings(0, 0) = "name"
+        avarCommandButtonsSettings(1, 0) = "Visible"
+        avarCommandButtonsSettings(2, 0) = "Left"
+        avarCommandButtonsSettings(3, 0) = "Top"
+        avarCommandButtonsSettings(4, 0) = "Width"
+        avarCommandButtonsSettings(5, 0) = "Height"
+        avarCommandButtonsSettings(6, 0) = "Caption"
+        avarCommandButtonsSettings(7, 0) = "OnClick"
+    avarCommandButtonsSettings(0, 1) = "cmd0"
+        avarCommandButtonsSettings(1, 1) = True
+        avarCommandButtonsSettings(2, 1) = 100
+        avarCommandButtonsSettings(3, 1) = 100
+        avarCommandButtonsSettings(4, 1) = 1701
+        avarCommandButtonsSettings(5, 1) = 283
+        avarCommandButtonsSettings(6, 1) = "Ticket suchen"
+        avarCommandButtonsSettings(7, 1) = "=OpenFrmAuftragSuchen()"
+    avarCommandButtonsSettings(0, 2) = "cmd1"
+        avarCommandButtonsSettings(1, 2) = True
+        avarCommandButtonsSettings(2, 2) = 100
+        avarCommandButtonsSettings(3, 2) = 600
+        avarCommandButtonsSettings(4, 2) = 1701
+        avarCommandButtonsSettings(5, 2) = 283 * 2
+        avarCommandButtonsSettings(6, 2) = "Angebot " & vbCrLf & "suchen"
+        avarCommandButtonsSettings(7, 2) = "=OpenFrmAngebotSuchen()"
+    avarCommandButtonsSettings(0, 3) = "cmd2"
+        avarCommandButtonsSettings(1, 3) = False
+        avarCommandButtonsSettings(2, 3) = 100
+        avarCommandButtonsSettings(3, 3) = 1383
+        avarCommandButtonsSettings(4, 3) = 1701
+        avarCommandButtonsSettings(5, 3) = 283
+        avarCommandButtonsSettings(6, 3) = "Build Application"
+        avarCommandButtonsSettings(7, 3) = "=BuildApplication()"
+        
+    CommandButtonsSettings = avarCommandButtonsSettings
+End Function
 
 Public Sub BuildFormHauptmenue()
 
@@ -56,6 +62,7 @@ Public Sub BuildFormHauptmenue()
     ' clear form
     basSupport.ClearForm strFormName
     
+    ' create form
     Dim frmHauptmenue As Form
     Set frmHauptmenue = CreateForm
     
@@ -63,11 +70,30 @@ Public Sub BuildFormHauptmenue()
     Dim strFormNameTemp As String
     strFormNameTemp = frmHauptmenue.Name
     
-    ' set layout
-    basHauptmenue.LayoutConfig
-        
+    ' get Commandbuttons settings
+    Dim avarCommandButtonsSettings As Variant
+    avarCommandButtonsSettings = basHauptmenue.CommandButtonsSettings
+    
     ' create Commandbutton
-    basHauptmenue.CreateCommandButton strFormNameTemp
+        Dim inti As Integer
+        For inti = LBound(avarCommandButtonsSettings, 2) + 1 To UBound(avarCommandButtonsSettings, 2)
+            Dim CmdButton As CommandButton
+            Set CmdButton = CreateControl(strFormNameTemp, acCommandButton, acDetail)
+            CmdButton.Name = avarCommandButtonsSettings(0, inti)
+            CmdButton.Visible = avarCommandButtonsSettings(1, inti)
+            CmdButton.Left = avarCommandButtonsSettings(2, inti)
+            CmdButton.Top = avarCommandButtonsSettings(3, inti)
+            CmdButton.Width = avarCommandButtonsSettings(4, inti)
+            CmdButton.Height = avarCommandButtonsSettings(5, inti)
+            
+            ' handle visible = False
+            If avarCommandButtonsSettings(1, inti) Then
+                CmdButton.Caption = avarCommandButtonsSettings(6, inti)
+                CmdButton.OnClick = avarCommandButtonsSettings(7, inti)
+            End If
+            
+            Set CmdButton = Nothing
+        Next
     
     ' set form caption
     frmHauptmenue.Caption = strFormName
@@ -85,51 +111,7 @@ Public Sub BuildFormHauptmenue()
     
 End Sub
 
-Private Sub CreateCommandButton(ByVal strFormName As String)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basHautpmenue.CreateCommandButton ausfuehren"
-    End If
-    
-    ' create Commandbutton
-        Dim inti As Integer
-        ' For inti = LBound(avarCommandButtonsLayout, 2) To UBound(avarCommandButtonsLayout, 2) - 1
-        For inti = LBound(avarCommandButtonsLayout, 2) To UBound(avarCommandButtonsLayout, 2)
-            Dim CmdButton As CommandButton
-            Set CmdButton = CreateControl(strFormName, acCommandButton, acDetail)
-            
-            ' set Name
-                CmdButton.Name = avarCommandButtonsLayout(0, inti)
-                
-            ' set position left
-                CmdButton.Left = avarCommandButtonsLayout(2, inti)
-                
-            ' set position top
-            CmdButton.Top = avarCommandButtonsLayout(3, inti)
-            
-            ' set width
-            CmdButton.Width = avarCommandButtonsLayout(4, inti)
-            
-            ' set heigth
-            CmdButton.Height = avarCommandButtonsLayout(5, inti)
-            
-            ' set visible
-            CmdButton.Visible = avarCommandButtonsLayout(1, inti)
-            
-            ' handler in case visible = false
-            If avarCommandButtonsLayout(1, inti) Then
-                ' set Caption
-                CmdButton.Caption = avarCommandButtonsLayout(6, inti)
-                ' set OnClick
-                CmdButton.OnClick = avarCommandButtonsLayout(7, inti)
-            End If
-            
-            Set CmdButton = Nothing
-        Next
-End Sub
-
-Public Function OpenFormAuftragSuchen()
+Public Function OpenFrmAuftragSuchen()
     ' verbatim message
     If gconVerbatim Then
         Debug.Print "basHautpmenue.OpenFormAuftragSuchen ausfuehren"
@@ -138,13 +120,13 @@ Public Function OpenFormAuftragSuchen()
     basSearchMain.OpenFormSearchMain "AuftragSuchen"
 End Function
 
-Public Function OpenFormLiefergegenstandSuchen()
+Public Function OpenFrmAngebotSuchen()
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "basHautpmenue.OpenFormLiefergegenstandSuchen ausfuehren"
+        Debug.Print "basHautpmenue.OpenFormAngebotSuchen ausfuehren"
     End If
-    
-    basSearchMain.OpenFormSearchMain "LiefergegenstandSuchen"
+
+    DoCmd.OpenForm "frmAngebotSuchen", acNormal
 End Function
 
 

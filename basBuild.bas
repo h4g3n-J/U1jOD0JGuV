@@ -4,7 +4,7 @@ Option Explicit
 
 ' builds the application form scratch
 ' work in progress
-Public Sub BuildApplication()
+Public Function BuildApplication()
     
     If gconVerbatim Then
         Debug.Print "basBuild.BuildAppliation ausfuehren"
@@ -15,7 +15,8 @@ Public Sub BuildApplication()
     
     ' build forms
     basBuild.BuildForms
-End Sub
+    basAngebotSuchen.BuildAngebotSuchen
+End Function
 
 Private Sub BuildQuerys()
     
@@ -104,4 +105,10 @@ Private Sub BuildForms()
     
     ' build AngebotSuchenSub
     basAngebotSuchenSub.BuildFormAngebotSuchenSub
+    
+    ' build AngebotSuchen
+    basAngebotSuchen.BuildAngebotSuchen
+    
+    ' open frmHauptmenue
+    DoCmd.OpenForm "frmHauptmenue", acNormal
 End Sub

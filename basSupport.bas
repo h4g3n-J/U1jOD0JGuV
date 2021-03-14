@@ -377,6 +377,7 @@ Public Sub ClearQuery(ByVal strQueryName As String)
     Dim objDummy As Object
     For Each objDummy In Application.CurrentData.AllQueries
         If objDummy.Name = strQueryName Then
+            
             ' check if query isloaded
             If objDummy.IsLoaded Then
                 ' close query
@@ -400,4 +401,3 @@ Public Sub ClearQuery(ByVal strQueryName As String)
         End If
     Next
 End Sub
-
