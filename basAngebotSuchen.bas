@@ -63,6 +63,21 @@ Public Sub BuildAngebotSuchen()
         cmd.OnClick = avarCommandButtonSettings(inti, 6)
     Next
     
+    ' set subform
+    Dim avarSubFormSettings As Variant
+    avarSubFormSettings = basAngebotSuchen.SubFormSettings
+    Dim subFrm As SubForm
+    
+    For inti = LBound(avarSubFormSettings, 1) + 1 To UBound(avarSubFormSettings, 1)
+        Set subFrm = CreateControl(strTempFormName, acSubform, acDetail)
+        subFrm.Name = avarSubFormSettings(inti, 0)
+        subFrm.Left = avarSubFormSettings(inti, 1)
+        subFrm.Top = avarSubFormSettings(inti, 2)
+        subFrm.Width = avarSubFormSettings(inti, 3)
+        subFrm.Height = avarSubFormSettings(inti, 4)
+        subFrm.SourceObject = avarSubFormSettings(inti, 5)
+    Next
+    
     ' close form
     DoCmd.Close acForm, strTempFormName, acSaveYes
     
@@ -116,14 +131,39 @@ Private Function CommandButtonSettings() As Variant
         avarSettings(0, 5) = "Caption"
         avarSettings(0, 6) = "OnClick"
     avarSettings(1, 0) = "cmdExit"
-        avarSettings(1, 1) = "12585"
-        avarSettings(1, 2) = "960"
-        avarSettings(1, 3) = "3120"
-        avarSettings(1, 4) = "330"
+        avarSettings(1, 1) = 12585
+        avarSettings(1, 2) = 960
+        avarSettings(1, 3) = 3120
+        avarSettings(1, 4) = 330
         avarSettings(1, 5) = "Schlieﬂen"
         avarSettings(1, 6) = "=CloseFrmAngebotSuchen()"
         
     CommandButtonSettings = avarSettings
+End Function
+
+Private Function SubFormSettings() As Variant
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.SubFormSettings ausfuehren"
+    End If
+    
+    Dim avarSubFormSettings(1, 5) As Variant
+    
+    avarSubFormSettings(0, 0) = "Name"
+        avarSubFormSettings(0, 1) = "Left"
+        avarSubFormSettings(0, 2) = "Top"
+        avarSubFormSettings(0, 3) = "Width"
+        avarSubFormSettings(0, 4) = "Height"
+        avarSubFormSettings(0, 5) = "SourceObject"
+    avarSubFormSettings(1, 0) = "subFrm"
+        avarSubFormSettings(1, 1) = 510
+        avarSubFormSettings(1, 2) = 2453
+        avarSubFormSettings(1, 3) = 9218
+        avarSubFormSettings(1, 4) = 5055
+        avarSubFormSettings(1, 5) = "frmAngebotSuchenSub"
+        
+    SubFormSettings = avarSubFormSettings
 End Function
 
 Public Function CloseFrmAngebotSuchen()

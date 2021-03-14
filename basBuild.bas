@@ -101,7 +101,7 @@ Private Sub BuildForms()
     End If
     
     ' build Hauptmenue
-    basHauptmenue.BuildFormHauptmenue
+    ' basHauptmenue.BuildFormHauptmenue
     
     ' build AngebotSuchenSub
     basAngebotSuchenSub.BuildFormAngebotSuchenSub
