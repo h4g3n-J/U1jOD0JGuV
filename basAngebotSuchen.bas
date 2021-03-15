@@ -95,6 +95,7 @@ Public Sub BuildAngebotSuchen()
         subFrm.Width = avarSubFormSettings(inti, 3)
         subFrm.Height = avarSubFormSettings(inti, 4)
         subFrm.SourceObject = avarSubFormSettings(inti, 5)
+        subFrm.Locked = avarSubFormSettings(inti, 6)
         Set subFrm = Nothing
     Next
     
@@ -221,7 +222,7 @@ Private Function SubFormSettings() As Variant
         Debug.Print "basAngebotSuchen.SubFormSettings ausfuehren"
     End If
     
-    Dim avarSubFormSettings(1, 5) As Variant
+    Dim avarSubFormSettings(1, 6) As Variant
     
     avarSubFormSettings(0, 0) = "Name"
         avarSubFormSettings(0, 1) = "Left"
@@ -229,12 +230,14 @@ Private Function SubFormSettings() As Variant
         avarSubFormSettings(0, 3) = "Width"
         avarSubFormSettings(0, 4) = "Height"
         avarSubFormSettings(0, 5) = "SourceObject"
+        avarSubFormSettings(0, 6) = "Locked"
     avarSubFormSettings(1, 0) = "subFrm"
         avarSubFormSettings(1, 1) = 510
         avarSubFormSettings(1, 2) = 2453
         avarSubFormSettings(1, 3) = 9218
         avarSubFormSettings(1, 4) = 5055
         avarSubFormSettings(1, 5) = "frmAngebotSuchenSub"
+        avarSubFormSettings(1, 6) = True
         
     SubFormSettings = avarSubFormSettings
 End Function

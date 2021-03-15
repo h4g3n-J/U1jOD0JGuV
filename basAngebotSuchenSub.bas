@@ -32,6 +32,9 @@ Private Sub frmAngebotSuchenSub()
     Set frm = CreateForm
     frm.RecordSource = "qryAngebotAuswahl"
     
+    ' set OnCurrent methode
+    frm.OnCurrent = "=test()"
+    
     ' define cell width
     Dim intCellWidth As Integer
     intCellWidth = 4 * 567
@@ -193,4 +196,8 @@ Private Function ObjectSettings() As Variant
         avarField(16, 2) = "Betrag (Brutto)"
         
     ObjectSettings = avarField
+End Function
+
+Public Function test()
+    Debug.Print "OnCurrent ausfuehren"
 End Function
