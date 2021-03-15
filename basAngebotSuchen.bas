@@ -29,13 +29,29 @@ Public Sub BuildAngebotSuchen()
     ' set form caption
     frm.Caption = strFormName
     
+    ' get textbox settings
+    Dim avarTextboxSettings As Variant
+    avarTextboxSettings = basAngebotSuchen.TextBoxSettings
+    Dim txt As TextBox
+    
+    ' set textbox
+    Dim inti As Integer
+    For inti = LBound(avarTextboxSettings, 1) + 1 To UBound(avarTextboxSettings, 1)
+        Set txt = CreateControl(strTempFormName, acTextBox, acDetail)
+        txt.Name = avarTextboxSettings(inti, 0)
+        txt.Left = avarTextboxSettings(inti, 1)
+        txt.Top = avarTextboxSettings(inti, 2)
+        txt.Width = avarTextboxSettings(inti, 3)
+        txt.Height = avarTextboxSettings(inti, 4)
+        Set txt = Nothing
+    Next
+    
     ' get label settings
     Dim avarLabelSettings As Variant
     avarLabelSettings = basAngebotSuchen.LabelSettings
-    Dim inti As Integer
+    Dim lbl As Label
     
     ' set labels
-    Dim lbl As Label
     For inti = LBound(avarLabelSettings, 1) + 1 To UBound(avarLabelSettings, 1)
         Set lbl = CreateControl(strTempFormName, acLabel, acDetail)
         lbl.Name = avarLabelSettings(inti, 0)
@@ -47,11 +63,12 @@ Public Sub BuildAngebotSuchen()
         Set lbl = Nothing
     Next
     
-    ' set command buttons
+    ' get commandbutton settings
     Dim avarCommandButtonSettings As Variant
     avarCommandButtonSettings = basAngebotSuchen.CommandButtonSettings
     Dim cmd As CommandButton
     
+    ' set command button
     For inti = LBound(avarCommandButtonSettings, 1) + 1 To UBound(avarCommandButtonSettings, 1)
         Set cmd = CreateControl(strTempFormName, acCommandButton, acDetail)
         cmd.Name = avarCommandButtonSettings(inti, 0)
@@ -61,13 +78,15 @@ Public Sub BuildAngebotSuchen()
         cmd.Height = avarCommandButtonSettings(inti, 4)
         cmd.Caption = avarCommandButtonSettings(inti, 5)
         cmd.OnClick = avarCommandButtonSettings(inti, 6)
+        Set cmd = Nothing
     Next
     
-    ' set subform
+    ' get subform settings
     Dim avarSubFormSettings As Variant
     avarSubFormSettings = basAngebotSuchen.SubFormSettings
     Dim subFrm As SubForm
     
+    ' set subform
     For inti = LBound(avarSubFormSettings, 1) + 1 To UBound(avarSubFormSettings, 1)
         Set subFrm = CreateControl(strTempFormName, acSubform, acDetail)
         subFrm.Name = avarSubFormSettings(inti, 0)
@@ -76,6 +95,7 @@ Public Sub BuildAngebotSuchen()
         subFrm.Width = avarSubFormSettings(inti, 3)
         subFrm.Height = avarSubFormSettings(inti, 4)
         subFrm.SourceObject = avarSubFormSettings(inti, 5)
+        Set subFrm = Nothing
     Next
     
     ' close form
@@ -122,7 +142,7 @@ Private Function CommandButtonSettings() As Variant
         Debug.Print "basAngebotSuchen.CommandButtonSettings ausfuehren"
     End If
 
-    Dim avarSettings(1, 6) As Variant
+    Dim avarSettings(2, 6) As Variant
     avarSettings(0, 0) = "Name"
         avarSettings(0, 1) = "Left"
         avarSettings(0, 2) = "Top"
@@ -137,8 +157,61 @@ Private Function CommandButtonSettings() As Variant
         avarSettings(1, 4) = 330
         avarSettings(1, 5) = "Schlieﬂen"
         avarSettings(1, 6) = "=CloseFrmAngebotSuchen()"
+    avarSettings(2, 0) = "cmdSearch"
+        avarSettings(2, 1) = 6975
+        avarSettings(2, 2) = 960
+        avarSettings(2, 3) = 2730
+        avarSettings(2, 4) = 330
+        avarSettings(2, 5) = "Suchen"
+        avarSettings(2, 6) = "=CloseFrmAngebotSuchen()"
         
     CommandButtonSettings = avarSettings
+End Function
+
+Private Function TextBoxSettings() As Variant
+
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.CommandButtonSettings ausfuehren"
+    End If
+
+    Dim intLeft As Integer
+    intLeft = 12585
+    
+    Dim intWidth As Integer
+    intWidth = 3120
+    
+    Dim intHeight As Integer
+    intHeight = 330
+    
+    Dim avarSettings(4, 5) As Variant
+    avarSettings(0, 0) = "Name"
+        avarSettings(0, 1) = "Left"
+        avarSettings(0, 2) = "Top"
+        avarSettings(0, 3) = "Width"
+        avarSettings(0, 4) = "Height"
+    avarSettings(1, 0) = "txtSearch"
+        avarSettings(1, 1) = 510
+        avarSettings(1, 2) = 960
+        avarSettings(1, 3) = 6405
+        avarSettings(1, 4) = intHeight
+    avarSettings(2, 0) = "txt0"
+        avarSettings(2, 1) = intLeft
+        avarSettings(2, 2) = 2430
+        avarSettings(2, 3) = intWidth
+        avarSettings(2, 4) = intHeight
+    avarSettings(3, 0) = "txt1"
+        avarSettings(3, 1) = intLeft
+        avarSettings(3, 2) = 2820
+        avarSettings(3, 3) = intWidth
+        avarSettings(3, 4) = intHeight
+    avarSettings(4, 0) = "txt2"
+        avarSettings(4, 1) = intLeft
+        avarSettings(4, 2) = 3210
+        avarSettings(4, 3) = intWidth
+        avarSettings(4, 4) = intHeight
+    
+    TextBoxSettings = avarSettings
 End Function
 
 Private Function SubFormSettings() As Variant
