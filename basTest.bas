@@ -159,7 +159,7 @@ Private Sub TestArray()
     ' colTestCollection.Item(2) = "Welt"
 End Sub
 
-Private Sub TestFindItemArray()
+Private Sub TestFindItemInArray()
     Dim varArray(1, 1) As Variant
     
     varArray(0, 0) = "nill"
@@ -167,14 +167,13 @@ Private Sub TestFindItemArray()
     varArray(1, 0) = 1
     varArray(1, 1) = 2
     
-    Debug.Print "basTest.TestFindItemArray: " & basSupport.FindItemArray(varArray, "one", True)
+    Debug.Print "basTest.TestFindItemInArray: " & basSupport.FindItemInArray(varArray, "one", True)
 End Sub
 
 Private Sub TestFindItemArrayInProperty()
     Dim TestKlasse As clsAuftrag
     Set TestKlasse = New clsAuftrag
     
-    TestKlasse.Verbatim = False
     TestKlasse.AftrID = "1"
     TestKlasse.Erstellt = #1/1/1900 11:59:59 PM#
     Debug.Print "basTest.TestFindItemArrayInProperty: TestKlasse.AftrID = " & TestKlasse.AftrID

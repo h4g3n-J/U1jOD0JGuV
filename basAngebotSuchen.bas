@@ -231,7 +231,7 @@ Private Function SubFormSettings() As Variant
         avarSubFormSettings(0, 4) = "Height"
         avarSubFormSettings(0, 5) = "SourceObject"
         avarSubFormSettings(0, 6) = "Locked"
-    avarSubFormSettings(1, 0) = "subFrm"
+    avarSubFormSettings(1, 0) = "frbSubFrm"
         avarSubFormSettings(1, 1) = 510
         avarSubFormSettings(1, 2) = 2453
         avarSubFormSettings(1, 3) = 9218

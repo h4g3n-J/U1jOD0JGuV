@@ -2,20 +2,11 @@ Attribute VB_Name = "basAngebotSuchenSub"
 Option Compare Database
 Option Explicit
 
+' builds form
 Public Sub BuildFormAngebotSuchenSub()
     
     If gconVerbatim Then
         Debug.Print "basAngebotSuchenSub.BuildFormAngebotSuchenSub ausfuehren"
-    End If
-    
-    basAngebotSuchenSub.frmAngebotSuchenSub
-End Sub
-
-' creates the subform frmAngebotSuchenSub
-Private Sub frmAngebotSuchenSub()
-    
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.frmAngebotSuchenSub ausfuehren"
     End If
     
     ' declare form name
@@ -33,7 +24,8 @@ Private Sub frmAngebotSuchenSub()
     frm.RecordSource = "qryAngebotAuswahl"
     
     ' set OnCurrent methode
-    frm.OnCurrent = "=test()"
+    ' frm.OnCurrent = "=SelectRecordset()"
+    frm.OnCurrent = "=SelectRecordsetAngebot()"
     
     ' define cell width
     Dim intCellWidth As Integer
@@ -133,71 +125,175 @@ Private Sub frmAngebotSuchenSub()
     If gconVerbatim Then
         Debug.Print "basBuild.frmAngebotSuchenSub: " & strFormName & " erstellt"
     End If
-
 End Sub
 
+' form layout settings
 Private Function ObjectSettings() As Variant
     
     If gconVerbatim Then
         Debug.Print "basAngebotSuchenSub.ObjectSettings ausfuehren"
     End If
     
-    Dim avarField(16, 2) As Variant
+    Dim avarField(16, 3) As Variant
     avarField(0, 0) = "Feldname"
         avarField(0, 1) = "Visible"
         avarField(0, 2) = "Label"
+        avarField(0, 3) = "Feldname"
     avarField(1, 0) = "BWIKey"
         avarField(1, 1) = True
         avarField(1, 2) = "BWI Alias"
+        avarField(1, 3) = "txt0"
+        ' avarField(1, 3) = Null
     avarField(2, 0) = "EAkurzKey"
         avarField(2, 1) = True
         avarField(2, 2) = "Einzelauftrag"
+        ' avarField(2, 3) = "txt0"
+        avarField(2, 3) = Null
     avarField(3, 0) = "MengengeruestLink"
         avarField(3, 1) = False
         avarField(3, 2) = "Mengengeruest"
+        ' avarField(3, 3) = "txt0"
+        avarField(3, 3) = Null
     avarField(4, 0) = "LeistungsbeschreibungLink"
         avarField(4, 1) = False
         avarField(4, 2) = "Leistungsbeschreibung"
+        ' avarField(4, 3) = "txt0"
+        avarField(4, 3) = Null
     avarField(5, 0) = "Verfuegung"
         avarField(5, 1) = False
         avarField(5, 2) = "Verfuegung"
+        ' avarField(5, 3) = "txt0"
+        avarField(5, 3) = Null
     avarField(6, 0) = "Bemerkung"
         avarField(6, 1) = True
         avarField(6, 2) = "Bemerkung"
+        ' avarField(6, 3) = "txt0"
+        avarField(6, 3) = Null
     avarField(7, 0) = "BeauftragtDatum"
         avarField(7, 1) = False
         avarField(7, 2) = "Beauftragt"
+        ' avarField(7, 3) = "txt0"
+        avarField(7, 3) = Null
     avarField(8, 0) = "AbgebrochenDatum"
         avarField(8, 1) = False
         avarField(8, 2) = "Abgebrochen"
+        ' avarField(8, 3) = "txt0"
+        avarField(8, 3) = Null
     avarField(9, 0) = "MitzeichnungI21Datum"
         avarField(9, 1) = False
         avarField(9, 2) = "Mitzeichnung I2.1"
+        ' avarField(9, 3) = "txt0"
+        avarField(9, 3) = Null
     avarField(10, 0) = "MitzeichnungI25Datum"
         avarField(10, 1) = False
         avarField(10, 2) = "Mitzeichnung I2.5"
+        ' avarField(10, 3) = "txt0"
+        avarField(10, 3) = Null
     avarField(11, 0) = "AngebotDatum"
         avarField(11, 1) = False
-        avarField(11, 2) = "Angeboten"
+        ' avarField(11, 2) = "Angeboten"
+        avarField(11, 3) = Null
     avarField(12, 0) = "AbgenommenDatum"
         avarField(12, 1) = False
         avarField(12, 2) = "Abgenommen"
+        ' avarField(12, 3) = "tx0"
+        avarField(12, 3) = Null
     avarField(13, 0) = "AftrBeginn"
         avarField(13, 1) = False
         avarField(13, 2) = "Auftragsbeginn"
+        ' avarField(13, 3) = "txt0"
+        avarField(13, 3) = Null
     avarField(14, 0) = "AftrEnde"
         avarField(14, 1) = False
         avarField(14, 2) = "Auftragsende"
+        ' avarField(14, 3) = "txt0"
+        avarField(14, 3) = Null
     avarField(15, 0) = "StorniertDatum"
         avarField(15, 1) = False
         avarField(15, 2) = "Storniert"
+        ' avarField(15, 3) = "txt0"
+        avarField(15, 3) = Null
     avarField(16, 0) = "AngebotBrutto"
         avarField(16, 1) = False
         avarField(16, 2) = "Betrag (Brutto)"
+        ' avarField(16, 3) = "txt0"
+        avarField(16, 3) = Null
         
     ObjectSettings = avarField
 End Function
 
-Public Function test()
-    Debug.Print "OnCurrent ausfuehren"
+' load recordset to destination form
+Public Function SelectRecordsetAngebot()
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.SelectRecordsetAngebot ausfuehren"
+    End If
+    
+    ' destination form name setting
+    Dim strDestFormName As String
+    strDestFormName = "frmAngebotSuchen"
+    
+    ' check if destination form is loaded
+    If Not (CurrentProject.AllForms(strDestFormName).IsLoaded) Then
+        Debug.Print "basAngebotSuchenSub.SelectRecordset: " & strDestFormName _
+            & " nicht geladen, Prozedur abgebrochen"
+        GoTo ExitProc
+    End If
+    
+    ' declare RecorsetName
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strDestFormName).Controls("frbSubFrm").Controls("BWIKey")
+    
+    ' initiate class Angebot
+    Dim angebot As clsAngebot
+    Set angebot = New clsAngebot
+    
+    ' set selected Recordset as Angebot
+    angebot.SelectRecordset varRecordsetName
+    
+    Dim avarTextBoxAndLabelSettings As Variant
+    avarTextBoxAndLabelSettings = basAngebotSuchenSub.ObjectSettings
+    
+    ' set textboxes and labels
+    Dim inti As Integer
+    
+    ' assign values to textboxes
+    ' skip titles
+    For inti = LBound(avarTextBoxAndLabelSettings, 1) + 1 To UBound(avarTextBoxAndLabelSettings, 1)
+        ' check if value is null
+        ' opening frmSearchMain will open frmAuftragSuchenSub at a time
+        ' when varTextboxesAndLabels is not set yet -> IsEmpty
+        If Not IsEmpty(avarTextBoxAndLabelSettings(inti, 0)) And Not IsNull(avarTextBoxAndLabelSettings(inti, 0)) And Not IsNull(avarTextBoxAndLabelSettings(inti, 3)) Then
+            Forms.Item(strDestFormName).Controls.Item(avarTextBoxAndLabelSettings(inti, 3)) = CallByName(angebot, avarTextBoxAndLabelSettings(inti, 0), VbGet)
+        End If
+    Next
+    
+ExitProc:
+    Set angebot = Nothing
+End Function
+
+Private Function TextBoxSettings() As Variant
+    Dim avarSettings(1, 7) As Variant
+        
+    avarSettings(0, 0) = "textbox name"
+        avarSettings(0, 1) = "textbox value"
+        avarSettings(0, 2) = "textbox border style"
+        avarSettings(0, 3) = "textbox ishyperlink"
+        avarSettings(0, 4) = "textbox locked"
+        avarSettings(0, 5) = "textbox format"
+        avarSettings(0, 6) = "textbox visible"
+        avarSettings(0, 7) = "textbox defaultValue"
+    avarSettings(1, 0) = "txt0"
+        avarSettings(1, 1) = "BWIKey"
+        avarSettings(1, 2) = 0
+        avarSettings(1, 3) = False
+        avarSettings(1, 4) = True
+        avarSettings(1, 5) = ""
+        avarSettings(1, 6) = True
+        avarSettings(1, 7) = Null
+        
+    If gconVerbatim = True Then
+        Debug.Print "basAngebotSuchenSub.TextBoxSettings ausgefuehrt"
+    End If
+        
+        TextBoxSettings = avarSettings
 End Function

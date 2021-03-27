@@ -4,9 +4,9 @@ Attribute VB_Name = "basMain"
 Option Compare Database
 Option Explicit
 
-Public gobjAuftrag1 As clsAuftrag
+' Public gobjAuftrag1 As clsAuftrag
 
-Public gobjSearchMain As clsMenueSearchMain
+' Public gobjSearchMain As clsMenueSearchMain
 Public gobjLiefergegenstand As clsLiefergegenstand
 
 Public gobjMenueSmall As clsMenueSmall
@@ -14,6 +14,9 @@ Public gobjMenueExtraSmall As clsMenueExtraSmall
 
 ' set global verbatim mode
 Public Const gconVerbatim As Boolean = True
+
+' test collection for control elements
+Dim myColl As New Collection
 
 Public Sub AuftragSuchen(Optional ByVal bolVerbatim As Boolean = False)
     Debug.Print "basMain.AuftragSuchen ausführen"

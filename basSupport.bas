@@ -6,21 +6,36 @@ Option Explicit
 
 ' enables to write null in recordsets
 ' varMode feasible values: string, link, date, currency, integer, boolean
+' transform and return Input corresponding to selected Mode
 Public Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
-
-    Dim varOutput As Variant
-    
     ' verbatim message
     If gconVerbatim = True Then
-        Debug.Print "basSupport.CheckDataType ausfuehren, varInput = " & varInput & " , varMode = " & varMode
+        Debug.Print "basSupport.CheckDataType ausfuehren"
+    End If
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' local verbatim message
+    If bolLocalVerbatim Then
+        Debug.Print "basSupport.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
     End If
     
     If IsNull(varInput) Then
-        ' error message
-        Debug.Print "basSupport.CheckDataType: varInput ist null"
+    
+        ' local verbatim
+        If bolLocalVerbatim Then
+            Debug.Print "basSupport.CheckDataType: varInput ist null"
+        End If
+        
+        ' return input
         CheckDataType = varInput
         Exit Function
     End If
+    
+    ' declare output
+    Dim varOutput As Variant
     
     Select Case varMode
         Case "string"
@@ -61,7 +76,13 @@ Public Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
     
     ' verbatim message
     If gconVerbatim = True Then
-        Debug.Print "basSupport.ObjectExists ausfuehren, strObjectName = " & strObjectName & " , strModus = " & strModus
+        Debug.Print "basSupport.ObjectExists ausfuehren"
+    End If
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    If bolLocalVerbatim Then
+        Debug.Print "basSupport.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
     End If
     
     Select Case strModus
@@ -112,7 +133,13 @@ Public Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName 
     
     ' verbatim message
     If gconVerbatim = True Then
-        Debug.Print "basSupport.RecordsetExists ausfuehren, varTblName = " & varTblName & " , varFieldName = " & " , varRecordsetName = " & varRecordsetName
+        Debug.Print "basSupport.RecordsetExists ausfuehren"
+    End If
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    If bolLocalVerbatim Then
+        Debug.Print "basSupport.RecordsetExists: varTblName = " & varTblName & " , varFieldName = " & " , varRecordsetName = " & varRecordsetName
     End If
     
     varTblName = CStr(varTblName)
@@ -299,27 +326,59 @@ ExitProc:
     Set dbsCurrentDB = Nothing
 End Function
 
-Public Function FindItemArray(ByVal avarArray, varItem As Variant) As Variant
+' search varWanted in two dimensional array
+' array style A: (intIndex, intField)
+' array style B: (intField, intIndex)
+' return intIndex
+Public Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional ByVal intField As Integer = 0, Optional ByVal strArrayStyle As String = "A") As Variant
     
-    Dim intLoop As Integer
-    intLoop = LBound(avarArray, 2)
+    Dim intIndex As Integer
+    intIndex = LBound(avarArray, 2)
     
     ' verbatim message
     If gconVerbatim = True Then
-        Debug.Print "basSupport.FindItemArray ausfuehren, varItem = " & varItem
+        Debug.Print "basSupport.FindItemInArray ausfuehren"
     End If
     
-    Do While avarArray(0, intLoop) <> varItem
-        If intLoop = UBound(avarArray, 2) Then
-            Debug.Print "basSupport.FindItemArray: '" & varItem & "' im übergebenen Array nicht gefunden"
-            FindItemArray = Null
-            Exit Function
-        Else
-            intLoop = intLoop + 1
-        End If
-    Loop
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    If bolLocalVerbatim Then
+        Debug.Print "basSupport.FindItemInArray: varWanted = " & varWanted
+    End If
     
-    FindItemArray = intLoop
+    
+    Select Case strArrayStyle
+        ' array style A: (intIndex, intField)
+        Case "A"
+            ' scan array until match
+            Do While avarArray(intIndex, intField) <> varWanted
+                If intIndex = UBound(avarArray, 1) Then
+                    Debug.Print "basSupport.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' array style B: (intField, intIndex)
+        Case "B"
+            Do While avarArray(intField, intIndex) <> varWanted
+                If intIndex = UBound(avarArray, 2) Then
+                    Debug.Print "basSupport.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' input error handler
+        Case Else
+            Debug.Print "basSupport.FindItemInArray: arrayStyle ungültig, Wertevorrat beachten"
+            Exit Function
+        End Select
+    
+    ' return intIntex
+    FindItemInArray = intIndex
 End Function
 
 ' delete form

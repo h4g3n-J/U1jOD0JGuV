@@ -15,7 +15,10 @@ Option Explicit
 Private bolVerbatim As Boolean
 
 Private Sub Form_Current()
-    Dim varTest As Variant
-    varTest = Me
-    basAuftragSuchenSub.SelectRecordset
+    
+    If gconVerbatim Then
+        Debug.Print "Form_frmAuftragSuchenSub.Form_Current ausfuehren"
+    End If
+    
+    basAuftragSuchenSub.SelectRecordsetAuftrag
 End Sub

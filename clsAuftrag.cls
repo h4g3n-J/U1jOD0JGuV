@@ -12,144 +12,152 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+' clipboard, relevant for saving and loading methods
 Private mvarClipboard As Variant
-  
-Dim mastrColumnToVariable(2, 10) As Variant
+
+' Private Const cintColumns As Integer = 2
+' Private Const cintRows As Integer = 11
+' Dim mavarAuftragAttributes(cintRows, cintColumns) As Variant
+Dim mavarAuftragAttributes As Variant
     
 Private Sub Class_Initialize()
 
-    ' initialize variables
-    DefaultValue
-            
     ' verbatim message
     If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziiert."
+        Debug.Print "clsAuftrag.Class_Initialize: Klasse clsAuftrag instanziieren."
     End If
+    
+    ' load default values
+    mavarAuftragAttributes = DefaultValue
     
 End Sub
 
 Private Sub Class_Terminate()
-    Debug.Print "clsAuftrag.Class_Terminate: Klasse clsAuftrag terminiert."
+    If gconVerbatim Then
+        Debug.Print "clsAuftrag.Class_Terminate: Klasse clsAuftrag terminiert."
+    End If
 End Sub
 
-Private Sub DefaultValue()
+' default class values, executed with clsAuftrag.Class_Initialize
+Private Function DefaultValue()
     
     If gconVerbatim = True Then
         Debug.Print "clsAuftrag.DefaultValue ausfuehren"
     End If
     
-    mastrColumnToVariable(0, 0) = "AftrID"
-        mastrColumnToVariable(1, 0) = "string"
-        mastrColumnToVariable(2, 0) = Null
-    mastrColumnToVariable(0, 1) = "AftrTitel"
-        mastrColumnToVariable(1, 1) = "string"
-        mastrColumnToVariable(2, 1) = Null
-    mastrColumnToVariable(0, 2) = "StatusKey"
-        mastrColumnToVariable(1, 2) = "string"
-        mastrColumnToVariable(2, 2) = Null
-    mastrColumnToVariable(0, 3) = "OwnerKey"
-        mastrColumnToVariable(1, 3) = "string"
-        mastrColumnToVariable(2, 3) = Null
-    mastrColumnToVariable(0, 4) = "PrioritaetKey"
-        mastrColumnToVariable(1, 4) = "string"
-        mastrColumnToVariable(2, 4) = Null
-    mastrColumnToVariable(0, 5) = "ParentKey"
-        mastrColumnToVariable(1, 5) = "string"
-        mastrColumnToVariable(2, 5) = Null
-    mastrColumnToVariable(0, 6) = "Bemerkung"
-        mastrColumnToVariable(1, 6) = "string"
-        mastrColumnToVariable(2, 6) = Null
-    mastrColumnToVariable(0, 7) = "BeginnSoll"
-        mastrColumnToVariable(1, 7) = "date"
-        mastrColumnToVariable(2, 7) = Null
-    mastrColumnToVariable(0, 8) = "EndeSoll"
-        mastrColumnToVariable(1, 8) = "date"
-        mastrColumnToVariable(2, 8) = Null
-    mastrColumnToVariable(0, 9) = "Erstellt"
-        mastrColumnToVariable(1, 9) = "date"
-        mastrColumnToVariable(2, 9) = Null
-    mastrColumnToVariable(0, 10) = "Kunde"
-        mastrColumnToVariable(1, 10) = "string"
-        mastrColumnToVariable(2, 10) = Null
-End Sub
+    ' see modul header to change dimensions
+    ' Dim varAuftragSettings(cintRows, cintColumns) As Variant
+    Dim varAuftragSettings(11, 2) As Variant
+    
+    varAuftragSettings(0, 0) = "Attribut name"
+        varAuftragSettings(0, 1) = "data type"
+        varAuftragSettings(0, 2) = "value"
+    varAuftragSettings(1, 0) = "AftrID"
+        varAuftragSettings(1, 1) = "string"
+        varAuftragSettings(1, 2) = Null
+    varAuftragSettings(2, 0) = "AftrTitel"
+        varAuftragSettings(2, 1) = "string"
+        varAuftragSettings(2, 2) = Null
+    varAuftragSettings(3, 0) = "StatusKey"
+        varAuftragSettings(3, 1) = "string"
+        varAuftragSettings(3, 2) = Null
+    varAuftragSettings(4, 0) = "OwnerKey"
+        varAuftragSettings(4, 1) = "string"
+        varAuftragSettings(4, 2) = Null
+    varAuftragSettings(5, 0) = "PrioritaetKey"
+        varAuftragSettings(5, 1) = "string"
+        varAuftragSettings(5, 2) = Null
+    varAuftragSettings(6, 0) = "ParentKey"
+        varAuftragSettings(6, 1) = "string"
+        varAuftragSettings(6, 2) = Null
+    varAuftragSettings(7, 0) = "Bemerkung"
+        varAuftragSettings(7, 1) = "string"
+        varAuftragSettings(7, 2) = Null
+    varAuftragSettings(8, 0) = "BeginnSoll"
+        varAuftragSettings(8, 1) = "date"
+        varAuftragSettings(8, 2) = Null
+    varAuftragSettings(9, 0) = "EndeSoll"
+        varAuftragSettings(9, 1) = "date"
+        varAuftragSettings(9, 2) = Null
+    varAuftragSettings(10, 0) = "Erstellt"
+        varAuftragSettings(10, 1) = "date"
+        varAuftragSettings(10, 2) = Null
+    varAuftragSettings(11, 0) = "Kunde"
+        varAuftragSettings(11, 1) = "string"
+        varAuftragSettings(11, 2) = Null
+        
+    DefaultValue = varAuftragSettings
+End Function
 
-' if no recordset is selected, set to default
-' check if query exists
+' set to default when no recordset is selected
+' check if source (query) exists
 ' check if recordset exists
-' assign recordset to mastrColumnToVariable
+' assign recordset to mavarAuftragAttributes
 Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
-    ' set error state
-    Dim bolErrorState As Boolean
-    bolErrorState = False
-    
-    ' name of the table or query that contains the
-    ' sought-after recordset
-    Dim strObjectTitle As String
-    ' strObjectTitle = "tblAuftrag"
-    strObjectTitle = "qryAuftrag"
-
-    ' the type of the containing table,
-    ' feasible values are: table, query
-    Dim strObjectType As String
-    ' strObjectType = "table"
-    strObjectType = "query"
-
-    ' name of the column that contains the recordset
-    Dim strKeyColumn As String
-    strKeyColumn = "AftrID"
-
-    ' define database
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    ' define recordset
-    Dim rstRecordset As DAO.RecordSet
-    
-    ' loop variable
-    Dim intLoopVar As Integer
-
-    ' error handler if no recordset is selected
-    ' end exitProc
+    ' error handler in case no recordset is selected
     If IsNull(varRecordsetName) Then
         ' verbatim message
         If gconVerbatim = True Then
             Debug.Print "clsAuftrag.SelectRecordset: varRecordsetName ist leer, " _
                 & "Defaultwert anzeigen"
         End If
-        ' default Value
-        DefaultValue
+        ' load default Value
+        mavarAuftragAttributes = DefaultValue
         GoTo ExitProc
     End If
+    
+    ' recordset source settings
+    ' source type, feasible values: table, query
+    Dim strSourceType As String
+    strSourceType = "table"
+    ' source name
+    Dim strSourceName As String
+    strSourceName = "tblAuftrag"
+    ' name of scanned column
+    Dim strKeyColumn As String
+    strKeyColumn = "AftrID"
         
-    ' check if referenced query exists, when negative
-    ' return error + exitProc
-    If basSupport.ObjectExists(strObjectTitle, strObjectType) = False Then
-        Debug.Print "clsAuftrag.SelectRecordset: " & strObjectTitle & " existiert nicht. Prozedur abgebrochen."
+    ' check if source exists
+    ' negative: return error + exitProc
+    If basSupport.ObjectExists(strSourceName, strSourceType) = False Then
+        Debug.Print "clsAuftrag.SelectRecordset: " & strSourceName & " existiert nicht. Prozedur abgebrochen."
         GoTo ExitProc
     End If
     
     ' check if recordset exists
-    ' likely obsolete, since the recordset is chosen from a recordset selection
-    If basSupport.RecordsetExists(strObjectTitle, strKeyColumn, varRecordsetName) <> True Then
+    ' likely obsolete, since the recordset is chosen from selection of recordsets
+    If basSupport.RecordsetExists(strSourceName, strKeyColumn, varRecordsetName) <> True Then
         Debug.Print "clsAuftrag.SelectRecordset: " & varRecordsetName & " existiert nicht. Prozedur abgebrochen."
         MsgBox varRecordsetName & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
         GoTo ExitProc
     End If
+    
+    ' define database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    ' define recordset
+    Dim rstRecordset As DAO.RecordSet
 
-    ' select recordset from table or query
-    Set rstRecordset = dbsCurrentDB.OpenRecordset(strObjectTitle, dbOpenDynaset)
+    ' select recordset
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strSourceName, dbOpenDynaset)
     rstRecordset.FindFirst (strKeyColumn & " = '" & CStr(varRecordsetName) & "'")
 
-    ' assign recordset to array
-    For intLoopVar = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
-        mastrColumnToVariable(2, intLoopVar) = rstRecordset.Fields(mastrColumnToVariable(0, intLoopVar))
+    ' load recordset to class properties
+    Dim inti As Integer
+    For inti = LBound(mavarAuftragAttributes, 1) + 1 To UBound(mavarAuftragAttributes, 1)
+        ' property value [mavarAuftragAttributes(inti, 2)] = recordset value [mavarAuftragAttributes(inti, 0)]
+        mavarAuftragAttributes(inti, 2) = rstRecordset.Fields(mavarAuftragAttributes(inti, 0))
     Next
     
-    ' verbatim message: return data content of the array
-    If gconVerbatim = True Then
-        For intLoopVar = LBound(mastrColumnToVariable, 2) To UBound(mastrColumnToVariable, 2)
-            Debug.Print "clsAuftrag.SelectRecordset: " & mastrColumnToVariable(0, intLoopVar) & vbTab & mastrColumnToVariable(2, intLoopVar)
+    ' set local varbatim message on or off
+    Dim bolVerbatim As Boolean
+    bolVerbatim = False
+    
+    ' verbatim message: return data from class properties
+    If bolVerbatim = True Then
+        For inti = LBound(mavarAuftragAttributes, 1) + 1 To UBound(mavarAuftragAttributes, 1)
+            Debug.Print "clsAuftrag.SelectRecordset: " & mavarAuftragAttributes(inti, 0) & vbTab & mavarAuftragAttributes(inti, 2)
         Next
     End If
     
@@ -158,42 +166,62 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     Set rstRecordset = Nothing
 
 ExitProc:
-        dbsCurrentDB.Close
-        Set dbsCurrentDB = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
 End Sub
 
 ' write class properties to recordset
 Public Sub SaveRecordset(ByVal varRecordsetName As Variant)
-    ' initiate current database
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
     
-    If gconVerbatim = True Then
+    Dim strTargetTableName As String
+    strTargetTableName = "tblAuftrag"
+    
+    Dim strKeyColumn As String
+    strKeyColumn = mavarAuftragAttributes(1, 0)
+    
+    ' verbatim message
+    If gconVerbatim Then
             Debug.Print "clsAuftrag.SaveRecordset ausfuehren"
     End If
     
-    ' error handler, case Recordset is not selected
+    ' error handler, case no item is selected a.k.a. varRecordset is empty
     If IsNull(varRecordsetName) Then
         ' verbatim message
-        If gconVerbatim = True Then
-            Debug.Print "clsAuftrag.SaveRecordset: kein Recordset ausgew�hlt, Speichern abbrechen"
-        End If
+        Debug.Print "clsAuftrag.SaveRecordset: kein Recordset ausgew�hlt, Speichern abbrechen"
         ' error message
         MsgBox "Kein Datensatz ausgewaehlt", vbCritical, "Speichern abgebrochen"
         ' abort procedure
         GoTo ExitProc
     End If
     
-    ' initiate object
-    Dim rstAftr As DAO.RecordSet
-    Set rstAftr = dbsCurrentDB.OpenRecordset("tblAuftrag", dbOpenDynaset)
-    rstAftr.FindFirst (mastrColumnToVariable(0, 0) & " = '" & varRecordsetName & "'")
+    ' declare current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
     
+    ' declare Auftrag
+    Dim rstAftr As DAO.RecordSet
+    Set rstAftr = dbsCurrentDB.OpenRecordset(strTargetTableName, dbOpenDynaset)
+    
+    ' find fist recordset where AftrID = varRecordsetName
+    rstAftr.FindFirst (strKeyColumn & " = '" & varRecordsetName & "'")
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' move through textboxes, transform datatype and write properties to recordset
     Dim inti As Integer
     With rstAftr
         .Edit
-            For inti = LBound(mastrColumnToVariable, 2) + 1 To UBound(mastrColumnToVariable, 2)
-                CallByName rstAftr, mastrColumnToVariable(0, inti), VbLet, mastrColumnToVariable(2, inti)
+            For inti = LBound(mavarAuftragAttributes, 1) + 1 To UBound(mavarAuftragAttributes, 1)
+                ' local verbatim
+                If bolLocalVerbatim Then
+                    Debug.Print "clsAuftrag.SaveRecordset: " & mavarAuftragAttributes(inti, 0) & " = " & mavarAuftragAttributes(inti, 2)
+                End If
+                ' attribute name: mavarAuftragAttributes(inti, 0), _
+                ' property value: mavarAuftragAttributes(inti, 2), _
+                ' data type: mavarAuftragAttributes(inti, 1)
+                CallByName rstAftr, mavarAuftragAttributes(inti, 0), VbLet, basSupport.CheckDataType(mavarAuftragAttributes(inti, 2), mavarAuftragAttributes(inti, 1))
             Next
         .Update
     End With
@@ -210,8 +238,9 @@ ExitProc:
     Set dbsCurrentDB = Nothing
 End Sub
 
-' durch Schaltfläche 'Suchen' ausführen,
-' erzeugt Abfrage unter Berücksichtigung des Suchbegriffs
+' inaktiv
+' durch Schaltflaeche 'Suchen' ausfuehren,
+' erzeugt Abfrage unter Beruecksichtigung des Suchbegriffs
 Public Sub Suchen(ByVal varSuchbegriff As Variant)
     Set mdbsCurrentDb = CurrentDb
     
@@ -267,53 +296,55 @@ End Sub
 ' 1. referenced table dosn't exist,
 ' 2. recordset name is empty,
 ' 3. recordset name is taken
-Public Function AddRecordset(ByVal RecordsetName As String) As Boolean
+Public Function AddRecordset(ByVal strRecordsetName As String) As Boolean
     
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "clsAuftrag.AddRecordset ausfuehren"
+    End If
     
-    Dim rstRecordset As DAO.RecordSet
+    ' settings
+    Dim strTargetName As String
+    strTargetName = "tblAuftrag"
+    
+    Dim strKeyColumn As String
+    strKeyColumn = "AftrID"
     
     ' error state
     Dim bolError As Boolean
     bolError = False
     
-    Dim strTableName As String
-    Dim strKeyColumn As String
-    Dim strRecordsetName As String
-    Dim strArtifact As String
     Dim strDialogMessage As String
-    Dim strDialogTitle As String
-    
-    strTableName = "tblAuftrag"
-    strKeyColumn = "AftrID"
-    strRecordsetName = RecordsetName
-    strArtifact = "Auftrag"
     strDialogMessage = "Auftrag ID eingeben"
+    
+    Dim strDialogTitle As String
     strDialogTitle = "Auftrag erfassen"
     
-    ' check if strTableName exists
-    If basSupport.ObjectExists(strTableName, "table") = False Then
-        Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert nicht. Prozedur abgebrochen."
+    ' check if strTargetName exists
+    If basSupport.ObjectExists(strTargetName, "table") = False Then
+        Debug.Print "basSupport.AddrecordsetParent: " & strTargetName & " existiert nicht. Prozedur abgebrochen."
         bolError = True
         GoTo ExitProc
     Else:
         If gconVerbatim = True Then
-            Debug.Print "basSupport.AddrecordsetParent: " & strTableName & " existiert."
+            Debug.Print "basSupport.AddrecordsetParent: " & strTargetName & " existiert."
         End If
     End If
+    
+    Dim strArtifact As String
+    strArtifact = "Auftrag"
     
     ' check if recordset name is empty, if true then messagebox + exit procedure
     If basSupport.PflichtfeldIstLeer(strRecordsetName) = True Then
         Debug.Print "clsAuftrag.Addrecordset: " & strArtifact & _
             " ist leer. Prozedur abgebrochen."
-        MsgBox strArtifact & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
+        MsgBox strArtifact & " ist leer. Prozedur abgebrochen.", vbCritical, "Fehler"
         bolError = True
         GoTo ExitProc
     End If
     
     ' check if recordset already exists
-    If basSupport.RecordsetExists(strTableName, strKeyColumn, strRecordsetName) = True Then
+    If basSupport.RecordsetExists(strTargetName, strKeyColumn, strRecordsetName) = True Then
         Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName _
             & " existiert bereits. Prozedur abgebrochen."
         ' error message via messagebox
@@ -325,15 +356,18 @@ Public Function AddRecordset(ByVal RecordsetName As String) As Boolean
     End If
 
     ' create recordset
-    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTargetName, dbOpenDynaset)
 
-        rstRecordset.AddNew
-            rstRecordset.Fields(strKeyColumn) = strRecordsetName
-        rstRecordset.Update
+    rstRecordset.AddNew
+        rstRecordset.Fields(strKeyColumn) = strRecordsetName
+    rstRecordset.Update
         
     ' completion message
     If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName & " created."
+        Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName & " erzeugt."
     End If
     
     ' clean up
@@ -351,10 +385,13 @@ Public Property Let AftrID(ByVal varAftrID As Variant)
         Debug.Print "clsAuftrag.AftrID (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrID")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrID")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrID, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varAftrID, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get AftrID() As Variant
@@ -364,10 +401,13 @@ Public Property Get AftrID() As Variant
         Debug.Print "clsAuftrag.AftrID (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrID")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrID")
 
-    AftrID = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    AftrID = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let AftrTitel(ByVal varAftrTitel As Variant)
@@ -377,10 +417,13 @@ Public Property Let AftrTitel(ByVal varAftrTitel As Variant)
         Debug.Print "clsAuftrag.AftrTitel (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrTitel")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrTitel")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varAftrTitel, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varAftrTitel, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get AftrTitel() As Variant
@@ -390,10 +433,13 @@ Public Property Get AftrTitel() As Variant
         Debug.Print "clsAuftrag.AftrTitel (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "AftrTitel")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrTitel")
     
-    AftrTitel = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    AftrTitel = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 ' Sollte nur durch den Import eines ICD-Reports geändert werden
@@ -404,10 +450,13 @@ Public Property Let StatusKey(ByVal varStatusKey As Variant)
         Debug.Print "clsAuftrag.StatusKey (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "StatusKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "StatusKey")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varStatusKey, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varStatusKey, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get StatusKey() As Variant
@@ -417,10 +466,13 @@ Public Property Get StatusKey() As Variant
         Debug.Print "clsAuftrag.StatusKey (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "StatusKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "StatusKey")
     
-    StatusKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    StatusKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let PrioritaetKey(ByVal varPrioritaetKey As Variant)
@@ -430,10 +482,13 @@ Public Property Let PrioritaetKey(ByVal varPrioritaetKey As Variant)
         Debug.Print "clsAuftrag.PrioritaetKey (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "PrioritaetKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varPrioritaetKey, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varPrioritaetKey, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get PrioritaetKey() As Variant
@@ -443,10 +498,13 @@ Public Property Get PrioritaetKey() As Variant
         Debug.Print "clsAuftrag.PrioritaetKey (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "PrioritaetKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
     
-    PrioritaetKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    PrioritaetKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let ParentKey(ByVal varParentKey As Variant)
@@ -456,10 +514,13 @@ Public Property Let ParentKey(ByVal varParentKey As Variant)
         Debug.Print "clsAuftrag.ParentKey (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "ParentKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "ParentKey")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varParentKey, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varParentKey, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get ParentKey() As Variant
@@ -469,10 +530,13 @@ Public Property Get ParentKey() As Variant
         Debug.Print "clsAuftrag.ParentKey (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "ParentKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "ParentKey")
     
-    ParentKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    ParentKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let Bemerkung(ByVal varBemerkung As Variant)
@@ -482,10 +546,13 @@ Public Property Let Bemerkung(ByVal varBemerkung As Variant)
         Debug.Print "clsAuftrag.Bemerkung (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Bemerkung")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Bemerkung")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBemerkung, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varBemerkung, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get Bemerkung() As Variant
@@ -495,10 +562,13 @@ Public Property Get Bemerkung() As Variant
         Debug.Print "clsAuftrag.Bemerkung (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Bemerkung")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Bemerkung")
     
-    Bemerkung = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    Bemerkung = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
@@ -508,10 +578,13 @@ Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
         Debug.Print "clsAuftrag.BeginnSoll (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "BeginnSoll")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varBeginnSoll, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varBeginnSoll, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get BeginnSoll() As Variant
@@ -521,10 +594,13 @@ Public Property Get BeginnSoll() As Variant
         Debug.Print "clsAuftrag.BeginnSoll (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "BeginnSoll")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
     
-    BeginnSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes(intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    BeginnSoll = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let EndeSoll(ByVal varEndeSoll As Variant)
@@ -534,10 +610,13 @@ Public Property Let EndeSoll(ByVal varEndeSoll As Variant)
         Debug.Print "clsAuftrag.EndeSoll (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "EndeSoll")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "EndeSoll")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varEndeSoll, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varEndeSoll, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get EndeSoll() As Variant
@@ -547,10 +626,13 @@ Public Property Get EndeSoll() As Variant
         Debug.Print "clsAuftrag.EndeSoll (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "EndeSoll")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "EndeSoll")
     
-    EndeSoll = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    EndeSoll = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let Erstellt(ByVal varErstellt As Variant)
@@ -560,10 +642,13 @@ Public Property Let Erstellt(ByVal varErstellt As Variant)
         Debug.Print "clsAuftrag.Erstellt (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Erstellt")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Erstellt")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varErstellt, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varErstellt, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get Erstellt() As Variant
@@ -573,10 +658,13 @@ Public Property Get Erstellt() As Variant
         Debug.Print "clsAuftrag.Erstellt (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Erstellt")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Erstellt")
     
-    Erstellt = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    Erstellt = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let kunde(ByVal varKunde As Variant)
@@ -586,10 +674,13 @@ Public Property Let kunde(ByVal varKunde As Variant)
         Debug.Print "clsAuftrag.Kunde (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Kunde")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Kunde")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varKunde, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varKunde, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get kunde() As Variant
@@ -599,10 +690,13 @@ Public Property Get kunde() As Variant
         Debug.Print "clsAuftrag.Kunde (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "Kunde")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Kunde")
     
-    kunde = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
+    kunde = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Let OwnerKey(ByVal varOwnerKey As Variant)
@@ -611,10 +705,13 @@ Public Property Let OwnerKey(ByVal varOwnerKey As Variant)
         Debug.Print "clsAuftrag.Owner (Let) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "OwnerKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "OwnerKey")
     
-    mastrColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varOwnerKey, mastrColumnToVariable(1, intItemPosition))
+    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
+    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varOwnerKey, mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
 
 Public Property Get OwnerKey() As Variant
@@ -623,8 +720,11 @@ Public Property Get OwnerKey() As Variant
         Debug.Print "clsAuftrag.Kunde (Get) ausfuehren"
     End If
     
-    Dim intItemPosition
-    intItemPosition = basSupport.FindItemArray(mastrColumnToVariable, "OwnerKey")
+    ' scan attribut array for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "OwnerKey")
     
-    OwnerKey = basSupport.CheckDataType(mastrColumnToVariable(2, intItemPosition), mastrColumnToVariable(1, intItemPosition))
+    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform data type [mavarAuftragAttributes(intItemPosition, 1)]
+    OwnerKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    
 End Property
