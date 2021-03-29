@@ -114,7 +114,7 @@ Public Sub BuildAngebotSuchen()
         Next
     Next
     
-    'labels
+    ' labels
     ' get label settings
     Dim avarLabelSettings As Variant
     avarLabelSettings = basAngebotSuchen.LabelSettings
@@ -135,42 +135,48 @@ Public Sub BuildAngebotSuchen()
         Next
     Next
     
+    ' command buttons
     ' get commandbutton settings
     Dim avarCommandButtonSettings As Variant
     avarCommandButtonSettings = basAngebotSuchen.CommandButtonSettings
     Dim cmd As CommandButton
     
-    ' set command button
-    For inti = LBound(avarCommandButtonSettings, 1) + 1 To UBound(avarCommandButtonSettings, 1)
+    ' create command buttons
+    ' skip propertie name and datatype => + 2
+    For inti = LBound(avarCommandButtonSettings, 1) + 2 To UBound(avarCommandButtonSettings, 1)
+        ' create command button
         Set cmd = CreateControl(strTempFormName, acCommandButton, acDetail)
-        cmd.Name = avarCommandButtonSettings(inti, 0)
-        cmd.Left = avarCommandButtonSettings(inti, 1)
-        cmd.Top = avarCommandButtonSettings(inti, 2)
-        cmd.Width = avarCommandButtonSettings(inti, 3)
-        cmd.Height = avarCommandButtonSettings(inti, 4)
-        cmd.Caption = avarCommandButtonSettings(inti, 5)
-        cmd.OnClick = avarCommandButtonSettings(inti, 6)
-        Set cmd = Nothing
+        ' set command button properties
+        ' get propertie name: avarCommandButtonSettings(0, intj)
+        ' transform datatype: basSupport.CheckDataType
+        ' with destination datatype: avarCommandButtonSettings(inti, intj)
+        ' propertie value: avarCommandButtonSettings(1, intj)
+        For intj = LBound(avarCommandButtonSettings, 2) To UBound(avarCommandButtonSettings, 2)
+            CallByName cmd, avarCommandButtonSettings(0, intj), VbLet, basSupport.CheckDataType(avarCommandButtonSettings(inti, intj), avarCommandButtonSettings(1, intj))
+        Next
     Next
     
+    ' subform
     ' get subform settings
     Dim avarSubFormSettings As Variant
     avarSubFormSettings = basAngebotSuchen.SubFormSettings
     Dim subFrm As SubForm
     
-    ' set subform
-    For inti = LBound(avarSubFormSettings, 1) + 1 To UBound(avarSubFormSettings, 1)
+    ' create subform
+    ' skip propertie name and datatype => + 2
+    For inti = LBound(avarSubFormSettings, 1) + 2 To UBound(avarSubFormSettings, 1)
+        ' create subform
         Set subFrm = CreateControl(strTempFormName, acSubform, acDetail)
-        subFrm.Name = avarSubFormSettings(inti, 0)
-        subFrm.Left = avarSubFormSettings(inti, 1)
-        subFrm.Top = avarSubFormSettings(inti, 2)
-        subFrm.Width = avarSubFormSettings(inti, 3)
-        subFrm.Height = avarSubFormSettings(inti, 4)
-        subFrm.SourceObject = avarSubFormSettings(inti, 5)
-        subFrm.Locked = avarSubFormSettings(inti, 6)
-        Set subFrm = Nothing
+        ' set subform properties
+        ' get propertie name: avarSubFormSettings(0, intj)
+        ' transform datatype: basSupport.CheckDataType
+        ' with destination datatype: avarSubFormSettings(inti, intj)
+        ' propertie value: avarSubFormSettings(1, intj)
+        For intj = LBound(avarSubFormSettings, 2) To UBound(avarSubFormSettings, 2)
+            CallByName subFrm, avarSubFormSettings(0, intj), VbLet, basSupport.CheckDataType(avarSubFormSettings(inti, intj), avarSubFormSettings(1, intj))
+        Next
     Next
-    
+        
     ' close form
     DoCmd.Close acForm, strTempFormName, acSaveYes
     
@@ -245,7 +251,7 @@ Private Function CommandButtonSettings() As Variant
         Debug.Print "basAngebotSuchen.CommandButtonSettings ausfuehren"
     End If
 
-    Dim avarSettings(2, 6) As Variant
+    Dim avarSettings(3, 6) As Variant
     avarSettings(0, 0) = "Name"
         avarSettings(0, 1) = "Left"
         avarSettings(0, 2) = "Top"
@@ -253,20 +259,27 @@ Private Function CommandButtonSettings() As Variant
         avarSettings(0, 4) = "Height"
         avarSettings(0, 5) = "Caption"
         avarSettings(0, 6) = "OnClick"
-    avarSettings(1, 0) = "cmdExit"
-        avarSettings(1, 1) = 12585
-        avarSettings(1, 2) = 960
-        avarSettings(1, 3) = 3120
-        avarSettings(1, 4) = 330
-        avarSettings(1, 5) = "Schlieﬂen"
-        avarSettings(1, 6) = "=CloseFrmAngebotSuchen()"
-    avarSettings(2, 0) = "cmdSearch"
-        avarSettings(2, 1) = 6975
+    avarSettings(1, 0) = "string"
+        avarSettings(1, 1) = "integer"
+        avarSettings(1, 2) = "integer"
+        avarSettings(1, 3) = "integer"
+        avarSettings(1, 4) = "integer"
+        avarSettings(1, 5) = "string"
+        avarSettings(1, 6) = "string"
+    avarSettings(2, 0) = "cmdExit"
+        avarSettings(2, 1) = 12585
         avarSettings(2, 2) = 960
-        avarSettings(2, 3) = 2730
+        avarSettings(2, 3) = 3120
         avarSettings(2, 4) = 330
-        avarSettings(2, 5) = "Suchen"
+        avarSettings(2, 5) = "Schlieﬂen"
         avarSettings(2, 6) = "=CloseFrmAngebotSuchen()"
+    avarSettings(3, 0) = "cmdSearch"
+        avarSettings(3, 1) = 6975
+        avarSettings(3, 2) = 960
+        avarSettings(3, 3) = 2730
+        avarSettings(3, 4) = 330
+        avarSettings(3, 5) = "Suchen"
+        avarSettings(3, 6) = "=CloseFrmAngebotSuchen()"
         
     CommandButtonSettings = avarSettings
 End Function
@@ -326,7 +339,7 @@ Private Function SubFormSettings() As Variant
         Debug.Print "basAngebotSuchen.SubFormSettings ausfuehren"
     End If
     
-    Dim avarSubFormSettings(1, 6) As Variant
+    Dim avarSubFormSettings(2, 6) As Variant
     
     avarSubFormSettings(0, 0) = "Name"
         avarSubFormSettings(0, 1) = "Left"
@@ -335,13 +348,20 @@ Private Function SubFormSettings() As Variant
         avarSubFormSettings(0, 4) = "Height"
         avarSubFormSettings(0, 5) = "SourceObject"
         avarSubFormSettings(0, 6) = "Locked"
-    avarSubFormSettings(1, 0) = "frbSubFrm"
-        avarSubFormSettings(1, 1) = 510
-        avarSubFormSettings(1, 2) = 2453
-        avarSubFormSettings(1, 3) = 9218
-        avarSubFormSettings(1, 4) = 5055
-        avarSubFormSettings(1, 5) = "frmAngebotSuchenSub"
-        avarSubFormSettings(1, 6) = True
+    avarSubFormSettings(1, 0) = "string"
+        avarSubFormSettings(1, 1) = "integer"
+        avarSubFormSettings(1, 2) = "integer"
+        avarSubFormSettings(1, 3) = "integer"
+        avarSubFormSettings(1, 4) = "integer"
+        avarSubFormSettings(1, 5) = "string"
+        avarSubFormSettings(1, 6) = "booelan"
+    avarSubFormSettings(2, 0) = "frbSubFrm"
+        avarSubFormSettings(2, 1) = 510
+        avarSubFormSettings(2, 2) = 2453
+        avarSubFormSettings(2, 3) = 9218
+        avarSubFormSettings(2, 4) = 5055
+        avarSubFormSettings(2, 5) = "frmAngebotSuchenSub"
+        avarSubFormSettings(2, 6) = True
         
     SubFormSettings = avarSubFormSettings
 End Function
