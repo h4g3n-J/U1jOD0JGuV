@@ -128,6 +128,7 @@ Public Sub BuildFormAngebotSuchenSub()
 End Sub
 
 ' form layout settings
+' Private Function ObjectSettings(ByVal intItem As Integer, intProperty As Integer) As Variant
 Private Function ObjectSettings() As Variant
     
     If gconVerbatim Then
@@ -143,22 +144,18 @@ Private Function ObjectSettings() As Variant
         avarField(1, 1) = True
         avarField(1, 2) = "BWI Alias"
         avarField(1, 3) = "txt0"
-        ' avarField(1, 3) = Null
     avarField(2, 0) = "EAkurzKey"
         avarField(2, 1) = True
         avarField(2, 2) = "Einzelauftrag"
-        ' avarField(2, 3) = "txt0"
-        avarField(2, 3) = Null
+        avarField(2, 3) = "txt1"
     avarField(3, 0) = "MengengeruestLink"
         avarField(3, 1) = False
         avarField(3, 2) = "Mengengeruest"
-        ' avarField(3, 3) = "txt0"
-        avarField(3, 3) = Null
+        avarField(3, 3) = "txt2"
     avarField(4, 0) = "LeistungsbeschreibungLink"
         avarField(4, 1) = False
         avarField(4, 2) = "Leistungsbeschreibung"
-        ' avarField(4, 3) = "txt0"
-        avarField(4, 3) = Null
+        avarField(4, 3) = "txt3"
     avarField(5, 0) = "Verfuegung"
         avarField(5, 1) = False
         avarField(5, 2) = "Verfuegung"
@@ -219,6 +216,7 @@ Private Function ObjectSettings() As Variant
         ' avarField(16, 3) = "txt0"
         avarField(16, 3) = Null
         
+    ' ObjectSettings = avarField(intItem, intProperty)
     ObjectSettings = avarField
 End Function
 
@@ -269,31 +267,4 @@ Public Function SelectRecordsetAngebot()
     
 ExitProc:
     Set angebot = Nothing
-End Function
-
-Private Function TextBoxSettings() As Variant
-    Dim avarSettings(1, 7) As Variant
-        
-    avarSettings(0, 0) = "textbox name"
-        avarSettings(0, 1) = "textbox value"
-        avarSettings(0, 2) = "textbox border style"
-        avarSettings(0, 3) = "textbox ishyperlink"
-        avarSettings(0, 4) = "textbox locked"
-        avarSettings(0, 5) = "textbox format"
-        avarSettings(0, 6) = "textbox visible"
-        avarSettings(0, 7) = "textbox defaultValue"
-    avarSettings(1, 0) = "txt0"
-        avarSettings(1, 1) = "BWIKey"
-        avarSettings(1, 2) = 0
-        avarSettings(1, 3) = False
-        avarSettings(1, 4) = True
-        avarSettings(1, 5) = ""
-        avarSettings(1, 6) = True
-        avarSettings(1, 7) = Null
-        
-    If gconVerbatim = True Then
-        Debug.Print "basAngebotSuchenSub.TextBoxSettings ausgefuehrt"
-    End If
-        
-        TextBoxSettings = avarSettings
 End Function

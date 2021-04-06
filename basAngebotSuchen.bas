@@ -2,69 +2,65 @@ Attribute VB_Name = "basAngebotSuchen"
 Option Compare Database
 Option Explicit
 
-Private Function tableSettings(ByVal intColumn As Integer, intRow As Integer, intProperty As Integer) As Integer
+' returns array
+' calculates left, top, width and height parameters
+Private Function CreateTable(Optional ByVal intNumberOfRows As Integer = 6)
+    
+    Const cintNumberOfColumns As Integer = 1
+    ' Const cintNumberOfRows As Integer = intNumberOfRows - 1
+    ' Const cintNumberOfRows As Integer = 5
+    intNumberOfRows = intNumberOfRows - 1
     
     Const cintCol00Left As Integer = 10000
     Const cintCol00Width As Integer = 2540
-    
-    Const cintHorizontalSpacing As Integer = 60
-    
-    Const cintCol01Left As Integer = cintCol00Left + cintCol00Width + cintHorizontalSpacing
+    Const cintHorizontalSpacingCol00Col01 As Integer = 60
     Const cintCol01Width As Integer = 3120
-    
-    Const cintHeight As Integer = 330
-    
+        
+    Const cintRow00Top As Integer = 2430
+    Const cintRowHeight As Integer = 330
     Const cintVerticalSpacing As Integer = 60
     
-    Const cintRow00Top As Integer = 2430
-    Const cintRow01Top As Integer = cintRow00Top + cintHeight + cintVerticalSpacing
-    Const cintRow02Top As Integer = cintRow01Top + cintHeight + cintVerticalSpacing
+    Const cintNumberOfProperties = 3
+    ' avarSettings(0, 0) = "Left"
+    ' avarSettings(0, 1) = "Top"
+    ' avarSettings(0, 2) = "Width"
+    ' avarSettings(0, 3) = "Height"
+        
+    Dim inti As Integer
+    Dim intj As Integer
     
-    Dim aintTableSettings(1, 2, 3) As Integer
-    ' avarSettings(0, 1) = "Left"
-    ' avarSettings(0, 2) = "Top"
-    ' avarSettings(0, 3) = "Width"
-    ' avarSettings(0, 4) = "Height"
+    Dim aintTableSettings() As Integer
+    ReDim aintTableSettings(cintNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
     
-    ' column0, row 0
-    aintTableSettings(0, 0, 0) = cintCol00Left
-    aintTableSettings(0, 0, 1) = cintRow00Top
-    aintTableSettings(0, 0, 2) = cintCol00Width
-    aintTableSettings(0, 0, 3) = cintHeight
-    
-    ' column1, row 0
-    aintTableSettings(1, 0, 0) = cintCol01Left
-    aintTableSettings(1, 0, 1) = cintRow00Top
-    aintTableSettings(1, 0, 2) = cintCol01Width
-    aintTableSettings(1, 0, 3) = cintHeight
-    
-    ' column0, row 1
-    aintTableSettings(0, 1, 0) = cintCol00Left
-    aintTableSettings(0, 1, 1) = cintRow01Top
-    aintTableSettings(0, 1, 2) = cintCol00Width
-    aintTableSettings(0, 1, 3) = cintHeight
-    
-    ' column1, row 1
-    aintTableSettings(1, 1, 0) = cintCol01Left
-    aintTableSettings(1, 1, 1) = cintRow01Top
-    aintTableSettings(1, 1, 2) = cintCol01Width
-    aintTableSettings(1, 1, 3) = cintHeight
-    
-    ' column0, row2
-    aintTableSettings(0, 2, 0) = cintCol00Left
-    aintTableSettings(0, 2, 1) = cintRow02Top
-    aintTableSettings(0, 2, 2) = cintCol00Width
-    aintTableSettings(0, 2, 3) = cintHeight
-    
-    ' column1, row 2
-    aintTableSettings(1, 2, 0) = cintCol01Left
-    aintTableSettings(1, 2, 1) = cintRow02Top
-    aintTableSettings(1, 2, 2) = cintCol01Width
-    aintTableSettings(1, 2, 3) = cintHeight
+    For inti = 0 To cintNumberOfColumns
+        For intj = 0 To intNumberOfRows
+            ' set column left
+            aintTableSettings(inti, intj, 0) = cintCol00Left + inti * (cintCol00Width + cintHorizontalSpacingCol00Col01)
+            ' aintTableSettings(inti, intj, 0) = cintCol00Left
+            ' aintTableSettings(0, 0, 0) = CStr(cintCol00Left)
+            ' set row top
+            aintTableSettings(inti, intj, 1) = cintRow00Top + intj * (cintRowHeight + cintVerticalSpacing)
+            ' set column width
+            Select Case inti
+                ' column 0
+                Case 0
+                    aintTableSettings(inti, intj, 2) = cintCol00Width
+                ' column 1
+                Case 1
+                    aintTableSettings(inti, intj, 2) = cintCol01Width
+            End Select
+            ' set row height
+            aintTableSettings(inti, intj, 3) = cintRowHeight
+        Next
+    Next
+        
+    ' ReDim Preserve aintTableSettings(cintNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
 
-    tableSettings = aintTableSettings(intColumn, intRow, intProperty)
-    
+    Debug.Print "basAngebotSuchen.CreateTable ausgefuehrt"
+    CreateTable = aintTableSettings
+
 End Function
+
 Public Sub BuildAngebotSuchen()
     
     ' verbatim message
@@ -96,21 +92,21 @@ Public Sub BuildAngebotSuchen()
     ' get textbox settings
     Dim avarTextboxSettings As Variant
     avarTextboxSettings = basAngebotSuchen.TextBoxSettings
-    Dim txt As TextBox
+    Dim txtTextbox As TextBox
     
     ' create textboxes
     Dim inti As Integer
     Dim intj As Integer
     ' skip propertie name and datatype => + 2
     For inti = LBound(avarTextboxSettings, 1) + 2 To UBound(avarTextboxSettings, 1)
-        Set txt = CreateControl(strTempFormName, acTextBox, acDetail)
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         ' set textbox properties
-        ' get propertie name: avarTextboxSettings(0, intj)
+        ' get property name: avarTextboxSettings(0, intj)
         ' transform datatype: basSupport.CheckDataType
         ' with destination datatype: avarTextboxSettings(inti, intj)
         ' propertie value: avarTextboxSettings(1, intj)
         For intj = LBound(avarTextboxSettings, 2) To UBound(avarTextboxSettings, 2)
-            CallByName txt, avarTextboxSettings(0, intj), VbLet, basSupport.CheckDataType(avarTextboxSettings(inti, intj), avarTextboxSettings(1, intj))
+            CallByName txtTextbox, avarTextboxSettings(0, intj), VbLet, basSupport.CheckDataType(avarTextboxSettings(inti, intj), avarTextboxSettings(1, intj))
         Next
     Next
     
@@ -126,7 +122,7 @@ Public Sub BuildAngebotSuchen()
         ' create label
         Set lbl = CreateControl(strTempFormName, acLabel, acDetail)
         ' set label properties
-        ' get propertie name: avarLabelSettings(0, intj)
+        ' get property name: avarLabelSettings(0, intj)
         ' transform datatype: basSupport.CheckDataType
         ' with destination datatype: avarLabelSettings(inti, intj)
         ' propertie value: avarLabelSettings(1, intj)
@@ -147,7 +143,7 @@ Public Sub BuildAngebotSuchen()
         ' create command button
         Set cmd = CreateControl(strTempFormName, acCommandButton, acDetail)
         ' set command button properties
-        ' get propertie name: avarCommandButtonSettings(0, intj)
+        ' get property name: avarCommandButtonSettings(0, intj)
         ' transform datatype: basSupport.CheckDataType
         ' with destination datatype: avarCommandButtonSettings(inti, intj)
         ' propertie value: avarCommandButtonSettings(1, intj)
@@ -168,7 +164,7 @@ Public Sub BuildAngebotSuchen()
         ' create subform
         Set subFrm = CreateControl(strTempFormName, acSubform, acDetail)
         ' set subform properties
-        ' get propertie name: avarSubFormSettings(0, intj)
+        ' get property name: avarSubFormSettings(0, intj)
         ' transform datatype: basSupport.CheckDataType
         ' with destination datatype: avarSubFormSettings(inti, intj)
         ' propertie value: avarSubFormSettings(1, intj)
@@ -197,6 +193,10 @@ Private Function LabelSettings() As Variant
         Debug.Print "basAngebotSuchen.LabelSettings ausfuehren"
     End If
     
+    ' get table parameters
+    Dim intTableSettings() As Integer
+    intTableSettings = basAngebotSuchen.CreateTable(5)
+    
     Dim avarSettings(5, 6) As Variant
     avarSettings(0, 0) = "Name"
         avarSettings(0, 1) = "Left"
@@ -220,24 +220,24 @@ Private Function LabelSettings() As Variant
         avarSettings(2, 5) = "Angebot Suchen"
         avarSettings(2, 6) = True
     avarSettings(3, 0) = "lbl00"
-        avarSettings(3, 1) = basAngebotSuchen.tableSettings(0, 0, 0)
-        avarSettings(3, 2) = basAngebotSuchen.tableSettings(0, 0, 1)
-        avarSettings(3, 3) = basAngebotSuchen.tableSettings(0, 0, 2)
-        avarSettings(3, 4) = basAngebotSuchen.tableSettings(0, 0, 3)
+        avarSettings(3, 1) = intTableSettings(0, 0, 0)
+        avarSettings(3, 2) = intTableSettings(0, 0, 1)
+        avarSettings(3, 3) = intTableSettings(0, 0, 2)
+        avarSettings(3, 4) = intTableSettings(0, 0, 3)
         avarSettings(3, 5) = "Angebot"
         avarSettings(3, 6) = True
     avarSettings(4, 0) = "lbl01"
-        avarSettings(4, 1) = basAngebotSuchen.tableSettings(0, 1, 0)
-        avarSettings(4, 2) = basAngebotSuchen.tableSettings(0, 1, 1)
-        avarSettings(4, 3) = basAngebotSuchen.tableSettings(0, 1, 2)
-        avarSettings(4, 4) = basAngebotSuchen.tableSettings(0, 1, 3)
+        avarSettings(4, 1) = intTableSettings(0, 1, 0)
+        avarSettings(4, 2) = intTableSettings(0, 1, 1)
+        avarSettings(4, 3) = intTableSettings(0, 1, 2)
+        avarSettings(4, 4) = intTableSettings(0, 1, 3)
         avarSettings(4, 5) = "Einzelauftrag"
         avarSettings(4, 6) = True
     avarSettings(5, 0) = "lbl02"
-        avarSettings(5, 1) = basAngebotSuchen.tableSettings(0, 2, 0)
-        avarSettings(5, 2) = basAngebotSuchen.tableSettings(0, 2, 1)
-        avarSettings(5, 3) = basAngebotSuchen.tableSettings(0, 2, 2)
-        avarSettings(5, 4) = basAngebotSuchen.tableSettings(0, 2, 3)
+        avarSettings(5, 1) = intTableSettings(0, 2, 0)
+        avarSettings(5, 2) = intTableSettings(0, 2, 1)
+        avarSettings(5, 3) = intTableSettings(0, 2, 2)
+        avarSettings(5, 4) = intTableSettings(0, 2, 3)
         avarSettings(5, 5) = "test"
         avarSettings(5, 6) = False
         
@@ -288,10 +288,14 @@ Private Function TextBoxSettings() As Variant
 
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CommandButtonSettings ausfuehren"
+        Debug.Print "basAngebotSuchen.TextBoxSettingsNeu ausfuehren"
     End If
     
-    Dim avarSettings(5, 5) As Variant
+    ' get table parameters
+    Dim intTableSettings() As Integer
+    intTableSettings = basAngebotSuchen.CreateTable(5)
+    
+    Dim avarSettings(7, 5) As Variant
     avarSettings(0, 0) = "Name"
         avarSettings(0, 1) = "Left"
         avarSettings(0, 2) = "Top"
@@ -311,23 +315,35 @@ Private Function TextBoxSettings() As Variant
         avarSettings(2, 4) = 330
         avarSettings(2, 5) = True
     avarSettings(3, 0) = "txt0"
-        avarSettings(3, 1) = basAngebotSuchen.tableSettings(1, 0, 0)
-        avarSettings(3, 2) = basAngebotSuchen.tableSettings(1, 0, 1)
-        avarSettings(3, 3) = basAngebotSuchen.tableSettings(1, 0, 2)
-        avarSettings(3, 4) = basAngebotSuchen.tableSettings(1, 0, 3)
+        avarSettings(3, 1) = intTableSettings(1, 0, 0)
+        avarSettings(3, 2) = intTableSettings(1, 0, 1)
+        avarSettings(3, 3) = intTableSettings(1, 0, 2)
+        avarSettings(3, 4) = intTableSettings(1, 0, 3)
         avarSettings(3, 5) = True
     avarSettings(4, 0) = "txt1"
-        avarSettings(4, 1) = basAngebotSuchen.tableSettings(1, 1, 0)
-        avarSettings(4, 2) = basAngebotSuchen.tableSettings(1, 1, 1)
-        avarSettings(4, 3) = basAngebotSuchen.tableSettings(1, 1, 2)
-        avarSettings(4, 4) = basAngebotSuchen.tableSettings(1, 1, 3)
+        avarSettings(4, 1) = intTableSettings(1, 1, 0)
+        avarSettings(4, 2) = intTableSettings(1, 1, 1)
+        avarSettings(4, 3) = intTableSettings(1, 1, 2)
+        avarSettings(4, 4) = intTableSettings(1, 1, 3)
         avarSettings(4, 5) = True
     avarSettings(5, 0) = "txt2"
-        avarSettings(5, 1) = basAngebotSuchen.tableSettings(1, 2, 0)
-        avarSettings(5, 2) = basAngebotSuchen.tableSettings(1, 2, 1)
-        avarSettings(5, 3) = basAngebotSuchen.tableSettings(1, 2, 2)
-        avarSettings(5, 4) = basAngebotSuchen.tableSettings(1, 2, 3)
-        avarSettings(5, 5) = False
+        avarSettings(5, 1) = intTableSettings(1, 2, 0)
+        avarSettings(5, 2) = intTableSettings(1, 2, 1)
+        avarSettings(5, 3) = intTableSettings(1, 2, 2)
+        avarSettings(5, 4) = intTableSettings(1, 2, 3)
+        avarSettings(5, 5) = True
+    avarSettings(6, 0) = "txt3"
+        avarSettings(6, 1) = intTableSettings(1, 3, 0)
+        avarSettings(6, 2) = intTableSettings(1, 3, 1)
+        avarSettings(6, 3) = intTableSettings(1, 3, 2)
+        avarSettings(6, 4) = intTableSettings(1, 3, 3)
+        avarSettings(6, 5) = True
+    avarSettings(7, 0) = "txt4"
+        avarSettings(7, 1) = intTableSettings(1, 4, 0)
+        avarSettings(7, 2) = intTableSettings(1, 4, 1)
+        avarSettings(7, 3) = intTableSettings(1, 4, 2)
+        avarSettings(7, 4) = intTableSettings(1, 4, 3)
+        avarSettings(7, 5) = True
     
     TextBoxSettings = avarSettings
 End Function
