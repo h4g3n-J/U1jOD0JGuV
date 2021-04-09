@@ -3,21 +3,23 @@ Option Compare Database
 Option Explicit
 
 ' returns array
+' (column, row, property)
+' properties: 0 - Left, 1 - Top, 2 - Width, 3 - Height
 ' calculates left, top, width and height parameters
-Private Function CreateTable(Optional ByVal intNumberOfRows As Integer = 6)
+Private Function CreateTable(ByVal intNumberOfColumns As Integer, ByRef intColumnWidth() As Integer, ByVal intNumberOfRows As Integer)
     
-    Const cintNumberOfColumns As Integer = 1
-    ' Const cintNumberOfRows As Integer = intNumberOfRows - 1
-    ' Const cintNumberOfRows As Integer = 5
+    intNumberOfColumns = intNumberOfColumns - 1
     intNumberOfRows = intNumberOfRows - 1
     
+    ' column dimension
     Const cintCol00Left As Integer = 10000
-    Const cintCol00Width As Integer = 2540
-    Const cintHorizontalSpacingCol00Col01 As Integer = 60
-    Const cintCol01Width As Integer = 3120
-        
+    Const cintHorizontalSpacing As Integer = 60
+            
+    ' row dimension
     Const cintRow00Top As Integer = 2430
-    Const cintRowHeight As Integer = 330
+    Dim intRowHeight As Integer
+    intRowHeight = 330
+    
     Const cintVerticalSpacing As Integer = 60
     
     Const cintNumberOfProperties = 3
@@ -30,31 +32,23 @@ Private Function CreateTable(Optional ByVal intNumberOfRows As Integer = 6)
     Dim intj As Integer
     
     Dim aintTableSettings() As Integer
-    ReDim aintTableSettings(cintNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
+    ReDim aintTableSettings(intNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
     
-    For inti = 0 To cintNumberOfColumns
+    For inti = 0 To intNumberOfColumns
+        ' For intr = 0 To cintNumberOfRows
         For intj = 0 To intNumberOfRows
             ' set column left
-            aintTableSettings(inti, intj, 0) = cintCol00Left + inti * (cintCol00Width + cintHorizontalSpacingCol00Col01)
-            ' aintTableSettings(inti, intj, 0) = cintCol00Left
-            ' aintTableSettings(0, 0, 0) = CStr(cintCol00Left)
+            aintTableSettings(inti, intj, 0) = cintCol00Left + inti * (intColumnWidth(inti) + cintHorizontalSpacing)
             ' set row top
-            aintTableSettings(inti, intj, 1) = cintRow00Top + intj * (cintRowHeight + cintVerticalSpacing)
+            aintTableSettings(inti, intj, 1) = cintRow00Top + intj * (intRowHeight + cintVerticalSpacing)
             ' set column width
-            Select Case inti
-                ' column 0
-                Case 0
-                    aintTableSettings(inti, intj, 2) = cintCol00Width
-                ' column 1
-                Case 1
-                    aintTableSettings(inti, intj, 2) = cintCol01Width
-            End Select
+            aintTableSettings(inti, intj, 2) = intColumnWidth(inti)
             ' set row height
-            aintTableSettings(inti, intj, 3) = cintRowHeight
+            aintTableSettings(inti, intj, 3) = intRowHeight
         Next
     Next
         
-    ' ReDim Preserve aintTableSettings(cintNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
+    ReDim Preserve aintTableSettings(intNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
 
     Debug.Print "basAngebotSuchen.CreateTable ausgefuehrt"
     CreateTable = aintTableSettings
@@ -88,90 +82,25 @@ Public Sub BuildAngebotSuchen()
     ' set form caption
     frm.Caption = strFormName
     
-    ' textboxes
-    ' get textbox settings
-    Dim avarTextboxSettings As Variant
-    avarTextboxSettings = basAngebotSuchen.TextBoxSettings
-    Dim txtTextbox As TextBox
+    ' create table
+    Dim intColumnWidth(1) As Integer
+    intColumnWidth(0) = 2540
+    intColumnWidth(1) = 3120
+    
+    Dim intTableSettings() As Integer
+    intTableSettings = CreateTable(2, intColumnWidth, 6)
     
     ' create textboxes
-    Dim inti As Integer
-    Dim intj As Integer
-    ' skip propertie name and datatype => + 2
-    For inti = LBound(avarTextboxSettings, 1) + 2 To UBound(avarTextboxSettings, 1)
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        ' set textbox properties
-        ' get property name: avarTextboxSettings(0, intj)
-        ' transform datatype: basSupport.CheckDataType
-        ' with destination datatype: avarTextboxSettings(inti, intj)
-        ' propertie value: avarTextboxSettings(1, intj)
-        For intj = LBound(avarTextboxSettings, 2) To UBound(avarTextboxSettings, 2)
-            CallByName txtTextbox, avarTextboxSettings(0, intj), VbLet, basSupport.CheckDataType(avarTextboxSettings(inti, intj), avarTextboxSettings(1, intj))
-        Next
-    Next
-    
-    ' labels
-    ' get label settings
-    Dim avarLabelSettings As Variant
-    avarLabelSettings = basAngebotSuchen.LabelSettings
-    Dim lbl As Label
+    basAngebotSuchen.CreateTextbox strTempFormName, intTableSettings
     
     ' create labels
-    ' skip propertie name and datatype => + 2
-    For inti = LBound(avarLabelSettings, 1) + 2 To UBound(avarLabelSettings, 1)
-        ' create label
-        Set lbl = CreateControl(strTempFormName, acLabel, acDetail)
-        ' set label properties
-        ' get property name: avarLabelSettings(0, intj)
-        ' transform datatype: basSupport.CheckDataType
-        ' with destination datatype: avarLabelSettings(inti, intj)
-        ' propertie value: avarLabelSettings(1, intj)
-        For intj = LBound(avarLabelSettings, 2) To UBound(avarLabelSettings, 2)
-            CallByName lbl, avarLabelSettings(0, intj), VbLet, basSupport.CheckDataType(avarLabelSettings(inti, intj), avarLabelSettings(1, intj))
-        Next
-    Next
-    
-    ' command buttons
-    ' get commandbutton settings
-    Dim avarCommandButtonSettings As Variant
-    avarCommandButtonSettings = basAngebotSuchen.CommandButtonSettings
-    Dim cmd As CommandButton
+    basAngebotSuchen.CreateLabel strTempFormName, intTableSettings
     
     ' create command buttons
-    ' skip propertie name and datatype => + 2
-    For inti = LBound(avarCommandButtonSettings, 1) + 2 To UBound(avarCommandButtonSettings, 1)
-        ' create command button
-        Set cmd = CreateControl(strTempFormName, acCommandButton, acDetail)
-        ' set command button properties
-        ' get property name: avarCommandButtonSettings(0, intj)
-        ' transform datatype: basSupport.CheckDataType
-        ' with destination datatype: avarCommandButtonSettings(inti, intj)
-        ' propertie value: avarCommandButtonSettings(1, intj)
-        For intj = LBound(avarCommandButtonSettings, 2) To UBound(avarCommandButtonSettings, 2)
-            CallByName cmd, avarCommandButtonSettings(0, intj), VbLet, basSupport.CheckDataType(avarCommandButtonSettings(inti, intj), avarCommandButtonSettings(1, intj))
-        Next
-    Next
-    
-    ' subform
-    ' get subform settings
-    Dim avarSubFormSettings As Variant
-    avarSubFormSettings = basAngebotSuchen.SubFormSettings
-    Dim subFrm As SubForm
+    basAngebotSuchen.CreateCommandButton strTempFormName, intTableSettings
     
     ' create subform
-    ' skip propertie name and datatype => + 2
-    For inti = LBound(avarSubFormSettings, 1) + 2 To UBound(avarSubFormSettings, 1)
-        ' create subform
-        Set subFrm = CreateControl(strTempFormName, acSubform, acDetail)
-        ' set subform properties
-        ' get property name: avarSubFormSettings(0, intj)
-        ' transform datatype: basSupport.CheckDataType
-        ' with destination datatype: avarSubFormSettings(inti, intj)
-        ' propertie value: avarSubFormSettings(1, intj)
-        For intj = LBound(avarSubFormSettings, 2) To UBound(avarSubFormSettings, 2)
-            CallByName subFrm, avarSubFormSettings(0, intj), VbLet, basSupport.CheckDataType(avarSubFormSettings(inti, intj), avarSubFormSettings(1, intj))
-        Next
-    Next
+    basAngebotSuchen.CreateSubForm strTempFormName, intTableSettings
         
     ' close form
     DoCmd.Close acForm, strTempFormName, acSaveYes
@@ -186,200 +115,198 @@ Public Sub BuildAngebotSuchen()
 
 End Sub
 
-Private Function LabelSettings() As Variant
+Private Sub CreateTextbox(ByVal strFormName As String, intTableSettings() As Integer)
     
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.LabelSettings ausfuehren"
+        Debug.Print "basAngebotSuchen.CreateTextbox ausfuehren"
     End If
     
-    ' get table parameters
-    Dim intTableSettings() As Integer
-    intTableSettings = basAngebotSuchen.CreateTable(5)
+    ' declare textbox
+    Dim txtTextbox As Textbox
     
-    Dim avarSettings(5, 6) As Variant
-    avarSettings(0, 0) = "Name"
-        avarSettings(0, 1) = "Left"
-        avarSettings(0, 2) = "Top"
-        avarSettings(0, 3) = "Width"
-        avarSettings(0, 4) = "Height"
-        avarSettings(0, 5) = "Caption"
-        avarSettings(0, 6) = "Visible"
-    avarSettings(1, 0) = "string"
-        avarSettings(1, 1) = "integer"
-        avarSettings(1, 2) = "integer"
-        avarSettings(1, 3) = "integer"
-        avarSettings(1, 4) = "integer"
-        avarSettings(1, 5) = "string"
-        avarSettings(1, 6) = "boolean"
-    avarSettings(2, 0) = "lblTitle"
-        avarSettings(2, 1) = 566
-        avarSettings(2, 2) = 227
-        avarSettings(2, 3) = 9210
-        avarSettings(2, 4) = 507
-        avarSettings(2, 5) = "Angebot Suchen"
-        avarSettings(2, 6) = True
-    avarSettings(3, 0) = "lbl00"
-        avarSettings(3, 1) = intTableSettings(0, 0, 0)
-        avarSettings(3, 2) = intTableSettings(0, 0, 1)
-        avarSettings(3, 3) = intTableSettings(0, 0, 2)
-        avarSettings(3, 4) = intTableSettings(0, 0, 3)
-        avarSettings(3, 5) = "Angebot"
-        avarSettings(3, 6) = True
-    avarSettings(4, 0) = "lbl01"
-        avarSettings(4, 1) = intTableSettings(0, 1, 0)
-        avarSettings(4, 2) = intTableSettings(0, 1, 1)
-        avarSettings(4, 3) = intTableSettings(0, 1, 2)
-        avarSettings(4, 4) = intTableSettings(0, 1, 3)
-        avarSettings(4, 5) = "Einzelauftrag"
-        avarSettings(4, 6) = True
-    avarSettings(5, 0) = "lbl02"
-        avarSettings(5, 1) = intTableSettings(0, 2, 0)
-        avarSettings(5, 2) = intTableSettings(0, 2, 1)
-        avarSettings(5, 3) = intTableSettings(0, 2, 2)
-        avarSettings(5, 4) = intTableSettings(0, 2, 3)
-        avarSettings(5, 5) = "test"
-        avarSettings(5, 6) = False
+    ' create search input box
+    Set txtTextbox = CreateControl(strFormName, acTextBox, acDetail)
+        txtTextbox.Name = "txtSearch"
+        txtTextbox.Left = 510
+        txtTextbox.Top = 960
+        txtTextbox.Width = 6405
+        txtTextbox.Height = 330
+        txtTextbox.Visible = True
+    
+    Dim avarSettingsTable(4, 3) As Variant
+    
+    avarSettingsTable(0, 0) = "txt0"
+        avarSettingsTable(0, 1) = 1
+        avarSettingsTable(0, 2) = 0
+        avarSettingsTable(0, 3) = True
+    avarSettingsTable(1, 0) = "txt1"
+        avarSettingsTable(1, 1) = 1
+        avarSettingsTable(1, 2) = 1
+        avarSettingsTable(1, 3) = True
+    avarSettingsTable(2, 0) = "txt2"
+        avarSettingsTable(2, 1) = 1
+        avarSettingsTable(2, 2) = 2
+        avarSettingsTable(2, 3) = True
+    avarSettingsTable(3, 0) = "txt3"
+        avarSettingsTable(3, 1) = 1
+        avarSettingsTable(3, 2) = 3
+        avarSettingsTable(3, 3) = True
+    avarSettingsTable(4, 0) = "txt4"
+        avarSettingsTable(4, 1) = 1
+        avarSettingsTable(4, 2) = 4
+        avarSettingsTable(4, 3) = True
         
-    LabelSettings = avarSettings
-End Function
-
-Private Function CommandButtonSettings() As Variant
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CommandButtonSettings ausfuehren"
-    End If
-
-    Dim avarSettings(3, 6) As Variant
-    avarSettings(0, 0) = "Name"
-        avarSettings(0, 1) = "Left"
-        avarSettings(0, 2) = "Top"
-        avarSettings(0, 3) = "Width"
-        avarSettings(0, 4) = "Height"
-        avarSettings(0, 5) = "Caption"
-        avarSettings(0, 6) = "OnClick"
-    avarSettings(1, 0) = "string"
-        avarSettings(1, 1) = "integer"
-        avarSettings(1, 2) = "integer"
-        avarSettings(1, 3) = "integer"
-        avarSettings(1, 4) = "integer"
-        avarSettings(1, 5) = "string"
-        avarSettings(1, 6) = "string"
-    avarSettings(2, 0) = "cmdExit"
-        avarSettings(2, 1) = 12585
-        avarSettings(2, 2) = 960
-        avarSettings(2, 3) = 3120
-        avarSettings(2, 4) = 330
-        avarSettings(2, 5) = "Schlieﬂen"
-        avarSettings(2, 6) = "=CloseFrmAngebotSuchen()"
-    avarSettings(3, 0) = "cmdSearch"
-        avarSettings(3, 1) = 6975
-        avarSettings(3, 2) = 960
-        avarSettings(3, 3) = 2730
-        avarSettings(3, 4) = 330
-        avarSettings(3, 5) = "Suchen"
-        avarSettings(3, 6) = "=CloseFrmAngebotSuchen()"
+        ' intTableSettings = basAngebotSuchen.CreateTable(5) ' create / calculate table parameters
+        Dim intColumn As Integer
+        Dim intRow As Integer
         
-    CommandButtonSettings = avarSettings
-End Function
+        Dim inti As Integer   ' column
+        For inti = LBound(avarSettingsTable, 1) To UBound(avarSettingsTable, 1)
+            Set txtTextbox = CreateControl(strFormName, acTextBox, acDetail)
+            txtTextbox.Name = avarSettingsTable(inti, 0) ' set name
+            txtTextbox.Visible = avarSettingsTable(inti, 3) ' set visibility
+            
+            intColumn = avarSettingsTable(inti, 1)
+            intRow = avarSettingsTable(inti, 2)
+            ' txtTextbox = TextboxPosition(txtTextbox, intTableSettings, avarSettingsTable(inti, 1), avarSettingsTable(inti, 2)) ' set position
+            Set txtTextbox = PositionObjectInTable(txtTextbox, intTableSettings, intColumn, intRow) ' set position
+        Next
 
-Private Function TextBoxSettings() As Variant
+End Sub
 
+Private Sub CreateLabel(ByVal strFormName As String, intTableSettings() As Integer)
+    
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.TextBoxSettingsNeu ausfuehren"
+        Debug.Print "basAngebotSuchen.CreateLabel ausfuehren"
     End If
     
-    ' get table parameters
-    Dim intTableSettings() As Integer
-    intTableSettings = basAngebotSuchen.CreateTable(5)
+    ' declare label
+    Dim lblLabel As Label
     
-    Dim avarSettings(7, 5) As Variant
-    avarSettings(0, 0) = "Name"
-        avarSettings(0, 1) = "Left"
-        avarSettings(0, 2) = "Top"
-        avarSettings(0, 3) = "Width"
-        avarSettings(0, 4) = "Height"
-        avarSettings(0, 5) = "Visible"
-    avarSettings(1, 0) = "string"
-        avarSettings(1, 1) = "integer"
-        avarSettings(1, 2) = "integer"
-        avarSettings(1, 3) = "integer"
-        avarSettings(1, 4) = "integer"
-        avarSettings(1, 5) = "boolean"
-    avarSettings(2, 0) = "txtSearch"
-        avarSettings(2, 1) = 510
-        avarSettings(2, 2) = 960
-        avarSettings(2, 3) = 6405
-        avarSettings(2, 4) = 330
-        avarSettings(2, 5) = True
-    avarSettings(3, 0) = "txt0"
-        avarSettings(3, 1) = intTableSettings(1, 0, 0)
-        avarSettings(3, 2) = intTableSettings(1, 0, 1)
-        avarSettings(3, 3) = intTableSettings(1, 0, 2)
-        avarSettings(3, 4) = intTableSettings(1, 0, 3)
-        avarSettings(3, 5) = True
-    avarSettings(4, 0) = "txt1"
-        avarSettings(4, 1) = intTableSettings(1, 1, 0)
-        avarSettings(4, 2) = intTableSettings(1, 1, 1)
-        avarSettings(4, 3) = intTableSettings(1, 1, 2)
-        avarSettings(4, 4) = intTableSettings(1, 1, 3)
-        avarSettings(4, 5) = True
-    avarSettings(5, 0) = "txt2"
-        avarSettings(5, 1) = intTableSettings(1, 2, 0)
-        avarSettings(5, 2) = intTableSettings(1, 2, 1)
-        avarSettings(5, 3) = intTableSettings(1, 2, 2)
-        avarSettings(5, 4) = intTableSettings(1, 2, 3)
-        avarSettings(5, 5) = True
-    avarSettings(6, 0) = "txt3"
-        avarSettings(6, 1) = intTableSettings(1, 3, 0)
-        avarSettings(6, 2) = intTableSettings(1, 3, 1)
-        avarSettings(6, 3) = intTableSettings(1, 3, 2)
-        avarSettings(6, 4) = intTableSettings(1, 3, 3)
-        avarSettings(6, 5) = True
-    avarSettings(7, 0) = "txt4"
-        avarSettings(7, 1) = intTableSettings(1, 4, 0)
-        avarSettings(7, 2) = intTableSettings(1, 4, 1)
-        avarSettings(7, 3) = intTableSettings(1, 4, 2)
-        avarSettings(7, 4) = intTableSettings(1, 4, 3)
-        avarSettings(7, 5) = True
+    ' create form title
+    Set lblLabel = CreateControl(strFormName, acLabel, acDetail)
+        lblLabel.Name = "lblTitle"
+        lblLabel.Visible = True
+        lblLabel.Left = 566
+        lblLabel.Top = 227
+        lblLabel.Width = 9210
+        lblLabel.Height = 507
+        lblLabel.Caption = "Angebot Suchen"
     
-    TextBoxSettings = avarSettings
-End Function
+    Dim avarSettingsTable(4, 3) As Variant
+    avarSettingsTable(0, 0) = "lbl00"
+        avarSettingsTable(0, 1) = 0
+        avarSettingsTable(0, 2) = 0
+        avarSettingsTable(0, 3) = True
+        ' avarSettings(3, 5) = "Angebot"
+    avarSettingsTable(1, 0) = "lbl01"
+        avarSettingsTable(1, 1) = 0
+        avarSettingsTable(1, 2) = 1
+        avarSettingsTable(1, 3) = True
+        ' avarSettings(4, 5) = "Einzelauftrag"
+    avarSettingsTable(2, 0) = "lbl02"
+        avarSettingsTable(2, 1) = 0
+        avarSettingsTable(2, 2) = 2
+        avarSettingsTable(2, 3) = True
+    avarSettingsTable(3, 0) = "lbl03"
+        avarSettingsTable(3, 1) = 0
+        avarSettingsTable(3, 2) = 3
+        avarSettingsTable(3, 3) = True
+    avarSettingsTable(4, 0) = "lbl04"
+        avarSettingsTable(4, 1) = 0
+        avarSettingsTable(4, 2) = 4
+        avarSettingsTable(4, 3) = True
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+        
+    Dim inti As Integer   ' column
+    For inti = LBound(avarSettingsTable, 1) To UBound(avarSettingsTable, 1)
+        Set lblLabel = CreateControl(strFormName, acLabel, acDetail)
+        lblLabel.Name = avarSettingsTable(inti, 0) ' set name
+        lblLabel.Visible = avarSettingsTable(inti, 3) ' set visibility
+        
+        intColumn = avarSettingsTable(inti, 1)
+        intRow = avarSettingsTable(inti, 2)
+        Set lblLabel = PositionObjectInTable(lblLabel, intTableSettings, intColumn, intRow) ' set position
+    Next
+    
+End Sub
 
-Private Function SubFormSettings() As Variant
+Private Sub CreateCommandButton(ByVal strFormName As String, intTableSettings() As Integer)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.CreateCommandButton ausfuehren"
+    End If
+    
+    Dim btnButton As CommandButton
+    Set btnButton = CreateControl(strFormName, acCommandButton, acDetail)
+    
+    btnButton.Name = "cmdExit"
+        btnButton.Left = 12585
+        btnButton.Top = 960
+        btnButton.Width = 3120
+        btnButton.Height = 330
+        btnButton.Caption = "Schlieﬂen"
+        btnButton.OnClick = "=CloseFrmAngebotSuchen()"
+        
+    Set btnButton = CreateControl(strFormName, acCommandButton, acDetail)
+    btnButton.Name = "cmdSearch"
+        btnButton.Left = 6975
+        btnButton.Top = 960
+        btnButton.Width = 2730
+        btnButton.Height = 330
+        btnButton.Caption = "Suchen"
+        btnButton.OnClick = "=CloseFrmAngebotSuchen()"
+        
+End Sub
+
+Private Sub CreateSubForm(ByVal strFormName As String, intTableSettings() As Integer)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.CreateSubForm ausfuehren"
+    End If
     
     ' verbatim message
     If gconVerbatim Then
         Debug.Print "basAngebotSuchen.SubFormSettings ausfuehren"
     End If
     
-    Dim avarSubFormSettings(2, 6) As Variant
+    Dim frmSubForm As SubForm
+    Set frmSubForm = CreateControl(strFormName, acSubform, acDetail)
     
-    avarSubFormSettings(0, 0) = "Name"
-        avarSubFormSettings(0, 1) = "Left"
-        avarSubFormSettings(0, 2) = "Top"
-        avarSubFormSettings(0, 3) = "Width"
-        avarSubFormSettings(0, 4) = "Height"
-        avarSubFormSettings(0, 5) = "SourceObject"
-        avarSubFormSettings(0, 6) = "Locked"
-    avarSubFormSettings(1, 0) = "string"
-        avarSubFormSettings(1, 1) = "integer"
-        avarSubFormSettings(1, 2) = "integer"
-        avarSubFormSettings(1, 3) = "integer"
-        avarSubFormSettings(1, 4) = "integer"
-        avarSubFormSettings(1, 5) = "string"
-        avarSubFormSettings(1, 6) = "booelan"
-    avarSubFormSettings(2, 0) = "frbSubFrm"
-        avarSubFormSettings(2, 1) = 510
-        avarSubFormSettings(2, 2) = 2453
-        avarSubFormSettings(2, 3) = 9218
-        avarSubFormSettings(2, 4) = 5055
-        avarSubFormSettings(2, 5) = "frmAngebotSuchenSub"
-        avarSubFormSettings(2, 6) = True
-        
-    SubFormSettings = avarSubFormSettings
+    frmSubForm.Name = "frbSubFrm"
+        frmSubForm.Left = 510
+        frmSubForm.Top = 2453
+        frmSubForm.Width = 9218
+        frmSubForm.Height = 5055
+        frmSubForm.SourceObject = "frmAngebotSuchenSub"
+        frmSubForm.Locked = True
+
+End Sub
+
+Private Function PositionObjectInTable(ByVal objObject As Object, aintTableSetting() As Integer, intColumn As Integer, intRow As Integer) As Object
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.TextboxPosition ausfuehren"
+    End If
+    
+    If Not (TypeOf objObject Is Textbox Or TypeOf objObject Is Label Or TypeOf objObject Is CommandButton) Then
+        Debug.Print "basAngebotSuchen.TextboxPosition: falscher Objekttyp uebergeben, Funktion abgebrochen"
+        Exit Function
+    End If
+    
+    objObject.Left = aintTableSetting(intColumn, intRow, 0)
+    objObject.Top = aintTableSetting(intColumn, intRow, 1)
+    objObject.Width = aintTableSetting(intColumn, intRow, 2)
+    objObject.Height = aintTableSetting(intColumn, intRow, 3)
+    
+    Set PositionObjectInTable = objObject
 End Function
 
 Public Function CloseFrmAngebotSuchen()
