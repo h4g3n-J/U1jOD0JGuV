@@ -6,70 +6,170 @@ Option Explicit
 ' work in progress
 Public Function BuildApplication()
     
+    ' command message
     If gconVerbatim Then
         Debug.Print "basBuild.BuildAppliation ausfuehren"
     End If
     
     ' build querys
-    basBuild.BuildQuerys
+    basBuild.BuildQryAngebotAuswahl
+    basBuild.BuildQryAngebot
     
     ' build forms
     basBuild.BuildForms
     basAngebotSuchen.BuildAngebotSuchen
 End Function
 
-Private Sub BuildQuerys()
+' build qryAngebotAuswahl
+Public Sub BuildQryAngebotAuswahl(Optional varSearchTerm As Variant = "*")
     
+    ' NULL handler
+    If IsNull(varSearchTerm) Then
+        varSearchTerm = "*"
+    End If
+        
+    ' transform to string
+    Dim strSearchTerm As String
+    strSearchTerm = CStr(varSearchTerm)
+    
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basBuild.BuildQuerys ausfuehren"
+        Debug.Print "basBuild.BuildQryAngebotAuswahl ausfuehren"
     End If
     
-    Dim aQuerySet(1, 1) As Variant
-    ' 0 = query name
-    ' 1 = SQL-source
-    aQuerySet(0, 0) = "qryAngebot"
-    aQuerySet(1, 0) = basBuild.SqlQryAngebot
-    aQuerySet(0, 1) = "qryAngebotAuswahl"
-    aQuerySet(1, 1) = basBuild.SqlQryAngebotAuswahl
-       
+    ' define query name
+    Dim strQueryName As String
+    strQueryName = "qryAngebotAuswahl"
+    
+    ' set current database
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
-
+            
+    ' delete existing query of the same name
+    basBuild.DeleteQuery strQueryName
+    
+    ' set query
     Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
     
-    Dim objQuery As Object
-    Dim inti As Integer
-        
-    For inti = LBound(aQuerySet, 2) To UBound(aQuerySet, 2)
-        
-        ' delete existing query of the same name
-        basSupport.ClearQuery aQuerySet(0, inti)
-        
-        ' write SQL to query
-        Set qdfQuery = dbsCurrentDB.CreateQueryDef
-        With qdfQuery
-            .SQL = aQuerySet(1, inti)
-            .Name = aQuerySet(0, inti)
-        End With
+    With qdfQuery
+        ' set query Name
+        .Name = strQueryName
+        ' set query SQL
+        .SQL = SqlQryAngebotAuswahl(strSearchTerm)
+    End With
     
-        ' save query
-        With dbsCurrentDB.QueryDefs
-            .Append qdfQuery
-            .Refresh
-        End With
-    
-        ' verbatim message
-        If gconVerbatim Then
-            Debug.Print "basBuild.buildQuerys ausgefuehrt, " & aQuerySet(0, inti) & " erstellt"
-        End If
-    
-        qdfQuery.Close
-    Next
-    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
 ExitProc:
+    qdfQuery.Close
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
     Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildQryAngebotAuswahl ausgeführt"
+    End If
+    
+End Sub
+
+' build qryAngebot
+Public Sub BuildQryAngebot()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildQryAngebot ausfuehren"
+    End If
+    
+    ' define query name
+    Dim strQueryName As String
+    strQueryName = "qryAngebot"
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+            
+    ' delete existing query of the same name
+    basBuild.DeleteQuery strQueryName
+    
+    ' set query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    ' set query Name
+    qdfQuery.Name = strQueryName
+    
+    ' set query SQL
+    qdfQuery.SQL = SqlQryAngebot
+    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
+ExitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildQryAngebotAuswahl ausgeführt"
+    End If
+    
+End Sub
+
+' delete query
+' 1. check if query exists
+' 2. close if query is loaded
+' 3. delete query
+Private Sub DeleteQuery(strQueryName As String)
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basSupport.DeleteQuery ausfuehren"
+    End If
+    
+    ' set dummy object
+    Dim objDummy As Object
+    ' search object list >>AllQueries<< for strQueryName
+    For Each objDummy In Application.CurrentData.AllQueries
+        If objDummy.Name = strQueryName Then
+            
+            ' check if query isloaded
+            If objDummy.IsLoaded Then
+                ' close query
+                DoCmd.Close acQuery, strQueryName, acSaveYes
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basSupport.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
+                End If
+            End If
+    
+            ' delete query
+            DoCmd.DeleteObject acQuery, strQueryName
+            
+            ' event message
+            If gconVerbatim = True Then
+                Debug.Print "basSupport.DeleteQuery: " & strQueryName & " existierte bereits, Abfrage geloescht"
+            End If
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+    
+    If gconVerbatim Then
+        Debug.Print "basBuild.DeleteQuery ausgeführt"
+    End If
+    
 End Sub
     
 Private Function SqlQryAngebot() As String
@@ -83,7 +183,7 @@ Private Function SqlQryAngebot() As String
             " ;"
 End Function
 
-Private Function SqlQryAngebotAuswahl()
+Private Function SqlQryAngebotAuswahl(strSearchTerm As String)
     
     If gconVerbatim Then
         Debug.Print "basBuild.SqlQryAngebotAuswahl ausfuehren"
@@ -91,6 +191,7 @@ Private Function SqlQryAngebotAuswahl()
     
     SqlQryAngebotAuswahl = " SELECT qryAngebot.*" & _
             " FROM qryAngebot" & _
+            " WHERE qryAngebot.BWIKey LIKE '*" & strSearchTerm & "*'" & _
             " ;"
 End Function
 
@@ -103,7 +204,7 @@ Private Sub BuildForms()
     ' build Hauptmenue
     ' basHauptmenue.BuildFormHauptmenue
     
-    ' build AngebotSuchenSub
+    ' build subformular AngebotSuchenSub
     basAngebotSuchenSub.BuildFormAngebotSuchenSub
     
     ' build AngebotSuchen

@@ -317,4 +317,114 @@ Next obj
 
 End Sub
 
+Sub TestBuildQryAngebotAuswahl()
+    basBuild.BuildQryAngebotAuswahl ("REA_001_001_2020")
+    
+    MsgBox "TestBuildQryAngebotAuswahl() part 1 executed", vbOKOnly
+    
+    basBuild.BuildQryAngebotAuswahl
+End Sub
+
+Sub testLifecycleBarSingle()
+    Dim intNumberOfColumns As Integer
+        intNumberOfColumns = 1
+        
+        Dim intColumnWidth(0) As Integer
+        intColumnWidth(0) = 30
+        
+        Dim intLeft As Integer
+        intLeft = 100
+        
+        Dim intTop As Integer
+        intTop = 2430
+        
+        Dim intRowHeight As Integer
+        intRowHeight = 330
+        
+        Dim aintPositions() As Integer
+        aintPositions = basSupport.CalculateLifecycleBar(intNumberOfColumns, intColumnWidth, intLeft, intTop, intRowHeight)
+        
+        ' event message
+        If gconVerbatim Then
+            Debug.Print "basTest.CreateCommandButtonSingle executed"
+        End If
+End Sub
+
+Sub testLifecycleBarPair()
+    Dim intNumberOfColumns As Integer
+        intNumberOfColumns = 3
+        
+        Dim intColumnWidth(2) As Integer
+        intColumnWidth(0) = 2730
+        intColumnWidth(1) = 2730
+        intColumnWidth(2) = 2730
+        
+        Dim intLeft As Integer
+        intLeft = 510
+        
+        Dim intTop As Integer
+        intTop = 1700
+        
+        Dim intRowHeight As Integer
+        intRowHeight = 330
+        
+        Dim aintPositions() As Integer
+        aintPositions = basSupport.CalculateLifecycleBar(intNumberOfColumns, intColumnWidth, intLeft, intTop, intRowHeight)
+        
+        ' event message
+        If gconVerbatim Then
+            Debug.Print "basTest.CreateCommandButton executed"
+        End If
+End Sub
+
+Private Sub TestBuildCreateOffer()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basTest.TestBuildCreateOffer ausfuehren"
+    End If
+    
+    basCreateOffer.BuildCreateOffer
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basTest.TestBuildCreateOffer executed"
+    End If
+
+End Sub
+
+Private Sub TestAngebotSuchenSub_ClearForm()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basTest.TestBuildAngebotSuchenSub"
+    End If
+    
+    ' procedure set to private now
+    basAngebotSuchenSub.ClearForm "frmAngebotSuchenSub"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basTest.TestBuildAngebotSuchenSub executed"
+    End If
+    
+End Sub
+
+
+Private Sub TestBuildAngebotSuchenSub()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basTest.TestBuildAngebotSuchenSub"
+    End If
+    
+    basAngebotSuchenSub.BuildAngebotSuchenSub
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basTest.TestBuildAngebotSuchenSub executed"
+    End If
+    
+End Sub
+
 

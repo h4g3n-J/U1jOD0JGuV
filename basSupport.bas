@@ -422,41 +422,70 @@ Public Sub ClearForm(ByVal strFormName As String)
     Next
 End Sub
 
-' delete query
-' 1. check if form exists
-' 2. close if form is loaded
-' 3. delete form
-Public Sub ClearQuery(ByVal strQueryName As String)
+' returns array
+' (column, row, property)
+' properties: 0 - Left, 1 - Top, 2 - Width, 3 - Height
+' calculates left, top, width and height parameters
+Public Function CalculateTableSetting(ByVal intNumberOfColumns As Integer, ByRef aintColumnWidth() As Integer, ByVal intNumberOfRows As Integer, Optional ByVal intLeft As Integer = 10000, Optional ByVal intTop As Integer = 2430)
     
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "basSupport.ClearQuery ausfuehren"
+        Debug.Print "basSupport.CalculateTableSetting ausfuehren"
     End If
     
-    Dim objDummy As Object
-    For Each objDummy In Application.CurrentData.AllQueries
-        If objDummy.Name = strQueryName Then
+    intNumberOfColumns = intNumberOfColumns - 1
+    intNumberOfRows = intNumberOfRows - 1
+    
+    ' column dimension
+    Const cintHorizontalSpacing As Integer = 60
             
-            ' check if query isloaded
-            If objDummy.IsLoaded Then
-                ' close query
-                DoCmd.Close acQuery, strQueryName, acSaveYes
-                ' verbatim message
-                If gconVerbatim Then
-                    Debug.Print "basSupport.ClearQuery: " & strQueryName & " ist geoeffnet, Abfrage schlieﬂen"
-                End If
-            End If
-            
-            ' delete query
-            DoCmd.DeleteObject acQuery, strQueryName
-            
-            ' verbatim message
-            If gconVerbatim = True Then
-                Debug.Print "basSupport.ClearQuery: " & strQueryName & " existierte bereits, Abfrage geloescht"
-            End If
-            
-            ' exit loop
-            Exit For
-        End If
+    ' row dimension
+    Dim intRowHeight As Integer
+    intRowHeight = 330
+    
+    Const cintVerticalSpacing As Integer = 60
+    
+    Const cintNumberOfProperties = 3
+    Dim aintTableSettings() As Integer
+    ReDim aintTableSettings(intNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
+    
+    ' compute cell position properties
+    Dim inti As Integer
+    Dim intj As Integer
+    For inti = 0 To intNumberOfColumns
+        ' For intr = 0 To cintNumberOfRows
+        For intj = 0 To intNumberOfRows
+            ' set column left
+            aintTableSettings(inti, intj, 0) = intLeft + inti * (aintColumnWidth(inti) + cintHorizontalSpacing)
+            ' set row top
+            aintTableSettings(inti, intj, 1) = intTop + intj * (intRowHeight + cintVerticalSpacing)
+            ' set column width
+            aintTableSettings(inti, intj, 2) = aintColumnWidth(inti)
+            ' set row height
+            aintTableSettings(inti, intj, 3) = intRowHeight
+        Next
     Next
-End Sub
+
+    CalculateTableSetting = aintTableSettings
+
+End Function
+
+Public Function PositionObjectInTable(ByVal objObject As Object, aintTableSetting() As Integer, intColumn As Integer, intRow As Integer) As Object
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basSupport.PositionObjectInTable ausfuehren"
+    End If
+    
+    If Not (TypeOf objObject Is Textbox Or TypeOf objObject Is Label Or TypeOf objObject Is CommandButton) Then
+        Debug.Print "basAngebotSuchen.TextboxPosition: falscher Objekttyp uebergeben, Funktion abgebrochen"
+        Exit Function
+    End If
+    
+    objObject.Left = aintTableSetting(intColumn, intRow, 0)
+    objObject.Top = aintTableSetting(intColumn, intRow, 1)
+    objObject.Width = aintTableSetting(intColumn, intRow, 2)
+    objObject.Height = aintTableSetting(intColumn, intRow, 3)
+    
+    Set PositionObjectInTable = objObject
+End Function
