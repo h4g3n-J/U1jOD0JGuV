@@ -2,7 +2,7 @@ Attribute VB_Name = "basAngebotSuchenSub"
 Option Compare Database
 Option Explicit
 
-' build formular
+' build form
 Public Sub BuildAngebotSuchenSub()
     
     If gconVerbatim Then
@@ -14,14 +14,12 @@ Public Sub BuildAngebotSuchenSub()
     strFormName = "frmAngebotSuchenSub"
     
     ' clear existing form
-    ' replacing with local method
-    ' basSupport.ClearForm strFormName
-    basAngebotSuchenSub.ClearForm
+    basAngebotSuchenSub.ClearForm strFormName
     
-    ' declare formular
+    ' declare form
     Dim frmForm As Form
     
-    ' create formular
+    ' create form
     Set frmForm = CreateForm
     
     ' set recordsetSource
@@ -504,7 +502,7 @@ Private Sub ClearForm(ByVal strFormName As String)
                 
                 ' verbatim message
                 If gconVerbatim Then
-                    Debug.Print "basAngebotSuchenSub.ClearForm: " & strFormName & " ist geoeffnet, Formular schlie?en"
+                    Debug.Print "basAngebotSuchenSub.ClearForm: " & strFormName & " ist geoeffnet, form schlie?en"
                 End If
             End If
             
@@ -513,7 +511,7 @@ Private Sub ClearForm(ByVal strFormName As String)
             
             ' event message
             If gconVerbatim = True Then
-                Debug.Print "basAngebotSuchenSub.ClearForm: " & strFormName & " existiert bereits, Formular loeschen"
+                Debug.Print "basAngebotSuchenSub.ClearForm: " & strFormName & " existiert bereits, form loeschen"
             End If
             
             ' exit loop

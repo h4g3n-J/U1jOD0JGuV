@@ -17,8 +17,8 @@ Public Sub BuildAngebotSuchen()
     ' declare temporary form name
     Dim strTempFormName As String
 
-     ' clear form
-    basSupport.ClearForm strFormName
+    ' clear form
+    basAngebotSuchen.ClearForm strFormName
 
     ' declare form
     Dim frm As Form
@@ -292,6 +292,7 @@ Private Sub CreateCommandButton(ByVal strFormName As String, ByRef intTableSetti
         intRowHeight = 330
         
         Dim aintPositions As Integer
+        ' replace with 'LifecycleGrid' function
         aintPositions = basSupport.CalculateLifecycleBar(intNumberOfColumns, intColumnWidth, intLeft, intTop, intRowHeight)
         
         ' create CreateAngebot button
@@ -501,3 +502,82 @@ Public Function OpenCreateOffer()
     
 End Function
 
+' delete form
+' 1. check if form exists
+' 2. close if form is loaded
+' 3. delete form
+Public Sub ClearForm(ByVal strFormName As String)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.ClearForm ausfuehren"
+    End If
+    
+    Dim objDummy As Object
+    For Each objDummy In Application.CurrentProject.AllForms
+        If objDummy.Name = strFormName Then
+            
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+                
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basAngebotSuchen.ClearForm: " & strFormName & " ist geoeffnet, Formular schlieﬂen"
+                End If
+            End If
+            
+            ' delete form
+            DoCmd.DeleteObject acForm, strFormName
+            
+            ' verbatim message
+            If gconVerbatim = True Then
+                Debug.Print "basAngebotSuchen.ClearForm: " & strFormName & " existiert bereits, Formular loeschen"
+            End If
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+End Sub
+
+' intNumberOfColumns: defines the number of columns
+' aintColumnWidth: array, defines the width of each column
+' intLeft: top left position
+' intTop: top position
+' intRowHeight: row height
+' returns array: (i, 0) Left, (i, 1) Top, (i, 2) Width, (i, 3) Height
+Public Function LifecycleGrid(ByVal intNumberOfColumns As Integer, intColumnWidth As Integer, Optional ByVal intLeft As Integer = 100, Optional ByVal intTop As Integer = 2430, Optional ByVal intRowHeight = 330)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchen.LifecycleGrid"
+    End If
+    
+    ' set column spacing
+    Const cintHorizontalSpacing As Integer = 60
+    
+    Const cintNumberOfProperties = 3
+    
+    Dim aintBarSettings() As Integer
+    ReDim aintBarSettings(intNumberOfColumns, cintNumberOfProperties)
+    
+    ' compute cell position properties
+    Dim inti As Integer
+    intNumberOfColumns = intNumberOfColumns - 1 ' adjust for counting
+    For inti = 0 To intNumberOfColumns
+            ' set column left
+            aintBarSettings(inti, 0) = intLeft + inti * (aintColumnWidth(inti) + cintHorizontalSpacing)
+            ' set row top
+            aintBarSettings(inti, 1) = intTop
+            ' set column width
+            aintBarSettings(inti, 2) = aintColumnWidth(inti)
+            ' set row height
+            aintBarSettings(inti, 3) = intRowHeight
+    Next
+
+    LifecycleGrid = aintBarSettings
+    
+End Function

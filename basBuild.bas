@@ -205,10 +205,13 @@ Private Sub BuildForms()
     ' basHauptmenue.BuildFormHauptmenue
     
     ' build subformular AngebotSuchenSub
-    basAngebotSuchenSub.BuildFormAngebotSuchenSub
+    basAngebotSuchenSub.BuildAngebotSuchenSub
     
     ' build AngebotSuchen
     basAngebotSuchen.BuildAngebotSuchen
+    
+    ' build AngebotErstellen
+    basAngebotErstellen.BuildAngebotErstellen
     
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal

@@ -172,6 +172,8 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     strTableAInputDialogTitle, strTableBName, strTableBKeyColumn, strTableBArtifact, strTableBInputDialogMessage, _
         strTableBInputDialogTitle, strTableAssistanceName As String, gconVerbatim As Boolean) As String
         
+    MsgBox ("basSupport.AddRecordsetMN aufgerufen - aufrufende Prozedur überprüfen"), vbOKOnly
+        
     ' verbatim message
     If gconVerbatim = True Then
         Debug.Print "basSupport.AddRecordsetMN ausfuehren"
@@ -392,6 +394,8 @@ Public Sub ClearForm(ByVal strFormName As String)
         Debug.Print "basSupport.ClearForm ausfuehren"
     End If
     
+    MsgBox ("basSupport.ClearForm aufgerufen - aufrufende Prozedur überprüfen"), vbOKOnly
+    
     Dim objDummy As Object
     For Each objDummy In Application.CurrentProject.AllForms
         If objDummy.Name = strFormName Then
@@ -422,60 +426,54 @@ Public Sub ClearForm(ByVal strFormName As String)
     Next
 End Sub
 
-' returns array
-' (column, row, property)
-' properties: 0 - Left, 1 - Top, 2 - Width, 3 - Height
-' calculates left, top, width and height parameters
-Public Function CalculateTableSetting(ByVal intNumberOfColumns As Integer, ByRef aintColumnWidth() As Integer, ByVal intNumberOfRows As Integer, Optional ByVal intLeft As Integer = 10000, Optional ByVal intTop As Integer = 2430)
-    
-    ' verbatim message
+' intNumberOfColumns: defines the number of columns
+' aintColumnWidth: array, defines the width of each column
+' intLeft: top left position
+' intTop: top position
+' intRowHeight: row height
+' returns array: (i, 0) Left, (i, 1) Top, (i, 2) Width, (i, 3) Height
+Public Function CalculateLifecycleBar(ByVal intNumberOfColumns As Integer, ByRef aintColumnWidth() As Integer, Optional ByVal intLeft As Integer = 100, Optional ByVal intTop As Integer = 2430, Optional ByVal intRowHeight = 330)
+
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basSupport.CalculateTableSetting ausfuehren"
+        Debug.Print "execute basSupport.CalculateLifecycleBar"
     End If
     
-    intNumberOfColumns = intNumberOfColumns - 1
-    intNumberOfRows = intNumberOfRows - 1
-    
-    ' column dimension
+    ' set column spacing
     Const cintHorizontalSpacing As Integer = 60
-            
-    ' row dimension
-    Dim intRowHeight As Integer
-    intRowHeight = 330
-    
-    Const cintVerticalSpacing As Integer = 60
     
     Const cintNumberOfProperties = 3
-    Dim aintTableSettings() As Integer
-    ReDim aintTableSettings(intNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
+    
+    Dim aintBarSettings() As Integer
+    ReDim aintBarSettings(intNumberOfColumns, cintNumberOfProperties)
     
     ' compute cell position properties
     Dim inti As Integer
-    Dim intj As Integer
+    intNumberOfColumns = intNumberOfColumns - 1 ' adjust for counting
     For inti = 0 To intNumberOfColumns
-        ' For intr = 0 To cintNumberOfRows
-        For intj = 0 To intNumberOfRows
             ' set column left
-            aintTableSettings(inti, intj, 0) = intLeft + inti * (aintColumnWidth(inti) + cintHorizontalSpacing)
+            aintBarSettings(inti, 0) = intLeft + inti * (aintColumnWidth(inti) + cintHorizontalSpacing)
             ' set row top
-            aintTableSettings(inti, intj, 1) = intTop + intj * (intRowHeight + cintVerticalSpacing)
+            aintBarSettings(inti, 1) = intTop
             ' set column width
-            aintTableSettings(inti, intj, 2) = aintColumnWidth(inti)
+            aintBarSettings(inti, 2) = aintColumnWidth(inti)
             ' set row height
-            aintTableSettings(inti, intj, 3) = intRowHeight
-        Next
+            aintBarSettings(inti, 3) = intRowHeight
     Next
 
-    CalculateTableSetting = aintTableSettings
-
+    CalculateLifecycleBar = aintBarSettings
+    
 End Function
 
+' get transform row and column information into position using aintTableSetting
 Public Function PositionObjectInTable(ByVal objObject As Object, aintTableSetting() As Integer, intColumn As Integer, intRow As Integer) As Object
     
     ' verbatim message
     If gconVerbatim Then
         Debug.Print "basSupport.PositionObjectInTable ausfuehren"
     End If
+    
+    MsgBox "called basSupport.PositionObjectInTable - replace with local method", vbOKOnly
     
     If Not (TypeOf objObject Is Textbox Or TypeOf objObject Is Label Or TypeOf objObject Is CommandButton) Then
         Debug.Print "basAngebotSuchen.TextboxPosition: falscher Objekttyp uebergeben, Funktion abgebrochen"

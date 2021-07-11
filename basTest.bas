@@ -427,4 +427,54 @@ Private Sub TestBuildAngebotSuchenSub()
     
 End Sub
 
+Private Sub TestBuildAngebotSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basTest.TestBuildAngebotSuchen"
+    End If
+    
+    ' basAngebotSuchenSub.BuildAngebotSuchenSub
+    basAngebotSuchen.BuildAngebotSuchen
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basTest.TestBuildAngebotSuchen executed"
+    End If
+    
+End Sub
+
+Private Sub TestBasAngebotSuchen_ClearForm()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basTest.TestBasAngebotSuchen_ClearForm"
+    End If
+    
+    ' basAngebotSuchenSub.BuildAngebotSuchenSub
+    basAngebotSuchen.ClearForm "frmAngebotSuchen"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basTest.TestBasAngebotSuchen_ClearForm executed"
+    End If
+    
+End Sub
+
+Private Sub TestBasAngebotSuchen_LifecycleGrid()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basTest.TestBasAngebotSuchen_LifecycleGrid"
+    End If
+    
+    Debug.Print basAngebotSuchen.LifecycleGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basTest.TestBasAngebotSuchen_LifecycleGrid"
+    End If
+    
+End Sub
+
 
