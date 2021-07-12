@@ -549,35 +549,40 @@ End Sub
 ' intTop: top position
 ' intRowHeight: row height
 ' returns array: (i, 0) Left, (i, 1) Top, (i, 2) Width, (i, 3) Height
-Public Function LifecycleGrid(ByVal intNumberOfColumns As Integer, intColumnWidth As Integer, Optional ByVal intLeft As Integer = 100, Optional ByVal intTop As Integer = 2430, Optional ByVal intRowHeight = 330)
+Public Function CalculateLifecycleGrid()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAngebotSuchen.LifecycleGrid"
+        Debug.Print "execute basAngebotSuchen.CalculateLifecycleGrid"
     End If
-    
-    ' set column spacing
+
+    Dim intNumberOfColumns As Integer
+    intNumberOfColumns = 2
+    Const cintColumnWidth As Integer = 2730
+    Const cintLeft As Integer = 100
+    Const cintTop As Integer = 2430
+    Const cintRowHeight As Integer = 330
     Const cintHorizontalSpacing As Integer = 60
     
+    ' compute cell position properties
+    intNumberOfColumns = intNumberOfColumns - 1 ' adjusted for counting
     Const cintNumberOfProperties = 3
-    
     Dim aintBarSettings() As Integer
     ReDim aintBarSettings(intNumberOfColumns, cintNumberOfProperties)
     
-    ' compute cell position properties
     Dim inti As Integer
-    intNumberOfColumns = intNumberOfColumns - 1 ' adjust for counting
     For inti = 0 To intNumberOfColumns
             ' set column left
-            aintBarSettings(inti, 0) = intLeft + inti * (aintColumnWidth(inti) + cintHorizontalSpacing)
+            aintBarSettings(inti, 0) = cintLeft + inti * (cintColumnWidth + cintHorizontalSpacing)
             ' set row top
-            aintBarSettings(inti, 1) = intTop
+            aintBarSettings(inti, 1) = cintTop
             ' set column width
-            aintBarSettings(inti, 2) = aintColumnWidth(inti)
+            aintBarSettings(inti, 2) = cintColumnWidth
             ' set row height
-            aintBarSettings(inti, 3) = intRowHeight
+            aintBarSettings(inti, 3) = cintRowHeight
     Next
 
-    LifecycleGrid = aintBarSettings
+    CalculateLifecycleGrid = aintBarSettings
     
 End Function
+

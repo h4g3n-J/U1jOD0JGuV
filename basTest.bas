@@ -461,18 +461,29 @@ Private Sub TestBasAngebotSuchen_ClearForm()
     
 End Sub
 
-Private Sub TestBasAngebotSuchen_LifecycleGrid()
+Private Sub TestBasAngebotSuchen_CalculateLifecycleGrid()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basTest.TestBasAngebotSuchen_LifecycleGrid"
+        Debug.Print "execute basTest.TestBasAngebotSuchen_CalculateLifecycleGrid"
     End If
     
-    Debug.Print basAngebotSuchen.LifecycleGrid
+    Dim aintArray() As Integer
+    aintArray = basAngebotSuchen.CalculateLifecycleGrid
+    
+    Dim inti As Integer
+    For inti = 0 To UBound(aintArray, 1)
+        
+        Dim intj As Integer
+        For intj = 0 To UBound(aintArray, 2)
+            Debug.Print "CalculateLifecycleGrid(" & inti & " ," & intj & ") = " & aintArray(inti, intj)
+        Next
+        
+    Next
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basTest.TestBasAngebotSuchen_LifecycleGrid"
+        Debug.Print "basTest.TestBasAngebotSuchen_CalculateLifecycleGrid executed"
     End If
     
 End Sub
