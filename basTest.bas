@@ -536,3 +536,71 @@ Private Sub TestBasAngebotSuchen_GetHeight()
     
 End Sub
 
+Private Function TestBasAngebotSuchen_CalculateGrid()
+    
+    Dim aintGrid() As Integer
+    Dim intNumberOfColumns As Integer
+    Dim intNumberOfRows As Integer
+    Dim intLeft As Integer
+    Dim intTop As Integer
+    Dim intColumnWidth As Integer
+    Dim intRowHeigth As Integer
+    
+    intNumberOfColumns = 2
+    intNumberOfRows = 2
+    intLeft = 1
+    intTop = 1
+    intColumnWidth = 3120
+    intRowHeigth = 330
+    
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    aintGrid = basAngebotSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeigth)
+    
+    Dim bolOutput As Boolean
+    bolOutput = False
+    
+    ' toggle output
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To intNumberOfColumns - 1
+            For intj = 0 To intNumberOfRows - 1
+                Debug.Print "Column " & inti & " , Row " & intj & " , Left: " & aintGrid(inti, intj, 0)
+                Debug.Print "Column " & inti & " , Row " & intj & " , Top: " & aintGrid(inti, intj, 1)
+                Debug.Print "Column " & inti & " , Row " & intj & " , Width: " & aintGrid(inti, intj, 2)
+                Debug.Print "Column " & inti & " , Row " & intj & " , Height: " & aintGrid(inti, intj, 3)
+            Next
+        Next
+    
+    End If
+    
+    TestBasAngebotSuchen_CalculateGrid = aintGrid
+    
+End Function
+
+Private Sub TestBasAngebotSuchen_GetLeftPlus()
+
+    Dim aintGrid() As Integer
+    aintGrid = basTest.TestBasAngebotSuchen_CalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetLeftPlus(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+    End If
+    
+End Sub

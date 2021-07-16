@@ -597,12 +597,13 @@ Public Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer) As Inte
     
     intColumn = intColumn - 1
     
+    GetLeft = aintGrid(intColumn, 0)
+    
     ' verbatim message
     If gconVerbatim Then
         Debug.Print "basAngebotSuchen.GetLeft executed"
     End If
     
-    GetLeft = aintGrid(intColumn, 0)
 End Function
 
 ' get top from grid
@@ -616,12 +617,13 @@ Public Function GetTop(ByRef aintGrid As Variant, ByVal intColumn As Integer) As
     
     intColumn = intColumn - 1
     
+    GetTop = aintGrid(intColumn, 1)
+    
     ' verbatim message
     If gconVerbatim Then
         Debug.Print "basAngebotSuchen.GetTop executed"
     End If
     
-    GetTop = aintGrid(intColumn, 1)
 End Function
 
 ' get width from grid
@@ -635,12 +637,13 @@ Public Function GetWidth(ByRef aintGrid As Variant, ByVal intColumn As Integer) 
     
     intColumn = intColumn - 1
     
+    GetWidth = aintGrid(intColumn, 2)
+    
     ' verbatim message
     If gconVerbatim Then
         Debug.Print "basAngebotSuchen.GetWidth executed"
     End If
     
-    GetWidth = aintGrid(intColumn, 2)
 End Function
 
 ' get height from grid
@@ -654,11 +657,68 @@ Public Function GetHeight(ByRef aintGrid As Variant, ByVal intColumn As Integer)
     
     intColumn = intColumn - 1
     
+    GetHeight = aintGrid(intColumn, 3)
+    
     ' verbatim message
     If gconVerbatim Then
         Debug.Print "basAngebotSuchen.GetHeigth executed"
     End If
     
-    GetHeight = aintGrid(intColumn, 3)
+End Function
+
+Public Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchen.CalculateGrid"
+    End If
+    
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim aintGrid() As Integer
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    For intColumn = 0 To intNumberOfColumns - 1
+        For intRow = 0 To intNumberOfRows - 1
+            ' left
+            aintGrid(intColumn, intRow, 0) = intLeft + intColumn * (intColumnWidth + cintHorizontalSpacing)
+            ' top
+            aintGrid(intColumn, intRow, 1) = intTop + intRow * (intRowHeight + cintVerticalSpacing)
+            ' width
+            aintGrid(intColumn, intRow, 2) = intColumnWidth
+            ' height
+            aintGrid(intColumn, intRow, 3) = intRowHeight
+        Next
+    Next
+    
+    CalculateGrid = aintGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.CalculateGrid executed"
+    End If
+    
+End Function
+
+' get left from grid
+Public Function GetLeftPlus(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchen.GetLeft: column 0 is not available"
+        MsgBox "basAngebotSuchen.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeftPlus = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.GetLeftPlus executed"
+    End If
+    
 End Function
 
