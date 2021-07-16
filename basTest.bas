@@ -488,4 +488,51 @@ Private Sub TestBasAngebotSuchen_CalculateLifecycleGrid()
     
 End Sub
 
+Private Sub TestBasAngebotSuchen_GetLeft()
+
+    Dim aintArray() As Integer
+    aintArray = basAngebotSuchen.CalculateLifecycleGrid
+     
+    Dim intColumn As Integer
+    intColumn = 1
+    
+    Debug.Print "Left (column: " & intColumn & "): " & basAngebotSuchen.GetLeft(aintArray, intColumn)
+    
+End Sub
+
+Private Sub TestBasAngebotSuchen_GetTop()
+
+    Dim aintArray() As Integer
+    aintArray = basAngebotSuchen.CalculateLifecycleGrid
+     
+    Dim intColumn As Integer
+    intColumn = 1
+        
+    Debug.Print "Top (column: " & intColumn & "): " & basAngebotSuchen.GetTop(aintArray, intColumn)
+    
+End Sub
+
+Private Sub TestBasAngebotSuchen_GetWidth()
+
+    Dim aintArray() As Integer
+    aintArray = basAngebotSuchen.CalculateLifecycleGrid
+     
+    Dim intColumn As Integer
+    intColumn = 1
+        
+    Debug.Print "Top (column: " & intColumn & "): " & basAngebotSuchen.GetWidth(aintArray, intColumn)
+    
+End Sub
+
+Private Sub TestBasAngebotSuchen_GetHeight()
+
+    Dim aintArray() As Integer
+    aintArray = basAngebotSuchen.CalculateLifecycleGrid
+     
+    Dim intColumn As Integer
+    intColumn = 1
+        
+    Debug.Print "Top (column: " & intColumn & "): " & basAngebotSuchen.GetHeight(aintArray, intColumn)
+    
+End Sub
 
