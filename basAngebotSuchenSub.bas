@@ -399,7 +399,7 @@ Public Function SelectRecordsetAngebot()
     
     ' declare reference attribute
     Dim varRecordsetName As Variant
-    varRecordsetName = Forms.Item(strDestFormName).Controls("frbSubFrm").Controls("BWIKey")
+    varRecordsetName = Forms.Item(strDestFormName).Controls("frbSubForm").Controls("BWIKey")
     
     ' initiate class Angebot
     Dim angebot As clsAngebot

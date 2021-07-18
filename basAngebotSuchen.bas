@@ -29,83 +29,297 @@ Public Sub BuildAngebotSuchen()
     
     ' set form caption
     frm.Caption = strFormName
+        
+    ' declare command button
+    Dim btnButton As CommandButton
+    
+    ' declare label
+    Dim lblLabel As Label
+    
+    ' declare textbox
+    Dim txtTextbox As Textbox
+    
+    ' declare subform
+    Dim frmSubForm As SubForm
+    
+    ' declare grid variables
+        Dim intNumberOfColumns As Integer
+        Dim intNumberOfRows As Integer
+        Dim intLeft As Integer
+        Dim intTop As Integer
+        Dim intWidth As Integer
+        Dim intHeight As Integer
+        
+        Dim intColumn As Integer
+        Dim intRow As Integer
+        Dim strParent As String
     
     ' create information grid
-        ' set top left position
-        Dim intLeft As Integer
-        intLeft = 10000
-        
-        ' set top position
-        Dim intTop As Integer
-        intTop = 2430
-        
-        ' set column width
-        Dim intColumnWidth(1) As Integer
-        intColumnWidth(0) = 2540
-        intColumnWidth(1) = 3120
-    
-        ' set number of rows
-        Dim intNumberOfRows As Integer
+    Dim aintInformationGrid() As Integer
+            
+        ' grid settings
+        intNumberOfColumns = 2
         intNumberOfRows = 6
+        intLeft = 10000
+        intTop = 2430
+        'intColumnWidth(0) = 2540
+        'intColumnWidth(1) = 3120
+        intWidth = 3120
+        intHeight = 330
         
-        Dim aintInformationGrid() As Integer
-        aintInformationGrid = basAngebotSuchen.CalculateInformationGrid(2, intColumnWidth, intNumberOfRows, intLeft, intTop)
-    
-        ' create textboxes
-        basAngebotSuchen.CreateTextbox strTempFormName, aintInformationGrid, intNumberOfRows
+        ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
-        ' create labels
-        basAngebotSuchen.CreateLabel strTempFormName, aintInformationGrid, intNumberOfRows
-    
-        ' create captions
-        Dim astrCaptionSettings() As String
-        astrCaptionSettings = basAngebotSuchen.CaptionAndValueSettings(intNumberOfRows) ' get caption settings
-        basAngebotSuchen.SetLabelCaption strTempFormName, astrCaptionSettings, intNumberOfRows ' set caption
+        ' calculate lifecycle grid
+        aintInformationGrid = basAngebotSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+        
+        ' lbl00
+        intColumn = 1
+        intRow = 1
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+            With lblLabel
+                .Name = "lbl00"
+                .Caption = "Angebot"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt00
+        intColumn = 2
+        intRow = 1
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt00"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+            End With
+        
+        ' lbl01
+        intColumn = 1
+        intRow = 2
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
+            With lblLabel
+                .Name = "lbl01"
+                .Caption = "Einzelauftrag"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt01
+        intColumn = 2
+        intRow = 2
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt01"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+            End With
+            
+        ' lbl02
+        intColumn = 1
+        intRow = 3
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
+            With lblLabel
+                .Name = "lbl02"
+                .Caption = "Mengengerüst"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt02
+        intColumn = 2
+        intRow = 3
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt02"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = True
+            End With
+            
+        ' lbl03
+        intColumn = 1
+        intRow = 4
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
+            With lblLabel
+                .Name = "lbl03"
+                .Caption = "Leistungsbeschreibung"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt03
+        intColumn = 2
+        intRow = 4
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt03"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = True
+            End With
+            
+        ' lbl04
+        intColumn = 1
+        intRow = 5
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
+            With lblLabel
+                .Name = "lbl04"
+                .Caption = "Bemerkung"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt04
+        intColumn = 2
+        intRow = 5
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt04"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+            End With
+            
+        ' lbl05
+        intColumn = 1
+        intRow = 6
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+            With lblLabel
+                .Name = "lbl05"
+                .Caption = "Wildcard"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt05
+        intColumn = 2
+        intRow = 6
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt05"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+            End With
         
     ' create lifecycle grid
-        Dim aLifecycleGrid As Integer
-            
-            Dim intNumberOfColumns As Integer
-            Dim intNumberOfRows As Integer
-            Dim intLeft As Integer
-            Dim intTop As Integer
-            Dim intWidth As Integer
-            Dim intHeight As Integer
-            
-            ' grid settings
-            intNumberOfColumns = 1
-            intNumberOfRows = 1
-            intLeft = 1
-            intTop = 1
-            intWidth = 1
-            intHeight = 1
+    Dim aintLifecycleGrid() As Integer
+    
+        ' grid settings
+        intNumberOfColumns = 1
+        intNumberOfRows = 1
+        intLeft = 6975
+        intTop = 960
+        intWidth = 2730
+        intHeight = 330
         
-        aLifecycleGrid = basAngebotSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+        ReDim aintLifecycleGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
-    ' create command button
-    Dim btnButton As CommandButton
-    Dim intColumn As Integer
-    Dim intRow As Integer
+        aintLifecycleGrid = basAngebotSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-    intColumn = 1
-    intRow = 1
+        ' create "Angebot erstellen" button
+        intColumn = 1
+        intRow = 1
+        
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "btnCreateOffer"
+                .Left = basAngebotSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                .Caption = "Angebot erstellen"
+                .OnClick = "=OpenFormCreateOffer()"
+            End With
+            
+        ' create form title
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
+            lblLabel.Name = "lblTitle"
+            lblLabel.Visible = True
+            lblLabel.Left = 566
+            lblLabel.Top = 227
+            lblLabel.Width = 9210
+            lblLabel.Height = 507
+            lblLabel.Caption = "Angebot Suchen"
     
-    Set btnButton = CreateControl(strFormName, acCommandButton, acDetail)
-        With btnButton
-            .Name = "btnCreateOffer"
-            .Left = basAngebotSuchen.GetLeft(aLifecycleGrid, intColumn, intRow)
-            .Top = basAngebotSuchen.GetTop(aLifecycleGrid, intColumn, intRow)
-            .Width = basAngebotSuchen.GetWidth(aLifecycleGrid, intColumn, intRow)
-            .Height = basAngebotSuchen.GetHeight(aLifecycleGrid, intColumn, intRow)
-            .Caption = "Angebot erstellen"
-            .OnClick = "="
-        End With
-    
-    ' create command buttons
-    basAngebotSuchen.CreateCommandButton strTempFormName, aintInformationGrid
+        ' create search box
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            txtTextbox.Name = "txtSearchBox"
+            txtTextbox.Left = 510
+            txtTextbox.Top = 960
+            txtTextbox.Width = 6405
+            txtTextbox.Height = 330
+            txtTextbox.Visible = True
+        
+        ' create search button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSearch"
+            btnButton.Left = 6975
+            btnButton.Top = 960
+            btnButton.Width = 2730
+            btnButton.Height = 330
+            btnButton.Caption = "Suchen"
+            btnButton.OnClick = "=SearchAngebot()"
+            
+        ' create exit button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdExit"
+            btnButton.Left = 13180
+            btnButton.Top = 960
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Schließen"
+            btnButton.OnClick = "=CloseFrmAngebotSuchen()"
     
     ' create subform
-    basAngebotSuchen.CreateSubForm strTempFormName, aintInformationGrid
+    Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
+        With frmSubForm
+            .Name = "frbSubForm"
+            .Left = 510
+            .Top = 2453
+            .Width = 9218
+            .Height = 5055
+            .SourceObject = "frmAngebotSuchenSub"
+            .Locked = True
+        End With
         
     ' close form
     DoCmd.Close acForm, strTempFormName, acSaveYes
@@ -120,84 +334,6 @@ Public Sub BuildAngebotSuchen()
 
 End Sub
 
-' create textbox
-Private Sub CreateTextbox(ByVal strFormName As String, aintTableSettings() As Integer, ByVal intNumberOfRows As Integer)
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CreateTextbox ausfuehren"
-    End If
-    
-    ' declare textbox
-    Dim txtTextbox As Textbox
-    
-    ' create search box
-    Set txtTextbox = CreateControl(strFormName, acTextBox, acDetail)
-        txtTextbox.Name = "txtSearchBox"
-        txtTextbox.Left = 510
-        txtTextbox.Top = 960
-        txtTextbox.Width = 6405
-        txtTextbox.Height = 330
-        txtTextbox.Visible = True
-    
-    intNumberOfRows = intNumberOfRows - 1
-    
-    Dim avarSettingsTable() As Variant
-    ReDim avarSettingsTable(intNumberOfRows, 4)
-    
-    ' set default values
-    avarSettingsTable(0, 0) = "txt00" ' name
-        avarSettingsTable(0, 1) = 1 ' column
-        avarSettingsTable(0, 2) = 0 ' row
-        avarSettingsTable(0, 3) = True ' visibility
-        avarSettingsTable(0, 4) = False ' isHyperlink
-    avarSettingsTable(1, 0) = "txt01"
-        avarSettingsTable(1, 1) = 1
-        avarSettingsTable(1, 2) = 1
-        avarSettingsTable(1, 3) = True
-        avarSettingsTable(1, 4) = False
-    avarSettingsTable(2, 0) = "txt02"
-        avarSettingsTable(2, 1) = 1
-        avarSettingsTable(2, 2) = 2
-        avarSettingsTable(2, 3) = True
-        avarSettingsTable(2, 4) = True
-    avarSettingsTable(3, 0) = "txt03"
-        avarSettingsTable(3, 1) = 1
-        avarSettingsTable(3, 2) = 3
-        avarSettingsTable(3, 3) = True
-        avarSettingsTable(3, 4) = True
-    avarSettingsTable(4, 0) = "txt04"
-        avarSettingsTable(4, 1) = 1
-        avarSettingsTable(4, 2) = 4
-        avarSettingsTable(4, 3) = True
-        avarSettingsTable(4, 4) = False
-    avarSettingsTable(5, 0) = "txt05"
-        avarSettingsTable(5, 1) = 1
-        avarSettingsTable(5, 2) = 5
-        avarSettingsTable(5, 3) = True
-        avarSettingsTable(5, 4) = False
-        
-        Dim intColumn As Integer
-        Dim intRow As Integer
-        
-        Dim inti As Integer
-        For inti = LBound(avarSettingsTable, 1) To intNumberOfRows
-        
-            ' create textbox
-            Set txtTextbox = CreateControl(strFormName, acTextBox, acDetail)
-            txtTextbox.Name = avarSettingsTable(inti, 0) ' set name
-            txtTextbox.Visible = avarSettingsTable(inti, 3) ' set visibility
-            txtTextbox.IsHyperlink = avarSettingsTable(inti, 4) ' set IsHyperlink
-            
-            ' set position
-            intColumn = avarSettingsTable(inti, 1)
-            intRow = avarSettingsTable(inti, 2)
-            Set txtTextbox = basSupport.PositionObjectInTable(txtTextbox, aintTableSettings, intColumn, intRow)
-            
-        Next
-
-End Sub
-
 ' create label
 Private Sub CreateLabel(ByVal strFormName As String, ByRef intTableSettings() As Integer, ByVal intNumberOfRows As Integer)
     
@@ -206,152 +342,18 @@ Private Sub CreateLabel(ByVal strFormName As String, ByRef intTableSettings() As
         Debug.Print "basAngebotSuchen.CreateLabel ausfuehren"
     End If
     
-    ' declare label
-    Dim lblLabel As Label
-    
-    ' create form title
-    Set lblLabel = CreateControl(strFormName, acLabel, acDetail)
-        lblLabel.Name = "lblTitle"
-        lblLabel.Visible = True
-        lblLabel.Left = 566
-        lblLabel.Top = 227
-        lblLabel.Width = 9210
-        lblLabel.Height = 507
-        lblLabel.Caption = "Angebot Suchen"
-    
     intNumberOfRows = intNumberOfRows - 1
     
     Dim avarSettingsTable() As Variant
     ReDim avarSettingsTable(intNumberOfRows, 4)
-    
-    ' set default values
-    avarSettingsTable(0, 0) = "lbl00"
-        avarSettingsTable(0, 1) = 0
-        avarSettingsTable(0, 2) = 0
-        avarSettingsTable(0, 3) = True
-        avarSettingsTable(0, 4) = "txt00"
-    avarSettingsTable(1, 0) = "lbl01"
-        avarSettingsTable(1, 1) = 0
-        avarSettingsTable(1, 2) = 1
-        avarSettingsTable(1, 3) = True
-        avarSettingsTable(1, 4) = "txt01"
-    avarSettingsTable(2, 0) = "lbl02"
-        avarSettingsTable(2, 1) = 0
-        avarSettingsTable(2, 2) = 2
-        avarSettingsTable(2, 3) = True
-        avarSettingsTable(2, 4) = "txt02"
-    avarSettingsTable(3, 0) = "lbl03"
-        avarSettingsTable(3, 1) = 0
-        avarSettingsTable(3, 2) = 3
-        avarSettingsTable(3, 3) = True
-        avarSettingsTable(3, 4) = "txt03"
-    avarSettingsTable(4, 0) = "lbl04"
-        avarSettingsTable(4, 1) = 0
-        avarSettingsTable(4, 2) = 4
-        avarSettingsTable(4, 3) = True
-        avarSettingsTable(4, 4) = "txt04"
-    avarSettingsTable(5, 0) = "lbl05"
-        avarSettingsTable(5, 1) = 0
-        avarSettingsTable(5, 2) = 5
-        avarSettingsTable(5, 3) = True
-        avarSettingsTable(5, 4) = "txt05"
     
     Dim intColumn As Integer
     Dim intRow As Integer
         
     Dim inti As Integer   ' column
     For inti = LBound(avarSettingsTable, 1) To intNumberOfRows
-        Set lblLabel = CreateControl(strFormName, acLabel, acDetail, avarSettingsTable(inti, 4))
-        lblLabel.Name = avarSettingsTable(inti, 0) ' set name
-        lblLabel.Visible = avarSettingsTable(inti, 3) ' set visibility
-        
-        intColumn = avarSettingsTable(inti, 1)
-        intRow = avarSettingsTable(inti, 2)
-        Set lblLabel = basSupport.PositionObjectInTable(lblLabel, intTableSettings, intColumn, intRow) ' set position
     Next
     
-End Sub
-
-' create command buttons
-Private Sub CreateCommandButton(ByVal strFormName As String, ByRef intTableSettings() As Integer)
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CreateCommandButton"
-    End If
-    
-    ' declare CommandButton
-    Dim btnButton As CommandButton
-    
-    ' create exit button
-    Set btnButton = CreateControl(strFormName, acCommandButton, acDetail)
-    btnButton.Name = "cmdExit"
-        btnButton.Left = 13180
-        btnButton.Top = 960
-        btnButton.Width = 3120
-        btnButton.Height = 330
-        btnButton.Caption = "Schließen"
-        btnButton.OnClick = "=CloseFrmAngebotSuchen()"
-        
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CreateCommandButton: exit button created"
-    End If
-        
-    ' create search button
-    Set btnButton = CreateControl(strFormName, acCommandButton, acDetail)
-    btnButton.Name = "cmdSearch"
-        btnButton.Left = 6975
-        btnButton.Top = 960
-        btnButton.Width = 2730
-        btnButton.Height = 330
-        btnButton.Caption = "Suchen"
-        btnButton.OnClick = "=SearchAngebot()"
-        
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CreateCommandButton: search button created"
-    End If
-        
-    ' create control grid
-        ' calculate positions
-        Dim intNumberOfColumns As Integer
-        intNumberOfColumns = 1
-        
-        Dim intColumnWidth As Integer
-        intColumnWidth = 2730
-        
-        Dim intLeft As Integer
-        intLeft = 510
-        
-        Dim intTop As Integer
-        intTop = 1700
-        
-        Dim intRowHeight As Integer
-        intRowHeight = 330
-        
-        Dim aintPositions As Integer
-        ' replace with 'LifecycleGrid' function
-        aintPositions = basSupport.CalculateLifecycleBar(intNumberOfColumns, intColumnWidth, intLeft, intTop, intRowHeight)
-        
-        ' create CreateAngebot button
-            Set btnButton = CreateControl(strFormName, acCommandButton, acDetail)
-            btnButton.Name = "cmdCreateOffer"
-                btnButton.Left = 6975
-                btnButton.Top = 960
-                btnButton.Width = 2730
-                btnButton.Height = 330
-                btnButton.Caption = "Angebot erstellen"
-                btnButton.OnClick = "=OpenCreateOffer()"
-                
-            ' set createAngebot button
-                ' insert code here
-        
-        ' event message
-        If gconVerbatim Then
-            Debug.Print "basAngebotSuchen.CreateCommandButton successful"
-        End If
-        
 End Sub
 
 ' create subform
@@ -362,16 +364,7 @@ Private Sub CreateSubForm(ByVal strFormName As String, ByRef intTableSettings() 
         Debug.Print "basAngebotSuchen.CreateSubForm ausfuehren"
     End If
     
-    Dim frmSubForm As SubForm
-    Set frmSubForm = CreateControl(strFormName, acSubform, acDetail)
     
-    frmSubForm.Name = "frbSubFrm"
-        frmSubForm.Left = 510
-        frmSubForm.Top = 2453
-        frmSubForm.Width = 9218
-        frmSubForm.Height = 5055
-        frmSubForm.SourceObject = "frmAngebotSuchenSub"
-        frmSubForm.Locked = True
 
 End Sub
 
@@ -407,20 +400,6 @@ Public Function SearchAngebot()
     End If
     
 End Function
-
-Private Sub SetLabelCaption(ByVal strFormName As String, ByRef astrCaptionSettings() As String, ByVal intNumberOfRows As Integer)
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.SetLabelCaption ausfuehren"
-    End If
-        
-    Dim inti As Integer
-    For inti = LBound(astrCaptionSettings, 1) + 1 To intNumberOfRows
-        Forms(strFormName).Controls(astrCaptionSettings(inti, 0)).Caption = astrCaptionSettings(inti, 1)
-    Next
-    
-End Sub
 
 ' set captions and values
 Public Function CaptionAndValueSettings(ByVal intNumberOfRows As Integer) As String()
@@ -516,29 +495,6 @@ Private Function CalculateInformationGrid(ByVal intNumberOfColumns As Integer, B
         Debug.Print "basAngebotSuchen.CalculateInformationGrid ausgefuehrt"
     End If
 
-End Function
-
-Public Function OpenCreateOffer()
-
-    Dim strFormName As String
-    strFormName = "frmCreateOffer"
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.OpenCreateOffer ausfuehren"
-    End If
-    
-    ' close form
-    ' DoCmd.Close acForm, "frmAngebotSuchen", acSaveYes
-    
-    ' open form
-    DoCmd.OpenForm strFormName, acNormal
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.OpenCreateOffer ausgefuehrt"
-    End If
-    
 End Function
 
 ' delete form
