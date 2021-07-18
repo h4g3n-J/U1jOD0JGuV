@@ -61,6 +61,45 @@ Public Sub BuildAngebotSuchen()
         Dim astrCaptionSettings() As String
         astrCaptionSettings = basAngebotSuchen.CaptionAndValueSettings(intNumberOfRows) ' get caption settings
         basAngebotSuchen.SetLabelCaption strTempFormName, astrCaptionSettings, intNumberOfRows ' set caption
+        
+    ' create lifecycle grid
+        Dim aLifecycleGrid As Integer
+            
+            Dim intNumberOfColumns As Integer
+            Dim intNumberOfRows As Integer
+            Dim intLeft As Integer
+            Dim intTop As Integer
+            Dim intWidth As Integer
+            Dim intHeight As Integer
+            
+            ' grid settings
+            intNumberOfColumns = 1
+            intNumberOfRows = 1
+            intLeft = 1
+            intTop = 1
+            intWidth = 1
+            intHeight = 1
+        
+        aLifecycleGrid = basAngebotSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+        
+    ' create command button
+    Dim btnButton As CommandButton
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    intColumn = 1
+    intRow = 1
+    
+    Set btnButton = CreateControl(strFormName, acCommandButton, acDetail)
+        With btnButton
+            .Name = "btnCreateOffer"
+            .Left = basAngebotSuchen.GetLeft(aLifecycleGrid, intColumn, intRow)
+            .Top = basAngebotSuchen.GetTop(aLifecycleGrid, intColumn, intRow)
+            .Width = basAngebotSuchen.GetWidth(aLifecycleGrid, intColumn, intRow)
+            .Height = basAngebotSuchen.GetHeight(aLifecycleGrid, intColumn, intRow)
+            .Caption = "Angebot erstellen"
+            .OnClick = "="
+        End With
     
     ' create command buttons
     basAngebotSuchen.CreateCommandButton strTempFormName, aintInformationGrid
@@ -543,49 +582,6 @@ Public Sub ClearForm(ByVal strFormName As String)
     Next
 End Sub
 
-' intNumberOfColumns: defines the number of columns
-' aintColumnWidth: array, defines the width of each column
-' intLeft: top left position
-' intTop: top position
-' intRowHeight: row height
-' returns array: (i, 0) Left, (i, 1) Top, (i, 2) Width, (i, 3) Height
-Public Function CalculateLifecycleGrid()
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basAngebotSuchen.CalculateLifecycleGrid"
-    End If
-
-    Dim intNumberOfColumns As Integer
-    intNumberOfColumns = 2
-    Const cintColumnWidth As Integer = 2730
-    Const cintLeft As Integer = 100
-    Const cintTop As Integer = 2430
-    Const cintRowHeight As Integer = 330
-    Const cintHorizontalSpacing As Integer = 60
-    
-    ' compute cell position properties
-    intNumberOfColumns = intNumberOfColumns - 1 ' adjusted for counting
-    Const cintNumberOfProperties = 3
-    Dim aintBarSettings() As Integer
-    ReDim aintBarSettings(intNumberOfColumns, cintNumberOfProperties)
-    
-    Dim inti As Integer
-    For inti = 0 To intNumberOfColumns
-            ' set column left
-            aintBarSettings(inti, 0) = cintLeft + inti * (cintColumnWidth + cintHorizontalSpacing)
-            ' set row top
-            aintBarSettings(inti, 1) = cintTop
-            ' set column width
-            aintBarSettings(inti, 2) = cintColumnWidth
-            ' set row height
-            aintBarSettings(inti, 3) = cintRowHeight
-    Next
-
-    CalculateLifecycleGrid = aintBarSettings
-    
-End Function
-
 Public Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
 
     ' command message
@@ -696,3 +692,21 @@ Public Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal
     
 End Function
 
+Public Function OpenFormCreateOffer()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchen.OpenFormCreateOffer"
+    End If
+
+    Dim strFormName As String
+    strFormName "frmCreateOffer"
+    
+    DoCmd.OpenForm strFormName, acNormal
+    
+    'event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.OpenFormCreateOffer executed"
+    End If
+
+End Function
