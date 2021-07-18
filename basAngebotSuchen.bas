@@ -246,8 +246,8 @@ Public Sub BuildAngebotSuchen()
         ' grid settings
         intNumberOfColumns = 1
         intNumberOfRows = 1
-        intLeft = 6975
-        intTop = 960
+        intLeft = 510
+        intTop = 1700
         intWidth = 2730
         intHeight = 330
         
@@ -261,7 +261,7 @@ Public Sub BuildAngebotSuchen()
         
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "btnCreateOffer"
+                .Name = "cmdCreateOffer"
                 .Left = basAngebotSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basAngebotSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basAngebotSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
@@ -331,40 +331,6 @@ Public Sub BuildAngebotSuchen()
     If gconVerbatim Then
         Debug.Print "basAngebotSuchen.BuildAngebotSuchen: " & strFormName & " erstellt"
     End If
-
-End Sub
-
-' create label
-Private Sub CreateLabel(ByVal strFormName As String, ByRef intTableSettings() As Integer, ByVal intNumberOfRows As Integer)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CreateLabel ausfuehren"
-    End If
-    
-    intNumberOfRows = intNumberOfRows - 1
-    
-    Dim avarSettingsTable() As Variant
-    ReDim avarSettingsTable(intNumberOfRows, 4)
-    
-    Dim intColumn As Integer
-    Dim intRow As Integer
-        
-    Dim inti As Integer   ' column
-    For inti = LBound(avarSettingsTable, 1) To intNumberOfRows
-    Next
-    
-End Sub
-
-' create subform
-Private Sub CreateSubForm(ByVal strFormName As String, ByRef intTableSettings() As Integer)
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CreateSubForm ausfuehren"
-    End If
-    
-    
 
 End Sub
 
@@ -444,58 +410,6 @@ Public Function CaptionAndValueSettings(ByVal intNumberOfRows As Integer) As Str
     CaptionAndValueSettings = astrSettings
 End Function
 
-' returns array
-' (column, row, property)
-' properties: 0 - Left, 1 - Top, 2 - Width, 3 - Height
-' calculates left, top, width and height parameters
-Private Function CalculateInformationGrid(ByVal intNumberOfColumns As Integer, ByRef aintColumnWidth() As Integer, ByVal intNumberOfRows As Integer, Optional ByVal intLeft As Integer = 10000, Optional ByVal intTop As Integer = 2430)
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CalculateTableSetting ausfuehren"
-    End If
-    
-    intNumberOfColumns = intNumberOfColumns - 1
-    intNumberOfRows = intNumberOfRows - 1
-    
-    ' column dimension
-    Const cintHorizontalSpacing As Integer = 60
-            
-    ' row dimension
-    Dim intRowHeight As Integer
-    intRowHeight = 330
-    
-    Const cintVerticalSpacing As Integer = 60
-    
-    Const cintNumberOfProperties = 3
-    Dim aintGridSettings() As Integer
-    ReDim aintGridSettings(intNumberOfColumns, intNumberOfRows, cintNumberOfProperties)
-    
-    ' compute cell position properties
-    Dim inti As Integer
-    Dim intj As Integer
-    For inti = 0 To intNumberOfColumns
-        ' For intr = 0 To cintNumberOfRows
-        For intj = 0 To intNumberOfRows
-            ' set column left
-            aintGridSettings(inti, intj, 0) = intLeft + inti * (aintColumnWidth(inti) + cintHorizontalSpacing)
-            ' set row top
-            aintGridSettings(inti, intj, 1) = intTop + intj * (intRowHeight + cintVerticalSpacing)
-            ' set column width
-            aintGridSettings(inti, intj, 2) = aintColumnWidth(inti)
-            ' set row height
-            aintGridSettings(inti, intj, 3) = intRowHeight
-        Next
-    Next
-
-    CalculateInformationGrid = aintGridSettings
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CalculateInformationGrid ausgefuehrt"
-    End If
-
-End Function
 
 ' delete form
 ' 1. check if form exists
