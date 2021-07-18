@@ -586,86 +586,6 @@ Public Function CalculateLifecycleGrid()
     
 End Function
 
-' get left from grid
-Public Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer) As Integer
-    
-    If intColumn = 0 Then
-        Debug.Print "basAngebotSuche.GetLeft: column 0 is not available"
-        MsgBox "basAngebotSuche.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
-        Exit Function
-    End If
-    
-    intColumn = intColumn - 1
-    
-    GetLeft = aintGrid(intColumn, 0)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.GetLeft executed"
-    End If
-    
-End Function
-
-' get top from grid
-Public Function GetTop(ByRef aintGrid As Variant, ByVal intColumn As Integer) As Integer
-    
-    If intColumn = 0 Then
-        Debug.Print "basAngebotSuche.GetLeft: column 0 is not available"
-        MsgBox "basAngebotSuche.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
-        Exit Function
-    End If
-    
-    intColumn = intColumn - 1
-    
-    GetTop = aintGrid(intColumn, 1)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.GetTop executed"
-    End If
-    
-End Function
-
-' get width from grid
-Public Function GetWidth(ByRef aintGrid As Variant, ByVal intColumn As Integer) As Integer
-    
-    If intColumn = 0 Then
-        Debug.Print "basAngebotSuche.GetLeft: column 0 is not available"
-        MsgBox "basAngebotSuche.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
-        Exit Function
-    End If
-    
-    intColumn = intColumn - 1
-    
-    GetWidth = aintGrid(intColumn, 2)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.GetWidth executed"
-    End If
-    
-End Function
-
-' get height from grid
-Public Function GetHeight(ByRef aintGrid As Variant, ByVal intColumn As Integer) As Integer
-    
-    If intColumn = 0 Then
-        Debug.Print "basAngebotSuche.GetLeft: column 0 is not available"
-        MsgBox "basAngebotSuche.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
-        Exit Function
-    End If
-    
-    intColumn = intColumn - 1
-    
-    GetHeight = aintGrid(intColumn, 3)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.GetHeigth executed"
-    End If
-    
-End Function
-
 Public Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
 
     ' command message
@@ -705,7 +625,7 @@ Public Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumb
 End Function
 
 ' get left from grid
-Public Function GetLeftPlus(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+Public Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
         Debug.Print "basAngebotSuchen.GetLeft: column 0 is not available"
@@ -713,11 +633,65 @@ Public Function GetLeftPlus(aintGrid As Variant, ByVal intColumn As Integer, ByV
         Exit Function
     End If
     
-    GetLeftPlus = aintGrid(intColumn - 1, intRow - 1, 0)
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
     
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.GetLeftPlus executed"
+        Debug.Print "basAngebotSuchen.GetLeft executed"
+    End If
+    
+End Function
+
+' get left from grid
+Public Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchen.GetTop: column 0 is not available"
+        MsgBox "basAngebotSuchen.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetTop = aintGrid(intColumn - 1, intRow - 1, 1)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.GetTop executed"
+    End If
+    
+End Function
+
+' get left from grid
+Public Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchen.GetWidth: column 0 is not available"
+        MsgBox "basAngebotSuchen.GetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetWidth = aintGrid(intColumn - 1, intRow - 1, 2)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.GetWidth executed"
+    End If
+    
+End Function
+
+' get left from grid
+Public Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchen.GetHeight: column 0 is not available"
+        MsgBox "basAngebotSuchen.GetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetHeight = aintGrid(intColumn - 1, intRow - 1, 3)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.GetHeight executed"
     End If
     
 End Function
