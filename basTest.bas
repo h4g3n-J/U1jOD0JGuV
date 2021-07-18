@@ -488,54 +488,6 @@ Private Sub TestBasAngebotSuchen_CalculateLifecycleGrid()
     
 End Sub
 
-Private Sub TestBasAngebotSuchen_GetLeft()
-
-    Dim aintArray() As Integer
-    aintArray = basAngebotSuchen.CalculateLifecycleGrid
-     
-    Dim intColumn As Integer
-    intColumn = 1
-    
-    Debug.Print "Left (column: " & intColumn & "): " & basAngebotSuchen.GetLeft(aintArray, intColumn)
-    
-End Sub
-
-Private Sub TestBasAngebotSuchen_GetTop()
-
-    Dim aintArray() As Integer
-    aintArray = basAngebotSuchen.CalculateLifecycleGrid
-     
-    Dim intColumn As Integer
-    intColumn = 1
-        
-    Debug.Print "Top (column: " & intColumn & "): " & basAngebotSuchen.GetTop(aintArray, intColumn)
-    
-End Sub
-
-Private Sub TestBasAngebotSuchen_GetWidth()
-
-    Dim aintArray() As Integer
-    aintArray = basAngebotSuchen.CalculateLifecycleGrid
-     
-    Dim intColumn As Integer
-    intColumn = 1
-        
-    Debug.Print "Top (column: " & intColumn & "): " & basAngebotSuchen.GetWidth(aintArray, intColumn)
-    
-End Sub
-
-Private Sub TestBasAngebotSuchen_GetHeight()
-
-    Dim aintArray() As Integer
-    aintArray = basAngebotSuchen.CalculateLifecycleGrid
-     
-    Dim intColumn As Integer
-    intColumn = 1
-        
-    Debug.Print "Top (column: " & intColumn & "): " & basAngebotSuchen.GetHeight(aintArray, intColumn)
-    
-End Sub
-
 Private Function TestBasAngebotSuchen_CalculateGrid()
     
     Dim aintGrid() As Integer
@@ -581,7 +533,7 @@ Private Function TestBasAngebotSuchen_CalculateGrid()
     
 End Function
 
-Private Sub TestBasAngebotSuchen_GetLeftPlus()
+Private Sub TestBasAngebotSuchen_GetLeft()
 
     Dim aintGrid() As Integer
     aintGrid = basTest.TestBasAngebotSuchen_CalculateGrid
@@ -597,10 +549,82 @@ Private Sub TestBasAngebotSuchen_GetLeftPlus()
         
         For inti = 0 To UBound(aintGrid, 1)
             For intj = 0 To UBound(aintGrid, 2)
-                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetLeftPlus(aintGrid, inti + 1, intj + 1)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetLeft(aintGrid, inti + 1, intj + 1)
             Next
         Next
     
     End If
     
+End Sub
+
+Private Sub TestBasAngebotSuchen_GetTop()
+
+    Dim aintGrid() As Integer
+    aintGrid = basTest.TestBasAngebotSuchen_CalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetTop(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+    End If
+
+End Sub
+
+Private Sub TestBasAngebotSuchen_GetWidth()
+
+    Dim aintGrid() As Integer
+    aintGrid = basTest.TestBasAngebotSuchen_CalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetWidth(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+    End If
+
+End Sub
+
+Private Sub TestBasAngebotSuchen_GetHeight()
+
+    Dim aintGrid() As Integer
+    aintGrid = basTest.TestBasAngebotSuchen_CalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetHeight(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+    End If
+
 End Sub
