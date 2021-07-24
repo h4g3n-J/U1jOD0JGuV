@@ -461,33 +461,6 @@ Private Sub TestBasAngebotSuchen_ClearForm()
     
 End Sub
 
-Private Sub TestBasAngebotSuchen_CalculateLifecycleGrid()
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basTest.TestBasAngebotSuchen_CalculateLifecycleGrid"
-    End If
-    
-    Dim aintArray() As Integer
-    aintArray = basAngebotSuchen.CalculateLifecycleGrid
-    
-    Dim inti As Integer
-    For inti = 0 To UBound(aintArray, 1)
-        
-        Dim intj As Integer
-        For intj = 0 To UBound(aintArray, 2)
-            Debug.Print "CalculateLifecycleGrid(" & inti & " ," & intj & ") = " & aintArray(inti, intj)
-        Next
-        
-    Next
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basTest.TestBasAngebotSuchen_CalculateLifecycleGrid executed"
-    End If
-    
-End Sub
-
 Private Function TestBasAngebotSuchen_CalculateGrid()
     
     Dim aintGrid() As Integer
@@ -627,4 +600,66 @@ Private Sub TestBasAngebotSuchen_GetHeight()
     
     End If
 
+End Sub
+
+Private Sub TestbasTicketSuchenSub_ClearForm()
+
+    Dim strFormName As String
+    strFormName = "frmTicketSuchenSub"
+    
+    basTicketSuchenSub.ClearForm strFormName
+    
+End Sub
+
+Private Sub TestbasTicketSuchenSub_clearQuery()
+
+    Dim strFormName As String
+    strFormName = "qryTicketSuchenSub"
+    
+    basTicketSuchenSub.clearQuery strFormName
+    
+End Sub
+
+Private Sub TestbasTicketSuchenSub_BuildQuery()
+
+    Dim strQueryName As String
+    strQueryName = "qryTicketSuchenSub"
+    
+    basTicketSuchenSub.BuildQuery strQueryName
+    
+End Sub
+
+Private Sub TestBasTicketSuchenSub_CalculateGrid()
+
+    Dim aintInformationGrid() As Integer
+        
+        Dim intNumberOfColumns As Integer
+        Dim intNumberOfRows As Integer
+        Dim intColumnWidth As Integer
+        Dim intRowHeight As Integer
+        Dim intLeft As Integer
+        Dim intTop As Integer
+        Dim intColumn As Integer
+        Dim intRow As Integer
+        
+            intNumberOfColumns = 11
+            intNumberOfRows = 2
+            intColumnWidth = 2500
+            intRowHeight = 330
+            intLeft = 50
+            intTop = 50
+    
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1)
+    
+    aintInformationGrid = basAuftragSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    
+    For intColumn = 0 To UBound(aintInformationGrid, 1)
+        For intRow = 0 To UBound(aintInformationGrid, 2)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", left: " & aintInformationGrid(intColumn, intRow, 0)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", top: " & aintInformationGrid(intColumn, intRow, 1)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", width: " & aintInformationGrid(intColumn, intRow, 2)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", height: " & aintInformationGrid(intColumn, intRow, 3)
+        Next
+    Next
+    
 End Sub

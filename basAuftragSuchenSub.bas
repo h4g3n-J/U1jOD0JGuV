@@ -2,193 +2,663 @@ Attribute VB_Name = "basAuftragSuchenSub"
 Option Compare Database
 Option Explicit
 
-' check if target form is loaded
-' assign values to textboxes via avarTextBoxAndLabelConfig
-Public Sub SelectRecordsetAuftrag()
-    
-    ' verbatim message
-    If gconVerbatim = True Then
-        Debug.Print "basAuftragSuchenSub.SelectRecordsetAuftrag ausfuehren"
+Public Sub BuildAuftragSuchenSub()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.BuildAuftragSuchenSub "
     End If
     
-    ' declare displaying form name
+    ' set form name
     Dim strFormName As String
-    strFormName = "frmSearchMain"
+    strFormName = "frmAuftragSuchenSub"
     
-    ' error handler, case target form is not loaded
-    If Not CurrentProject.AllForms(strFormName).IsLoaded Then
-        Debug.Print "basAuftrag.SelectRecordsetAuftrag " & strFormName & _
-            " nicht geoeffnet, Prozedur abgebrochen"
-        Exit Sub
+    ' clear form
+    basAuftragSuchenSub.ClearForm strFormName
+    
+    ' declare form
+    Dim objForm As Form
+    
+    ' create form
+    Set objForm = CreateForm
+    
+    ' declare temporary form name
+    Dim strTempFormName As String
+    strTempFormName = objForm.Name
+    
+    ' create query qryAuftragSuchen
+    Dim strQueryName As String
+    strQueryName = "qryAuftragSuchen"
+    basAuftragSuchenSub.BuildQuery strQueryName
+    
+    ' set recordset source
+    objForm.RecordSource = strQueryName
+        
+    ' build information grid
+    Dim aintInformationGrid() As Integer
+        
+        Dim intNumberOfColumns As Integer
+        Dim intNumberOfRows As Integer
+        Dim intColumnWidth As Integer
+        Dim intRowHeight As Integer
+        Dim intLeft As Integer
+        Dim intTop As Integer
+        Dim intColumn As Integer
+        Dim intRow As Integer
+        
+            intNumberOfColumns = 11
+            intNumberOfRows = 2
+            intColumnWidth = 2500
+            intRowHeight = 330
+            intLeft = 50
+            intTop = 50
+    
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1)
+    
+    aintInformationGrid = basAuftragSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    
+    Dim lblLabel As Label
+    Dim txtTextbox As TextBox
+            
+    ' create textbox before label, so label can be associated
+    'txt00
+    intColumn = 1
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt00"
+            .ControlSource = "AftrID"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl00
+    intColumn = 1
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl00"
+            .Caption = "AftrID"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+            
+    'txt01
+    intColumn = 2
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt01"
+            .ControlSource = "AftrTitel"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl01
+    intColumn = 2
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
+        With lblLabel
+            .Name = "lbl01"
+            .Caption = "AftrTitel"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt02
+    intColumn = 3
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt02"
+            .ControlSource = "StatusKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = False
+            .IsHyperlink = False
+        End With
+        
+    'lbl02
+    intColumn = 3
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
+        With lblLabel
+            .Name = "lbl02"
+            .Caption = "StatusKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = False
+        End With
+        
+    'txt03
+    intColumn = 4
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt03"
+            .ControlSource = "OwnerKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = False
+            .IsHyperlink = False
+        End With
+        
+    'lbl03
+    intColumn = 4
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
+        With lblLabel
+            .Name = "lbl03"
+            .Caption = "OwnerKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = False
+        End With
+        
+    'txt04
+    intColumn = 5
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt04"
+            .ControlSource = "PrioritaetKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = False
+            .IsHyperlink = False
+        End With
+        
+    'lbl04
+    intColumn = 5
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
+        With lblLabel
+            .Name = "lbl04"
+            .Caption = "PrioritaetKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = False
+        End With
+        
+    'txt05
+    intColumn = 6
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt05"
+            .ControlSource = "ParentKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl05
+    intColumn = 6
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+        With lblLabel
+            .Name = "lbl05"
+            .Caption = "ParentKey"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt06
+    intColumn = 7
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt06"
+            .ControlSource = "Bemerkung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl06
+    intColumn = 7
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
+        With lblLabel
+            .Name = "lbl06"
+            .Caption = "Bemerkung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt07
+    intColumn = 8
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt07"
+            .ControlSource = "BeginnSoll"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl07
+    intColumn = 8
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
+        With lblLabel
+            .Name = "lbl07"
+            .Caption = "BeginnSoll"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt08
+    intColumn = 9
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt08"
+            .ControlSource = "EndeSoll"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl08
+    intColumn = 9
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt08")
+        With lblLabel
+            .Name = "lbl08"
+            .Caption = "EndeSoll"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt09
+    intColumn = 10
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt09"
+            .ControlSource = "Erstellt"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl09
+    intColumn = 10
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt09")
+        With lblLabel
+            .Name = "lbl09"
+            .Caption = "Erstellt"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt10
+    intColumn = 11
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt10"
+            .ControlSource = "kunde"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl10
+    intColumn = 11
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt10")
+        With lblLabel
+            .Name = "lbl10"
+            .Caption = "Kunde"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    ' column added? -> update intNumberOfColumns
+        
+    ' set oncurrent methode
+    ' objForm.OnCurrent = "selectAuftrag()"
+    
+    ' set form properties
+    objForm.AllowDatasheetView = True
+    objForm.AllowFormView = False
+    objForm.DefaultView = 2 '2 is for datasheet
+    
+    ' restore form size
+    DoCmd.Restore
+    
+    ' close and rename form
+    DoCmd.Close acForm, strTempFormName, acSaveYes
+    DoCmd.Rename strFormName, acForm, strTempFormName
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.BuildAuftragSuchenSub executed"
     End If
     
-    ' declare recordsetName, get recordset Name
-    Dim varRecordsetName As Variant
-    varRecordsetName = Forms.Item(strFormName).Controls("frb1").Controls("AftrID")
+End Sub
+
+Private Sub ClearForm(ByVal strFormName As String)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.ClearForm"
+    End If
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
         
+        If objForm.Name = strFormName Then
+        
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+            End If
+            
+            ' delete Form
+            DoCmd.DeleteObject acForm, strFormName
+            Exit For
+            
+        End If
+        
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub executed"
+    End If
+    
+End Sub
+
+Private Sub BuildQuery(ByVal strQueryName As String)
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.BuildQuery"
+    End If
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    ' delete query
+    basAuftragSuchenSub.clearQuery strQueryName
+    
+    ' declare query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    ' set query Name
+    qdfQuery.Name = strQueryName
+    
+    ' set query SQL
+    qdfQuery.SQL = " SELECT tblAuftrag.*" & _
+                        " FROM tblAuftrag" & _
+                        " ;"
+                        
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+    
+ExitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.BuildQuery executed"
+    End If
+    
+End Sub
+
+Private Sub clearQuery(ByVal strQueryName As String)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.clearQuery"
+    End If
+    
+    Dim objQuery As Object
+    For Each objQuery In Application.CurrentData.AllQueries
+        If objQuery.Name = strQueryName Then
+            
+            ' check if query is loaded
+            If objQuery.IsLoaded Then
+                DoCmd.Close acQuery, strQueryName, acSaveYes
+            End If
+                
+            'delete query
+            DoCmd.DeleteObject acQuery, strQueryName
+            Exit For
+        
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.clearQuery executed"
+    End If
+    
+End Sub
+
+Private Function selectAuftrag()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.SelectAuftrag"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmAuftragSuchen"
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "AftrID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
     ' initiate class Auftrag
     Dim Auftrag As clsAuftrag
     Set Auftrag = New clsAuftrag
     
-    ' load selected Recordset
+    ' select recordset
     Auftrag.SelectRecordset varRecordsetName
     
-    ' load textbox settings
-    Dim varTextBoxesAndLabels As Variant
-    varTextBoxesAndLabels = basAuftragSuchenSub.TextboxAndLabelSettings
+    ' show Recordset
+    ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
     
-    ' local verbatim setting
-    Dim bolLocalVerbatim As Boolean
-    bolLocalVerbatim = False
-    
-    ' assign recordset to textboxes
-    ' skip column names
-    Dim inti As Integer
-    For inti = LBound(varTextBoxesAndLabels, 1) + 1 To UBound(varTextBoxesAndLabels, 1)
-        ' handler in case field value is null
-        ' IsEmpty is neccesary because opening frmSearchMain will open frmAuftragSuchenSub,
-        ' at a time when varTextboxesAndLabels is not set yet
-        If Not IsEmpty(varTextBoxesAndLabels(inti, 3)) And Not IsNull(varTextBoxesAndLabels(inti, 3)) Then
-            Forms.Item(strFormName).Controls.Item(varTextBoxesAndLabels(inti, 2)) = CallByName(Auftrag, varTextBoxesAndLabels(inti, 3), VbGet)
-            
-            ' local verbatim message
-            If bolLocalVerbatim Then
-                Debug.Print "basAuftrag.SelectRecordsetAuftrag: " & varTextBoxesAndLabels(inti, 3) & "= " & CallByName(Auftrag, varTextBoxesAndLabels(inti, 3), VbGet)
-            End If
-        End If
-    Next
-
-End Sub
-
-' adjust Auftrag textboxes and labels
-Private Function TextboxAndLabelSettings() As Variant
-    Dim varSetup(11, 9) As Variant
-    varSetup(0, 0) = "label name"
-        varSetup(0, 1) = "label caption"
-        varSetup(0, 2) = "textbox name"
-        varSetup(0, 3) = "textbox value"
-        varSetup(0, 4) = "textbox border style"
-        varSetup(0, 5) = "textbox ishyperlink"
-        varSetup(0, 6) = "textbox locked"
-        varSetup(0, 7) = "textbox format"
-        varSetup(0, 8) = "textbox visible"
-        varSetup(0, 9) = "textbox defaultValue"
-    varSetup(1, 0) = "lbl0"
-        varSetup(1, 1) = "ID"
-        varSetup(1, 2) = "txt0"
-        varSetup(1, 3) = "AftrID"
-        varSetup(1, 4) = 0
-        varSetup(1, 5) = False
-        varSetup(1, 6) = True
-        varSetup(1, 7) = ""
-        varSetup(1, 8) = True
-        varSetup(1, 9) = Null
-    varSetup(2, 0) = "lbl1"
-        varSetup(2, 1) = "Titel"
-        varSetup(2, 2) = "txt1"
-        varSetup(2, 3) = "AftrTitel"
-        varSetup(2, 4) = 1
-        varSetup(2, 5) = False
-        varSetup(2, 6) = False
-        varSetup(2, 7) = ""
-        varSetup(2, 8) = True
-        varSetup(2, 9) = Null
-    varSetup(3, 0) = "lbl2"
-        varSetup(3, 1) = "ICD Status"
-        varSetup(3, 2) = "txt2"
-        varSetup(3, 3) = "StatusKey"
-        varSetup(3, 4) = 0
-        varSetup(3, 5) = False
-        varSetup(3, 6) = True
-        varSetup(3, 7) = ""
-        varSetup(3, 8) = True
-        varSetup(3, 9) = Null
-    varSetup(4, 0) = "lbl3"
-        varSetup(4, 1) = "Owner"
-        varSetup(4, 2) = "txt3"
-        varSetup(4, 3) = "OwnerKey"
-        varSetup(4, 4) = 0
-        varSetup(4, 5) = False
-        varSetup(4, 6) = True
-        varSetup(4, 7) = ""
-        varSetup(4, 8) = True
-        varSetup(4, 9) = Null
-    varSetup(5, 0) = "lbl4"
-        varSetup(5, 1) = "Priorität"
-        varSetup(5, 2) = "txt4"
-        varSetup(5, 3) = "PrioritaetKey"
-        varSetup(5, 4) = 0
-        varSetup(5, 5) = False
-        varSetup(5, 6) = True
-        varSetup(5, 7) = ""
-        varSetup(5, 8) = True
-        varSetup(5, 9) = Null
-    varSetup(6, 0) = "lbl5"
-        varSetup(6, 1) = "Parent"
-        varSetup(6, 2) = "txt5"
-        varSetup(6, 3) = "ParentKey"
-        varSetup(6, 4) = 0
-        varSetup(6, 5) = False
-        varSetup(6, 6) = True
-        varSetup(6, 7) = ""
-        varSetup(6, 8) = True
-        varSetup(6, 9) = Null
-    varSetup(7, 0) = "lbl6"
-        varSetup(7, 1) = "Bemerkung"
-        varSetup(7, 2) = "txt6"
-        varSetup(7, 3) = "Bemerkung"
-        varSetup(7, 4) = 1
-        varSetup(7, 5) = False
-        varSetup(7, 6) = False
-        varSetup(7, 7) = ""
-        varSetup(7, 8) = True
-        varSetup(7, 9) = Null
-    varSetup(8, 0) = "lbl7"
-        varSetup(8, 1) = "Beginn (Soll)"
-        varSetup(8, 2) = "txt7"
-        varSetup(8, 3) = "BeginnSoll"
-        varSetup(8, 4) = 0
-        varSetup(8, 5) = False
-        varSetup(8, 6) = True
-        varSetup(8, 7) = "Short Date"
-        varSetup(8, 8) = True
-        varSetup(8, 9) = Null
-    varSetup(9, 0) = "lbl8"
-        varSetup(9, 1) = "Ende (Soll)"
-        varSetup(9, 2) = "txt8"
-        varSetup(9, 3) = "EndeSoll"
-        varSetup(9, 4) = 0
-        varSetup(9, 5) = False
-        varSetup(9, 6) = True
-        varSetup(9, 7) = "Short Date"
-        varSetup(9, 8) = True
-        varSetup(9, 9) = Null
-    varSetup(10, 0) = "lbl9"
-        varSetup(10, 1) = "Kunde"
-        varSetup(10, 2) = "txt9"
-        varSetup(10, 3) = "Kunde"
-        varSetup(10, 4) = 1
-        varSetup(10, 5) = False
-        varSetup(10, 6) = False
-        varSetup(10, 7) = ""
-        varSetup(10, 8) = True
-        varSetup(10, 9) = Null
-    varSetup(11, 0) = Null
-        varSetup(11, 1) = Null
-        varSetup(11, 2) = "txt10"
-        varSetup(11, 3) = Null
-        varSetup(11, 4) = 1
-        varSetup(11, 5) = False
-        varSetup(11, 6) = False
-        varSetup(11, 7) = ""
-        varSetup(11, 8) = True
-        varSetup(11, 9) = ""
-        
-    If gconVerbatim = True Then
-        Debug.Print "basAuftragSuchenSub.TextboxAndLabelSettings ausgefuehrt"
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.SelectAuftrag executed"
     End If
     
-    TextboxAndLabelSettings = varSetup
-        
+End Function
+
+Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.CalculateGrid"
+    End If
+    
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim aintGrid() As Integer
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    For intColumn = 0 To intNumberOfColumns - 1
+        For intRow = 0 To intNumberOfRows - 1
+            ' left
+            aintGrid(intColumn, intRow, 0) = intLeft + intColumn * (intColumnWidth + cintHorizontalSpacing)
+            ' top
+            aintGrid(intColumn, intRow, 1) = intTop + intRow * (intRowHeight + cintVerticalSpacing)
+            ' width
+            aintGrid(intColumn, intRow, 2) = intColumnWidth
+            ' height
+            aintGrid(intColumn, intRow, 3) = intRowHeight
+        Next
+    Next
+    
+    CalculateGrid = aintGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.CalculateGrid executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAuftragSuchenSub.GetLeft: column 0 is not available"
+        MsgBox "basAuftragSuchenSub.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.GetLeft executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAuftragSuchenSub.GetTop: column 0 is not available"
+        MsgBox "basAuftragSuchenSub.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetTop = aintGrid(intColumn - 1, intRow - 1, 1)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.GetTop executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAuftragSuchenSub.GetWidth: column 0 is not available"
+        MsgBox "basAuftragSuchenSub.GetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetWidth = aintGrid(intColumn - 1, intRow - 1, 2)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.GetWidth executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAuftragSuchenSub.GetHeight: column 0 is not available"
+        MsgBox "basAuftragSuchenSub.GetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetHeight = aintGrid(intColumn - 1, intRow - 1, 3)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.GetHeight executed"
+    End If
+    
 End Function
 

@@ -475,7 +475,7 @@ Public Function PositionObjectInTable(ByVal objObject As Object, aintTableSettin
     
     MsgBox "called basSupport.PositionObjectInTable - replace with local method", vbOKOnly
     
-    If Not (TypeOf objObject Is Textbox Or TypeOf objObject Is Label Or TypeOf objObject Is CommandButton) Then
+    If Not (TypeOf objObject Is TextBox Or TypeOf objObject Is Label Or TypeOf objObject Is CommandButton) Then
         Debug.Print "basAngebotSuchen.TextboxPosition: falscher Objekttyp uebergeben, Funktion abgebrochen"
         Exit Function
     End If

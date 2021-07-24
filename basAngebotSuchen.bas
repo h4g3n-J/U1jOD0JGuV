@@ -37,7 +37,7 @@ Public Sub BuildAngebotSuchen()
     Dim lblLabel As Label
     
     ' declare textbox
-    Dim txtTextbox As Textbox
+    Dim txtTextbox As TextBox
     
     ' declare subform
     Dim frmSubForm As SubForm
@@ -410,10 +410,9 @@ Public Function CaptionAndValueSettings(ByVal intNumberOfRows As Integer) As Str
     CaptionAndValueSettings = astrSettings
 End Function
 
-
 ' delete form
 ' 1. check if form exists
-' 2. close if form is loaded
+' 2. close form is loaded
 ' 3. delete form
 Public Sub ClearForm(ByVal strFormName As String)
     
@@ -452,7 +451,7 @@ Public Sub ClearForm(ByVal strFormName As String)
     Next
 End Sub
 
-Public Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
+Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
 
     ' command message
     If gconVerbatim Then
@@ -491,7 +490,7 @@ Public Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumb
 End Function
 
 ' get left from grid
-Public Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
         Debug.Print "basAngebotSuchen.GetLeft: column 0 is not available"
@@ -509,7 +508,7 @@ Public Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal i
 End Function
 
 ' get left from grid
-Public Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
         Debug.Print "basAngebotSuchen.GetTop: column 0 is not available"
@@ -527,7 +526,7 @@ Public Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal in
 End Function
 
 ' get left from grid
-Public Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
         Debug.Print "basAngebotSuchen.GetWidth: column 0 is not available"
@@ -545,7 +544,7 @@ Public Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal 
 End Function
 
 ' get left from grid
-Public Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
         Debug.Print "basAngebotSuchen.GetHeight: column 0 is not available"
@@ -562,7 +561,7 @@ Public Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal
     
 End Function
 
-Public Function OpenFormCreateOffer()
+Private Function OpenFormCreateOffer()
     
     ' command message
     If gconVerbatim Then

@@ -91,7 +91,7 @@ Private Sub CreateTextbox(ByVal strFormName As String, aintTableSettings() As In
     End If
     
     ' declare textbox
-    Dim txtTextbox As Textbox
+    Dim txtTextbox As TextBox
     
     ' set default values
     Dim avarSettingsTable(15, 3) As Variant
@@ -173,7 +173,7 @@ Private Sub CreateTextbox(ByVal strFormName As String, aintTableSettings() As In
         
         intColumn = avarSettingsTable(inti, 1)
         intRow = avarSettingsTable(inti, 2)
-        Set txtTextbox = PositionObjectInTable(txtTextbox, aintTableSettings, intColumn, intRow) ' set position
+        Set txtTextbox = basSupport.PositionObjectInTable(txtTextbox, aintTableSettings, intColumn, intRow) ' set position
     Next
     
 End Sub
