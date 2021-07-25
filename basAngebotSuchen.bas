@@ -69,22 +69,8 @@ Public Sub BuildAngebotSuchen()
         
         ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
-        ' calculate lifecycle grid
+        ' calculate information grid
         aintInformationGrid = basAngebotSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
-        
-        ' lbl00
-        intColumn = 1
-        intRow = 1
-        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
-            With lblLabel
-                .Name = "lbl00"
-                .Caption = "Angebot"
-                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-            End With
             
         ' txt00
         intColumn = 2
@@ -98,6 +84,20 @@ Public Sub BuildAngebotSuchen()
                 .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+            End With
+            
+        ' lbl00
+        intColumn = 1
+        intRow = 1
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+            With lblLabel
+                .Name = "lbl00"
+                .Caption = "Angebot"
+                .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
             End With
         
         ' lbl01

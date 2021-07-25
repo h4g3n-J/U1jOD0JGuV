@@ -383,7 +383,7 @@ Public Sub BuildAuftragSuchenSub()
     ' column added? -> update intNumberOfColumns
         
     ' set oncurrent methode
-    ' objForm.OnCurrent = "selectAuftrag()"
+    objForm.OnCurrent = "=selectAuftrag()"
     
     ' set form properties
     objForm.AllowDatasheetView = True
@@ -512,7 +512,7 @@ Private Sub clearQuery(ByVal strQueryName As String)
     
 End Sub
 
-Private Function selectAuftrag()
+Public Function selectAuftrag()
 
     ' command message
     If gconVerbatim Then
@@ -544,6 +544,17 @@ Private Function selectAuftrag()
     
     ' show Recordset
     ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Auftrag, "AftrID", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Auftrag, "AftrTitel", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Auftrag, "StatusKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Auftrag, "OwnerKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Auftrag, "PrioritaetKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Auftrag, "ParentKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt06") = CallByName(Auftrag, "Bemerkung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt07") = CallByName(Auftrag, "BeginnSoll", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt08") = CallByName(Auftrag, "EndeSoll", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt09") = CallByName(Auftrag, "Erstellt", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt10") = CallByName(Auftrag, "kunde", VbGet)
     
     ' event message
     If gconVerbatim Then

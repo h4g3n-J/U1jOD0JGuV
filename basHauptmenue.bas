@@ -1,58 +1,14 @@
 Attribute VB_Name = "basHauptmenue"
-' basHautpmenue
+' basHauptmenue
 
 Option Compare Database
 Option Explicit
 
-' returns command button settings
-Private Function CommandButtonSettings()
-    
+Public Sub BuildHauptmenue()
+
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basHauptmenue.CommandButtonSettings ausfuehren"
-    End If
-    
-    Dim varSettings(3, 7) As Variant
-
-    varSettings(0, 0) = "name"
-        varSettings(0, 1) = "Visible"
-        varSettings(0, 2) = "Left"
-        varSettings(0, 3) = "Top"
-        varSettings(0, 4) = "Width"
-        varSettings(0, 5) = "Height"
-        varSettings(0, 6) = "Caption"
-        varSettings(0, 7) = "OnClick"
-    varSettings(1, 0) = "cmd0"
-        varSettings(1, 1) = True
-        varSettings(1, 2) = 100
-        varSettings(1, 3) = 100
-        varSettings(1, 4) = 1701
-        varSettings(1, 5) = 283
-        varSettings(1, 6) = "Ticket suchen"
-        varSettings(1, 7) = "=OpenFrmAuftragSuchen()"
-    varSettings(2, 0) = "cmd1"
-        varSettings(2, 1) = True
-        varSettings(2, 2) = 100
-        varSettings(2, 3) = 600
-        varSettings(2, 4) = 1701
-        varSettings(2, 5) = 283 * 2
-        varSettings(2, 6) = "Angebot " & vbCrLf & "suchen"
-        varSettings(2, 7) = "=OpenFrmAngebotSuchen()"
-    varSettings(3, 0) = "cmd2"
-        varSettings(3, 1) = True
-        varSettings(3, 2) = 100
-        varSettings(3, 3) = 1383
-        varSettings(3, 4) = 1701
-        varSettings(3, 5) = 283
-        varSettings(3, 6) = "Build Application"
-        varSettings(3, 7) = "=BuildApplication()"
-        
-    CommandButtonSettings = varSettings
-End Function
-
-Public Sub BuildFormHauptmenue()
-
-    If gconVerbatim Then
-        Debug.Print "basHautpmenue.BuildFormHauptmenue ausfuehren"
+        Debug.Print "execute basHauptmenue.BuildFormHauptmenue"
     End If
     
     ' define form name
@@ -60,73 +16,276 @@ Public Sub BuildFormHauptmenue()
     strFormName = "frmHauptmenue"
     
     ' clear form
-    basSupport.ClearForm strFormName
+    basHauptmenue.ClearForm strFormName
+    
+    ' declare form
+    Dim objForm As Form
     
     ' create form
-    Dim frmHauptmenue As Form
-    Set frmHauptmenue = CreateForm
+    Set objForm = CreateForm
     
-    ' save temporary form name in strFormNameTemp
-    Dim strFormNameTemp As String
-    strFormNameTemp = frmHauptmenue.Name
-    
-    ' get Commandbuttons settings
-    Dim avarCommandButtonSettings As Variant
-    avarCommandButtonSettings = basHauptmenue.CommandButtonSettings
-    
-    ' create Commandbutton
-        Dim inti As Integer
-        For inti = LBound(avarCommandButtonSettings, 1) + 1 To UBound(avarCommandButtonSettings, 1)
-            Dim CmdButton As CommandButton
-            Set CmdButton = CreateControl(strFormNameTemp, acCommandButton, acDetail)
-            CmdButton.Name = avarCommandButtonSettings(inti, 0)
-            CmdButton.Visible = avarCommandButtonSettings(inti, 1)
-            CmdButton.Left = avarCommandButtonSettings(inti, 2)
-            CmdButton.Top = avarCommandButtonSettings(inti, 3)
-            CmdButton.Width = avarCommandButtonSettings(inti, 4)
-            CmdButton.Height = avarCommandButtonSettings(inti, 5)
-            
-            ' handle visible = False
-            If avarCommandButtonSettings(1, inti) Then
-                CmdButton.Caption = avarCommandButtonSettings(inti, 6)
-                CmdButton.OnClick = avarCommandButtonSettings(inti, 7)
-            End If
-            
-            Set CmdButton = Nothing
-        Next
+    ' declare temporary form name
+    Dim strTempFormName As String
+    strTempFormName = objForm.Name
     
     ' set form caption
-    frmHauptmenue.Caption = strFormName
+    objForm.Caption = strFormName
     
-    ' close and save form
-    DoCmd.Close acForm, frmHauptmenue.Name, acSaveYes
+    ' declare command button
+    Dim btnButton As CommandButton
     
-    ' rename form
-    DoCmd.Rename strFormName, acForm, strFormNameTemp
+    ' declare grid variables
+        Dim intNumberOfColumns As Integer
+        Dim intNumberOfRows As Integer
+        Dim intLeft As Integer
+        Dim intTop As Integer
+        Dim intWidth As Integer
+        Dim intHeight As Integer
+        
+        Dim intColumn As Integer
+        Dim intRow As Integer
     
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basMain.FormularErstellen: " & strFormName & " erstellt"
-    End If
+    ' create control grid
+    Dim aintControlGrid() As Integer
+    
+        ' grid settings
+        intNumberOfColumns = 1
+        intNumberOfRows = 3
+        intLeft = 100
+        intTop = 100
+        intWidth = 1700
+        intHeight = 330
+    
+    ReDim aintControlGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    ' calculate control grid
+    aintControlGrid = basHauptmenue.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+    
+    intColumn = 1
+    intRow = 1
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd00"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Auftrag Suchen"
+                .OnClick = "=OpenFrmAuftragSuchen()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 2
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd01"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Angebot Suchen"
+                .OnClick = "=OpenFrmAngebotSuchen()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 3
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd02"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Build Application"
+                .OnClick = "=BuildApplication()"
+                .Visible = True
+            End With
+    
+    ' column added? -> update intNumberOfColumns
+            
+        ' close form
+        DoCmd.Close acForm, strTempFormName, acSaveYes
+    
+        ' rename form
+        DoCmd.Rename strFormName, acForm, strTempFormName
+        
+        ' open form
+        DoCmd.OpenForm strFormName, acNormal
+        
+        ' event message
+        If gconVerbatim Then
+            Debug.Print "basHauptmenue.BuildHauptmenue executed"
+        End If
     
 End Sub
 
 Public Function OpenFrmAuftragSuchen()
-    ' verbatim message
+    
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basHautpmenue.OpenFormAuftragSuchen ausfuehren"
+        Debug.Print "execute basHauptmenue.OpenFormAuftragSuchen"
     End If
     
-    basSearchMain.OpenFormSearchMain "AuftragSuchen"
+    DoCmd.OpenForm "frmAuftragSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormAuftragSuchen executed"
+    End If
+    
 End Function
 
 Public Function OpenFrmAngebotSuchen()
-    ' verbatim message
+    
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basHautpmenue.OpenFormAngebotSuchen ausfuehren"
+        Debug.Print "execute basHauptmenue.OpenFormAngebotSuchen"
     End If
 
     DoCmd.OpenForm "frmAngebotSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormAngebotSuchen executed"
+    End If
 End Function
 
+Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
 
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.CalculateGrid"
+    End If
+    
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim aintGrid() As Integer
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    For intColumn = 0 To intNumberOfColumns - 1
+        For intRow = 0 To intNumberOfRows - 1
+            ' left
+            aintGrid(intColumn, intRow, 0) = intLeft + intColumn * (intColumnWidth + cintHorizontalSpacing)
+            ' top
+            aintGrid(intColumn, intRow, 1) = intTop + intRow * (intRowHeight + cintVerticalSpacing)
+            ' width
+            aintGrid(intColumn, intRow, 2) = intColumnWidth
+            ' height
+            aintGrid(intColumn, intRow, 3) = intRowHeight
+        Next
+    Next
+    
+    CalculateGrid = aintGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.CalculateGrid executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basHauptmenue.GetLeft: column 0 is not available"
+        MsgBox "basHauptmenue.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.GetLeft executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basHauptmenue.GetTop: column 0 is not available"
+        MsgBox "basHauptmenue.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetTop = aintGrid(intColumn - 1, intRow - 1, 1)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.GetTop executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basHauptmenue.GetWidth: column 0 is not available"
+        MsgBox "basHauptmenue.GetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetWidth = aintGrid(intColumn - 1, intRow - 1, 2)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.GetWidth executed"
+    End If
+    
+End Function
+
+' get left from grid
+Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basHauptmenue.GetHeight: column 0 is not available"
+        MsgBox "basHauptmenue.GetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetHeight = aintGrid(intColumn - 1, intRow - 1, 3)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.GetHeight executed"
+    End If
+    
+End Function
+
+Private Sub ClearForm(ByVal strFormName As String)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.ClearForm"
+    End If
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+            End If
+            ' delete form
+            DoCmd.DeleteObject acForm, strFormName
+            Exit For
+        End If
+    Next
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenu.ClearForm executed"
+    End If
+    
+End Sub

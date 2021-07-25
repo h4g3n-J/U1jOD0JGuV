@@ -8,7 +8,7 @@ Public Function BuildApplication()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "basBuild.BuildAppliation ausfuehren"
+        Debug.Print "execute basBuild.BuildAppliation"
     End If
     
     ' build querys
@@ -16,8 +16,20 @@ Public Function BuildApplication()
     basBuild.BuildQryAngebot
     
     ' build forms
-    basBuild.BuildForms
+    basAngebotSuchenSub.BuildAngebotSuchenSub
     basAngebotSuchen.BuildAngebotSuchen
+    
+    basAuftragSuchenSub.BuildAuftragSuchenSub
+    basAuftragSuchen.BuildAuftragSuchen
+    
+    ' open frmHauptmenue
+    DoCmd.OpenForm "frmHauptmenue", acNormal
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildAppliation executed"
+    End If
+    
 End Function
 
 ' build qryAngebotAuswahl
@@ -194,25 +206,3 @@ Private Function SqlQryAngebotAuswahl(strSearchTerm As String)
             " WHERE qryAngebot.BWIKey LIKE '*" & strSearchTerm & "*'" & _
             " ;"
 End Function
-
-Private Sub BuildForms()
-    
-    If gconVerbatim Then
-        Debug.Print "basBuild.Forms ausfuehren"
-    End If
-    
-    ' build Hauptmenue
-    ' basHauptmenue.BuildFormHauptmenue
-    
-    ' build subformular AngebotSuchenSub
-    basAngebotSuchenSub.BuildAngebotSuchenSub
-    
-    ' build AngebotSuchen
-    basAngebotSuchen.BuildAngebotSuchen
-    
-    ' build AngebotErstellen
-    basAngebotErstellen.BuildAngebotErstellen
-    
-    ' open frmHauptmenue
-    DoCmd.OpenForm "frmHauptmenue", acNormal
-End Sub
