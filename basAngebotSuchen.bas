@@ -416,9 +416,9 @@ End Function
 ' 3. delete form
 Public Sub ClearForm(ByVal strFormName As String)
     
-    ' verbatim message
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.ClearForm ausfuehren"
+        Debug.Print "execute basAngebotSuchen.ClearForm"
     End If
     
     Dim objDummy As Object
