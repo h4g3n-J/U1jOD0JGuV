@@ -902,3 +902,65 @@ Private Sub TestGetTop()
     End If
 
 End Sub
+
+' get width from grid
+Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchenSub.GetWidth: column 0 is not available"
+        MsgBox "basAngebotSuchenSub.GetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetWidth = aintGrid(intColumn - 1, intRow - 1, 2)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.GetWidth executed"
+    End If
+    
+End Function
+
+Private Sub TestGetWidth()
+
+    Dim aintGrid() As Integer
+    aintGrid = basAngebotSuchenSub.TestCalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Width: " & basAngebotSuchenSub.GetWidth(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+    End If
+
+End Sub
+
+' get height from grid
+Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchenSub.GetHeight: column 0 is not available"
+        MsgBox "basAngebotSuchenSub.GetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetHeight = aintGrid(intColumn - 1, intRow - 1, 3)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.GetHeight executed"
+    End If
+    
+End Function
+
+

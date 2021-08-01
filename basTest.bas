@@ -570,7 +570,7 @@ Private Sub TestBasAngebotSuchen_GetWidth()
         
         For inti = 0 To UBound(aintGrid, 1)
             For intj = 0 To UBound(aintGrid, 2)
-                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetWidth(aintGrid, inti + 1, intj + 1)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Width: " & basAngebotSuchen.GetWidth(aintGrid, inti + 1, intj + 1)
             Next
         Next
     
@@ -594,7 +594,7 @@ Private Sub TestBasAngebotSuchen_GetHeight()
         
         For inti = 0 To UBound(aintGrid, 1)
             For intj = 0 To UBound(aintGrid, 2)
-                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetHeight(aintGrid, inti + 1, intj + 1)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Height: " & basAngebotSuchen.GetHeight(aintGrid, inti + 1, intj + 1)
             Next
         Next
     
