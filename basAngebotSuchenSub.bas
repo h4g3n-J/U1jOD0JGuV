@@ -963,4 +963,27 @@ Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVa
     
 End Function
 
+Private Sub TestGetHeight()
+
+    Dim aintGrid() As Integer
+    aintGrid = basAngebotSuchenSub.TestCalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Height: " & basAngebotSuchenSub.GetHeight(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+    End If
+
+End Sub
 
