@@ -539,7 +539,7 @@ Public Function selectAuftrag()
         Exit Function
     End If
     
-    ' if frmAuftragSuchen not isloaded so goto exit (Error Code: 2)
+    ' if frmAuftragSuchen not isloaded go to exit (Error Code: 2)
     If Not Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
         Debug.Print "basAuftragSuchenSub.selectAuftrag aborted, Error Code: 2"
         Exit Function
@@ -564,7 +564,7 @@ Public Function selectAuftrag()
     ' select recordset
     Auftrag.SelectRecordset varRecordsetName
     
-    ' show Recordset
+    ' show recordset
     ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
     Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Auftrag, "AftrID", VbGet)
     Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Auftrag, "AftrTitel", VbGet)

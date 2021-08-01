@@ -549,251 +549,77 @@ Public Sub BuildAngebotSuchenSub()
         
 End Sub
 
-Private Sub CreateTextbox(ByVal strFormName As String, aintTableSettings() As Integer, ByVal intNumberOfRows As Integer)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchenSub.CreateTextbox ausfuehren"
-    End If
-    
-    ' declare textbox
-    Dim txtTextbox As TextBox
-    
-    ' set default values
-    Dim avarSettingsTable(15, 3) As Variant
-    avarSettingsTable(0, 0) = "txt00" ' name
-        avarSettingsTable(0, 1) = 1 ' column
-        avarSettingsTable(0, 2) = 0 ' row
-        avarSettingsTable(0, 3) = True 'visibility
-    avarSettingsTable(1, 0) = "txt01"
-        avarSettingsTable(1, 1) = 1
-        avarSettingsTable(1, 2) = 1
-        avarSettingsTable(1, 3) = True
-    avarSettingsTable(2, 0) = "txt02"
-        avarSettingsTable(2, 1) = 1
-        avarSettingsTable(2, 2) = 2
-        avarSettingsTable(2, 3) = True
-    avarSettingsTable(3, 0) = "txt03"
-        avarSettingsTable(3, 1) = 1
-        avarSettingsTable(3, 2) = 3
-        avarSettingsTable(3, 3) = False
-    avarSettingsTable(4, 0) = "txt04"
-        avarSettingsTable(4, 1) = 1
-        avarSettingsTable(4, 2) = 4
-        avarSettingsTable(4, 3) = False
-    avarSettingsTable(5, 0) = "txt05"
-        avarSettingsTable(5, 1) = 1
-        avarSettingsTable(5, 2) = 5
-        avarSettingsTable(5, 3) = False
-    avarSettingsTable(6, 0) = "txt06"
-        avarSettingsTable(6, 1) = 1
-        avarSettingsTable(6, 2) = 6
-        avarSettingsTable(6, 3) = False
-    avarSettingsTable(7, 0) = "txt07"
-        avarSettingsTable(7, 1) = 1
-        avarSettingsTable(7, 2) = 7
-        avarSettingsTable(7, 3) = False
-    avarSettingsTable(8, 0) = "txt08"
-        avarSettingsTable(8, 1) = 1
-        avarSettingsTable(8, 2) = 8
-        avarSettingsTable(8, 3) = False
-    avarSettingsTable(9, 0) = "txt09"
-        avarSettingsTable(9, 1) = 1
-        avarSettingsTable(9, 2) = 9
-        avarSettingsTable(9, 3) = False
-    avarSettingsTable(10, 0) = "txt10"
-        avarSettingsTable(10, 1) = 1
-        avarSettingsTable(10, 2) = 10
-        avarSettingsTable(10, 3) = False
-    avarSettingsTable(11, 0) = "txt11"
-        avarSettingsTable(11, 1) = 1
-        avarSettingsTable(11, 2) = 11
-        avarSettingsTable(11, 3) = False
-    avarSettingsTable(12, 0) = "txt12"
-        avarSettingsTable(12, 1) = 1
-        avarSettingsTable(12, 2) = 12
-        avarSettingsTable(12, 3) = False
-    avarSettingsTable(13, 0) = "txt13"
-        avarSettingsTable(13, 1) = 1
-        avarSettingsTable(13, 2) = 12
-        avarSettingsTable(13, 3) = False
-    avarSettingsTable(14, 0) = "txt14"
-        avarSettingsTable(14, 1) = 1
-        avarSettingsTable(14, 2) = 13
-        avarSettingsTable(14, 3) = False
-    avarSettingsTable(15, 0) = "txt15"
-        avarSettingsTable(15, 1) = 1
-        avarSettingsTable(15, 2) = 14
-        avarSettingsTable(15, 3) = False
-        
-    intNumberOfRows = intNumberOfRows - 1
-    
-    Dim intColumn As Integer
-    Dim intRow As Integer
-    
-    Dim inti As Integer
-    For inti = LBound(avarSettingsTable, 1) To intNumberOfRows
-        Set txtTextbox = CreateControl(strFormName, acTextBox, acDetail)
-        txtTextbox.Name = avarSettingsTable(inti, 0) ' set name
-        txtTextbox.Visible = avarSettingsTable(inti, 3) ' set visibility
-        
-        intColumn = avarSettingsTable(inti, 1)
-        intRow = avarSettingsTable(inti, 2)
-        Set txtTextbox = basSupport.PositionObjectInTable(txtTextbox, aintTableSettings, intColumn, intRow) ' set position
-    Next
-    
-End Sub
-
-Private Sub CreateLabel(ByVal strFormName As String, ByRef aintTableSettings() As Integer, ByVal intNumberOfRows As Integer)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.CreateLabel ausfuehren"
-    End If
-    
-    ' declare label
-    Dim lblLabel As Label
-
-    Dim avarSettingsTable(15, 4) As Variant
-    avarSettingsTable(0, 0) = "lbl00"
-        avarSettingsTable(0, 1) = 0
-        avarSettingsTable(0, 2) = 0
-        avarSettingsTable(0, 3) = True
-        avarSettingsTable(0, 4) = "txt00"
-    avarSettingsTable(1, 0) = "lbl01"
-        avarSettingsTable(1, 1) = 0
-        avarSettingsTable(1, 2) = 1
-        avarSettingsTable(1, 3) = True
-        avarSettingsTable(1, 4) = "txt01"
-    avarSettingsTable(2, 0) = "lbl02"
-        avarSettingsTable(2, 1) = 0
-        avarSettingsTable(2, 2) = 2
-        avarSettingsTable(2, 3) = True
-        avarSettingsTable(2, 4) = "txt02"
-    avarSettingsTable(3, 0) = "lbl03"
-        avarSettingsTable(3, 1) = 0
-        avarSettingsTable(3, 2) = 3
-        avarSettingsTable(3, 3) = False
-        avarSettingsTable(3, 4) = "txt03"
-    avarSettingsTable(4, 0) = "lbl04"
-        avarSettingsTable(4, 1) = 0
-        avarSettingsTable(4, 2) = 4
-        avarSettingsTable(4, 3) = False
-        avarSettingsTable(4, 4) = "txt04"
-    avarSettingsTable(5, 0) = "lbl05"
-        avarSettingsTable(5, 1) = 0
-        avarSettingsTable(5, 2) = 5
-        avarSettingsTable(5, 3) = False
-        avarSettingsTable(5, 4) = "txt05"
-    avarSettingsTable(6, 0) = "lbl06"
-        avarSettingsTable(6, 1) = 0
-        avarSettingsTable(6, 2) = 6
-        avarSettingsTable(6, 3) = False
-        avarSettingsTable(6, 4) = "txt06"
-    avarSettingsTable(7, 0) = "lbl07"
-        avarSettingsTable(7, 1) = 0
-        avarSettingsTable(7, 2) = 7
-        avarSettingsTable(7, 3) = False
-        avarSettingsTable(7, 4) = "txt07"
-    avarSettingsTable(8, 0) = "lbl08"
-        avarSettingsTable(8, 1) = 0
-        avarSettingsTable(8, 2) = 8
-        avarSettingsTable(8, 3) = False
-        avarSettingsTable(8, 4) = "txt08"
-    avarSettingsTable(9, 0) = "lbl09"
-        avarSettingsTable(9, 1) = 0
-        avarSettingsTable(9, 2) = 9
-        avarSettingsTable(9, 3) = False
-        avarSettingsTable(9, 4) = "txt09"
-    avarSettingsTable(10, 0) = "lbl10"
-        avarSettingsTable(10, 1) = 0
-        avarSettingsTable(10, 2) = 10
-        avarSettingsTable(10, 3) = False
-        avarSettingsTable(10, 4) = "txt10"
-    avarSettingsTable(11, 0) = "lbl11"
-        avarSettingsTable(11, 1) = 0
-        avarSettingsTable(11, 2) = 11
-        avarSettingsTable(11, 3) = False
-        avarSettingsTable(11, 4) = "txt11"
-    avarSettingsTable(12, 0) = "lbl12"
-        avarSettingsTable(12, 1) = 0
-        avarSettingsTable(12, 2) = 12
-        avarSettingsTable(12, 3) = False
-        avarSettingsTable(12, 4) = "txt12"
-    avarSettingsTable(13, 0) = "lbl13"
-        avarSettingsTable(13, 1) = 0
-        avarSettingsTable(13, 2) = 12
-        avarSettingsTable(13, 3) = False
-        avarSettingsTable(13, 4) = "txt13"
-    avarSettingsTable(14, 0) = "lbl14"
-        avarSettingsTable(14, 1) = 0
-        avarSettingsTable(14, 2) = 13
-        avarSettingsTable(14, 3) = False
-        avarSettingsTable(14, 4) = "txt14"
-    avarSettingsTable(15, 0) = "lbl15"
-        avarSettingsTable(15, 1) = 0
-        avarSettingsTable(15, 2) = 14
-        avarSettingsTable(15, 3) = False
-        avarSettingsTable(15, 4) = "txt15"
-    
-    Dim intColumn As Integer
-    Dim intRow As Integer
-        
-    Dim inti As Integer
-    For inti = LBound(avarSettingsTable, 1) To 2
-        Set lblLabel = CreateControl(strFormName, acLabel, acDetail, avarSettingsTable(inti, 4))
-        lblLabel.Name = avarSettingsTable(inti, 0) ' set name
-        lblLabel.Visible = avarSettingsTable(inti, 3) ' set visibility
-        
-        intColumn = avarSettingsTable(inti, 1)
-        intRow = avarSettingsTable(inti, 2)
-        Set lblLabel = basSupport.PositionObjectInTable(lblLabel, aintTableSettings, intColumn, intRow) ' set position
-    Next
-    
-End Sub
-
 ' load recordset to destination form
 Public Function SelectAngebot()
-    ' verbatim message
+
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchenSub.SelectAngebot ausfuehren"
+        Debug.Print "execute basAngebotSuchenSub.SelectAngebot"
     End If
     
-    ' destination form name setting
-    Dim strDestFormName As String
-    strDestFormName = "frmAngebotSuchen"
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmAngebotSuchen"
     
-    ' check if destination form is loaded
-    If Not (CurrentProject.AllForms(strDestFormName).IsLoaded) Then
-        Debug.Print "basAngebotSuchenSub.SelectRecordset: " & strDestFormName _
-            & " nicht geladen, Prozedur abgebrochen"
-        GoTo ExitProc
+    ' check if frmAngebotSuchen exists (Error Code: 1)
+    Dim bolFormExists As Boolean
+    bolFormExists = False
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            bolFormExists = True
+        End If
+    Next
+    
+    If Not bolFormExists Then
+        Debug.Print "basAngebotSuchenSub.selectAngebot aborted, Error Code: 1"
+        Exit Function
     End If
+    
+    ' if frmAngebotSuchen not isloaded go to exit (Error Code: 2)
+    If Not Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+        Debug.Print "basAngebotSuchenSub.selectAngebot aborted, Error Code: 2"
+        Exit Function
+    End If
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
     
     ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "BWIKey"
+    
+    ' set recordset origin
     Dim varRecordsetName As Variant
-    varRecordsetName = Forms.Item(strDestFormName).Controls("frbSubForm").Controls("BWIKey")
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
     
     ' initiate class Angebot
     Dim angebot As clsAngebot
     Set angebot = New clsAngebot
     
-    ' set selected Recordset
+    ' select recordset
     angebot.SelectRecordset varRecordsetName
     
-    Dim intNumberOfRows As Integer
-    intNumberOfRows = 6
+    ' show recordset
+    ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Auftrag, "AftrID", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Auftrag, "AftrTitel", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Auftrag, "StatusKey", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Auftrag, "OwnerKey", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Auftrag, "PrioritaetKey", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Auftrag, "ParentKey", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt06") = CallByName(Auftrag, "Bemerkung", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt07") = CallByName(Auftrag, "BeginnSoll", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt08") = CallByName(Auftrag, "EndeSoll", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt09") = CallByName(Auftrag, "Erstellt", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt10") = CallByName(Auftrag, "kunde", VbGet)
     
-    Dim astrTextBoxValues() As String
-    astrTextBoxValues = basAngebotSuchen.CaptionAndValueSettings(intNumberOfRows)
-    
-    ' set textboxes and labels
-    Dim inti As Integer
-    
-    ' assign values to textboxes
-    For inti = LBound(astrTextBoxValues, 1) + 1 To intNumberOfRows ' skip titles
-        Forms.Item(strDestFormName).Controls.Item(astrTextBoxValues(inti, 2)) = CallByName(angebot, astrTextBoxValues(inti, 3), VbGet)
-    Next
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.SelectAngebot executed"
+    End If
     
 ExitProc:
     Set angebot = Nothing
