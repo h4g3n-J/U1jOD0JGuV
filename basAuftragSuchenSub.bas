@@ -523,6 +523,28 @@ Public Function selectAuftrag()
     Dim strFormName As String
     strFormName = "frmAuftragSuchen"
     
+    ' check if frmAuftragSuchen exists (Error Code: 1)
+    Dim bolFormExists As Boolean
+    bolFormExists = False
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            bolFormExists = True
+        End If
+    Next
+    
+    If Not bolFormExists Then
+        Debug.Print "basAuftragSuchenSub.selectAuftrag aborted, Error Code: 1"
+        Exit Function
+    End If
+    
+    ' if frmAuftragSuchen not isloaded so goto exit (Error Code: 2)
+    If Not Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+        Debug.Print "basAuftragSuchenSub.selectAuftrag aborted, Error Code: 2"
+        Exit Function
+    End If
+    
     ' declare control object name
     Dim strControlObjectName As String
     strControlObjectName = "frbSubForm"
