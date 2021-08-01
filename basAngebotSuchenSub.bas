@@ -55,8 +55,40 @@ Public Sub BuildAngebotSuchenSub()
     
     ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1)
     
-    ' aintInformationGrid = basAuftragSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
     aintInformationGrid = basAngebotSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    
+    Dim lblLabel As Label
+    Dim txtTextbox As TextBox
+    
+    ' create textbox before label, so label can be associated
+    'txt00
+    intColumn = 1
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt00"
+            .ControlSource = "AftrID"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl00
+    intColumn = 1
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl00"
+            .Caption = "AftrID"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
     
     ' set OnCurrent methode
     objForm.OnCurrent = "=SelectAngebot()"
@@ -741,7 +773,7 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
     
 End Function
 
-Private Sub Test_CalculateGrid()
+Private Function TestCalculateGrid()
 
     Dim aintInformationGrid() As Integer
         
@@ -765,6 +797,15 @@ Private Sub Test_CalculateGrid()
     
     aintInformationGrid = basAngebotSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = False
+    
+    If Not bolOutput Then
+        TestCalculateGrid = aintInformationGrid
+        Exit Function
+    End If
+    
     For intColumn = 0 To UBound(aintInformationGrid, 1)
         For intRow = 0 To UBound(aintInformationGrid, 2)
             Debug.Print "column " & intColumn & ", row " & intRow & ", left: " & aintInformationGrid(intColumn, intRow, 0)
@@ -774,4 +815,90 @@ Private Sub Test_CalculateGrid()
         Next
     Next
     
+    TestCalculateGrid = aintInformationGrid
+    
+End Function
+
+' get left from grid
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchenSub.GetLeft: column 0 is not available"
+        MsgBox "basAngebotSuchenSub.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.GetLeft executed"
+    End If
+    
+End Function
+
+Private Sub TestGetLeft()
+
+    Dim aintGrid() As Integer
+    aintGrid = basAngebotSuchenSub.TestCalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If Not bolOutput Then
+        Exit Sub
+    End If
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchenSub.GetLeft(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+End Sub
+
+' get top from grid
+Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+    
+    If intColumn = 0 Then
+        Debug.Print "basAngebotSuchenSub.GetTop: column 0 is not available"
+        MsgBox "basAngebotSuchenSub.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetTop = aintGrid(intColumn - 1, intRow - 1, 1)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.GetTop executed"
+    End If
+    
+End Function
+
+Private Sub TestGetTop()
+
+    Dim aintGrid() As Integer
+    aintGrid = basAngebotSuchenSub.TestCalculateGrid
+     
+    ' toggle output
+    Dim bolOutput As Boolean
+    bolOutput = True
+    
+    If bolOutput Then
+    
+        Dim inti As Integer
+        Dim intj As Integer
+        
+        For inti = 0 To UBound(aintGrid, 1)
+            For intj = 0 To UBound(aintGrid, 2)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Top: " & basAngebotSuchenSub.GetTop(aintGrid, inti + 1, intj + 1)
+            Next
+        Next
+    
+    End If
+
 End Sub

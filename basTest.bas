@@ -546,7 +546,7 @@ Private Sub TestBasAngebotSuchen_GetTop()
         
         For inti = 0 To UBound(aintGrid, 1)
             For intj = 0 To UBound(aintGrid, 2)
-                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Left: " & basAngebotSuchen.GetTop(aintGrid, inti + 1, intj + 1)
+                Debug.Print "Column " & inti + 1 & " , Row " & intj + 1 & " , Top: " & basAngebotSuchen.GetTop(aintGrid, inti + 1, intj + 1)
             Next
         Next
     
@@ -629,7 +629,7 @@ Private Sub TestbasTicketSuchenSub_BuildQuery()
     
 End Sub
 
-Private Sub TestBasTicketSuchenSub_CalculateGrid()
+Private Sub TestBasAuftragSuchenSub_CalculateGrid()
 
     Dim aintInformationGrid() As Integer
         

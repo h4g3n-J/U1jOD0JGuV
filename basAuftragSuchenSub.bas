@@ -641,7 +641,7 @@ Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal 
     
 End Function
 
-' get left from grid
+' get top from grid
 Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
@@ -659,7 +659,7 @@ Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal i
     
 End Function
 
-' get left from grid
+' get width from grid
 Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
@@ -677,7 +677,7 @@ Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal
     
 End Function
 
-' get left from grid
+' get height from grid
 Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
     If intColumn = 0 Then
