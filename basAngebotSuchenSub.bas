@@ -6,27 +6,60 @@ Option Explicit
 Public Sub BuildAngebotSuchenSub()
     
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchenSub.BuildAngebotSuchenSub ausfuehren"
+        Debug.Print "execute basAngebotSuchenSub.BuildAngebotSuchenSub"
     End If
     
-    ' declare form name
+    ' set form name
     Dim strFormName As String
     strFormName = "frmAngebotSuchenSub"
     
-    ' clear existing form
+    ' clear form
     basAngebotSuchenSub.ClearForm strFormName
     
     ' declare form
-    Dim frmForm As Form
+    Dim objForm As Form
     
     ' create form
-    Set frmForm = CreateForm
+    Set objForm = CreateForm
+    
+    ' declare temporary form name
+    Dim strTempFormName As String
+    strTempFormName = objForm.Name
+    
+    ' create query qryAngebotAuswahl
+    Dim strQueryName As String
+    strQueryName = "qryAngebotAuswahl"
+    basAngebotSuchenSub.BuildQryAngebotAuswahl strQueryName
     
     ' set recordsetSource
-    frmForm.RecordSource = "qryAngebotAuswahl"
+    objForm.RecordSource = strQueryName
+    
+    ' build information grid
+    Dim aintInformationGrid() As Integer
+        
+        Dim intNumberOfColumns As Integer
+        Dim intNumberOfRows As Integer
+        Dim intColumnWidth As Integer
+        Dim intRowHeight As Integer
+        Dim intLeft As Integer
+        Dim intTop As Integer
+        Dim intColumn As Integer
+        Dim intRow As Integer
+        
+            intNumberOfColumns = 11
+            intNumberOfRows = 2
+            intColumnWidth = 2500
+            intRowHeight = 330
+            intLeft = 50
+            intTop = 50
+    
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1)
+    
+    ' aintInformationGrid = basAuftragSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    aintInformationGrid = basAngebotSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
     
     ' set OnCurrent methode
-    frmForm.OnCurrent = "=SelectRecordsetAngebot()"
+    objForm.OnCurrent = "=SelectAngebot()"
     
     Dim aintColumnWidth(1) As Integer
     aintColumnWidth(0) = 2300
@@ -53,27 +86,27 @@ Public Sub BuildAngebotSuchenSub()
         aintGridSettings = basAngebotSuchenSub.CalculateInformationGrid(2, aintColumnWidth, intNumberOfRows, intLeft, intTop)
         
         ' create textboxes
-        basAngebotSuchenSub.CreateTextbox frmForm.Name, aintGridSettings, intNumberOfRows
+        basAngebotSuchenSub.CreateTextbox objForm.Name, aintGridSettings, intNumberOfRows
     
         ' create labels
-        basAngebotSuchenSub.CreateLabel frmForm.Name, aintGridSettings, intNumberOfRows
+        basAngebotSuchenSub.CreateLabel objForm.Name, aintGridSettings, intNumberOfRows
     
     ' set Caption and ControlSource
-    basAngebotSuchenSub.CaptionAndSource frmForm.Name, intNumberOfRows
+    basAngebotSuchenSub.CaptionAndSource objForm.Name, intNumberOfRows
     
     Dim inti As Integer
     
     ' set form properties
-        frmForm.AllowDatasheetView = True
-        frmForm.AllowFormView = False
-        frmForm.DefaultView = 2 ' 2 is for datasheet
+        objForm.AllowDatasheetView = True
+        objForm.AllowFormView = False
+        objForm.DefaultView = 2 ' 2 is for datasheet
     
     ' restore form size
     DoCmd.Restore
     
     ' save temporary form name in strFormNameTemp
     Dim strFormNameTemp As String
-    strFormNameTemp = frmForm.Name
+    strFormNameTemp = objForm.Name
     
     ' close and save form
     DoCmd.Close acForm, strFormNameTemp, acSaveYes
@@ -81,7 +114,7 @@ Public Sub BuildAngebotSuchenSub()
     ' rename form
     DoCmd.Rename strFormName, acForm, strFormNameTemp
         
-End Sub
+End Function
 
 Private Sub CreateTextbox(ByVal strFormName As String, aintTableSettings() As Integer, ByVal intNumberOfRows As Integer)
     
@@ -380,10 +413,10 @@ Private Sub CaptionAndSource(ByVal strFormName As String, ByVal intNumberOfRows 
 End Sub
 
 ' load recordset to destination form
-Public Function SelectRecordsetAngebot()
+Public Function SelectAngebot()
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchenSub.SelectRecordsetAngebot ausfuehren"
+        Debug.Print "basAngebotSuchenSub.SelectAngebot ausfuehren"
     End If
     
     ' destination form name setting
@@ -518,4 +551,227 @@ Private Sub ClearForm(ByVal strFormName As String)
             Exit For
         End If
     Next
+End Sub
+
+Public Sub SearchAngebot(Optional varSearchTerm As Variant)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchenSub.SearchAngebot"
+    End If
+    
+    ' NULL handler
+    If IsNull(varSearchTerm) Then
+        varSearchTerm = "*"
+    End If
+        
+    ' transform to string
+    Dim strSearchTerm As String
+    strSearchTerm = CStr(varSearchTerm)
+    
+    ' define query name
+    Dim strQueryName As String
+    strQueryName = "qryAngebotAuswahl"
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+            
+    ' delete existing query of the same name
+    basAngebotSuchenSub.DeleteQuery strQueryName
+    
+    ' set query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    With qdfQuery
+        ' set query Name
+        .Name = strQueryName
+        ' set query SQL
+        .SQL = " SELECT qryAngebot.*" & _
+                    " FROM qryAngebot" & _
+                    " WHERE qryAngebot.BWIKey LIKE '*" & strSearchTerm & "*'" & _
+                    " ;"
+    End With
+    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
+ExitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.SearchAngebot executed"
+    End If
+
+End Sub
+
+' build qryAngebotAuswahl
+Private Sub BuildQryAngebotAuswahl(ByVal strQueryName As String)
+        
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchenSub.BuildQryAngebotAuswahl"
+    End If
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+            
+    ' delete existing query of the same name
+    ' basAngebotSuchenSub.DeleteQueryName (strQueryName)
+    basAngebotSuchenSub.DeleteQuery (strQueryName)
+    
+    ' set query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    With qdfQuery
+        ' set query Name
+        .Name = strQueryName
+        ' set query SQL
+        .SQL = " SELECT qryAngebot.*" & _
+            " FROM qryAngebot" & _
+            " ;"
+    End With
+    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
+ExitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.BuildQryAngebotAuswahl executed"
+    End If
+    
+End Sub
+
+' delete query
+' 1. check if query exists
+' 2. close if query is loaded
+' 3. delete query
+Private Sub DeleteQuery(strQueryName As String)
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchenSub.DeleteQuery"
+    End If
+    
+    ' set dummy object
+    Dim objDummy As Object
+    ' search object list >>AllQueries<< for strQueryName
+    For Each objDummy In Application.CurrentData.AllQueries
+        If objDummy.Name = strQueryName Then
+            
+            ' check if query isloaded
+            If objDummy.IsLoaded Then
+                ' close query
+                DoCmd.Close acQuery, strQueryName, acSaveYes
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basSupport.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
+                End If
+            End If
+    
+            ' delete query
+            DoCmd.DeleteObject acQuery, strQueryName
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basBuild.DeleteQuery executed"
+    End If
+    
+End Sub
+
+Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchenSub.CalculateGrid"
+    End If
+    
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim aintGrid() As Integer
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    For intColumn = 0 To intNumberOfColumns - 1
+        For intRow = 0 To intNumberOfRows - 1
+            ' left
+            aintGrid(intColumn, intRow, 0) = intLeft + intColumn * (intColumnWidth + cintHorizontalSpacing)
+            ' top
+            aintGrid(intColumn, intRow, 1) = intTop + intRow * (intRowHeight + cintVerticalSpacing)
+            ' width
+            aintGrid(intColumn, intRow, 2) = intColumnWidth
+            ' height
+            aintGrid(intColumn, intRow, 3) = intRowHeight
+        Next
+    Next
+    
+    CalculateGrid = aintGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub.CalculateGrid executed"
+    End If
+    
+End Function
+
+Private Sub Test_CalculateGrid()
+
+    Dim aintInformationGrid() As Integer
+        
+        Dim intNumberOfColumns As Integer
+        Dim intNumberOfRows As Integer
+        Dim intColumnWidth As Integer
+        Dim intRowHeight As Integer
+        Dim intLeft As Integer
+        Dim intTop As Integer
+        Dim intColumn As Integer
+        Dim intRow As Integer
+        
+            intNumberOfColumns = 11
+            intNumberOfRows = 2
+            intColumnWidth = 2500
+            intRowHeight = 330
+            intLeft = 50
+            intTop = 50
+    
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1)
+    
+    aintInformationGrid = basAngebotSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    
+    For intColumn = 0 To UBound(aintInformationGrid, 1)
+        For intRow = 0 To UBound(aintInformationGrid, 2)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", left: " & aintInformationGrid(intColumn, intRow, 0)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", top: " & aintInformationGrid(intColumn, intRow, 1)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", width: " & aintInformationGrid(intColumn, intRow, 2)
+            Debug.Print "column " & intColumn & ", row " & intRow & ", height: " & aintInformationGrid(intColumn, intRow, 3)
+        Next
+    Next
+    
 End Sub
