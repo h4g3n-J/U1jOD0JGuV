@@ -183,7 +183,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt04"
-            .ControlSource = "Verfuegung"
+            .ControlSource = "Bemerkung"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -198,7 +198,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
         With lblLabel
             .Name = "lbl04"
-            .Caption = "Verfuegung"
+            .Caption = "Bemerkung"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -212,7 +212,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt05"
-            .ControlSource = "Bemerkung"
+            .ControlSource = "BeauftragtDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -227,7 +227,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
         With lblLabel
             .Name = "lbl05"
-            .Caption = "Bemerkung"
+            .Caption = "BeauftragtDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -241,7 +241,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt06"
-            .ControlSource = "BeauftragtDatum"
+            .ControlSource = "AbgebrochenDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -256,7 +256,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
         With lblLabel
             .Name = "lbl06"
-            .Caption = "BeauftragtDatum"
+            .Caption = "AbgebrochenDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -270,7 +270,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt07"
-            .ControlSource = "AbgebrochenDatum"
+            .ControlSource = "AngebotDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -285,7 +285,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
         With lblLabel
             .Name = "lbl07"
-            .Caption = "AbgebrochenDatum"
+            .Caption = "AngebotDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -299,7 +299,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt08"
-            .ControlSource = "MitzeichnungI21Datum"
+            .ControlSource = "AbgenommenDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -314,7 +314,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt08")
         With lblLabel
             .Name = "lbl08"
-            .Caption = "MitzeichnungI21Datum"
+            .Caption = "AbgenommenDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -328,7 +328,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt09"
-            .ControlSource = "MitzeichnungI25Datum"
+            .ControlSource = "AftrBeginn"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -343,7 +343,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt09")
         With lblLabel
             .Name = "lbl09"
-            .Caption = "MitzeichnungI25Datum"
+            .Caption = "AftrBeginn"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -357,7 +357,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt10"
-            .ControlSource = "AngebotDatum"
+            .ControlSource = "AftrEnde"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -372,7 +372,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt10")
         With lblLabel
             .Name = "lbl10"
-            .Caption = "AngebotDatum"
+            .Caption = "AftrEnde"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -386,7 +386,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt11"
-            .ControlSource = "AbgenommenDatum"
+            .ControlSource = "StorniertDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -401,7 +401,7 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt11")
         With lblLabel
             .Name = "lbl11"
-            .Caption = "AbgenommenDatum"
+            .Caption = "StorniertDatum"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -415,7 +415,7 @@ Public Sub BuildAngebotSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt12"
-            .ControlSource = "AftrBeginn"
+            .ControlSource = "AngebotBrutto"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -430,93 +430,6 @@ Public Sub BuildAngebotSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt12")
         With lblLabel
             .Name = "lbl12"
-            .Caption = "AftrBeginn"
-            .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAngebotSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt13
-    intColumn = 14
-    intRow = 2
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt13"
-            .ControlSource = "AftrEnde"
-            .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAngebotSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-    
-    'lbl13
-    intColumn = 14
-    intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt13")
-        With lblLabel
-            .Name = "lbl13"
-            .Caption = "AftrEnde"
-            .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAngebotSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt14
-    intColumn = 15
-    intRow = 2
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt14"
-            .ControlSource = "StorniertDatum"
-            .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAngebotSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-    
-    'lbl14
-    intColumn = 15
-    intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
-        With lblLabel
-            .Name = "lbl14"
-            .Caption = "StorniertDatum"
-            .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAngebotSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt15
-    intColumn = 16
-    intRow = 2
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt15"
-            .ControlSource = "AngebotBrutto"
-            .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAngebotSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAngebotSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-    
-    'lbl15
-    intColumn = 16
-    intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
-        With lblLabel
-            .Name = "lbl15"
             .Caption = "AngebotBrutto"
             .Left = basAngebotSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAngebotSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
@@ -604,17 +517,21 @@ Public Function SelectAngebot()
     
     ' show recordset
     ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Auftrag, "AftrID", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Auftrag, "AftrTitel", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Auftrag, "StatusKey", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Auftrag, "OwnerKey", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Auftrag, "PrioritaetKey", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Auftrag, "ParentKey", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt06") = CallByName(Auftrag, "Bemerkung", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt07") = CallByName(Auftrag, "BeginnSoll", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt08") = CallByName(Auftrag, "EndeSoll", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt09") = CallByName(Auftrag, "Erstellt", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt10") = CallByName(Auftrag, "kunde", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(angebot, "BWIKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt01") = CallByName(angebot, "EAkurzKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt02") = CallByName(angebot, "MengengeruestLink", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt03") = CallByName(angebot, "LeistungsbeschreibungLink", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt04") = CallByName(angebot, "Bemerkung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt05") = CallByName(angebot, "BeauftragtDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt06") = CallByName(angebot, "AbgebrochenDatum", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt07") = CallByName(angebot, "MitzeichnungI21Datum", VbGet)
+    ' Forms.Item(strFormName).Controls.Item("txt08") = CallByName(angebot, "MitzeichnungI25Datum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt09") = CallByName(angebot, "AngebotDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt10") = CallByName(angebot, "AbgenommenDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt11") = CallByName(angebot, "AftrBeginn", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt12") = CallByName(angebot, "AftrEnde", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt13") = CallByName(angebot, "StorniertDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt14") = CallByName(angebot, "AngebotBrutto", VbGet)
     
     ' event message
     If gconVerbatim Then
