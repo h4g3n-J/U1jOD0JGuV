@@ -593,45 +593,37 @@ Private Function CalculateInformationGrid(ByVal intNumberOfColumns As Integer, B
 
 End Function
 
-' delete form
-' 1. check if form exists
-' 2. close if form is loaded
-' 3. delete form
 Private Sub ClearForm(ByVal strFormName As String)
     
-    ' verbatim message
+    ' command message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchenSub.ClearForm ausfuehren"
+        Debug.Print "execute basAngebotSuchenSub.ClearForm"
     End If
     
-    Dim objDummy As Object
-    For Each objDummy In Application.CurrentProject.AllForms
-        If objDummy.Name = strFormName Then
-            
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        
+        If objForm.Name = strFormName Then
+        
             ' check if form is loaded
             If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
-                
                 ' close form
                 DoCmd.Close acForm, strFormName, acSaveYes
-                
-                ' verbatim message
-                If gconVerbatim Then
-                    Debug.Print "basAngebotSuchenSub.ClearForm: " & strFormName & " ist geoeffnet, form schlie?en"
-                End If
             End If
             
-            ' delete form
+            ' delete Form
             DoCmd.DeleteObject acForm, strFormName
-            
-            ' event message
-            If gconVerbatim = True Then
-                Debug.Print "basAngebotSuchenSub.ClearForm: " & strFormName & " existiert bereits, form loeschen"
-            End If
-            
-            ' exit loop
             Exit For
+            
         End If
+        
     Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchenSub executed"
+    End If
+    
 End Sub
 
 Public Sub SearchAngebot(Optional varSearchTerm As Variant)

@@ -449,7 +449,7 @@ Private Sub BuildQuery(ByVal strQueryName As String)
     Set dbsCurrentDB = CurrentDb
     
     ' delete query
-    basAuftragSuchenSub.clearQuery strQueryName
+    basAuftragSuchenSub.ClearQuery strQueryName
     
     ' declare query
     Dim qdfQuery As DAO.QueryDef
@@ -482,7 +482,7 @@ ExitProc:
     
 End Sub
 
-Private Sub clearQuery(ByVal strQueryName As String)
+Private Sub ClearQuery(ByVal strQueryName As String)
 
     ' command message
     If gconVerbatim Then
