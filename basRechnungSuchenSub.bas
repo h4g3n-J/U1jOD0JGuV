@@ -26,10 +26,36 @@ Public Sub BuildRechnungSuchenSub()
     Dim strTempFormName As String
     strTempFormName = objForm.Name
     
-    ' create query qryAuftragSuchen
+    ' build query qryRechnungSuchen
     Dim strQueryName As String
     strQueryName = "qryRechnungSuchen"
     basRechnungSuchenSub.BuildQuery strQueryName
+    
+    ' set recordset source
+    objForm.RecordSource = strQueryName
+    
+    ' build information grid
+    Dim aintInformationGrid() As Integer
+        
+        Dim intNumberOfColumns As Integer
+        Dim intNumberOfRows As Integer
+        Dim intColumnWidth As Integer
+        Dim intRowHeight As Integer
+        Dim intLeft As Integer
+        Dim intTop As Integer
+        Dim intColumn As Integer
+        Dim intRow As Integer
+        
+            intNumberOfColumns = 11
+            intNumberOfRows = 2
+            intColumnWidth = 2500
+            intRowHeight = 330
+            intLeft = 50
+            intTop = 50
+    
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1)
+    
+    aintInformationGrid = basRechnungSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
     
     ' event message
     If gconVerbatim Then

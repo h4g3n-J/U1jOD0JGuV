@@ -26,7 +26,7 @@ Public Sub BuildAuftragSuchenSub()
     Dim strTempFormName As String
     strTempFormName = objForm.Name
     
-    ' create query qryAuftragSuchen
+    ' build query qryAuftragSuchen
     Dim strQueryName As String
     strQueryName = "qryAuftragSuchen"
     basAuftragSuchenSub.BuildQuery strQueryName
