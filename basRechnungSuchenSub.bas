@@ -47,6 +47,27 @@ Private Sub TestBuildRechungSuchenSub()
     
     basRechnungSuchenSub.BuildRechnungSuchenSub
     
+    Dim strFormName As String
+    strFormName = "fmrRechnungSuchenSub"
+    
+    Dim bolFormExists As Boolean
+    bolFormExists = False
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        
+        If objForm.Name = strFormName Then
+            bolFormExists = True
+        End If
+        
+    Next
+    
+    If bolFormExists Then
+        MsgBox "Procedure successful: " & vbCr & vbCr & strFormName & " detected", vbOKOnly, "basRechnungSuchenSub.TestBuildRechnungSuchenSub"
+    Else
+        MsgBox "Failure: " & vbCr & vbCr & strFormName & " was not detected", vbCritical, "basRechnungSuchenSub.TestBuildRechnungSuchenSub"
+    End If
+    
     ' event message
     If gconVerbatim Then
         Debug.Print "basRechnungSuchenSub.TestBuildRechnungSuchenSub executed"
