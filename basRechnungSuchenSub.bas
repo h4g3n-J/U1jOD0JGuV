@@ -57,6 +57,244 @@ Public Sub BuildRechnungSuchenSub()
     
     aintInformationGrid = basRechnungSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
     
+    Dim lblLabel As Label
+    Dim txtTextbox As TextBox
+    
+    ' create textbox before label, so label can be associated
+    'txt00
+    intColumn = 1
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt00"
+            .ControlSource = "RechnungNr"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl00
+    intColumn = 1
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl00"
+            .Caption = "RechnungNr"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt01
+    intColumn = 2
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt01"
+            .ControlSource = "Bemerkung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl01
+    intColumn = 2
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl01"
+            .Caption = "Bemerkung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt02
+    intColumn = 3
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt02"
+            .ControlSource = "RechnungLink"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl02
+    intColumn = 3
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl02"
+            .Caption = "RechnungLink"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt03
+    intColumn = 4
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt03"
+            .ControlSource = "TechnischRichtigDatum"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl03
+    intColumn = 4
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl03"
+            .Caption = "TechnischRichtigDatum"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt04
+    intColumn = 5
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt04"
+            .ControlSource = "IstTeilrechnung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl04
+    intColumn = 5
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl04"
+            .Caption = "IstTeilrechnung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt05
+    intColumn = 6
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt05"
+            .ControlSource = "IstSchlussrechnung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl05
+    intColumn = 6
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl05"
+            .Caption = "IstSchlussrechnung"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt06
+    intColumn = 7
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt06"
+            .ControlSource = "KalkulationLNWLink"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl06
+    intColumn = 7
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl06"
+            .Caption = "KalkulationLNWLink"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt07
+    intColumn = 8
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt07"
+            .ControlSource = "RechnungBrutto"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl07
+    intColumn = 8
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl07"
+            .Caption = "RechnungBrutto"
+            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    
+    
     ' event message
     If gconVerbatim Then
         Debug.Print "basAuftragSuchenSub.BuildAuftragSuchenSub executed"
