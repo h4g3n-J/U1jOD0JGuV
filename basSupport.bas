@@ -13,6 +13,8 @@ Public Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
         Debug.Print "basSupport.CheckDataType ausfuehren"
     End If
     
+    MsgBox "evoked basSupport.CheckDataType", vbCritical, "Warning"
+    
     ' local verbatim setting
     Dim bolLocalVerbatim As Boolean
     bolLocalVerbatim = False
@@ -79,6 +81,8 @@ Public Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
         Debug.Print "basSupport.ObjectExists ausfuehren"
     End If
     
+    MsgBox "evoked basSupport.ObjectExists", vbCritical, "Warning"
+    
     Dim bolLocalVerbatim As Boolean
     bolLocalVerbatim = False
     If bolLocalVerbatim Then
@@ -118,6 +122,8 @@ Public Function PflichtfeldIstLeer(ByVal varInput As Variant) As Boolean
         Debug.Print "basSupport.PflichtfeldIstLeer ausfuehren, varInput = " & varInput
     End If
     
+    MsgBox "evoked basSupport.PflichtfeldIstLeer", vbCritical, "Warning"
+    
     If Not (IsEmpty(varInput)) And varInput <> "" Then
         bolStatus = False
     End If
@@ -135,6 +141,8 @@ Public Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName 
     If gconVerbatim = True Then
         Debug.Print "basSupport.RecordsetExists ausfuehren"
     End If
+    
+    MsgBox "evoked basSupport.RecordsetExists", vbCritical, "Warning"
     
     Dim bolLocalVerbatim As Boolean
     bolLocalVerbatim = False
@@ -178,6 +186,8 @@ Public Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTable
     If gconVerbatim = True Then
         Debug.Print "basSupport.AddRecordsetMN ausfuehren"
     End If
+    
+    MsgBox "evoked basSupport.AddRecordsetMN", vbCritical, "Warning"
     
     Dim astrConfig(6, 2) As String
     
@@ -342,6 +352,8 @@ Public Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional 
         Debug.Print "basSupport.FindItemInArray ausfuehren"
     End If
     
+    MsgBox "evoked basSupport.FindItemInArray", vbCritical, "Warning"
+    
     Dim bolLocalVerbatim As Boolean
     bolLocalVerbatim = False
     If bolLocalVerbatim Then
@@ -381,109 +393,4 @@ Public Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional 
     
     ' return intIntex
     FindItemInArray = intIndex
-End Function
-
-' delete form
-' 1. check if form exists
-' 2. close if form is loaded
-' 3. delete form
-Public Sub ClearForm(ByVal strFormName As String)
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basSupport.ClearForm ausfuehren"
-    End If
-    
-    MsgBox ("basSupport.ClearForm aufgerufen - aufrufende Prozedur überprüfen"), vbOKOnly
-    
-    Dim objDummy As Object
-    For Each objDummy In Application.CurrentProject.AllForms
-        If objDummy.Name = strFormName Then
-            
-            ' check if form is loaded
-            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
-                
-                ' close form
-                DoCmd.Close acForm, strFormName, acSaveYes
-                
-                ' verbatim message
-                If gconVerbatim Then
-                    Debug.Print "basSupport.ClearForm: " & strFormName & " ist geoeffnet, Formular schließen"
-                End If
-            End If
-            
-            ' delete form
-            DoCmd.DeleteObject acForm, strFormName
-            
-            ' verbatim message
-            If gconVerbatim = True Then
-                Debug.Print "BasSupport.ClearForm: " & strFormName & " existiert bereits, Formular loeschen"
-            End If
-            
-            ' exit loop
-            Exit For
-        End If
-    Next
-End Sub
-
-' intNumberOfColumns: defines the number of columns
-' aintColumnWidth: array, defines the width of each column
-' intLeft: top left position
-' intTop: top position
-' intRowHeight: row height
-' returns array: (i, 0) Left, (i, 1) Top, (i, 2) Width, (i, 3) Height
-Public Function CalculateLifecycleBar(ByVal intNumberOfColumns As Integer, ByRef aintColumnWidth() As Integer, Optional ByVal intLeft As Integer = 100, Optional ByVal intTop As Integer = 2430, Optional ByVal intRowHeight = 330)
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basSupport.CalculateLifecycleBar"
-    End If
-    
-    ' set column spacing
-    Const cintHorizontalSpacing As Integer = 60
-    
-    Const cintNumberOfProperties = 3
-    
-    Dim aintBarSettings() As Integer
-    ReDim aintBarSettings(intNumberOfColumns, cintNumberOfProperties)
-    
-    ' compute cell position properties
-    Dim inti As Integer
-    intNumberOfColumns = intNumberOfColumns - 1 ' adjust for counting
-    For inti = 0 To intNumberOfColumns
-            ' set column left
-            aintBarSettings(inti, 0) = intLeft + inti * (aintColumnWidth(inti) + cintHorizontalSpacing)
-            ' set row top
-            aintBarSettings(inti, 1) = intTop
-            ' set column width
-            aintBarSettings(inti, 2) = aintColumnWidth(inti)
-            ' set row height
-            aintBarSettings(inti, 3) = intRowHeight
-    Next
-
-    CalculateLifecycleBar = aintBarSettings
-    
-End Function
-
-' get transform row and column information into position using aintTableSetting
-Public Function PositionObjectInTable(ByVal objObject As Object, aintTableSetting() As Integer, intColumn As Integer, intRow As Integer) As Object
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "basSupport.PositionObjectInTable ausfuehren"
-    End If
-    
-    MsgBox "called basSupport.PositionObjectInTable - replace with local method", vbOKOnly
-    
-    If Not (TypeOf objObject Is TextBox Or TypeOf objObject Is Label Or TypeOf objObject Is CommandButton) Then
-        Debug.Print "basAngebotSuchen.TextboxPosition: falscher Objekttyp uebergeben, Funktion abgebrochen"
-        Exit Function
-    End If
-    
-    objObject.Left = aintTableSetting(intColumn, intRow, 0)
-    objObject.Top = aintTableSetting(intColumn, intRow, 1)
-    objObject.Width = aintTableSetting(intColumn, intRow, 2)
-    objObject.Height = aintTableSetting(intColumn, intRow, 3)
-    
-    Set PositionObjectInTable = objObject
 End Function

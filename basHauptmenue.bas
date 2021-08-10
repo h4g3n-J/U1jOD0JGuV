@@ -4,6 +4,8 @@ Attribute VB_Name = "basHauptmenue"
 Option Compare Database
 Option Explicit
 
+Public Const gconVerbatim As Boolean = True
+
 Public Sub BuildHauptmenue()
 
     ' command message
