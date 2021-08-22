@@ -127,7 +127,6 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' check if recordset exists
     ' likely obsolete, since the recordset is chosen from selection of recordsets
-    ' If basSupport.RecordsetExists(strSourceName, strKeyColumn, varRecordsetName) <> True Then
     If RecordsetExists(strSourceName, strKeyColumn, varRecordsetName) <> True Then
         Debug.Print "clsAuftrag.SelectRecordset: " & varRecordsetName & " existiert nicht. Prozedur abgebrochen."
         MsgBox varRecordsetName & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
@@ -345,7 +344,7 @@ Public Function AddRecordset(ByVal strRecordsetName As String) As Boolean
     End If
     
     ' check if recordset already exists
-    If basSupport.RecordsetExists(strTargetName, strKeyColumn, strRecordsetName) = True Then
+    If RecordsetExists(strTargetName, strKeyColumn, strRecordsetName) = True Then
         Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName _
             & " existiert bereits. Prozedur abgebrochen."
         ' error message via messagebox

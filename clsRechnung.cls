@@ -33,7 +33,7 @@ Private mbolVerbatim As Boolean
     Private mvarKalkulationLNWLink As Variant
     Private mvarRechnungBrutto As Variant
 
-Private Sub Default()
+Private Sub default()
     mvarRechnungNr = Null
     mvarBemerkung = Null
     mvarRechnungLink = Null
@@ -133,4 +133,116 @@ mvarClipboard = basSupport.AddRecordsetMN( _
     False)
     
 End Sub
+
+' if no recordset is selected, set to default
+' check if query exists
+' check if recordset exists
+' assign recordset to mvarRecordsetClipboard
+Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
+
+    ' set error state
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    ' name of the table or query that contains the
+    ' sought-after recordset
+    Dim strTableName As String
+    strTableName = "tblRechnung"
+    
+    ' the type of the containing table,
+    ' feasible values are: table, query
+    Dim strObjectType As String
+    strObjectType = "table"
+    
+    ' name of the column that contains the recordset
+    Dim strKeyColumn As String
+    strKeyColumn = "RechnungNr"
+    
+    ' define database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    ' define recordset
+    Dim rstRecordset As DAO.RecordSet
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' error handler if no recordset is selected
+    ' end exitProc
+    If IsNull(varRecordsetName) Then
+        ' verbatim message
+        If bolLocalVerbatim = True Then
+            Debug.Print "clsRechnung.SelectRecordset: varRecordsetName ist leer, " _
+                & "Defaultwert anzeigen"
+        End If
+        ' default Value
+        mvarRecordsetClipboard = AngebotDefaultProperties
+        GoTo ExitProc
+    End If
+    
+    ' check if target table exists, when negative _
+    ' return error + exitProc
+    If ObjectExists(strTableName, strObjectType) = False Then
+        Debug.Print "clsAngebot.SelectRecordset: " & strTableName & " existiert nicht. Prozedur abgebrochen."
+        GoTo ExitProc
+    End If
+    
+    ' clean up
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+
+ExitProc:
+        dbsCurrentDB.Close
+        Set dbsCurrentDB = Nothing
+End Sub
+
+' checks if a specific table or query exists
+' returns true if positive
+' strModus feasible values: "table", "query"
+Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim RecordSet As Object
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+    
+    ' verbatim message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung.ObjectExists"
+    End If
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    If bolLocalVerbatim Then
+        Debug.Print "basclsRechnung.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
+    End If
+    
+    Select Case strModus
+        Case "table"
+            For Each RecordSet In dbsCurrentDB.TableDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+        Case "query"
+            For Each RecordSet In dbsCurrentDB.QueryDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+    End Select
+    
+    ObjectExists = bolObjectExists
+    
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+End Function
 
