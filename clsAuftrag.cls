@@ -221,7 +221,7 @@ Public Sub SaveRecordset(ByVal varRecordsetName As Variant)
                 ' attribute name: mavarAuftragAttributes(inti, 0), _
                 ' property value: mavarAuftragAttributes(inti, 2), _
                 ' data type: mavarAuftragAttributes(inti, 1)
-                CallByName rstAftr, mavarAuftragAttributes(inti, 0), VbLet, basSupport.CheckDataType(mavarAuftragAttributes(inti, 2), mavarAuftragAttributes(inti, 1))
+                CallByName rstAftr, mavarAuftragAttributes(inti, 0), VbLet, CheckDataType(mavarAuftragAttributes(inti, 2), mavarAuftragAttributes(inti, 1))
             Next
         .Update
     End With
@@ -321,7 +321,7 @@ Public Function AddRecordset(ByVal strRecordsetName As String) As Boolean
     strDialogTitle = "Auftrag erfassen"
     
     ' check if strTargetName exists
-    If basSupport.ObjectExists(strTargetName, "table") = False Then
+    If ObjectExists(strTargetName, "table") = False Then
         Debug.Print "basSupport.AddrecordsetParent: " & strTargetName & " existiert nicht. Prozedur abgebrochen."
         bolError = True
         GoTo ExitProc
@@ -387,10 +387,10 @@ Public Property Let AftrID(ByVal varAftrID As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrID")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrID")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varAftrID, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varAftrID, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -403,10 +403,10 @@ Public Property Get AftrID() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrID")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrID")
 
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    AftrID = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    AftrID = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -419,10 +419,10 @@ Public Property Let AftrTitel(ByVal varAftrTitel As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrTitel")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrTitel")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varAftrTitel, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varAftrTitel, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -435,10 +435,10 @@ Public Property Get AftrTitel() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "AftrTitel")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrTitel")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    AftrTitel = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    AftrTitel = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -452,10 +452,10 @@ Public Property Let StatusKey(ByVal varStatusKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "StatusKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "StatusKey")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varStatusKey, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varStatusKey, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -468,10 +468,10 @@ Public Property Get StatusKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "StatusKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "StatusKey")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    StatusKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    StatusKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -484,10 +484,10 @@ Public Property Let PrioritaetKey(ByVal varPrioritaetKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varPrioritaetKey, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varPrioritaetKey, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -500,10 +500,10 @@ Public Property Get PrioritaetKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    PrioritaetKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    PrioritaetKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -516,10 +516,10 @@ Public Property Let ParentKey(ByVal varParentKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "ParentKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "ParentKey")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varParentKey, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varParentKey, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -532,10 +532,10 @@ Public Property Get ParentKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "ParentKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "ParentKey")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    ParentKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ParentKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -548,10 +548,10 @@ Public Property Let Bemerkung(ByVal varBemerkung As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Bemerkung")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Bemerkung")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varBemerkung, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varBemerkung, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -564,10 +564,10 @@ Public Property Get Bemerkung() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Bemerkung")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Bemerkung")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    Bemerkung = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    Bemerkung = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -580,10 +580,10 @@ Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varBeginnSoll, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varBeginnSoll, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -596,10 +596,10 @@ Public Property Get BeginnSoll() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
     
     ' get value [mavarAuftragAttributes(intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    BeginnSoll = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    BeginnSoll = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -612,10 +612,10 @@ Public Property Let EndeSoll(ByVal varEndeSoll As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "EndeSoll")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "EndeSoll")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varEndeSoll, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varEndeSoll, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -628,10 +628,10 @@ Public Property Get EndeSoll() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "EndeSoll")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "EndeSoll")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    EndeSoll = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    EndeSoll = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -644,10 +644,10 @@ Public Property Let Erstellt(ByVal varErstellt As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Erstellt")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Erstellt")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varErstellt, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varErstellt, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -660,10 +660,10 @@ Public Property Get Erstellt() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Erstellt")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Erstellt")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    Erstellt = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    Erstellt = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -676,10 +676,10 @@ Public Property Let kunde(ByVal varKunde As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Kunde")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Kunde")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varKunde, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varKunde, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -692,10 +692,10 @@ Public Property Get kunde() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "Kunde")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Kunde")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    kunde = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    kunde = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -707,10 +707,10 @@ Public Property Let OwnerKey(ByVal varOwnerKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "OwnerKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "OwnerKey")
     
     ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = basSupport.CheckDataType(varOwnerKey, mavarAuftragAttributes(intItemPosition, 1))
+    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varOwnerKey, mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -722,10 +722,10 @@ Public Property Get OwnerKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarAuftragAttributes, "OwnerKey")
+    intItemPosition = FindItemInArray(mavarAuftragAttributes, "OwnerKey")
     
     ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform data type [mavarAuftragAttributes(intItemPosition, 1)]
-    OwnerKey = basSupport.CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    OwnerKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
     
 End Property
 
@@ -820,4 +820,127 @@ ExitProc:
     
 End Function
 
+' search varWanted in two dimensional array
+' array style A: (intIndex, intField)
+' array style B: (intField, intIndex)
+' return intIndex
+Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional ByVal intField As Integer = 0, Optional ByVal strArrayStyle As String = "A") As Variant
+    
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsAuftrag.FindItemInArray"
+    End If
+   
+    Dim intIndex As Integer
+    intIndex = LBound(avarArray, 2)
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    If bolLocalVerbatim Then
+        Debug.Print "clsAuftrag.FindItemInArray: varWanted = " & varWanted
+    End If
+    
+    Select Case strArrayStyle
+        ' array style A: (intIndex, intField)
+        Case "A"
+            ' scan array until match
+            Do While avarArray(intIndex, intField) <> varWanted
+                If intIndex = UBound(avarArray, 1) Then
+                    Debug.Print "clsAuftrag.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' array style B: (intField, intIndex)
+        Case "B"
+            Do While avarArray(intField, intIndex) <> varWanted
+                If intIndex = UBound(avarArray, 2) Then
+                    Debug.Print "clsAuftrag.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' input error handler
+        Case Else
+            Debug.Print "clsAuftrag.FindItemInArray: arrayStyle ungültig, Wertevorrat beachten"
+            Exit Function
+        End Select
+    
+    ' return intIntex
+    FindItemInArray = intIndex
 
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.FindItemInArray executed"
+    End If
+    
+End Function
+
+' enables to write null in recordsets
+' varMode feasible values: string, link, date, currency, integer, boolean
+' transform and return Input corresponding to selected Mode
+Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsAuftrag.CheckDataType"
+    End If
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' local verbatim message
+    If bolLocalVerbatim Then
+        Debug.Print "clsAuftrag.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+    End If
+    
+    If IsNull(varInput) Then
+    
+        ' local verbatim
+        If bolLocalVerbatim Then
+            Debug.Print "clsAuftrag.CheckDataType: varInput ist null"
+        End If
+        
+        ' return input
+        CheckDataType = varInput
+        Exit Function
+    End If
+    
+    ' declare output
+    Dim varOutput As Variant
+    
+    Select Case varMode
+        Case "string"
+            varOutput = (varInput)
+        Case "link"
+            ' check if varInput is already in link format (#...#),
+            ' if not convert to link format
+            If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
+                varOutput = CStr(varInput)
+            Else
+                varOutput = "#" + CStr(varInput) + "#"
+            End If
+        Case "date"
+            varOutput = CDate(varInput)
+        Case "currency"
+            varOutput = CCur(varInput)
+        Case "integer"
+            varOutput = CInt(varInput)
+        Case "boolean"
+            varOutput = CBool(varInput)
+    End Select
+    
+    CheckDataType = varOutput
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.CheckDataType execute"
+    End If
+
+End Function
