@@ -867,3 +867,25 @@ Private Sub TestGetHeight()
     End If
     
 End Sub
+
+Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.TestGetWidth"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basRechnungSuchenSub.TestGetWidth: column 0 is not available"
+        MsgBox "basRechnungSuchenSub.TestGetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetWidth = aintGrid(intColumn - 1, intRow - 1, 2)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.TestGetWidth executed"
+    End If
+    
+End Function
