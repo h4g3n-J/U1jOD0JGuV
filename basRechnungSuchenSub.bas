@@ -68,10 +68,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt00"
             .ControlSource = "RechnungNr"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -83,10 +83,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl00"
             .Caption = "RechnungNr"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -97,10 +97,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt01"
             .ControlSource = "Bemerkung"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -112,10 +112,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl01"
             .Caption = "Bemerkung"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -126,10 +126,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt02"
             .ControlSource = "RechnungLink"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -141,10 +141,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl02"
             .Caption = "RechnungLink"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -155,10 +155,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt03"
             .ControlSource = "TechnischRichtigDatum"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -170,10 +170,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl03"
             .Caption = "TechnischRichtigDatum"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -184,10 +184,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt04"
             .ControlSource = "IstTeilrechnung"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -199,10 +199,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl04"
             .Caption = "IstTeilrechnung"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -213,10 +213,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt05"
             .ControlSource = "IstSchlussrechnung"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -228,10 +228,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl05"
             .Caption = "IstSchlussrechnung"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -242,10 +242,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt06"
             .ControlSource = "KalkulationLNWLink"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -257,10 +257,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl06"
             .Caption = "KalkulationLNWLink"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -271,10 +271,10 @@ Public Sub BuildRechnungSuchenSub()
         With txtTextbox
             .Name = "txt07"
             .ControlSource = "RechnungBrutto"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -286,10 +286,10 @@ Public Sub BuildRechnungSuchenSub()
         With lblLabel
             .Name = "lbl07"
             .Caption = "RechnungBrutto"
-            .Left = basAuftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basRechnungSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -297,7 +297,7 @@ Public Sub BuildRechnungSuchenSub()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragSuchenSub.BuildAuftragSuchenSub executed"
+        Debug.Print "basRechnungSuchenSub.BuildAuftragSuchenSub executed"
     End If
     
 End Sub
@@ -326,11 +326,16 @@ Private Sub TestBuildRechungSuchenSub()
         
     Next
     
-    If bolFormExists Then
-        MsgBox "Procedure successful: " & vbCr & vbCr & strFormName & " detected", vbOKOnly, "basRechnungSuchenSub.TestBuildRechnungSuchenSub"
-    Else
+    If bolFormExists = False Then
         MsgBox "Failure: " & vbCr & vbCr & strFormName & " was not detected", vbCritical, "basRechnungSuchenSub.TestBuildRechnungSuchenSub"
+        Exit Sub
     End If
+    
+    Dim intNumberOfTextboxes As Integer
+    
+    intNumberOfTextboxes = Application.Forms.Item(strFormName).Controls.Count
+    
+    MsgBox "Procedure successful: " & vbCr & vbCr & strFormName & " detected", vbOKOnly, "basRechnungSuchenSub.TestBuildRechnungSuchenSub"
     
     ' event message
     If gconVerbatim Then
@@ -456,7 +461,7 @@ Private Sub TestBuildQuery()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragSuchenSub.TestBuildQuery"
+        Debug.Print "execute basRechnungSuchenSub.TestBuildQuery"
     End If
     
     Dim strQueryName As String
@@ -653,3 +658,75 @@ Private Sub TestCalculateGrid()
     End If
     
 End Sub
+
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.GetLeft"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basRechnungSuchenSub.GetLeft: column 0 is not available"
+        MsgBox "basRechnungSuchenSub.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.GetLeft executed"
+    End If
+    
+End Function
+
+Private Sub TestGetLeft()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.TestGetLeft"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basRechnungSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Const cintHorizontalSpacing As Integer = 60
+    Dim intLeftExpected As Integer
+    intLeftExpected = cintLeft + (cintTestColumn - 1) * (cintHorizontalSpacing + cintColumnWidth)
+    
+    ' test run
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim intLeftResult As Integer
+    intLeftResult = basRechnungSuchenSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intLeftResult <> intLeftExpected Then
+        MsgBox "basRechnungSuchenSub.TestGetLeft: Test missed. Error Code: 1"
+    Else
+        MsgBox "basRechnungSuchenSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.TestGetLeft executed"
+    End If
+    
+End Sub
+
