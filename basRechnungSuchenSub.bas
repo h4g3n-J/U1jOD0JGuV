@@ -730,3 +730,24 @@ Private Sub TestGetLeft()
     
 End Sub
 
+Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.GetTop"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basRechnungSuchenSub.GetTop: column 0 is not available"
+        MsgBox "basRechnungSuchenSub.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetTop = aintGrid(intColumn - 1, intRow - 1, 1)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.GetTop executed"
+    End If
+    
+End Function
