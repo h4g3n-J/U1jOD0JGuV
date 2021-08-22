@@ -441,7 +441,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' check if recordset exists
     ' likely obsolete, since the recordset is chosen from a recordset selection
-    If basSupport.RecordsetExists(strTableName, strKeyColumn, varRecordsetName) <> True Then
+    If RecordsetExists(strTableName, strKeyColumn, varRecordsetName) <> True Then
         Debug.Print "clsAngebot.SelectRecordset: " & varRecordsetName & " existiert nicht. Prozedur abgebrochen."
         MsgBox varRecordsetName & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
         GoTo ExitProc
@@ -641,7 +641,7 @@ End Function
 ' checks if a specific table or query exists
 ' returns true if positive
 ' strModus feasible values: "table", "query"
-Public Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
+Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
     
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
@@ -682,4 +682,49 @@ Public Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
 ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
+End Function
+
+Private Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName As Variant, ByVal varRecordsetName As Variant) As Boolean
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsAngebot.RecordsetExists"
+    End If
+
+    Dim bolStatus As Boolean
+    bolStatus = False
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    If bolLocalVerbatim Then
+        Debug.Print "clsAngebot.RecordsetExists: varTblName = " & varTblName & " , varFieldName = " & " , varRecordsetName = " & varRecordsetName
+    End If
+    
+    varTblName = CStr(varTblName)
+    varFieldName = CStr(varFieldName)
+    varRecordsetName = CStr(varRecordsetName)
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(varTblName, dbOpenDynaset)
+    
+    If DCount(varFieldName, varTblName, varFieldName & " Like '" & varRecordsetName & "'") > 0 Then
+        bolStatus = True
+    End If
+    
+    RecordsetExists = bolStatus
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAngebot.RecordsetExists executed"
+    End If
+    
 End Function
