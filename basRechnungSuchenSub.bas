@@ -46,7 +46,7 @@ Public Sub BuildRechnungSuchenSub()
         Dim intColumn As Integer
         Dim intRow As Integer
         
-            intNumberOfColumns = 11
+            intNumberOfColumns = 8
             intNumberOfRows = 2
             intColumnWidth = 2500
             intRowHeight = 330
@@ -108,7 +108,7 @@ Public Sub BuildRechnungSuchenSub()
     'lbl01
     intColumn = 2
     intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
         With lblLabel
             .Name = "lbl01"
             .Caption = "Bemerkung"
@@ -137,7 +137,7 @@ Public Sub BuildRechnungSuchenSub()
     'lbl02
     intColumn = 3
     intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
         With lblLabel
             .Name = "lbl02"
             .Caption = "RechnungLink"
@@ -166,7 +166,7 @@ Public Sub BuildRechnungSuchenSub()
     'lbl03
     intColumn = 4
     intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
         With lblLabel
             .Name = "lbl03"
             .Caption = "TechnischRichtigDatum"
@@ -195,7 +195,7 @@ Public Sub BuildRechnungSuchenSub()
     'lbl04
     intColumn = 5
     intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
         With lblLabel
             .Name = "lbl04"
             .Caption = "IstTeilrechnung"
@@ -224,7 +224,7 @@ Public Sub BuildRechnungSuchenSub()
     'lbl05
     intColumn = 6
     intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
         With lblLabel
             .Name = "lbl05"
             .Caption = "IstSchlussrechnung"
@@ -253,7 +253,7 @@ Public Sub BuildRechnungSuchenSub()
     'lbl06
     intColumn = 7
     intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
         With lblLabel
             .Name = "lbl06"
             .Caption = "KalkulationLNWLink"
@@ -282,7 +282,7 @@ Public Sub BuildRechnungSuchenSub()
     'lbl07
     intColumn = 8
     intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
         With lblLabel
             .Name = "lbl07"
             .Caption = "RechnungBrutto"
@@ -293,7 +293,21 @@ Public Sub BuildRechnungSuchenSub()
             .Visible = True
         End With
         
+    ' column added? -> update intNumberOfColumns
+    ' set oncurrent methode
+    ' objForm.OnCurrent = "=selectAuftrag()"
+        
+    ' set form properties
+    objForm.AllowDatasheetView = True
+    objForm.AllowFormView = False
+    objForm.DefaultView = 2 '2 is for datasheet
     
+    ' restore form size
+    DoCmd.Restore
+    
+    ' close and rename form
+    DoCmd.Close acForm, strTempFormName, acSaveYes
+    DoCmd.Rename strFormName, acForm, strTempFormName
     
     ' event message
     If gconVerbatim Then
@@ -303,39 +317,68 @@ Public Sub BuildRechnungSuchenSub()
 End Sub
 
 Private Sub TestBuildRechungSuchenSub()
+    ' Error Code 1: Form was not detected
+    ' Error Code 2: Detected controls do not match expected textboxes
     
     ' command message
     If gconVerbatim Then
         Debug.Print "execute basRechnungSuchenSub.TestBuildRechnungSuchenSub"
     End If
     
+    ' execute Procedure
     basRechnungSuchenSub.BuildRechnungSuchenSub
     
     Dim strFormName As String
-    strFormName = "fmrRechnungSuchenSub"
+    strFormName = "frmRechnungSuchenSub"
     
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim strErrorMessage As String
+    
+    ' test if form exists
     Dim bolFormExists As Boolean
     bolFormExists = False
     
     Dim objForm As Object
     For Each objForm In Application.CurrentProject.AllForms
-        
         If objForm.Name = strFormName Then
             bolFormExists = True
         End If
-        
     Next
     
     If bolFormExists = False Then
-        MsgBox "Failure: " & vbCr & vbCr & strFormName & " was not detected", vbCritical, "basRechnungSuchenSub.TestBuildRechnungSuchenSub"
-        Exit Sub
+        bolErrorState = True
+        strErrorMessage = "Error code: 1"
+        GoTo ExitProc
+    Else
+        bolErrorState = False
     End If
     
-    Dim intNumberOfTextboxes As Integer
+    ' count controls
+    Const cintNumberOfControlsExpected As Integer = 16
     
-    intNumberOfTextboxes = Application.Forms.Item(strFormName).Controls.Count
+        ' open form in datasheet view (acFormDS)
+        DoCmd.OpenForm strFormName, acFormDS, , , acFormReadOnly, acWindowNormal
+        
+    Dim intNumberOfControls As Integer
+    intNumberOfControls = Forms.Item(strFormName).Controls.Count
     
-    MsgBox "Procedure successful: " & vbCr & vbCr & strFormName & " detected", vbOKOnly, "basRechnungSuchenSub.TestBuildRechnungSuchenSub"
+    If intNumberOfControls <> cintNumberOfControlsExpected Then
+        bolErrorState = True
+        strErrorMessage = strErrorMessage & vbCrLf & "Error code: 2"
+    End If
+    
+    ' close form
+    DoCmd.Close acForm, strFormName, acSaveNo
+    
+ExitProc:
+    ' test result
+    If bolErrorState Then
+        MsgBox "basRechnungSuchenSub.BuildRechnungSuchenSub: Test failed." & vbCrLf & strErrorMessage, vbCritical, "Test Result"
+    Else
+        MsgBox "basRechnungSuchenSub.BuildRechnungSuchenSub: Test passed.", vbOKOnly, "Test Result"
+    End If
     
     ' event message
     If gconVerbatim Then
@@ -718,7 +761,7 @@ Private Sub TestGetLeft()
     intLeftResult = basRechnungSuchenSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intLeftResult <> intLeftExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetLeft: Test missed. Error Code: 1"
+        MsgBox "basRechnungSuchenSub.TestGetLeft: Test missed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
     End If
@@ -789,7 +832,7 @@ Private Sub TestGetTop()
     intTopResult = basRechnungSuchenSub.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intTopResult <> intTopExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetTop: Test missed. Error Code: 1"
+        MsgBox "basRechnungSuchenSub.TestGetTop: Test missed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetTop: Test passed.", vbOKOnly, "Test Result"
     End If
@@ -856,7 +899,7 @@ Private Sub TestGetHeight()
     intHeightResult = basRechnungSuchenSub.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intHeightResult <> intHeightExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetHeight: Test missed. Error Code: 1"
+        MsgBox "basRechnungSuchenSub.TestGetHeight: Test missed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
     End If
@@ -923,7 +966,7 @@ Private Sub TestGetWidth()
     intWidthResult = basRechnungSuchenSub.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intWidthResult <> intWidthExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetWidth: Test missed. Error Code: 1"
+        MsgBox "basRechnungSuchenSub.TestGetWidth: Test missed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
     End If
