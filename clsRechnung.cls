@@ -370,3 +370,134 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     End If
 
 End Function
+
+' allows to write null in recordsets
+' varMode feasible values: string, link, date, currency, integer, boolean
+' transform and return Input corresponding to selected Mode
+Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung.CheckDataType"
+    End If
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' local verbatim message
+    If bolLocalVerbatim Then
+        Debug.Print "clsAngebot.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+    End If
+    
+    If IsNull(varInput) Then
+        ' local verbatim
+        If bolLocalVerbatim Then
+            Debug.Print "clsRechnung.CheckDataType: varInput ist null"
+        End If
+        
+        ' return input
+        CheckDataType = varInput
+        
+        ' event message
+        Debug.Print "clsRechnung.CheckDatyType executed"
+        Exit Function
+    End If
+    
+    ' declare output
+    Dim varOutput As Variant
+    
+    Select Case varMode
+        Case "string"
+            varOutput = (varInput)
+        Case "link"
+            ' check if varInput already is a link (#...#),
+            ' if not convert to link format
+            If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
+                varOutput = CStr(varInput)
+            Else
+                varOutput = "#" + CStr(varInput) + "#"
+            End If
+        Case "date"
+            varOutput = CDate(varInput)
+        Case "currency"
+            varOutput = CCur(varInput)
+        Case "integer"
+            varOutput = CInt(varInput)
+        Case "boolean"
+            varOutput = CBool(varInput)
+    End Select
+    
+    CheckDataType = varOutput
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAngebot.CheckDataType execute"
+    End If
+    
+End Function
+
+' search varWanted in a two dimensional array
+' array style A: (intIndex, intField)
+' array style B: (intField, intIndex)
+' return intIndex
+Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional ByVal intField As Integer = 0, Optional ByVal strArrayStyle As String = "A") As Variant
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung.FindItemInArray"
+    End If
+    
+    Dim intIndex As Integer
+    intIndex = LBound(avarArray, 2)
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    If bolLocalVerbatim Then
+        Debug.Print "clsRechnung.FindItemInArray: varWanted = " & varWanted
+    End If
+    
+    Select Case strArrayStyle
+        ' array style A: (intIndex, intField)
+        Case "A"
+            ' scan array until match
+            Do While avarArray(intIndex, intField) <> varWanted
+                If intIndex = UBound(avarArray, 1) Then
+                    Debug.Print "clsAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' array style B: (intField, intIndex)
+        Case "B"
+            Do While avarArray(intField, intIndex) <> varWanted
+                If intIndex = UBound(avarArray, 2) Then
+                    Debug.Print "clsAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' input error handler
+        Case Else
+            Debug.Print "clsAngebot.FindItemInArray: arrayStyle ungültig, Wertevorrat beachten"
+            Exit Function
+        End Select
+        
+         ' return intIntex
+    FindItemInArray = intIndex
+
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung.FindItemInArray executed"
+    End If
+    
+End Function
+
+
+
+
