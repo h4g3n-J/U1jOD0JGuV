@@ -39,58 +39,43 @@ Private Function DefaultProperties()
 
     ' command message
     If gconVerbatim = True Then
-        Debug.Print "execute clsAngebot.AngebotDefaultProperties"
+        Debug.Print "execute clsRechnung.DefaultProperties"
     End If
     
-    Dim varDefaultSettings(13, 2) As Variant
-    varDefaultSettings(0, 0) = "Attribut Name"
-        varDefaultSettings(0, 1) = "data type"
-        varDefaultSettings(0, 2) = "default value"
-    varDefaultSettings(1, 0) = "BWIKey"
-        varDefaultSettings(1, 1) = "string"
-        varDefaultSettings(1, 2) = Null
-    varDefaultSettings(2, 0) = "EAkurzKey"
-        varDefaultSettings(2, 1) = "string"
-        varDefaultSettings(2, 2) = Null
-    varDefaultSettings(3, 0) = "MengengeruestLink"
-        varDefaultSettings(3, 1) = "link"
-        varDefaultSettings(3, 2) = Null
-    varDefaultSettings(4, 0) = "LeistungsbeschreibungLink"
-        varDefaultSettings(4, 1) = "link"
-        varDefaultSettings(4, 2) = Null
-    varDefaultSettings(5, 0) = "Bemerkung"
-        varDefaultSettings(5, 1) = "string"
-        varDefaultSettings(5, 2) = Null
-    varDefaultSettings(6, 0) = "BeauftragtDatum"
-        varDefaultSettings(6, 1) = "date"
-        varDefaultSettings(6, 2) = Null
-    varDefaultSettings(7, 0) = "AbgebrochenDatum"
-        varDefaultSettings(7, 1) = "date"
-        varDefaultSettings(7, 2) = Null
-    varDefaultSettings(8, 0) = "AngebotDatum"
-        varDefaultSettings(8, 1) = "date"
-        varDefaultSettings(8, 2) = Null
-    varDefaultSettings(9, 0) = "AbgenommenDatum"
-        varDefaultSettings(9, 1) = "date"
-        varDefaultSettings(9, 2) = Null
-    varDefaultSettings(10, 0) = "AftrBeginn"
-        varDefaultSettings(10, 1) = "date"
-        varDefaultSettings(10, 2) = Null
-    varDefaultSettings(11, 0) = "AftrEnde"
-        varDefaultSettings(11, 1) = "date"
-        varDefaultSettings(11, 2) = Null
-    varDefaultSettings(12, 0) = "StorniertDatum"
-        varDefaultSettings(12, 1) = "date"
-        varDefaultSettings(12, 2) = Null
-    varDefaultSettings(13, 0) = "AngebotBrutto"
-        varDefaultSettings(13, 1) = "currency"
-        varDefaultSettings(13, 2) = Null
+    Dim varDefaultProperties(13, 2) As Variant
+    varDefaultProperties(0, 0) = "Attribut Name"
+        varDefaultProperties(0, 1) = "data type"
+        varDefaultProperties(0, 2) = "default value"
+    varDefaultProperties(1, 0) = "RechnungNr"
+        varDefaultProperties(1, 1) = "string"
+        varDefaultProperties(1, 2) = Null
+    varDefaultProperties(2, 0) = "Bemerkung"
+        varDefaultProperties(2, 1) = "string"
+        varDefaultProperties(2, 2) = Null
+    varDefaultProperties(3, 0) = "RechnungLink"
+        varDefaultProperties(3, 1) = "link"
+        varDefaultProperties(3, 2) = Null
+    varDefaultProperties(4, 0) = "TechnischRichtigDatum"
+        varDefaultProperties(4, 1) = "date"
+        varDefaultProperties(4, 2) = Null
+    varDefaultProperties(5, 0) = "IstTeilrechnung"
+        varDefaultProperties(5, 1) = "boolean"
+        varDefaultProperties(5, 2) = Null
+    varDefaultProperties(6, 0) = "IstSchlussrechnung"
+        varDefaultProperties(6, 1) = "date"
+        varDefaultProperties(6, 2) = Null
+    varDefaultProperties(7, 0) = "KalkulationLNWLink"
+        varDefaultProperties(7, 1) = "link"
+        varDefaultProperties(7, 2) = Null
+    varDefaultProperties(8, 0) = "RechnungBrutto"
+        varDefaultProperties(8, 1) = "currency"
+        varDefaultProperties(8, 2) = Null
 
-    AngebotDefaultProperties = varDefaultSettings
+    DefaultProperties = varDefaultProperties
     
     ' event message
     If gconVerbatim = True Then
-        Debug.Print "clsAngebot.AngebotDefaultProperties executed"
+        Debug.Print "clsRechnung.DefaultProperties executed"
     End If
     
 End Function
@@ -114,19 +99,21 @@ Public Property Get RechnungNr() As Variant
     
     ' verbatim message
     If gconVerbatim Then
-        Debug.Print "execute clsRechnung.RechnungNr Get"
+        Debug.Print "execute clsRechnung Get RechnungNr"
     End If
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "StorniertDatum")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "RechnungNr")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    StorniertDatum = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    RechnungNr = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsRechnung Let  executed"
+        Debug.Print "clsRechnung Get RechnungNr executed"
+    End If
+    
 End Property
 
 Public Property Let RechnungNr(ByVal varRechnungNr As Variant)
