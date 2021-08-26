@@ -21,8 +21,9 @@ Private mvarRecordsetClipboard As Variant
     
 Private Function AngebotDefaultProperties()
 
+    ' command message
     If gconVerbatim = True Then
-        Debug.Print "clsAngebot.AngebotDefaultProperties ausfuehren"
+        Debug.Print "execute clsAngebot.AngebotDefaultProperties"
     End If
     
     Dim varAngebotSettings(13, 2) As Variant
@@ -70,6 +71,12 @@ Private Function AngebotDefaultProperties()
         varAngebotSettings(13, 2) = Null
 
     AngebotDefaultProperties = varAngebotSettings
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAngebot.AngebotDefaultProperties executed"
+    End If
+    
 End Function
     
 Private Sub Class_Initialize()
@@ -97,10 +104,11 @@ Public Property Get BWIKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "BWIKey")
+    ' intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "BWIKey")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "BWIKey")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intAttributPosition, 1)]
-    BWIKey = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    BWIKey = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -108,15 +116,15 @@ Public Property Let BWIKey(ByVal varBWIKey As Variant)
     
     'verbatim message
     If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.BWIKey (Let) ausfuehren"
+        Debug.Print "clsAngebot.BWIKey (Let) ausfuehren"
     End If
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "BWIKey", 0, "B")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "BWIKey", 0, "B")
     
     ' transform input [mavarColumnToVariable(1, intItemPosition)] then assign to attribut value [mavarColumnToVariable(2, intItemPosition)]
-    mvarRecordsetClipboard(2, intItemPosition) = basSupport.CheckDataType(varBWIKey, mvarRecordsetClipboard(1, intItemPosition))
+    mvarRecordsetClipboard(2, intItemPosition) = CheckDataType(varBWIKey, mvarRecordsetClipboard(1, intItemPosition))
     
     mvarBWIKey = basSupport.PruefeString(varBWIKey)
 End Property
@@ -130,10 +138,10 @@ Public Property Get EAkurzKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "EakurzKey")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "EakurzKey")
     
     ' get value [mavarColumnToVariable(2, intItemPosition)], transform data type corresponding to [mavarColumnToVariable(1, intItemPosition)]
-    EAkurzKey = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    EAkurzKey = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -141,15 +149,15 @@ Public Property Let EAkurzKey(ByVal varEAkurzKey As Variant)
     
     'verbatim message
     If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.Kunde (Let) ausfuehren"
+        Debug.Print "clsAngebot.Kunde (Let) ausfuehren"
     End If
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = basSupport.FindItemInArray(mavarColumnToVariable, "Kunde", 0, "B")
+    intItemPosition = FindItemInArray(mavarColumnToVariable, "Kunde", 0, "B")
     
     ' transform input [mavarColumnToVariable(1, intItemPosition)], assign to attribut value [mavarColumnToVariable(2, intItemPosition)]
-    mavarColumnToVariable(2, intItemPosition) = basSupport.CheckDataType(varKunde, mavarColumnToVariable(1, intItemPosition))
+    mavarColumnToVariable(2, intItemPosition) = CheckDataType(varKunde, mavarColumnToVariable(1, intItemPosition))
     
 End Property
 
@@ -162,10 +170,10 @@ Public Property Get MengengeruestLink() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "MengengeruestLink")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "MengengeruestLink")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    MengengeruestLink = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    MengengeruestLink = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -182,10 +190,10 @@ Public Property Get LeistungsbeschreibungLink() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "LeistungsbeschreibungLink")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "LeistungsbeschreibungLink")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    LeistungsbeschreibungLink = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    LeistungsbeschreibungLink = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -202,10 +210,10 @@ Public Property Get Bemerkung() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "Bemerkung")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "Bemerkung")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    Bemerkung = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    Bemerkung = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -222,10 +230,10 @@ Public Property Get BeauftragtDatum() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "BeauftragtDatum")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "BeauftragtDatum")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    BeauftragtDatum = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    BeauftragtDatum = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -242,10 +250,10 @@ Public Property Get AbgebrochenDatum() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "AbgebrochenDatum")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "AbgebrochenDatum")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    AbgebrochenDatum = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    AbgebrochenDatum = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -262,10 +270,10 @@ Public Property Get AngebotDatum() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "AngebotDatum")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "AngebotDatum")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    AngebotDatum = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    AngebotDatum = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -282,10 +290,10 @@ Public Property Get AbgenommenDatum() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "AbgenommenDatum")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "AbgenommenDatum")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    AbgenommenDatum = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    AbgenommenDatum = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -302,10 +310,10 @@ Public Property Get AftrBeginn() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "AftrBeginn")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "AftrBeginn")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    AftrBeginn = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    AftrBeginn = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -322,10 +330,10 @@ Public Property Get AftrEnde() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "AftrEnde")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "AftrEnde")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    AftrEnde = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    AftrEnde = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -342,10 +350,10 @@ Public Property Get StorniertDatum() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "StorniertDatum")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "StorniertDatum")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    StorniertDatum = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    StorniertDatum = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -362,10 +370,10 @@ Public Property Get AngebotBrutto() As Variant
     
     ' scan attribut array for attribut name
     Dim intAttributPosition As Integer
-    intAttributPosition = basSupport.FindItemInArray(mvarRecordsetClipboard, "AngebotBrutto")
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "AngebotBrutto")
     
     ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    AngebotBrutto = basSupport.CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    AngebotBrutto = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
     
 End Property
 
@@ -548,8 +556,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
     intError = 0
     
     For inti = LBound(astrConfig, 2) To UBound(astrConfig, 2)
-        ' If basSupport.TabelleExistiert(astrConfig(0, inti)) = False Then
-        If basSupport.ObjectExists(astrConfig(0, inti), "table", False) = False Then
+        If ObjectExists(astrConfig(0, inti), "table", False) = False Then
             Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(0, inti) _
                 & " existiert nicht."
             intError = intError + 1
@@ -586,7 +593,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
             End If
             
             ' check if recordset exists
-            If CStr(basSupport.RecordsetExists(astrConfig(0, lngi), astrConfig(1, lngi), _
+            If CStr(RecordsetExists(astrConfig(0, lngi), astrConfig(1, lngi), _
                 astrConfig(6, lngi))) <> astrConfig(5, lngi) Then
                 ' error message: messagebox + exit procedure
                     If astrConfig(5, lngi) = CStr(False) Then
@@ -727,4 +734,131 @@ ExitProc:
         Debug.Print "clsAngebot.RecordsetExists executed"
     End If
     
+End Function
+
+' search varWanted in a two dimensional array
+' array style A: (intIndex, intField)
+' array style B: (intField, intIndex)
+' return intIndex
+Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional ByVal intField As Integer = 0, Optional ByVal strArrayStyle As String = "A") As Variant
+    
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsAngebot.FindItemInArray"
+    End If
+   
+    Dim intIndex As Integer
+    intIndex = LBound(avarArray, 2)
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    If bolLocalVerbatim Then
+        Debug.Print "clsAngebot.FindItemInArray: varWanted = " & varWanted
+    End If
+    
+    Select Case strArrayStyle
+        ' array style A: (intIndex, intField)
+        Case "A"
+            ' scan array until match
+            Do While avarArray(intIndex, intField) <> varWanted
+                If intIndex = UBound(avarArray, 1) Then
+                    Debug.Print "clsAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' array style B: (intField, intIndex)
+        Case "B"
+            Do While avarArray(intField, intIndex) <> varWanted
+                If intIndex = UBound(avarArray, 2) Then
+                    Debug.Print "clsAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' input error handler
+        Case Else
+            Debug.Print "clsAngebot.FindItemInArray: arrayStyle ungültig, Wertevorrat beachten"
+            Exit Function
+        End Select
+    
+    ' return intIntex
+    FindItemInArray = intIndex
+
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAngebot.FindItemInArray executed"
+    End If
+    
+End Function
+
+' allows to write null in recordsets
+' varMode feasible values: string, link, date, currency, integer, boolean
+' transform and return Input corresponding to selected Mode
+Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsAngebot.CheckDataType"
+    End If
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' local verbatim message
+    If bolLocalVerbatim Then
+        Debug.Print "clsAngebot.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+    End If
+    
+    If IsNull(varInput) Then
+        ' local verbatim
+        If bolLocalVerbatim Then
+            Debug.Print "clsAngebot.CheckDataType: varInput ist null"
+        End If
+        
+        ' return input
+        CheckDataType = varInput
+        
+        ' event message
+        Debug.Print "clsRechnung.CheckDatyType executed"
+        Exit Function
+    End If
+    
+    ' declare output
+    Dim varOutput As Variant
+    
+    Select Case varMode
+        Case "string"
+            varOutput = (varInput)
+        Case "link"
+            ' check if varInput already is a link (#...#),
+            ' if not convert to link format
+            If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
+                varOutput = CStr(varInput)
+            Else
+                varOutput = "#" + CStr(varInput) + "#"
+            End If
+        Case "date"
+            varOutput = CDate(varInput)
+        Case "currency"
+            varOutput = CCur(varInput)
+        Case "integer"
+            varOutput = CInt(varInput)
+        Case "boolean"
+            varOutput = CBool(varInput)
+    End Select
+    
+    CheckDataType = varOutput
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAngebot.CheckDataType execute"
+    End If
+
 End Function

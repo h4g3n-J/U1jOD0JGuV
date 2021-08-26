@@ -24,15 +24,6 @@ Private mvarClipboard As Variant
 ' verbatim setting
 Private mbolVerbatim As Boolean
 
-    Private mvarRechnungNr As Variant
-    Private mvarBemerkung As Variant
-    Private mvarRechnungLink As Variant
-    Private mvarTechnischRichtigDatum As Variant
-    Private mvarIstTeilrechnung As Variant
-    Private mvarIstSchlussrechnung As Variant
-    Private mvarKalkulationLNWLink As Variant
-    Private mvarRechnungBrutto As Variant
-
 Private Sub default()
     mvarRechnungNr = Null
     mvarBemerkung = Null
@@ -44,8 +35,74 @@ Private Sub default()
     mvarRechnungBrutto = Null
 End Sub
 
+Private Function DefaultProperties()
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsAngebot.AngebotDefaultProperties"
+    End If
+    
+    Dim varDefaultSettings(13, 2) As Variant
+    varDefaultSettings(0, 0) = "Attribut Name"
+        varDefaultSettings(0, 1) = "data type"
+        varDefaultSettings(0, 2) = "default value"
+    varDefaultSettings(1, 0) = "BWIKey"
+        varDefaultSettings(1, 1) = "string"
+        varDefaultSettings(1, 2) = Null
+    varDefaultSettings(2, 0) = "EAkurzKey"
+        varDefaultSettings(2, 1) = "string"
+        varDefaultSettings(2, 2) = Null
+    varDefaultSettings(3, 0) = "MengengeruestLink"
+        varDefaultSettings(3, 1) = "link"
+        varDefaultSettings(3, 2) = Null
+    varDefaultSettings(4, 0) = "LeistungsbeschreibungLink"
+        varDefaultSettings(4, 1) = "link"
+        varDefaultSettings(4, 2) = Null
+    varDefaultSettings(5, 0) = "Bemerkung"
+        varDefaultSettings(5, 1) = "string"
+        varDefaultSettings(5, 2) = Null
+    varDefaultSettings(6, 0) = "BeauftragtDatum"
+        varDefaultSettings(6, 1) = "date"
+        varDefaultSettings(6, 2) = Null
+    varDefaultSettings(7, 0) = "AbgebrochenDatum"
+        varDefaultSettings(7, 1) = "date"
+        varDefaultSettings(7, 2) = Null
+    varDefaultSettings(8, 0) = "AngebotDatum"
+        varDefaultSettings(8, 1) = "date"
+        varDefaultSettings(8, 2) = Null
+    varDefaultSettings(9, 0) = "AbgenommenDatum"
+        varDefaultSettings(9, 1) = "date"
+        varDefaultSettings(9, 2) = Null
+    varDefaultSettings(10, 0) = "AftrBeginn"
+        varDefaultSettings(10, 1) = "date"
+        varDefaultSettings(10, 2) = Null
+    varDefaultSettings(11, 0) = "AftrEnde"
+        varDefaultSettings(11, 1) = "date"
+        varDefaultSettings(11, 2) = Null
+    varDefaultSettings(12, 0) = "StorniertDatum"
+        varDefaultSettings(12, 1) = "date"
+        varDefaultSettings(12, 2) = Null
+    varDefaultSettings(13, 0) = "AngebotBrutto"
+        varDefaultSettings(13, 1) = "currency"
+        varDefaultSettings(13, 2) = Null
+
+    AngebotDefaultProperties = varDefaultSettings
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAngebot.AngebotDefaultProperties executed"
+    End If
+    
+End Function
 Private Sub Class_Initialize()
-    Debug.Print "Klasse clsRechnung instanziiert."
+
+    If gconVerbatim Then
+        Debug.Print "Klasse clsAngebot instanziiert."
+    End If
+    
+    ' load default value to recordset
+    mvarRecordsetClipboard = DefaultProperties
+    
 End Sub
 
 Private Sub Class_Terminate()
@@ -54,6 +111,22 @@ End Sub
 
 Public Property Get RechnungNr() As Variant
     RechnungNr = basSupport.PruefeString(mvarRechnungNr)
+    
+    ' verbatim message
+    If gconVerbatim Then
+        Debug.Print "execute clsRechnung.RechnungNr Get"
+    End If
+    
+    ' scan attribut array for attribut name
+    Dim intAttributPosition As Integer
+    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "StorniertDatum")
+    
+    ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
+    StorniertDatum = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsRechnung Let  executed"
 End Property
 
 Public Property Let RechnungNr(ByVal varRechnungNr As Variant)
@@ -178,7 +251,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
                 & "Defaultwert anzeigen"
         End If
         ' default Value
-        mvarRecordsetClipboard = AngebotDefaultProperties
+        mvarRecordsetClipboard = DefaultProperties
         GoTo ExitProc
     End If
     
