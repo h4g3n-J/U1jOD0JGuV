@@ -322,12 +322,12 @@ Public Function AddRecordset(ByVal strRecordsetName As String) As Boolean
     
     ' check if strTargetName exists
     If ObjectExists(strTargetName, "table") = False Then
-        Debug.Print "basSupport.AddrecordsetParent: " & strTargetName & " existiert nicht. Prozedur abgebrochen."
+        Debug.Print "clsAuftrag.Addrecordset: " & strTargetName & " existiert nicht. Prozedur abgebrochen."
         bolError = True
         GoTo ExitProc
     Else:
         If gconVerbatim = True Then
-            Debug.Print "basSupport.AddrecordsetParent: " & strTargetName & " existiert."
+            Debug.Print "clsAuftrag.Addrecordset: " & strTargetName & " existiert."
         End If
     End If
     
