@@ -19,11 +19,11 @@ Option Explicit
 Private mvarClipboard As Variant
 Private mvarRecordsetClipboard As Variant
     
-Private Function AngebotDefaultProperties()
+Private Function DefaultProperties()
 
     ' command message
     If gconVerbatim = True Then
-        Debug.Print "execute clsAngebot.AngebotDefaultProperties"
+        Debug.Print "execute clsAngebot.DefaultProperties"
     End If
     
     Dim varAngebotSettings(13, 2) As Variant
@@ -70,22 +70,23 @@ Private Function AngebotDefaultProperties()
         varAngebotSettings(13, 1) = "currency"
         varAngebotSettings(13, 2) = Null
 
-    AngebotDefaultProperties = varAngebotSettings
+    DefaultProperties = varAngebotSettings
     
     ' event message
     If gconVerbatim = True Then
-        Debug.Print "clsAngebot.AngebotDefaultProperties executed"
+        Debug.Print "clsAngebot.DefaultProperties executed"
     End If
     
 End Function
     
 Private Sub Class_Initialize()
+
     If gconVerbatim Then
         Debug.Print "Klasse clsAngebot instanziiert."
     End If
     
     ' load default value to recordset
-    mvarRecordsetClipboard = AngebotDefaultProperties
+    mvarRecordsetClipboard = DefaultProperties
     
 End Sub
 
@@ -436,7 +437,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
                 & "Defaultwert anzeigen"
         End If
         ' default Value
-        mvarRecordsetClipboard = AngebotDefaultProperties
+        mvarRecordsetClipboard = DefaultProperties
         GoTo ExitProc
     End If
         
