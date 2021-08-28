@@ -27,8 +27,10 @@ Private mbolVerbatim As Boolean
 
 Private Function DefaultProperties()
 
+    mbolVerbatim = False
+
     ' command message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "execute clsRechnung.DefaultProperties"
     End If
     
@@ -64,7 +66,7 @@ Private Function DefaultProperties()
     DefaultProperties = varDefaultProperties
     
     ' event message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "clsRechnung.DefaultProperties executed"
     End If
     
@@ -90,7 +92,7 @@ Public Property Let RechnungNr(ByVal varPropertyInput As Variant)
     strPropertyName = "RechnungNr"
     
     'command message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "execute clsRechnung Let RechnungNr"
     End If
     
@@ -102,48 +104,130 @@ Public Property Let RechnungNr(ByVal varPropertyInput As Variant)
     mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "clsRechnung Let RechnungNr executed"
     End If
     
 End Property
 
 Public Property Get RechnungNr() As Variant
-    RechnungNr = basSupport.PruefeString(mvarRechnungNr)
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "execute clsRechnung Get RechnungNr"
+
+    Dim strPropertyName As String
+    strPropertyName = "RechnungNr"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsrechnung Get RechnungNr"
     End If
     
-    ' scan attribut array for attribut name
-    Dim intAttributPosition As Integer
-    intAttributPosition = FindItemInArray(mvarRecordsetClipboard, "RechnungNr")
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
-    ' get value [mvarRecordsetClipboard(intAttributPosition, 2)], transform data type corresponding [mvarRecordsetClipboard(intAttributPosition, 1)]
-    RechnungNr = CheckDataType(mvarRecordsetClipboard(intAttributPosition, 2), mvarRecordsetClipboard(intAttributPosition, 1))
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
-    If gconVerbatim Then
-        Debug.Print "clsRechnung Get RechnungNr executed"
+    If mbolVerbatim = True Then
+        Debug.Print "clsrechnung Get RechnungNr executed"
+    End If
+    
+End Property
+
+Public Property Let Bemerkung(ByVal varPropertyInput As Variant)
+    
+    Dim strPropertyName As String
+    strPropertyName = "Bemerkung"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let Bemerkung"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let Bemerkung executed"
     End If
     
 End Property
 
 Public Property Get Bemerkung() As Variant
-    Bemerkung = basSupport.PruefeString(mvarBemerkung)
+    
+    Dim strPropertyName As String
+    strPropertyName = "Bemerkung"
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsrechnung Get Bemerkung"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Get Bemerkung executed"
+        
+    End If
 End Property
 
-Public Property Let Bemerkung(ByVal varBemerkung As Variant)
-    mvarBemerkung = basSupport.PruefeString(varBemerkung)
+Public Property Let RechnungLink(ByVal varPropertyInput As Variant)
+    
+    Dim strPropertyName As String
+    strPropertyName = "RechnungLink"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let RechnungLink"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let RechnungLink executed"
+    End If
+    
 End Property
 
 Public Property Get RechnungLink() As Variant
-    RechnungLink = basSupport.PruefeString(mvarRechnungLink)
-End Property
+    
+    Dim strPropertyName As String
+    strPropertyName = "RechnungLink"
 
-Public Property Let RechnungLink(ByVal varRechnungLink As Variant)
-    mvarRechnungLink = basSupport.PruefeString(varRechnungLink)
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsrechnung Get RechnungLink"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Get RechnungLink executed"
+    End If
+    
 End Property
 
 Public Property Get TechnischRichtigDatum() As Variant
@@ -184,14 +268,6 @@ End Property
 
 Public Property Let RechnungBrutto(ByVal varRechnungBrutto As Variant)
     mvarRechnungBrutto = basSupport.PruefeString(varRechnungBrutto)
-End Property
-
-Public Property Get Verbatim() As Variant
-    Verbatim = basSupport.PruefeBoolean(mbolVerbatim)
-End Property
-
-Public Property Let Verbatim(ByVal varVerbatim As Variant)
-    mbolVerbatim = basSupport.PruefeBoolean(varVerbatim)
 End Property
 
 Public Sub AddRecordset()
@@ -282,7 +358,7 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     bolObjectExists = False
     
     ' verbatim message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "execute clsRechnung.ObjectExists"
     End If
     
@@ -323,7 +399,7 @@ End Function
 Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional ByVal intField As Integer = 0, Optional ByVal strArrayStyle As String = "A") As Variant
     
     ' command message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "execute clsRechnung.FindItemInArray"
     End If
    
@@ -371,7 +447,7 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
     FindItemInArray = intIndex
 
     ' event message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "clsRechnung.FindItemInArray executed"
     End If
     
@@ -383,7 +459,7 @@ End Function
 Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
 
     ' command message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "execute clsRechnung.CheckDataType"
     End If
     
@@ -435,7 +511,7 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     CheckDataType = varOutput
     
     ' event message
-    If gconVerbatim = True Then
+    If mbolVerbatim = True Then
         Debug.Print "clsRechnung.CheckDataType execute"
     End If
 
