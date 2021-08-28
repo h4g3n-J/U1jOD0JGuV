@@ -12,8 +12,8 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
-' dient als Zwischenspeicher für die ID des aktuell
-' mit dem Cursor ausgewählten Datensatz im Unterformular
+' dient als Zwischenspeicher für die ID des
+' mit dem Cursor ausgewählten Datensatzes im Unterformular
 ' wird mit der Prozedur Laden geschrieben und von der
 ' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant

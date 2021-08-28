@@ -15,25 +15,15 @@ Option Explicit
 'Hauptdatensatz der Klasse
 Private mrstRecordset As DAO.RecordSet
 
-' dient als Zwischenspeicher fuer die ID des aktuell
-' mit dem Cursor ausgewaehlten Datensatz im Unterformular
+' dient als Zwischenspeicher fuer die ID des
+' mit dem Cursor ausgewaehlten Datensatzes im Unterformular
 ' wird mit der Prozedur Laden geschrieben und von der
 ' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
+Private mvarRecordsetClipboard As Variant
 
 ' verbatim setting
 Private mbolVerbatim As Boolean
-
-Private Sub default()
-    mvarRechnungNr = Null
-    mvarBemerkung = Null
-    mvarRechnungLink = Null
-    mvarTechnischRichtigDatum = Null
-    mvarIstTeilrechnung = Null
-    mvarIstSchlussrechnung = Null
-    mvarKalkulationLNWLink = Null
-    mvarRechnungBrutto = Null
-End Sub
 
 Private Function DefaultProperties()
 
@@ -94,6 +84,30 @@ Private Sub Class_Terminate()
     Debug.Print "clsRechnung terminated"
 End Sub
 
+Public Property Let RechnungNr(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "RechnungNr"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let RechnungNr"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let RechnungNr executed"
+    End If
+    
+End Property
+
 Public Property Get RechnungNr() As Variant
     RechnungNr = basSupport.PruefeString(mvarRechnungNr)
     
@@ -112,24 +126,6 @@ Public Property Get RechnungNr() As Variant
     ' event message
     If gconVerbatim Then
         Debug.Print "clsRechnung Get RechnungNr executed"
-    End If
-    
-End Property
-
-Public Property Let RechnungNr(ByVal varRechnungNr As Variant)
-    
-    'verbatim message
-    If gconVerbatim = True Then
-        Debug.Print "execute clsAngebot Let BWIKey"
-    End If
-    
-    ' scan attribut array for attribut name
-    Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "RechnungNr", 0, "B")
-    
-    ' event message
-    If gconVerbatim = True Then
-        Debug.Print "clsRechnung Let RechnungNr executed"
     End If
     
 End Property
