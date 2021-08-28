@@ -230,44 +230,244 @@ Public Property Get RechnungLink() As Variant
     
 End Property
 
-Public Property Get TechnischRichtigDatum() As Variant
-    TechnischRichtigDatum = basSupport.PruefeString(mvarTechnischRichtigDatum)
+Public Property Let TechnischRichtigDatum(ByVal varPropertyInput As Variant)
+    
+    Dim strPropertyName As String
+    strPropertyName = "TechnischRichtigDatum"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let TechnischRichtigDatum"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let TechnischRichtigDatum executed"
+    End If
+    
 End Property
 
-Public Property Let TechnischRichtigDatum(ByVal varTechnischRichtigDatum As Variant)
-    mvarTechnischRichtigDatum = basSupport.PruefeString(varTechnischRichtigDatum)
+Public Property Get TechnischRichtigDatum() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "TechnischRichtigDatum"
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsrechnung Get TechnischRichtigDatum"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Get TechnischRichtigDatum executed"
+    End If
+    
+End Property
+
+Public Property Let IstTeilrechnung(ByVal varPropertyInput As Variant)
+    
+    Dim strPropertyName As String
+    strPropertyName = "IstTeilrechnung"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let IstTeilrechnung"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let IstTeilrechnung executed"
+    End If
+    
 End Property
 
 Public Property Get IstTeilrechnung() As Variant
-    IstTeilrechnung = basSupport.PruefeString(mvarIstTeilrechnung)
+
+    Dim strPropertyName As String
+    strPropertyName = "IstTeilrechnung"
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsrechnung Get IstTeilrechnung"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Get IstTeilrechnung executed"
+    End If
+    
 End Property
 
-Public Property Let IstTeilrechnung(ByVal varIstTeilrechnung As Variant)
-    mvarIstTeilrechnung = basSupport.PruefeString(varIstTeilrechnung)
+Public Property Let IstSchlussrechnung(ByVal varPropertyInput As Variant)
+    
+    Dim strPropertyName As String
+    strPropertyName = "IstSchlussrechnung"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let IstSchlussrechnung"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let IstSchlussrechnung executed"
+    End If
+    
 End Property
 
 Public Property Get IstSchlussrechnung() As Variant
-    IstSchlussrechnung = basSupport.PruefeString(mvarIstSchlussrechnung)
+    
+    Dim strPropertyName As String
+    strPropertyName = "IstSchlussrechnung"
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsrechnung Get IstSchlussrechnung"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Get IstSchlussrechnung executed"
+    End If
+    
 End Property
 
-Public Property Let IstSchlussrechnung(ByVal varIstSchlussrechnung As Variant)
-    mvarIstSchlussrechnung = basSupport.PruefeString(varIstSchlussrechnung)
+Public Property Let KalkulationLNWLink(ByVal varPropertyInput As Variant)
+    
+    Dim strPropertyName As String
+    strPropertyName = "KalkulationLNWLink"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let KalkulationLNWLink"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let KalkulationLNWLink executed"
+    End If
+    
 End Property
 
 Public Property Get KalkulationLNWLink() As Variant
-    KalkulationLNWLink = basSupport.PruefeString(mvarKalkulationLNWLink)
+    
+    Dim strPropertyName As String
+    strPropertyName = "KalkulationLNWLink"
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsrechnung Get KalkulationLNWLink"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Get KalkulationLNWLink executed"
+    End If
+    
 End Property
 
-Public Property Let KalkulationLNWLink(ByVal varKalkulationLNWLink As Variant)
-    mvarKalkulationLNWLink = basSupport.PruefeString(varKalkulationLNWLink)
+Public Property Let RechnungBrutto(ByVal varPropertyInput As Variant)
+    
+    Dim strPropertyName As String
+    strPropertyName = "RechnungBrutto"
+    
+    'command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsRechnung Let RechnungBrutto"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Let RechnungBrutto executed"
+    End If
+    
 End Property
 
 Public Property Get RechnungBrutto() As Variant
-    RechnungBrutto = basSupport.PruefeString(mvarRechnungBrutto)
-End Property
+    
+    Dim strPropertyName As String
+    strPropertyName = "RechnungBrutto"
 
-Public Property Let RechnungBrutto(ByVal varRechnungBrutto As Variant)
-    mvarRechnungBrutto = basSupport.PruefeString(varRechnungBrutto)
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsrechnung Get RechnungBrutto"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsRechnung Get RechnungBrutto executed"
+    End If
+    
 End Property
 
 Public Sub AddRecordset()
