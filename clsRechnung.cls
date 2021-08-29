@@ -20,6 +20,9 @@ Private mrstRecordset As DAO.RecordSet
 ' wird mit der Prozedur Laden geschrieben und von der
 ' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
+
+' conainter for selected recordset, is also relevant for properties procedures
+' lookup DefaultProperties for array composition
 Private mvarRecordsetClipboard As Variant
 
 ' verbatim setting
@@ -471,8 +474,8 @@ Public Property Get RechnungBrutto() As Variant
 End Property
 
 Public Sub AddRecordset()
-       
-mvarClipboard = basSupport.AddRecordsetMN( _
+
+' mvarClipboard = basSupport.AddRecordsetMN( _
     "tblAngebot", "BWIKey", "Angebot Titel", "Titel des referenzierten Angebots eingeben", "Angebot erfassen", _
     "tblRechnung", "RechnungNr", "Rechnungsnummer", "Rechnungsnummer eingeben", "Rechnung erfassen", _
     "tblAngebotZuRechnung", _
@@ -485,6 +488,11 @@ End Sub
 ' check if recordset exists
 ' assign recordset to mvarRecordsetClipboard
 Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
+
+    ' command message
+    If mbolVerbatim Then
+        Debug.Print "execute clsRechnung.SelectRecordset"
+    End If
 
     ' set error state
     Dim bolErrorState As Boolean
@@ -500,7 +508,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     Dim strObjectType As String
     strObjectType = "table"
     
-    ' name of the column that contains the recordset
+    ' name of the column that contains the sought recordset
     Dim strKeyColumn As String
     strKeyColumn = "RechnungNr"
     
@@ -516,14 +524,13 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     bolLocalVerbatim = False
     
     ' error handler if no recordset is selected
-    ' end exitProc
     If IsNull(varRecordsetName) Then
         ' verbatim message
         If bolLocalVerbatim = True Then
-            Debug.Print "clsRechnung.SelectRecordset: varRecordsetName ist leer, " _
-                & "Defaultwert anzeigen"
+            Debug.Print "clsRechnung.SelectRecordset: varRecordsetName is empty, " _
+                & "prompt default value"
         End If
-        ' default Value
+        ' load default Value
         mvarRecordsetClipboard = DefaultProperties
         GoTo ExitProc
     End If
@@ -531,8 +538,29 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     ' check if target table exists, when negative _
     ' return error + exitProc
     If ObjectExists(strTableName, strObjectType) = False Then
-        Debug.Print "clsRechnung.SelectRecordset: " & strTableName & " existiert nicht. Prozedur abgebrochen."
+        Debug.Print "clsRechnung.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
         GoTo ExitProc
+    End If
+    
+    ' select recordset from table or query
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    rstRecordset.FindFirst (strKeyColumn & " = '" & CStr(varRecordsetName) & "'")
+    
+    ' assign recordset to properties
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
+    Dim inti As Integer
+    For inti = LBound(mvarRecordsetClipboard, 1) + 1 To UBound(mvarRecordsetClipboard, 1)
+        mvarRecordsetClipboard(inti, 2) = rstRecordset.Fields(mvarRecordsetClipboard(inti, 0))
+    Next
+    
+    ' verbatim message: return data content from array
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
+    If bolLocalVerbatim = True Then
+        For inti = LBound(mvarRecordsetClipboard, 1) To UBound(mvarRecordsetClipboard, 1)
+            Debug.Print "clsAngebot.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
+        Next
     End If
     
     ' clean up
