@@ -311,7 +311,7 @@ Public Sub BuildRechnungSuchen()
         
         aintLifecycleGrid = basRechnungSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-        ' create "Angebot erstellen" button
+        ' create "Rechnung erstellen" button
         intColumn = 1
         intRow = 1
         
