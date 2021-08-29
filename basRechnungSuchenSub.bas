@@ -294,8 +294,9 @@ Public Sub BuildRechnungSuchenSub()
         End With
         
     ' column added? -> update intNumberOfColumns
+    
     ' set oncurrent methode
-    ' objForm.OnCurrent = "=selectAuftrag()"
+    objForm.OnCurrent = "=selectRechnung()"
         
     ' set form properties
     objForm.AllowDatasheetView = True
@@ -977,3 +978,70 @@ Private Sub TestGetWidth()
     End If
     
 End Sub
+
+Public Function selectRechnung()
+    ' Error Code 1: Form does not exist
+    ' Error Code 2: Parent Form is not loaded
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.SelectRechnung"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmRechnungSuchen"
+    
+    ' check if frmAuftragSuchen exists (Error Code: 1)
+    Dim bolFormExists As Boolean
+    bolFormExists = False
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            bolFormExists = True
+        End If
+    Next
+    
+    If Not bolFormExists Then
+        Debug.Print "basRechnungSuchenSub.selectRechnung aborted, Error Code: 1"
+        Exit Function
+    End If
+    
+    ' if frmRechnungSuchen not isloaded go to exit (Error Code: 2)
+    If Not Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+        Debug.Print "basRechnungSuchenSub.selectRechnung aborted, Error Code: 2"
+        Exit Function
+    End If
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "RechnungNr"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Auftrag
+    Dim Rechnung As clsRechnung
+    Set Rechnung = New clsRechnung
+    
+    ' select recordset
+    Rechnung.SelectRecordset varRecordsetName
+    
+    ' show recordset
+    ' referes to the textboxes in basRechnungSuchen
+    ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
+    ' insert editing here ---->
+    
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.SelectRechnung executed"
+    End If
+    
+End Function
