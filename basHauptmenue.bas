@@ -52,7 +52,7 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 3
+        intNumberOfRows = 4
         intLeft = 100
         intTop = 100
         intWidth = 1700
@@ -96,6 +96,20 @@ Public Sub BuildHauptmenue()
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd02"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Rechnung Suchen"
+                .OnClick = "=OpenFrmRechnungSuchen()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 4
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd03"
                 .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
@@ -291,3 +305,19 @@ Private Sub ClearForm(ByVal strFormName As String)
     End If
     
 End Sub
+
+Public Function OpenFrmRechnungSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormRechnungSuchen"
+    End If
+
+    DoCmd.OpenForm "frmRechnungSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormRechnungSuchen executed"
+    End If
+End Function
+
