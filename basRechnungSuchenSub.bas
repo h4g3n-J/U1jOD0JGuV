@@ -985,7 +985,7 @@ Public Function selectRechnung()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basRechnungSuchenSub.SelectRechnung"
+        Debug.Print "execute basRechnungSuchenSub.selectRechnung"
     End If
     
     ' declare form name
@@ -1041,7 +1041,7 @@ Public Function selectRechnung()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basRechnungSuchenSub.SelectRechnung executed"
+        Debug.Print "basRechnungSuchenSub.selectRechnung executed"
     End If
     
 End Function
