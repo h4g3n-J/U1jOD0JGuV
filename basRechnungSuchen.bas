@@ -14,7 +14,7 @@ Public Sub BuildRechnungSuchen()
     strFormName = "frmRechnungSuchen"
     
     ' clear form
-     basAuftragSuchen.ClearForm strFormName
+     basRechnungSuchen.ClearForm strFormName
      
      ' declare form
     Dim objForm As Form
@@ -58,7 +58,7 @@ Public Sub BuildRechnungSuchen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 11
+        intNumberOfRows = 8
         intLeft = 10000
         intTop = 2430
         intWidth = 3120
@@ -70,38 +70,315 @@ Public Sub BuildRechnungSuchen()
     aintInformationGrid = basRechnungSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
         
     ' create textbox before label, so label can be associated
-        'txt00
-        intColumn = 2
-        intRow = 1
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-            With txtTextbox
-                .Name = "txt00"
-                .Left = basAuftragSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAuftragSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAuftragSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAuftragSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-                .IsHyperlink = False
-            End With
+    'txt00
+    intColumn = 2
+    intRow = 1
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt00"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl00
+    intColumn = 1
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+        With lblLabel
+            .Name = "lbl00"
+            .Caption = "RechnungNr"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
         
-        'lbl00
+    'txt01
+    intColumn = 2
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt01"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl01
+    intColumn = 1
+    intRow = 2
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
+        With lblLabel
+            .Name = "lbl01"
+            .Caption = "Bemerkung"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt02
+    intColumn = 2
+    intRow = 3
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt02"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl02
+    intColumn = 1
+    intRow = 3
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
+        With lblLabel
+            .Name = "lbl02"
+            .Caption = "Rechnung (Link)"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt03
+    intColumn = 2
+    intRow = 4
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt03"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl03
+    intColumn = 1
+    intRow = 4
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
+        With lblLabel
+            .Name = "lbl03"
+            .Caption = "Technisch Richtig Datum"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt04
+    intColumn = 2
+    intRow = 5
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt04"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl04
+    intColumn = 1
+    intRow = 5
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
+        With lblLabel
+            .Name = "lbl04"
+            .Caption = "Ist Teilrechnung"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt05
+    intColumn = 2
+    intRow = 6
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt05"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl05
+    intColumn = 1
+    intRow = 6
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+        With lblLabel
+            .Name = "lbl05"
+            .Caption = "Ist Schlussrechnung"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt06
+    intColumn = 2
+    intRow = 7
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt06"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl06
+    intColumn = 1
+    intRow = 7
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
+        With lblLabel
+            .Name = "lbl06"
+            .Caption = "Kalkulation LNW (Link)"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt07
+    intColumn = 2
+    intRow = 8
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt07"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl07
+    intColumn = 1
+    intRow = 8
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
+        With lblLabel
+            .Name = "lbl07"
+            .Caption = "Rechnung Brutto"
+            .Left = basRechnungSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basRechnungSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    ' column added? -> update intNumberOfColumns
+    
+    ' create lifecycle grid
+    Dim aintLifecycleGrid() As Integer
+    
+        ' grid settings
+        intNumberOfColumns = 1
+        intNumberOfRows = 1
+        intLeft = 510
+        intTop = 1700
+        intWidth = 2730
+        intHeight = 330
+        
+        ReDim aintLifecycleGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+        
+        aintLifecycleGrid = basRechnungSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+    
+        ' create "Angebot erstellen" button
         intColumn = 1
         intRow = 1
-        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
-            With lblLabel
-                .Name = "lbl00"
-                .Caption = "AftrID"
-                .Left = basAuftragSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAuftragSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAuftragSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAuftragSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
+        
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmdCreateOffer"
+                .Left = basRechnungSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basRechnungSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basRechnungSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basRechnungSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                .Caption = "Rechnung erstellen"
+' insert editing here ----> .OnClick = "=OpenFormCreateOffer()"
+                .Visible = False
             End With
             
-    ' wip starting here ---->
-    
-    ' <---- wip ending here
-    
+        ' create form title
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
+            lblLabel.Name = "lblTitle"
+            lblLabel.Visible = True
+            lblLabel.Left = 566
+            lblLabel.Top = 227
+            lblLabel.Width = 9210
+            lblLabel.Height = 507
+            lblLabel.Caption = "Rechnung Suchen"
+            
+        ' create search box
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            txtTextbox.Name = "txtSearchBox"
+            txtTextbox.Left = 510
+            txtTextbox.Top = 960
+            txtTextbox.Width = 6405
+            txtTextbox.Height = 330
+            txtTextbox.Visible = True
+            
+        ' create search button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSearch"
+            btnButton.Left = 6975
+            btnButton.Top = 960
+            btnButton.Width = 2730
+            btnButton.Height = 330
+            btnButton.Caption = "Suchen"
+' insert editing here ----> btnButton.OnClick = "=SearchAngebot()"
+            btnButton.Visible = False
+            
+        ' create exit button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdExit"
+            btnButton.Left = 13180
+            btnButton.Top = 960
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Schlieﬂen"
+            btnButton.OnClick = "=CloseFrmRechnungSuchen()"
+
+        ' create subform
+        Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
+        With frmSubForm
+            .Name = "frbSubForm"
+            .Left = 510
+            .Top = 2453
+            .Width = 9218
+            .Height = 5055
+            .SourceObject = "frmRechnungSuchenSub"
+            .Locked = True
+        End With
+                
     ' close form
     DoCmd.Close acForm, strTempFormName, acSaveYes
     
@@ -110,7 +387,7 @@ Public Sub BuildRechnungSuchen()
         
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragSuchen.BuildAuftragSuchen: " & strFormName & " erstellt"
+        Debug.Print "basRechnungSuchen.BuildAuftragSuchen: " & strFormName & " erstellt"
     End If
 
 End Sub
@@ -492,4 +769,99 @@ Private Sub TestGetHeight()
     End If
     
 End Sub
+
+Private Sub ClearForm(ByVal strFormName As String)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.ClearForm"
+    End If
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+            End If
+            ' delete form
+            DoCmd.DeleteObject acForm, strFormName
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchen.ClearForm executed"
+    End If
+    
+End Sub
+
+Private Sub TestClearForm()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.TestClearForm"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmRechnungSuchen"
+    
+    basRechnungSuchen.ClearForm strFormName
+    
+    Dim objForm As Object
+    Set objForm = CreateForm
+    
+    Dim strTempFormName As String
+    strTempFormName = objForm.Name
+    
+    DoCmd.Close acForm, strTempFormName, acSaveYes
+    DoCmd.Rename strFormName, acForm, strTempFormName
+    
+    Debug.Print "basRechnungSuchen.TestClearForm: " & strFormName & " created."
+    
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            Debug.Print "basRechnungSuchen.TestClearForm: " & strFormName & " exists."
+            Exit For
+        End If
+    Next
+    
+    basRechnungSuchen.ClearForm strFormName
+    
+    Debug.Print "basRechnungSuchen.TestClearForm: ClearForm executed."
+    
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            Debug.Print "basRechnungSuchen.TestClearForm: " & strFormName & " exists."
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.TestClearForm"
+    End If
+    
+End Sub
+
+Public Function CloseFrmRechnungSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.CloseForm"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmRechnungSuchen"
+    
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchen.CloseForm executed"
+    End If
+    
+End Function
 

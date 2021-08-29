@@ -408,7 +408,7 @@ Public Sub BuildAuftragSuchen()
                 .Height = basAuftragSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Auftrag erstellen"
                 .OnClick = "=OpenFormCreateOffer()"
-                .Visible = False
+' insert editing here ----> .Visible = False
             End With
             
         ' create form title
@@ -438,7 +438,7 @@ Public Sub BuildAuftragSuchen()
             btnButton.Width = 2730
             btnButton.Height = 330
             btnButton.Caption = "Suchen"
-            btnButton.OnClick = "=SearchAngebot()"
+' insert editing here ----> btnButton.OnClick = "=SearchAngebot()"
             btnButton.Visible = False
             
         ' create exit button
