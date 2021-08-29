@@ -37,7 +37,12 @@ Private Function DefaultProperties()
         Debug.Print "execute clsRechnung.DefaultProperties"
     End If
     
-    Dim varDefaultProperties(13, 2) As Variant
+    ' set array size according to the number of attributes
+    Dim intNumberOfAttributes As Integer
+    intNumberOfAttributes = 8
+    
+    Dim varDefaultProperties As Variant
+    ReDim varDefaultProperties(intNumberOfAttributes, 2)
     varDefaultProperties(0, 0) = "Attribut Name"
         varDefaultProperties(0, 1) = "data type"
         varDefaultProperties(0, 2) = "default value"
@@ -65,6 +70,7 @@ Private Function DefaultProperties()
     varDefaultProperties(8, 0) = "RechnungBrutto"
         varDefaultProperties(8, 1) = "currency"
         varDefaultProperties(8, 2) = Null
+    ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
 
     DefaultProperties = varDefaultProperties
     
@@ -128,7 +134,7 @@ Public Property Get RechnungNr() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    RechnungNr = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If mbolVerbatim = True Then
@@ -176,7 +182,7 @@ Public Property Get Bemerkung() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    Bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If gconVerbatim = True Then
@@ -224,7 +230,7 @@ Public Property Get RechnungLink() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    RechnungLink = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If gconVerbatim = True Then
@@ -272,7 +278,7 @@ Public Property Get TechnischRichtigDatum() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    TechnischRichtigDatum = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If gconVerbatim = True Then
@@ -320,7 +326,7 @@ Public Property Get IstTeilrechnung() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    IstTeilrechnung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If gconVerbatim = True Then
@@ -368,7 +374,7 @@ Public Property Get IstSchlussrechnung() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    IstSchlussrechnung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If gconVerbatim = True Then
@@ -416,7 +422,7 @@ Public Property Get KalkulationLNWLink() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    KalkulationLNWLink = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If gconVerbatim = True Then
@@ -464,7 +470,7 @@ Public Property Get RechnungBrutto() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    RechnungBrutto = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If gconVerbatim = True Then

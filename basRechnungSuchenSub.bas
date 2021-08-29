@@ -1035,9 +1035,15 @@ Public Function selectRechnung()
     
     ' show recordset
     ' referes to the textboxes in basRechnungSuchen
-    ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
-    ' insert editing here ---->
-    
+    ' Forms.Item(strFormName).Controls.Item("insert_textboxName_here") = CallByName(insert_Object_Name, "insert_Attribute_Name_here", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Rechnung, "RechnungNr", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Rechnung, "Bemerkung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Rechnung, "RechnungLink", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Rechnung, "TechnischRichtigDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Rechnung, "IstTeilrechnung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Rechnung, "IstSchlussrechnung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt06") = CallByName(Rechnung, "KalkulationLNWLink", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt07") = CallByName(Rechnung, "RechnungBrutto", VbGet)
     
     ' event message
     If gconVerbatim Then
