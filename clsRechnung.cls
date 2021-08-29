@@ -62,7 +62,7 @@ Private Function DefaultProperties()
         varDefaultProperties(5, 1) = "boolean"
         varDefaultProperties(5, 2) = Null
     varDefaultProperties(6, 0) = "IstSchlussrechnung"
-        varDefaultProperties(6, 1) = "date"
+        varDefaultProperties(6, 1) = "boolean"
         varDefaultProperties(6, 2) = Null
     varDefaultProperties(7, 0) = "KalkulationLNWLink"
         varDefaultProperties(7, 1) = "link"

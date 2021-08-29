@@ -137,7 +137,7 @@ Public Sub BuildRechnungSuchen()
             .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = False
+            .IsHyperlink = True
         End With
         
     'lbl02
@@ -249,7 +249,7 @@ Public Sub BuildRechnungSuchen()
             .Width = basRechnungSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = False
+            .IsHyperlink = True
         End With
         
     'lbl06
