@@ -141,3 +141,31 @@ ExitProc:
     Debug.Print "basTestRechnung.IstTeilrechnung executed"
     
 End Sub
+
+Private Sub IstSchlussrechnung()
+
+    ' command message
+    Debug.Print "execute basTestRechnung.IstSchlussrechnung"
+    
+    Dim rstRecordset As clsRechnung
+    Set rstRecordset = New clsRechnung
+    
+    Dim strTestValue As String
+    strTestValue = True
+    
+    rstRecordset.IstSchlussrechnung = strTestValue
+    
+    If Not rstRecordset.IstSchlussrechnung = strTestValue Then
+        MsgBox "basTestRechnung.IstSchlussrechnung failed, Error Code: 1", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    MsgBox "basTestRechnung.IstSchlussrechnung: Procedure successful", vbOKOnly, "Test Result"
+    
+ExitProc:
+    Set rstRecordset = Nothing
+    
+    ' event message
+    Debug.Print "basTestRechnung.IstSchlussrechnung executed"
+    
+End Sub
