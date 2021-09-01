@@ -354,8 +354,8 @@ Public Sub BuildRechnungSuchen()
             btnButton.Width = 2730
             btnButton.Height = 330
             btnButton.Caption = "Suchen"
-' insert editing here ----> btnButton.OnClick = "=SearchAngebot()"
-            btnButton.Visible = False
+            btnButton.OnClick = "=OpenSearchRechnung()"
+            btnButton.Visible = True
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -861,6 +861,35 @@ Public Function CloseFrmRechnungSuchen()
     ' event message
     If gconVerbatim Then
         Debug.Print "basRechnungSuchen.CloseForm executed"
+    End If
+    
+End Function
+
+Public Function OpenSearchRechnung()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.OpenSerchRechnung"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmRechnungSuchen"
+    
+    Dim strSearchTextboxName As String
+    strSearchTextboxName = "txtSearchBox"
+    
+    ' search Angebot
+    basRechnungSuchenSub.SearchRechnung Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
+    
+    ' close form
+    DoCmd.Close acForm, "frmAngebotSuchen", acSaveYes
+    
+    ' open form
+    DoCmd.OpenForm "frmAngebotSuchen", acNormal
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchen.OpenSerchRechnung executed"
     End If
     
 End Function

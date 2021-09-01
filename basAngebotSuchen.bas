@@ -549,7 +549,6 @@ Public Function OpenSearchAngebot()
     End If
     
     ' search Angebot
-    ' basBuild.BuildQryAngebotAuswahl Application.Forms.Item("frmAngebotSuchen").Controls("txtSearchBox")
     basAngebotSuchenSub.SearchAngebot Application.Forms.Item("frmAngebotSuchen").Controls("txtSearchBox")
     
     ' close form

@@ -757,7 +757,7 @@ Private Sub DeleteQuery(strQueryName As String)
                 DoCmd.Close acQuery, strQueryName, acSaveYes
                 ' verbatim message
                 If gconVerbatim Then
-                    Debug.Print "basSupport.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
+                    Debug.Print "basAngebotSuchenSub.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
                 End If
             End If
     
@@ -771,7 +771,7 @@ Private Sub DeleteQuery(strQueryName As String)
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basBuild.DeleteQuery executed"
+        Debug.Print "basAngebotSuchenSub.DeleteQuery executed"
     End If
     
 End Sub

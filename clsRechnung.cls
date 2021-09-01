@@ -750,6 +750,3 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     End If
 
 End Function
-
-
-

@@ -1051,3 +1051,105 @@ Public Function selectRechnung()
     End If
     
 End Function
+
+Public Sub SearchRechnung(Optional varSearchTerm As Variant)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.SearchRechnung"
+    End If
+    
+    ' NULL handler
+    If IsNull(varSearchTerm) Then
+        varSearchTerm = "*"
+    End If
+        
+    ' transform to string
+    Dim strSearchTerm As String
+    strSearchTerm = CStr(varSearchTerm)
+    
+    ' define query name
+    Dim strQueryName As String
+    strQueryName = "qryRechnungAuswahl"
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+            
+    ' delete existing query of the same name
+    basRechnungSuchenSub.DeleteQuery strQueryName
+    
+    ' set query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    With qdfQuery
+        ' set query Name
+        .Name = strQueryName
+        ' set query SQL
+        .SQL = " SELECT qryAngebot.*" & _
+                    " FROM qryAngebot" & _
+                    " WHERE qryAngebot.BWIKey LIKE '*" & strSearchTerm & "*'" & _
+                    " ;"
+    End With
+    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
+ExitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.SearchRechnung executed"
+    End If
+
+End Sub
+
+' delete query
+' 1. check if query exists
+' 2. close if query is loaded
+' 3. delete query
+Private Sub DeleteQuery(strQueryName As String)
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.DeleteQuery"
+    End If
+    
+    ' set dummy object
+    Dim objDummy As Object
+    ' search object list >>AllQueries<< for strQueryName
+    For Each objDummy In Application.CurrentData.AllQueries
+        If objDummy.Name = strQueryName Then
+            
+            ' check if query isloaded
+            If objDummy.IsLoaded Then
+                ' close query
+                DoCmd.Close acQuery, strQueryName, acSaveYes
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basRechnungSuchenSub.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
+                End If
+            End If
+    
+            ' delete query
+            DoCmd.DeleteObject acQuery, strQueryName
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.DeleteQuery executed"
+    End If
+    
+End Sub

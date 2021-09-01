@@ -197,3 +197,31 @@ ExitProc:
     Debug.Print "basTestRechnung.KalkulationLNWLink executed"
     
 End Sub
+
+Private Sub RechnungBrutto()
+
+    ' command message
+    Debug.Print "execute basTestRechnung.RechnungBrutto"
+    
+    Dim rstRecordset As clsRechnung
+    Set rstRecordset = New clsRechnung
+    
+    Dim strTestValue As String
+    strTestValue = 100.51
+    
+    rstRecordset.RechnungBrutto = strTestValue
+    
+    If Not rstRecordset.RechnungBrutto = strTestValue Then
+        MsgBox "basTestRechnung.RechnungBrutto failed, Error Code: 1", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    MsgBox "basTestRechnung.RechnungBrutto: Procedure successful", vbOKOnly, "Test Result"
+    
+ExitProc:
+    Set rstRecordset = Nothing
+    
+    ' event message
+    Debug.Print "basTestRechnung.RechnungBrutto executed"
+    
+End Sub
