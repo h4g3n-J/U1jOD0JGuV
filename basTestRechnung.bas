@@ -169,3 +169,31 @@ ExitProc:
     Debug.Print "basTestRechnung.IstSchlussrechnung executed"
     
 End Sub
+
+Private Sub KalkulationLNWLink()
+
+    ' command message
+    Debug.Print "execute basTestRechnung.KalkulationLNWLink"
+    
+    Dim rstRecordset As clsRechnung
+    Set rstRecordset = New clsRechnung
+    
+    Dim strTestValue As String
+    strTestValue = "#Test#"
+    
+    rstRecordset.KalkulationLNWLink = strTestValue
+    
+    If Not rstRecordset.KalkulationLNWLink = strTestValue Then
+        MsgBox "basTestRechnung.KalkulationLNWLink failed, Error Code: 1", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    MsgBox "basTestRechnung.KalkulationLNWLink: Procedure successful", vbOKOnly, "Test Result"
+    
+ExitProc:
+    Set rstRecordset = Nothing
+    
+    ' event message
+    Debug.Print "basTestRechnung.KalkulationLNWLink executed"
+    
+End Sub
