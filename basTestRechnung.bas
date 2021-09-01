@@ -114,4 +114,30 @@ ExitProc:
     
 End Sub
 
+Private Sub IstTeilrechnung()
 
+    ' command message
+    Debug.Print "execute basTestRechnung.IstTeilrechnung"
+    
+    Dim rstRecordset As clsRechnung
+    Set rstRecordset = New clsRechnung
+    
+    Dim strTestValue As String
+    strTestValue = True
+    
+    rstRecordset.IstTeilrechnung = strTestValue
+    
+    If Not rstRecordset.IstTeilrechnung = strTestValue Then
+        MsgBox "basTestRechnung.IstTeilrechnung failed, Error Code: 1", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    MsgBox "basTestRechnung.IstTeilrechnung: Procedure successful", vbOKOnly, "Test Result"
+    
+ExitProc:
+    Set rstRecordset = Nothing
+    
+    ' event message
+    Debug.Print "basTestRechnung.IstTeilrechnung executed"
+    
+End Sub
