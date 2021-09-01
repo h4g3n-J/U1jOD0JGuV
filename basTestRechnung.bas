@@ -85,3 +85,33 @@ ExitProc:
     Debug.Print "basTestRechnung.RechnungLink executed"
     
 End Sub
+
+Private Sub TechnischRichtigDatum()
+
+    ' command message
+    Debug.Print "execute basTestRechnung.TechnischRichtigDatum"
+    
+    Dim rstRecordset As clsRechnung
+    Set rstRecordset = New clsRechnung
+    
+    Dim strTestValue As String
+    strTestValue = "01.09.2021"
+    
+    rstRecordset.TechnischRichtigDatum = strTestValue
+    
+    If Not rstRecordset.TechnischRichtigDatum = strTestValue Then
+        MsgBox "basTestRechnung.TechnischRichtigDatum failed, Error Code: 1", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    MsgBox "basTestRechnung.TechnischRichtigDatum: Procedure successful", vbOKOnly, "Test Result"
+    
+ExitProc:
+    Set rstRecordset = Nothing
+    
+    ' event message
+    Debug.Print "basTestRechnung.TechnischRichtigDatum executed"
+    
+End Sub
+
+
