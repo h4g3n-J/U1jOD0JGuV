@@ -746,7 +746,7 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsRechnung.CheckDataType execute"
+        Debug.Print "clsRechnung.CheckDataType executed"
     End If
 
 End Function

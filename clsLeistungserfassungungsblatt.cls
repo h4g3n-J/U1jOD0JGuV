@@ -265,6 +265,70 @@ ExitProc:
     Set dbsCurrentDB = Nothing
     
 End Function
+
+' allows to write null in recordsets
+' varMode feasible values: string, link, date, currency, integer, boolean
+' transform and return Input corresponding to selected Mode
+Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt.CheckDataType"
+    End If
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' local verbatim message
+    If bolLocalVerbatim Then
+        Debug.Print "clsLeistungserfassungsblatt.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+    End If
+    
+    If IsNull(varInput) Then
+    
+        ' local verbatim
+        If bolLocalVerbatim Then
+            Debug.Print "clsLeistungserfassungsblatt.CheckDataType: varInput ist null"
+        End If
+        
+        ' return input
+        CheckDataType = varInput
+        Exit Function
+    End If
+    
+    ' declare output
+    Dim varOutput As Variant
+    
+    Select Case varMode
+        Case "string"
+            varOutput = (varInput)
+        Case "link"
+            ' check if varInput is already in link format (#...#),
+            ' if not convert to link format
+            If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
+                varOutput = CStr(varInput)
+            Else
+                varOutput = "#" + CStr(varInput) + "#"
+            End If
+        Case "date"
+            varOutput = CDate(varInput)
+        Case "currency"
+            varOutput = CCur(varInput)
+        Case "integer"
+            varOutput = CInt(varInput)
+        Case "boolean"
+            varOutput = CBool(varInput)
+    End Select
+    
+    CheckDataType = varOutput
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt.CheckDataType executed"
+    End If
+
+End Function
 Private Sub Class_Initialize()
     Debug.Print "Klasse clsLeistungserfassungsblatt instanziiert."
 End Sub
