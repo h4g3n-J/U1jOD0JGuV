@@ -565,7 +565,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     ' mvarRecordsetClipboard(inti, 0): property name
     If bolLocalVerbatim = True Then
         For inti = LBound(mvarRecordsetClipboard, 1) To UBound(mvarRecordsetClipboard, 1)
-            Debug.Print "clsAngebot.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
+            Debug.Print "clsRechnung.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
         Next
     End If
     
