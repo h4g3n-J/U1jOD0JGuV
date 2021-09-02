@@ -600,7 +600,7 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     bolLocalVerbatim = False
     
     If bolLocalVerbatim Then
-        Debug.Print "basclsRechnung.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
+        Debug.Print "clsRechnung.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
     End If
     
     Select Case strModus
