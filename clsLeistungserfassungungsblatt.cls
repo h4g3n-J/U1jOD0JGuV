@@ -12,23 +12,60 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+'Hauptdatensatz der Klasse
+Private mrstRecordset As DAO.RecordSet
+
+' dient als Zwischenspeicher fuer die ID des
+' mit dem Cursor ausgewaehlten Datensatzes im Unterformular
+' wird mit der Prozedur Laden geschrieben und von der
+' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
 
 ' verbatim setting
-Private mbolverbatim As Boolean
+Private mbolVerbatim As Boolean
 
-    Private mvarLeistungserfassungsblatt As Variant
-    Private mvarRechnungNr As Variant
-    Private mvarBemerkung As Variant
-    Private mvarBelegID As Variant
-    Private mvarBrutto As Variant
+Private Sub DefaultProperties()
 
-Private Sub default()
-    mvarLeistungserfassungsblatt = Null
-    mvarRechnungNr = Null
-    mvarBemerkung = Null
-    mvarBelegID = Null
-    mvarBrutto = Null
+    mbolVerbatim = False
+    
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt.DefaultProperties"
+    End If
+    
+    ' set array size according to the number of attributes
+    Dim intNumberOfAttributes As Integer
+    intNumberOfAttributes = 5
+    
+    Dim varDefaultProperties As Variant
+    ReDim varDefaultProperties(intNumberOfAttributes, 2)
+    varDefaultProperties(0, 0) = "Attribut Name"
+        varDefaultProperties(0, 1) = "data type"
+        varDefaultProperties(0, 2) = "default value"
+    varDefaultProperties(1, 0) = "Leistungserfassungsblatt"
+        varDefaultProperties(1, 1) = "string"
+        varDefaultProperties(1, 2) = Null
+    varDefaultProperties(2, 0) = "RechnungNr"
+        varDefaultProperties(2, 1) = "string"
+        varDefaultProperties(2, 2) = Null
+    varDefaultProperties(3, 0) = "Bemerkung"
+        varDefaultProperties(3, 1) = "string"
+        varDefaultProperties(3, 2) = Null
+    varDefaultProperties(4, 0) = "BelegID"
+        varDefaultProperties(4, 1) = "string"
+        varDefaultProperties(4, 2) = Null
+    varDefaultProperties(5, 0) = "Brutto"
+        varDefaultProperties(5, 1) = "currency"
+        varDefaultProperties(5, 2) = Null
+    ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
+        
+    DefaultProperties = varDefaultProperties
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt.DefaultProperties executed"
+    End If
+
 End Sub
 
 Private Sub Class_Initialize()
@@ -80,11 +117,11 @@ Public Property Let Brutto(ByVal varBrutto As Variant)
 End Property
 
 Public Property Get Verbatim() As Variant
-    Verbatim = basSupport.PruefeString(mbolverbatim)
+    Verbatim = basSupport.PruefeString(mbolVerbatim)
 End Property
 
 Public Property Let Verbatim(ByVal varVerbatim As Variant)
-    mbolverbatim = basSupport.PruefeString(varVerbatim)
+    mbolVerbatim = basSupport.PruefeString(varVerbatim)
 End Property
 
 Public Sub AddRecordset()
