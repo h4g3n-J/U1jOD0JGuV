@@ -332,7 +332,7 @@ End Function
 Private Sub Class_Initialize()
 
     If gconVerbatim Then
-        Debug.Print "clsAngebot initialized"
+        Debug.Print "clsLeistungserfassungsblatt initialized"
     End If
     
     ' load default value to recordset
@@ -341,55 +341,247 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub Class_Terminate()
-    Debug.Print "Klasse clsLeistungserfassungsblatt terminiert."
+    Debug.Print "clsLeistungserfassungsblatt terminated"
 End Sub
 
-Public Property Get Leistungserfassungsblatt() As Variant
-    Leistungserfassungsblatt = basSupport.PruefeString(mvarLeistungserfassungsblatt)
+Public Property Let Leistungserfassungsblatt(ByVal varPropertyInput As Variant)
+
+    strPropertyName = "Leistungserfassungsblatt"
+    Dim strPropertyName As String
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Let Leistungserfassungsblatt"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Let Leistungserfassungsblatt executed"
+    End If
+    
 End Property
 
-Public Property Let Leistungserfassungsblatt(ByVal varLeistungserfassungsblatt As Variant)
-    mvarLeistungserfassungsblatt = basSupport.PruefeString(varLeistungserfassungsblatt)
+Public Property Get Leistungserfassungsblatt() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "Leistungserfassungsblatt"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Get Leistungserfassungsblatt"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    Leistungserfassungsblatt = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Get Leistungserfassungsblatt executed"
+    End If
+    
+End Property
+
+Public Property Let RechnungNr(ByVal varPropertyInput As Variant)
+
+    strPropertyName = "RechnungNr"
+    Dim strPropertyName As String
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Let RechnungNr"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Let RechnungNr executed"
+    End If
+    
 End Property
 
 Public Property Get RechnungNr() As Variant
-    RechnungNr = basSupport.PruefeString(mvarRechnungNr)
+
+    Dim strPropertyName As String
+    strPropertyName = "RechnungNr"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Get RechnungNr"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    RechnungNr = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Get RechnungNr executed"
+    End If
+    
 End Property
 
-Public Property Let RechnungNr(ByVal varRechnungNr As Variant)
-    mvarRechnungNr = basSupport.PruefeString(varRechnungNr)
+Public Property Let Bemerkung(ByVal varPropertyInput As Variant)
+
+    strPropertyName = "Bemerkung"
+    Dim strPropertyName As String
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Let Bemerkung"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Let Bemerkung executed"
+    End If
+    
 End Property
 
 Public Property Get Bemerkung() As Variant
-    Bemerkung = basSupport.PruefeString(mvarBemerkung)
+
+    Dim strPropertyName As String
+    strPropertyName = "Bemerkung"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Get Bemerkung"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    Bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Get Bemerkung executed"
+    End If
+    
 End Property
 
-Public Property Let Bemerkung(ByVal varBemerkung As Variant)
-    mvarBemerkung = basSupport.PruefeString(varBemerkung)
+Public Property Let BelegID(ByVal varPropertyInput As Variant)
+
+    strPropertyName = "BelegID"
+    Dim strPropertyName As String
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Let BelegID"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Let BelegID executed"
+    End If
+    
 End Property
 
 Public Property Get BelegID() As Variant
-    BelegID = basSupport.PruefeString(mvarBelegID)
+
+    Dim strPropertyName As String
+    strPropertyName = "BelegID"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Get BelegID"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    BelegID = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Get BelegID executed"
+    End If
+    
 End Property
 
-Public Property Let BelegID(ByVal varBelegID As Variant)
-    mvarBelegID = basSupport.PruefeString(varBelegID)
+Public Property Let Brutto(ByVal varPropertyInput As Variant)
+
+    strPropertyName = "Brutto"
+    Dim strPropertyName As String
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Let Brutto"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Let Brutto executed"
+    End If
+    
 End Property
 
 Public Property Get Brutto() As Variant
-    Brutto = basSupport.PruefeString(mvarBrutto)
-End Property
 
-Public Property Let Brutto(ByVal varBrutto As Variant)
-    mvarBrutto = basSupport.PruefeString(varBrutto)
-End Property
+    Dim strPropertyName As String
+    strPropertyName = "Brutto"
 
-Public Property Get Verbatim() As Variant
-    Verbatim = basSupport.PruefeString(mbolVerbatim)
-End Property
-
-Public Property Let Verbatim(ByVal varVerbatim As Variant)
-    mbolVerbatim = basSupport.PruefeString(varVerbatim)
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Get Brutto"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    Brutto = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Get Brutto executed"
+    End If
+    
 End Property
 
 Public Sub AddRecordset()
