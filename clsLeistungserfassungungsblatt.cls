@@ -330,7 +330,14 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
 
 End Function
 Private Sub Class_Initialize()
-    Debug.Print "Klasse clsLeistungserfassungsblatt instanziiert."
+
+    If gconVerbatim Then
+        Debug.Print "clsAngebot initialized"
+    End If
+    
+    ' load default value to recordset
+    mvarRecordsetClipboard = DefaultProperties
+    
 End Sub
 
 Private Sub Class_Terminate()
