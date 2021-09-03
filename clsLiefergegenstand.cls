@@ -117,6 +117,67 @@ ExitProc:
     
 End Function
 
+' search varWanted in two dimensional array
+' array style A: (intIndex, intField)
+' array style B: (intField, intIndex)
+' return intIndex
+Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional ByVal intField As Integer = 0, Optional ByVal strArrayStyle As String = "A") As Variant
+    
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand.FindItemInArray"
+    End If
+   
+    Dim intIndex As Integer
+    intIndex = LBound(avarArray, 2)
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    If bolLocalVerbatim Then
+        Debug.Print "clsLiefergegenstand.FindItemInArray: varWanted = " & varWanted
+    End If
+    
+    Select Case strArrayStyle
+        ' array style A: (intIndex, intField)
+        Case "A"
+            ' scan array until match
+            Do While avarArray(intIndex, intField) <> varWanted
+                If intIndex = UBound(avarArray, 1) Then
+                    Debug.Print "clsLiefergegenstand.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' array style B: (intField, intIndex)
+        Case "B"
+            Do While avarArray(intField, intIndex) <> varWanted
+                If intIndex = UBound(avarArray, 2) Then
+                    Debug.Print "clsLiefergegenstand.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    FindItemInArray = Null
+                    Exit Function
+                Else
+                    intIndex = intIndex + 1
+                End If
+            Loop
+        ' input error handler
+        Case Else
+            Debug.Print "clsLiefergegenstand.FindItemInArray: arrayStyle ungültig, Wertevorrat beachten"
+            Exit Function
+        End Select
+    
+    ' return intIntex
+    FindItemInArray = intIndex
+
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand.FindItemInArray executed"
+    End If
+    
+End Function
+
 Public Property Get LiefergegenstandID() As Variant
     LiefergegenstandID = PruefeLong(mvarLiefergegenstandID)
 End Property
