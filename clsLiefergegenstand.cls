@@ -178,6 +178,160 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
     
 End Function
 
+' allows to write null in recordsets
+' varMode feasible values: string, link, date, currency, integer, boolean
+' transform and return Input corresponding to selected Mode
+Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand.CheckDataType"
+    End If
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' local verbatim message
+    If bolLocalVerbatim Then
+        Debug.Print "clsLiefergegenstand.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+    End If
+    
+    If IsNull(varInput) Then
+    
+        ' local verbatim
+        If bolLocalVerbatim Then
+            Debug.Print "clsLiefergegenstand.CheckDataType: varInput ist null"
+        End If
+        
+        ' return input
+        CheckDataType = varInput
+        Exit Function
+    End If
+    
+    ' declare output
+    Dim varOutput As Variant
+    
+    Select Case varMode
+        Case "string"
+            varOutput = (varInput)
+        Case "link"
+            ' check if varInput is already in link format (#...#),
+            ' if not convert to link format
+            If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
+                varOutput = CStr(varInput)
+            Else
+                varOutput = "#" + CStr(varInput) + "#"
+            End If
+        Case "date"
+            varOutput = CDate(varInput)
+        Case "currency"
+            varOutput = CCur(varInput)
+        Case "integer"
+            varOutput = CInt(varInput)
+        Case "boolean"
+            varOutput = CBool(varInput)
+    End Select
+    
+    CheckDataType = varOutput
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand.CheckDataType executed"
+    End If
+
+End Function
+
+Private Function DefaultProperties()
+
+    mbolVerbatim = False
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand.DefaultProperties"
+    End If
+    
+    ' set array size according to the number of attributes
+    Dim intNumberOfAttributes As Integer
+    intNumberOfAttributes = 20
+    
+    Dim varDefaultProperties As Variant
+    ReDim varDefaultProperties(intNumberOfAttributes, 2)
+    varDefaultProperties(0, 0) = "Attribut Name"
+        varDefaultProperties(0, 1) = "data type"
+        varDefaultProperties(0, 2) = "default value"
+    varDefaultProperties(1, 0) = "LiefergegenstandID"
+        varDefaultProperties(1, 1) = "integer"
+        varDefaultProperties(1, 2) = Null
+    varDefaultProperties(2, 0) = "aftrIdKey"
+        varDefaultProperties(2, 1) = "string"
+        varDefaultProperties(2, 2) = Null
+    varDefaultProperties(3, 0) = "bezeichnung"
+        varDefaultProperties(3, 1) = "link"
+        varDefaultProperties(3, 2) = Null
+    varDefaultProperties(4, 0) = "linkLieferschein"
+        varDefaultProperties(4, 1) = "link"
+        varDefaultProperties(4, 2) = Null
+    varDefaultProperties(5, 0) = "seriennummer"
+        varDefaultProperties(5, 1) = "string"
+        varDefaultProperties(5, 2) = Null
+    varDefaultProperties(6, 0) = "anzahl"
+        varDefaultProperties(6, 1) = "integer"
+        varDefaultProperties(6, 2) = Null
+    varDefaultProperties(7, 0) = "herstellerkennzeichen"
+        varDefaultProperties(7, 1) = "string"
+        varDefaultProperties(7, 2) = Null
+    varDefaultProperties(8, 0) = "Uanangebot"
+        varDefaultProperties(8, 1) = "link"
+        varDefaultProperties(8, 2) = Null
+    varDefaultProperties(9, 0) = "angebotNetto"
+        varDefaultProperties(9, 1) = "currency"
+        varDefaultProperties(9, 2) = Null
+    varDefaultProperties(10, 0) = "preisBrutto"
+        varDefaultProperties(10, 1) = "currency"
+        varDefaultProperties(10, 2) = Null
+    varDefaultProperties(11, 0) = "lieferdatum"
+        varDefaultProperties(11, 1) = "date"
+        varDefaultProperties(11, 2) = Null
+    varDefaultProperties(12, 0) = "lieferschein"
+        varDefaultProperties(12, 1) = "string"
+        varDefaultProperties(12, 2) = Null
+    varDefaultProperties(13, 0) = "bemerkung"
+        varDefaultProperties(13, 1) = "sring"
+        varDefaultProperties(13, 2) = Null
+    varDefaultProperties(14, 0) = "zielAftrID"
+        varDefaultProperties(14, 1) = "string"
+        varDefaultProperties(14, 2) = Null
+    varDefaultProperties(15, 0) = "zielLieferschein"
+        varDefaultProperties(15, 1) = "string"
+        varDefaultProperties(15, 2) = Null
+    varDefaultProperties(16, 0) = "zielLinkLieferschein"
+        varDefaultProperties(16, 1) = "link"
+        varDefaultProperties(16, 2) = Null
+    varDefaultProperties(17, 0) = "zielLieferdatum"
+        varDefaultProperties(17, 1) = "date"
+        varDefaultProperties(17, 2) = Null
+    varDefaultProperties(18, 0) = "LiefergegenstandLink"
+        varDefaultProperties(18, 1) = "link"
+        varDefaultProperties(18, 2) = Null
+    varDefaultProperties(19, 0) = "IstReserve"
+        varDefaultProperties(19, 1) = "boolean"
+        varDefaultProperties(19, 2) = Null
+    varDefaultProperties(20, 0) = "seriennummer2"
+        varDefaultProperties(20, 1) = "string"
+        varDefaultProperties(20, 2) = Null
+    
+    ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
+
+    DefaultProperties = varDefaultProperties
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand.DefaultProperties executed"
+    End If
+    
+End Function
+
 Public Property Get LiefergegenstandID() As Variant
     LiefergegenstandID = PruefeLong(mvarLiefergegenstandID)
 End Property
