@@ -28,32 +28,6 @@ Private mvarRecordsetClipboard As Variant
 ' verbatim setting
 Private mbolVerbatim As Boolean
 
-Public Sub default()
-    mvarLiefergegenstandID = Null
-    mvarAftrID = Null
-    mvarBezeichnung = Null
-    mvarLieferscheinLink = Null
-    mvarSeriennummer = Null
-    mvarAnzahl = Null
-    mvarHerstellerkennzeichen = Null
-    mvarUnterauftragnehmerAngebotLink = Null
-    mvarAngebotNetto = Null
-    mvarPreisBrutto = Null
-    mvarLieferdatum = Null
-    mvarLieferschein = Null
-    mvarBemerkung = Null
-    mvarZielAftrID = Null
-    mvarZielLieferschein = Null
-    mvarZielLinklieferschein = Null
-    mvarLieferdatum = Null
-    mvarLiefergegenstandLink = Null
-    mvarIstReserve = Null
-    mvarAftrTitel = Null
-    mvarBWIKey = Null
-    mvarLeistungsbeschreibungLink = Null
-    mvarParentKey = Null
-End Sub
-
 Private Sub Class_Initialize()
 
     If gconVerbatim Then
@@ -421,172 +395,964 @@ ExitProc:
         Set dbsCurrentDB = Nothing
 End Sub
 
+Public Property Let LiefergegenstandID(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "LiefergegenstandID"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let LiefergegenstandID"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let LiefergegenstandID executed"
+    End If
+    
+End Property
+
 Public Property Get LiefergegenstandID() As Variant
-    LiefergegenstandID = PruefeLong(mvarLiefergegenstandID)
+
+    Dim strPropertyName As String
+    strPropertyName = "LiefergegenstandID"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get LiefergegenstandID"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    LiefergegenstandID = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get LiefergegenstandID executed"
+    End If
+    
 End Property
 
-Public Property Let LiefergegenstandID(ByVal varLiefergegenstandID As Variant)
-    mvarLiefergegenstandID = PruefeLong(varLiefergegenstandID)
+Public Property Let aftrIdKey(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "aftrIdKey"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let aftrIdKey"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let aftrIdKey executed"
+    End If
+    
 End Property
 
-Public Property Get AftrID() As Variant
-    AftrID = PruefeString(mvarAftrID)
+Public Property Get aftrIdKey() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "aftrIdKey"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get aftrIdKey"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    aftrIdKey = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get aftrIdKey executed"
+    End If
+    
 End Property
 
-Public Property Let AftrID(ByVal varAftrID As Variant)
-    mvarAftrID = PruefeString(varAftrID)
+Public Property Let bezeichnung(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "bezeichnung"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let bezeichnung"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let bezeichnung executed"
+    End If
+    
 End Property
 
 Public Property Get bezeichnung() As Variant
-    bezeichnung = PruefeString(mvarBezeichnung)
+
+    Dim strPropertyName As String
+    strPropertyName = "bezeichnung"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get bezeichnung"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    bezeichnung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get bezeichnung executed"
+    End If
+    
 End Property
 
-Public Property Let bezeichnung(ByVal varBezeichnung As Variant)
-    mvarBezeichnung = PruefeString(varBezeichnung)
+Public Property Let linkLieferschein(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "linkLieferschein"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let linkLieferschein"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let linkLieferschein executed"
+    End If
+    
 End Property
 
-Public Property Get LieferscheinLink() As Variant
-    LieferscheinLink = PruefeString(mvarLieferscheinLink)
+Public Property Get linkLieferschein() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "linkLieferschein"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get linkLieferschein"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    linkLieferschein = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get linkLieferschein executed"
+    End If
+    
 End Property
 
-Public Property Let LieferscheinLink(ByVal varLieferscheinLink As Variant)
-    mvarLieferscheinLink = PruefeLink(varLieferscheinLink)
+Public Property Let seriennummer(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "seriennummer"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let seriennummer"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let seriennummer executed"
+    End If
+    
 End Property
 
 Public Property Get seriennummer() As Variant
-    seriennummer = PruefeString(mvarSeriennummer)
+
+    Dim strPropertyName As String
+    strPropertyName = "seriennummer"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get seriennummer"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    seriennummer = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get seriennummer executed"
+    End If
+    
 End Property
 
-Public Property Let seriennummer(ByVal varSeriennummer As Variant)
-    mvarSeriennummer = PruefeString(varSeriennummer)
+Public Property Let anzahl(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "anzahl"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let anzahl"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let anzahl executed"
+    End If
+    
 End Property
 
 Public Property Get anzahl() As Variant
-    anzahl = PruefeInteger(mvarAnzahl)
+
+    Dim strPropertyName As String
+    strPropertyName = "anzahl"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get anzahl"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    anzahl = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get anzahl executed"
+    End If
+    
 End Property
 
-Public Property Let anzahl(ByVal varAnzahl As Variant)
-    mvarAnzahl = PruefeInteger(varAnzahl)
+Public Property Let herstellerkennzeichen(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "herstellerkennzeichen"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let herstellerkennzeichen"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let herstellerkennzeichen executed"
+    End If
+    
 End Property
 
 Public Property Get herstellerkennzeichen() As Variant
-    herstellerkennzeichen = PruefeString(mvarHerstellerkennzeichen)
+
+    Dim strPropertyName As String
+    strPropertyName = "herstellerkennzeichen"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get herstellerkennzeichen"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    herstellerkennzeichen = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get herstellerkennzeichen executed"
+    End If
+    
 End Property
 
-Public Property Let herstellerkennzeichen(ByVal varHerstellerkennzeichen As Variant)
-    mvarHerstellerkennzeichen = PruefeString(varHerstellerkennzeichen)
+Public Property Let Uanangebot(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "Uanangebot"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let Uanangebot"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let Uanangebot executed"
+    End If
+    
 End Property
 
-Public Property Get UnterauftragnehmerAngebotLink() As Variant
-    UnterauftragnehmerAngebotLink = PruefeLink(mvarUnterauftragnehmerAngebotLink)
+Public Property Get Uanangebot() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "Uanangebot"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get Uanangebot"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    Uanangebot = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get Uanangebot executed"
+    End If
+    
 End Property
 
-Public Property Let UnterauftragnehmerAngebotLink(ByVal varUnterauftragnehmerAngebotLink As Variant)
-    mvarUnterauftragnehmerAngebotLink = PruefeLink(varUnterauftragnehmerAngebotLink)
+Public Property Let angebotNetto(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "angebotNetto"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let angebotNetto"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let angebotNetto executed"
+    End If
+    
 End Property
 
 Public Property Get angebotNetto() As Variant
-    angebotNetto = PruefeWaehrung(mvarAngebotNetto)
+
+    Dim strPropertyName As String
+    strPropertyName = "angebotNetto"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get angebotNetto"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    angebotNetto = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get angebotNetto executed"
+    End If
+    
 End Property
 
-Public Property Let angebotNetto(ByVal varAngebotNetto As Variant)
-    mvarAngebotNetto = PruefeWaehrung(varAngebotNetto)
+Public Property Let preisBrutto(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "preisBrutto"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let preisBrutto"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let preisBrutto executed"
+    End If
+    
 End Property
 
 Public Property Get preisBrutto() As Variant
-    preisBrutto = PruefeWaehrung(mvarPreisBrutto)
+
+    Dim strPropertyName As String
+    strPropertyName = "preisBrutto"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get preisBrutto"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    preisBrutto = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get preisBrutto executed"
+    End If
+    
 End Property
 
-Public Property Let preisBrutto(ByVal varPreisBrutto As Variant)
-    mvarPreisBrutto = PruefeWaehrung(varPreisBrutto)
+Public Property Let lieferdatum(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "lieferdatum"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let lieferdatum"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let lieferdatum executed"
+    End If
+    
 End Property
 
 Public Property Get lieferdatum() As Variant
-    lieferdatum = PruefeDatum(mvarLieferdatum)
+
+    Dim strPropertyName As String
+    strPropertyName = "lieferdatum"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get lieferdatum"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    lieferdatum = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get lieferdatum executed"
+    End If
+    
 End Property
 
-Public Property Let lieferdatum(ByVal varLieferdatum As Variant)
-    mvarLieferdatum = PruefeDatum(varLieferdatum)
+Public Property Let lieferschein(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "lieferschein"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let lieferschein"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let lieferschein executed"
+    End If
+    
 End Property
 
 Public Property Get lieferschein() As Variant
-    lieferschein = PruefeString(mvarLieferschein)
+
+    Dim strPropertyName As String
+    strPropertyName = "lieferschein"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get lieferschein"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    lieferschein = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get lieferschein executed"
+    End If
+    
 End Property
 
-Public Property Let lieferschein(ByVal varLieferschein As Variant)
-    mvarLieferschein = PruefeString(varLieferschein)
+Public Property Let bemerkung(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "bemerkung"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let bemerkung"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let bemerkung executed"
+    End If
+    
 End Property
 
-Public Property Get Bemerkung() As Variant
-    Bemerkung = PruefeString(mvarBemerkung)
+Public Property Get bemerkung() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "bemerkung"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get bemerkung"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get bemerkung executed"
+    End If
+    
 End Property
 
-Public Property Let Bemerkung(ByVal varBemerkung As Variant)
-    mvarBemerkung = PruefeString(varBemerkung)
+Public Property Let zielAftrID(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielAftrID"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let zielAftrID"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let zielAftrID executed"
+    End If
+    
 End Property
 
 Public Property Get zielAftrID() As Variant
-    zielAftrID = PruefeString(mvarZielAftrID)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielAftrID"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get zielAftrID"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    zielAftrID = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get zielAftrID executed"
+    End If
+    
 End Property
 
-Public Property Let zielAftrID(ByVal varZielAftrID As Variant)
-    mvarZielAftrID = PruefeString(varZielAftrID)
+Public Property Let zielLieferschein(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielLieferschein"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let zielLieferschein"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let zielLieferschein executed"
+    End If
+    
 End Property
 
 Public Property Get zielLieferschein() As Variant
-    zielLieferschein = PruefeString(mvarZielLieferschein)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielLieferschein"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get zielLieferschein"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    zielLieferschein = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get zielLieferschein executed"
+    End If
+    
 End Property
 
-Public Property Let zielLieferschein(ByVal varZielLieferschein As Variant)
-    mvarZielLieferschein = PruefeString(varZielLieferschein)
+Public Property Let zielLinkLieferschein(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielLinkLieferschein"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let zielLinkLieferschein"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let zielLinkLieferschein executed"
+    End If
+    
 End Property
 
 Public Property Get zielLinkLieferschein() As Variant
-    zielLinkLieferschein = PruefeLink(mvarZielLinklieferschein)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielLinkLieferschein"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get zielLinkLieferschein"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    zielLinkLieferschein = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get zielLinkLieferschein executed"
+    End If
+    
 End Property
 
-Public Property Let zielLinkLieferschein(ByVal varZielLinkLieferschein As Variant)
-    mvarZielLinklieferschein = PruefeLink(varZielLinkLieferschein)
+Public Property Let zielLieferdatum(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielLieferdatum"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let zielLieferdatum"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let zielLieferdatum executed"
+    End If
+    
 End Property
 
 Public Property Get zielLieferdatum() As Variant
-    zielLieferdatum = PruefeDatum(mvarZielLieferdatum)
+
+    Dim strPropertyName As String
+    strPropertyName = "zielLieferdatum"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get zielLieferdatum"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    zielLieferdatum = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get zielLieferdatum executed"
+    End If
+    
 End Property
 
-Public Property Let zielLieferdatum(ByVal varZielLieferdatum As Variant)
-    mvarZielLieferdatum = PruefeDatum(varZielLieferdatum)
+Public Property Let LiefergegenstandLink(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "LiefergegenstandLink"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let LiefergegenstandLink"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let LiefergegenstandLink executed"
+    End If
+    
 End Property
 
 Public Property Get LiefergegenstandLink() As Variant
-    LiefergegenstandLink = PruefeLink(mvarLiefergegenstandLink)
+
+    Dim strPropertyName As String
+    strPropertyName = "LiefergegenstandLink"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get LiefergegenstandLink"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    LiefergegenstandLink = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get LiefergegenstandLink executed"
+    End If
+    
 End Property
 
-Public Property Let LiefergegenstandLink(ByVal varLiefergegenstandLink As Variant)
-    mvarLiefergegenstandLink = PruefeLink(varLiefergegenstandLink)
+Public Property Let IstReserve(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "IstReserve"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let IstReserve"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let IstReserve executed"
+    End If
+    
 End Property
 
 Public Property Get IstReserve() As Variant
-    IstReserve = PruefeBoolean(mvarIstReserve)
+
+    Dim strPropertyName As String
+    strPropertyName = "IstReserve"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get IstReserve"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    IstReserve = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get IstReserve executed"
+    End If
+    
 End Property
 
-Public Property Let IstReserve(ByVal varIstReserve As Variant)
-    mvarIstReserve = PruefeBoolean(varIstReserve)
+Public Property Let seriennummer2(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "seriennummer2"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Let seriennummer2"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Let seriennummer2 executed"
+    End If
+    
 End Property
 
-Public Property Get AftrTitel() As Variant
-    AftrTitel = PruefeString(mvarAftrTitel)
-End Property
+Public Property Get seriennummer2() As Variant
 
-Public Property Get BWIKey() As Variant
-    BWIKey = PruefeString(mvarBWIKey)
-End Property
+    Dim strPropertyName As String
+    strPropertyName = "seriennummer2"
 
-Public Property Get LeistungsbeschreibungLink() As Variant
-    LeistungsbeschreibungLink = PruefeLink(mvarLeistungsbeschreibungLink)
-End Property
-
-Public Property Get ParentKey() As Variant
-    ParentKey = PruefeString(mvarParentKey)
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand Get seriennummer2"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    seriennummer2 = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLiefergegenstand Get seriennummer2 executed"
+    End If
+    
 End Property
 
 
