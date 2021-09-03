@@ -12,40 +12,23 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+'Hauptdatensatz der Klasse
 Private mrstRecordset As DAO.RecordSet
-Private mbolVerbatim As Boolean
 
-' dient als Zwischenspeicher für die ID des aktuell
-' mit dem Cursor ausgewählten Datensatz im Unterformular
+' dient als Zwischenspeicher fuer die ID des
+' mit dem Cursor ausgewaehlten Datensatzes im Unterformular
 ' wird mit der Prozedur Laden geschrieben und von der
 ' Prozedur Speichern abgerufen
-Private mvarLiefergegenstandClipboard As Variant
+Private mvarClipboard As Variant
 
-    Private mvarLiefergegenstandID As Variant
-    Private mvarAftrID As Variant
-    Private mvarBezeichnung As Variant
-    Private mvarLieferscheinLink As Variant
-    Private mvarSeriennummer As Variant
-    Private mvarAnzahl As Variant
-    Private mvarHerstellerkennzeichen As Variant
-    Private mvarUnterauftragnehmerAngebotLink As Variant
-    Private mvarAngebotNetto As Variant
-    Private mvarPreisBrutto As Variant
-    Private mvarLieferdatum As Variant
-    Private mvarLieferschein As Variant
-    Private mvarBemerkung As Variant
-    Private mvarZielAftrID As Variant
-    Private mvarZielLieferschein As Variant
-    Private mvarZielLinklieferschein As Variant
-    Private mvarZielLieferdatum As Variant
-    Private mvarLiefergegenstandLink As Variant
-    Private mvarIstReserve As Variant
-    Private mvarAftrTitel As Variant
-    Private mvarBWIKey As Variant
-    Private mvarLeistungsbeschreibungLink As Variant
-    Private mvarParentKey As Variant
+' conainter for selected recordset, is also relevant for properties procedures
+' lookup DefaultProperties for array composition
+Private mvarRecordsetClipboard As Variant
 
-Public Sub Default()
+' verbatim setting
+Private mbolVerbatim As Boolean
+
+Public Sub default()
     mvarLiefergegenstandID = Null
     mvarAftrID = Null
     mvarBezeichnung = Null
@@ -71,481 +54,67 @@ Public Sub Default()
     mvarParentKey = Null
 End Sub
 
-' wird im Unterformular ausgeführt, lädt den aktuell ausgewählten
-' Datensatz ins Objekt
-' ist Abhängig von der Abfrage qryLiefergegenstand und
-' der Variablen mvarLiefergegenstandClipboard
-Public Sub Laden(ByVal varID As Variant)
-    Debug.Print "clsLiefergegenstand.Laden ausführen"
-    
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-
-    ' das Objekt in den Default-Zustand versetzen, wenn im Unterformular
-    ' kein Datensatz mit dem Cursor ausgewählt wurde,
-    ' zu ExitProc springen
-    If IsEmpty(varID) Or IsNull(varID) Then
-        mvarLiefergegenstandClipboard = Null
-        Default
-        Debug.Print "clsLiefergegenstand.Laden: varID ist leer, " _
-            + "Datensatz Defaultwert zugewiesen"
-        GoTo ExitProc
-    End If
-    
-    ' der Zwischenspeichervariable 'mvarLiefergegenstandClipboard' den ausgewählten
-    ' Datensatz zuweisen - wird für die Prozedur Speichern benötigt
-    mvarLiefergegenstandClipboard = varID
-    ' Debug.Print "clsLiefergegenstand.Laden: mvarLiefergegenstandClipboard = " & mvarLiefergegenstandClipboard
-        
-        ' zu durchsuchende Zielabfrage benennen
-        Dim strAbfrageTitel As String
-        strAbfrageTitel = "qryLiefergegenstand"
-        
-        ' zu durchsuchendes Zielfeld benennen
-        Dim strSucheZiel As String
-        strSucheZiel = "LiefergegenstandID"
-        
-        ' prüfen ob zu durchsuchende Abfrage existiert,
-        ' wenn nicht: goto ExitProc
-
-        Dim RecordSet As Object
-        Dim bolQueryExistiert As Boolean
-        bolQueryExistiert = False
-    
-        For Each RecordSet In dbsCurrentDB.QueryDefs
-            If RecordSet.Name = strAbfrageTitel Then
-                bolQueryExistiert = True
-            End If
-        Next RecordSet
-        
-        If bolQueryExistiert = False Then
-            GoTo ExitProc
-        End If
-        
-        ' prüfen ob varID null ist, wenn ja gehe zu ExitProc
-        If IsNull(varID) Or IsEmpty(varID) Then
-            Debug.Print "varID ist leer, Prozedur 'AuftragLaden' abgebrochen"
-            Default
-            GoTo ExitProc
-        End If
-    
-        ' Zielfeld in Zielabfrage nach varID durchsuchen
-        Set mrstRecordset = dbsCurrentDB.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
-        mrstRecordset.FindFirst (strSucheZiel & " = " & CLng(varID))
-
-    ' Attribute von mrstRecordset in Objekt laden
-    With mrstRecordset
-        mvarLiefergegenstandID = !LiefergegenstandID
-        mvarAftrID = !aftrIdKey
-        mvarBezeichnung = !bezeichnung
-        mvarLieferscheinLink = !linkLieferschein
-        mvarSeriennummer = !seriennummer
-        mvarAnzahl = !anzahl
-        mvarHerstellerkennzeichen = !herstellerkennzeichen
-        mvarUnterauftragnehmerAngebotLink = !Uanangebot
-        mvarAngebotNetto = !angebotNetto
-        mvarPreisBrutto = !preisBrutto
-        mvarLieferdatum = !lieferdatum
-        mvarLieferschein = !lieferschein
-        mvarBemerkung = !Bemerkung
-        mvarZielAftrID = !zielAftrID
-        mvarZielLieferschein = !zielLieferschein
-        mvarZielLinklieferschein = !zielLinkLieferschein
-        mvarZielLieferdatum = !zielLieferdatum
-        mvarLiefergegenstandLink = !LiefergegenstandLink
-        mvarIstReserve = !IstReserve
-        mvarAftrTitel = !AftrTitel
-        mvarBWIKey = !BWIKey
-        mvarLeistungsbeschreibungLink = !Leistungsbeschreibung
-        mvarParentKey = !ParentKey
-    End With
-    
-    ' dbsCurrentDB schließen
-ExitProc:
-        dbsCurrentDB.Close
-        Set dbsCurrentDB = Nothing
-    End Sub
-
-' durch Schaltfläche 'Suchen' ausführen,
-' erzeugt Abfrage unter Berücksichtigung des Suchbegriffs
-Public Sub Suchen(ByVal varSuchbegriff As Variant)
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    Dim qdfAbfrage As DAO.QueryDef
-    Set qdfAbfrage = dbsCurrentDB.CreateQueryDef
-    
-    Dim strAbfrageTitel As String
-    strAbfrageTitel = "qryLiefergegenstand"
-    
-    If IsNull(varSuchbegriff) Then
-        varSuchbegriff = "*"
-    End If
-    
-    ' überprüft, ob die Abfrage qryLiefergegenstand bereits geöffnet ist,
-    ' wenn ja Abfrage schließen
-    If SysCmd(acSysCmdGetObjectState, acQuery, strAbfrageTitel) = 1 Then
-        Debug.Print "clsLiefergegenstand.Suchen: " _
-            & "qryLiefergegenstand geschlossen"
-        DoCmd.Close acQuery, strAbfrageTitel, acSaveYes
-    End If
-    
-    'prüfen ob Abfrage existiert, wenn ja Abfrage löschen
-    Dim RecordSet As Object
-    For Each RecordSet In dbsCurrentDB.QueryDefs
-        If RecordSet.Name = strAbfrageTitel Then
-            DoCmd.DeleteObject acQuery, strAbfrageTitel
-        End If
-    Next RecordSet
-    
-    ' SQL-Code erzeugen
-    ' durchsucht die Felder aftrIDKey, bezeichnung, seriennummer, herstellerkennzeichen, BWIKey und ParentKey
-    With qdfAbfrage
-        .SQL = "SELECT tblLiefergegenstand.*, tblAuftrag.AftrTitel, tblAuftrag.BWIKey, tblAuftrag.Leistungsbeschreibung, tblAuftrag.ParentKey" _
-                & " FROM tblLiefergegenstand LEFT JOIN tblAuftrag ON tblLiefergegenstand.aftrIdKey = tblAuftrag.AftrID" _
-                & " WHERE tblLiefergegenstand.aftrIdKey LIKE '*" & varSuchbegriff & "*' OR tblLiefergegenstand.bezeichnung LIKE '*" & varSuchbegriff & "*' OR tblLiefergegenstand.seriennummer LIKE '*" & varSuchbegriff & "*' OR tblLiefergegenstand.herstellerkennzeichen LIKE '*" & varSuchbegriff & "' OR tblLiefergegenstand.zielAftrID LIKE '*" & varSuchbegriff & "*' OR tblAuftrag.BWIKey LIKE '*" & varSuchbegriff & "*' OR tblAuftrag.ParentKey LIKE '*" & varSuchbegriff & "*'" _
-                & " ORDER BY tblAuftrag.BWIKey, tblLiefergegenstand.aftrIdKey, tblLiefergegenstand.LiefergegenstandID" _
-                & " ;"
-        .Name = strAbfrageTitel
-    End With
-    
-    ' Query speichern
-    With dbsCurrentDB.QueryDefs
-        .Append qdfAbfrage
-        .Refresh
-    End With
-    
-ExitProc:
-        dbsCurrentDB.Close
-        Set dbsCurrentDB = Nothing
-        qdfAbfrage.Close
-        Set qdfAbfrage = Nothing
-End Sub
-
-' mit der 'Speichern' Schaltfläche verknüpfen,
-' schreibt die Attribute des Objekts in den recordset
-' wählt den recordset in Abhängigkeit von der Variablen
-' mvarLiefergegenstandClipboard
-Public Sub Speichern()
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    Dim strAbfrageTitel As String
-    ' strAbfrageTitel = "qryLiefergegenstand"
-    strAbfrageTitel = "qryLiefergegenstand"
-    
-    'prüft ob Abfrage existiert, wenn nicht: goto ExitProc
-        Dim RecordSet As Object
-        Dim bolQueryExistiert As Boolean
-        bolQueryExistiert = False
-    
-        For Each RecordSet In dbsCurrentDB.QueryDefs
-            If RecordSet.Name = strAbfrageTitel Then
-                bolQueryExistiert = True
-            End If
-        Next RecordSet
-        
-        If bolQueryExistiert = False Then
-            Debug.Print "clsLiefergegenstand.Speichern: " _
-                & strAbfrageTitel + " existiert nicht, " _
-                 & "clsLiefergegenstand.Speichern abgebrochen"
-            GoTo ExitProc
-        End If
-        
-    ' prüft ob mvarLiefergegenstandClipboard null oder leer ist,
-    ' wenn ja wirf Fehlermeldung (MsgBox) und gehe zu ExitProc
-        Dim varClipboard As Variant
-        varClipboard = mvarLiefergegenstandClipboard
-        Debug.Print "clsLiefergegenstand.Speichern: " _
-            & "varClipboard = " & varClipboard
-        
-        If IsNull(varClipboard) Or IsEmpty(varClipboard) Then
-            Debug.Print "clsLiefergegenstand.Speichern: " _
-                + varClipboard & " ist null, Prozedur Speichern abgebrochen"
-            MsgBox "Kein Datensatz ausgewählt." _
-                & vbCrLf & "Speichern nicht erfolgreich.", _
-                vbCritical, "Speichern"
-            GoTo ExitProc
-        End If
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsLiefergegenstand.Speichern: " _
-            & "mvarLiefergegenstandClipboard = " _
-            & mvarLiefergegenstandClipboard
-    End If
-    
-    ' Abfrage qryLiefergegenstand nach mvarAuftragClipboard durchsuchen
-        Dim strSucheAttribut As String
-        strSucheAttribut = "LiefergegenstandID"
-
-        Set mrstRecordset = dbsCurrentDB.OpenRecordset(strAbfrageTitel, dbOpenDynaset)
-        mrstRecordset.FindFirst (strSucheAttribut & " = " & CLng(varClipboard))
-        
-    If mbolVerbatim = True Then
-        ' MsgBox "mvarLiefergegenstandID: " & mvarLiefergegenstandID
-        MsgBox "mvarLiefergegenstandID: " & mvarLiefergegenstandClipboard
-    End If
-    
-    ' Debug.Print "clsLiefergegenstand.Speichern: mrstRecordset!LiefergegenstandID = " _
-        & mrstRecordset!LiefergegenstandID
-        
-    ' Objektattribute in recordset schreiben
-        With mrstRecordset
-            .Edit
-                !aftrIdKey = mvarAftrID
-                !bezeichnung = mvarBezeichnung
-                !linkLieferschein = mvarLieferscheinLink
-                !seriennummer = mvarSeriennummer
-                !anzahl = mvarAnzahl
-                !herstellerkennzeichen = mvarHerstellerkennzeichen
-                !Uanangebot = mvarUnterauftragnehmerAngebotLink
-                !angebotNetto = mvarAngebotNetto
-                !preisBrutto = mvarPreisBrutto
-                !lieferdatum = mvarLieferdatum
-                !lieferschein = mvarLieferschein
-                !Bemerkung = mvarBemerkung
-                !zielAftrID = mvarZielAftrID
-                !zielLieferschein = mvarZielLieferschein
-                !zielLinkLieferschein = mvarZielLinklieferschein
-                !zielLieferdatum = mvarZielLieferdatum
-                !LiefergegenstandLink = mvarLiefergegenstandLink
-                !IstReserve = mvarIstReserve
-                .Update
-        End With
-        
-        MsgBox "Datensatz gespeichert", vbInformation, "Speichern"
-        
-ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-End Sub
-
-' Überprüft, ob die Zielabfrage existiert
-' ermittelt die höchste LiefergegenstandID und erhöht diese um 1
-' erstellt einen neuen, leeren Datensatz in der Zielabfrage
-' überträgt die LiefergegenstandID in mvarLiefergegenstandClipboard
-' ruft gobjLiefergegenstand.Speichern auf, um die Attribute in den neuen
-' Datensatz zu schreiben
-Public Sub DatensatzHinzufuegen()
-    
-    ' Felder zurücksetzen
-    ' clsLiefergegenstand.Default
-    
-    ' Database instanziieren
-        Dim dbsCurrentDB As DAO.Database
-        Set dbsCurrentDB = CurrentDb
-        
-    ' Abfragetitel festlegen
-        Dim strAbfrageTitel As String
-        strAbfrageTitel = "qryLiefergegenstand"
-    
-    ' prüft ob Abfrage existiert, wenn nicht: goto ExitProc
-        Dim RecordSet As Object
-        Dim bolQueryExistiert As Boolean
-        bolQueryExistiert = False
-    
-        For Each RecordSet In dbsCurrentDB.QueryDefs
-            If RecordSet.Name = strAbfrageTitel Then
-                bolQueryExistiert = True
-            End If
-        Next RecordSet
-        
-        If bolQueryExistiert = False Then
-            Debug.Print "clsLiefergegenstand.DatensatzHinzufuegen: " _
-                & strAbfrageTitel + " existiert nicht, " _
-                 & "clsLiefergegenstand.DatensatzHinzufuegen abgebrochen"
-            GoTo ExitProc
-        End If
-    
-    ' höchste LiefergegenstandID ermitteln und um 1 erhöhen
-        Dim lngLiefergegenstandID As Long
-        Dim strFeld As String
-        Dim strTabelle As String
-        strFeld = "LiefergegenstandID"
-        strTabelle = "tblLiefergegenstand"
-        
-        lngLiefergegenstandID = DMax(strFeld, strTabelle) + 1
-
-    If mbolVerbatim = True Then
-        MsgBox "lngLiefergegenstandID = " & lngLiefergegenstandID, _
-            vbOKOnly, "Gespeichert"
-    End If
-        
-    ' mit Hilfe von strAbfrageTitel den Liefergegenstand-Recordset
-    ' instanziieren
-        Set mrstRecordset = dbsCurrentDB.OpenRecordset(strAbfrageTitel, _
-            dbOpenDynaset)
-        
-    ' neuen Datensatz erzeugen
-        mrstRecordset.AddNew
-            mrstRecordset!LiefergegenstandID = lngLiefergegenstandID
-            mrstRecordset!aftrIdKey = mvarAftrID
-            mrstRecordset!bezeichnung = mvarBezeichnung
-            mrstRecordset!anzahl = mvarAnzahl
-            ' mrstRecordset!Bemerkung = mvarBemerkung
-            mrstRecordset!Bemerkung = "TEST"
-            mrstRecordset!IstReserve = mvarIstReserve
-        mrstRecordset.Update
-    
-    mvarLiefergegenstandClipboard = lngLiefergegenstandID
-    
-    ' Abfrage qryLiefergegenstand aktualisieren
-    ' gobjLiefergegenstand.Suchen (mvarLiefergegenstandClipboard)
-    MsgBox "Liefergegenstand erzeugt", vbInformation, "Datensatz erzeugen"
-    
-    If mbolVerbatim = True Then
-        Debug.Print "clsLiefergegenstand.DatensatzHinzufuegen: " _
-            & "Datensatz erzeugt"
-    End If
-    
-ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-End Sub
-
 Private Sub Class_Initialize()
-    Debug.Print "Klasse 'clsLiefergegenstand' instanziiert"
+
+    If gconVerbatim Then
+        Debug.Print "clsLiefergegenstand initialized"
+    End If
+    
+    ' load default value to recordset
+    mvarRecordsetClipboard = DefaultProperties
+    
 End Sub
 
 Private Sub Class_Terminate()
-    Debug.Print "Klasse 'clsLiefergegenstand' terminiert"
+    Debug.Print "clsLiefergegenstand terminated"
 End Sub
 
-' Die Pruefe-Prozeduren sollen ermöglichen, dass null Werte in den
-' Recordset geschrieben und von dort ausgelesen als solche ausgelesen
-' werden können, gleichzeitig sollen sie verhindern, dass falsche
-' Datentypen eingegeben werden können
-
-' Prüft, ob der übergebene Wert vom Typ String ist
-' und überführt ihn in diesen Typ
-' Private Function PruefeString(ByVal varInput As Variant) As String
-Private Function PruefeString(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
+' checks if a specific table or query exists
+' returns true if positive
+' strModus feasible values: "table", "query"
+Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
     
-        If mbolVerbatim = True Then
-            Debug.Print "clsLiefergegenstand.PruefeString: " _
-                & "Property ist null oder leer"
-        End If
-        
-        PruefeString = varInput
-        Exit Function
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim RecordSet As Object
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+    
+    ' verbatim message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLiefergegenstand.ObjectExists"
     End If
     
-    PruefeString = CStr(varInput)
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ String ist
-' und überführt ihn in diesen Typ
-' nach dem Speichern muss das Formular akutalisiert werden,
-' um den Link nutzen zu können
-Private Function PruefeLink(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        
-        If mbolVerbatim = True Then
-            Debug.Print "clsLiefergegenstand.PruefeLink: " _
-                & "Property ist null oder leer"
-        End If
-            
-        PruefeLink = varInput
-        Exit Function
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    If bolLocalVerbatim Then
+        Debug.Print "clsLiefergegenstand.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
     End If
     
-    ' Prüfen, ob varInput bereits im Link-Format (#...#) vorliegt,
-    ' wenn ja, dann nicht mit # einschließen -> verhindert ungültige
-    ' Pfade (##...##)
-    If Left(varInput, 1) = "#" And Right(varInput, 1) = "#" Then
-        PruefeLink = CStr(varInput)
-        Exit Function
-    End If
-        
-    PruefeLink = "#" + CStr(varInput) + "#"
+    Select Case strModus
+        Case "table"
+            For Each RecordSet In dbsCurrentDB.TableDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+        Case "query"
+            For Each RecordSet In dbsCurrentDB.QueryDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+    End Select
     
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ Date ist
-' und überführt ihn in diesen Typ
-'Private Function PruefeDatum(ByVal varInput As Variant) As Date
-Private Function PruefeDatum(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        
-        If mbolVerbatim = True Then
-            Debug.Print "clsLiefergegenstand: " _
-                & "Property ist null oder leer"
-        End If
-        
-        PruefeDatum = varInput
-        Exit Function
-    End If
+    ObjectExists = bolObjectExists
     
-    PruefeDatum = CDate(varInput)
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ Currency ist
-' und überführt ihn in diesen Typ
-Private Function PruefeWaehrung(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        
-        If mbolVerbatim = True Then
-            Debug.Print "clsLiefergegenstand.PruefeWaehrung: " _
-                & "Property ist null oder leer"
-        End If
-        
-        PruefeWaehrung = varInput
-        Exit Function
-    End If
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
     
-    PruefeWaehrung = CCur(varInput)
-End Function
-
-' Prüft, ob der übergebene Wert vom Typ Integer ist
-' und überführt ihn in diesen Typ
-Private Function PruefeInteger(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        
-        If mbolVerbatim = True Then
-            Debug.Print "clsLiefergegenstand.PruefeInteger: " _
-                & "Property ist null oder leer"
-        End If
-            
-        PruefeInteger = varInput
-        Exit Function
-    End If
-    
-    PruefeInteger = CInt(varInput)
-End Function
-
-' Prüft, ob der übergegebene Wert vom Typ Boolean ist
-' und überführt ihn in diesen Typ
-Private Function PruefeBoolean(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-    
-        If mbolVerbatim = True Then
-            Debug.Print "clsLiefergegenstand.PruefeBoolean: " _
-                & "Property ist null oder leer"
-        End If
-        
-        PruefeBoolean = varInput
-        Exit Function
-    End If
-    
-    PruefeBoolean = CBool(varInput)
-End Function
-
-' Prüft, ob der übergegebene Wert vom Typ Long ist
-' und überführt ihn in diesen Typ
-Private Function PruefeLong(ByVal varInput As Variant) As Variant
-    If IsNull(varInput) Or IsEmpty(varInput) Then
-        
-        If mbolVerbatim = True Then
-            Debug.Print "clsLiefergegenstand: " _
-                & "Property ist null oder leer"
-        End If
-        
-        PruefeLong = varInput
-        Exit Function
-    End If
-    
-    PruefeLong = CLng(varInput)
 End Function
 
 Public Property Get LiefergegenstandID() As Variant
@@ -714,14 +283,6 @@ End Property
 
 Public Property Get ParentKey() As Variant
     ParentKey = PruefeString(mvarParentKey)
-End Property
-
-Public Property Get Verbatim() As Boolean
-    Verbatim = PruefeBoolean(mbolVerbatim)
-End Property
-
-Public Property Let Verbatim(ByVal bolVerbatim As Boolean)
-    mvarVerbatim = PruefeBoolean(bolVerbatim)
 End Property
 
 
