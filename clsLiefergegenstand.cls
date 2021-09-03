@@ -332,6 +332,95 @@ Private Function DefaultProperties()
     
 End Function
 
+' if no recordset is selected, set to default
+' check if query exists
+' check if recordset exists
+' assign recordset to mvarRecordsetClipboard
+Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
+
+    ' command message
+    If mbolVerbatim Then
+        Debug.Print "execute clsLiefergegenstand.SelectRecordset"
+    End If
+
+    ' set error state
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    ' name of the table or query that contains the
+    ' sought-after recordset
+    Dim strTableName As String
+    strTableName = "tblLiefergegenstand"
+    
+    ' the type of the containing table,
+    ' feasible values are: table, query
+    Dim strObjectType As String
+    strObjectType = "table"
+    
+    ' name of the column that contains the primary key
+    Dim strKeyColumn As String
+    strKeyColumn = "LiefergegenstandID"
+    
+    ' define database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    ' define recordset
+    Dim rstRecordset As DAO.RecordSet
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' error handler if no recordset is selected
+    If IsNull(varRecordsetName) Then
+        ' verbatim message
+        If bolLocalVerbatim = True Then
+            Debug.Print "clsLiefergegenstand.SelectRecordset: varRecordsetName is empty, " _
+                & "prompt default value"
+        End If
+        ' load default Value
+        mvarRecordsetClipboard = DefaultProperties
+        GoTo ExitProc
+    End If
+    
+    ' check if target table exists, when negative _
+    ' return error + exitProc
+    If ObjectExists(strTableName, strObjectType) = False Then
+        Debug.Print "clsLiefergegenstand.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
+        GoTo ExitProc
+    End If
+    
+    ' select recordset from table or query
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    rstRecordset.FindFirst (strKeyColumn & " = '" & CStr(varRecordsetName) & "'")
+    
+    ' assign recordset to properties
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
+    Dim inti As Integer
+    For inti = LBound(mvarRecordsetClipboard, 1) + 1 To UBound(mvarRecordsetClipboard, 1)
+        mvarRecordsetClipboard(inti, 2) = rstRecordset.Fields(mvarRecordsetClipboard(inti, 0))
+    Next
+    
+    ' verbatim message: return data content from array
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
+    If bolLocalVerbatim = True Then
+        For inti = LBound(mvarRecordsetClipboard, 1) To UBound(mvarRecordsetClipboard, 1)
+            Debug.Print "clsLiefergegenstand.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
+        Next
+    End If
+    
+    ' clean up
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+
+ExitProc:
+        dbsCurrentDB.Close
+        Set dbsCurrentDB = Nothing
+End Sub
+
 Public Property Get LiefergegenstandID() As Variant
     LiefergegenstandID = PruefeLong(mvarLiefergegenstandID)
 End Property
