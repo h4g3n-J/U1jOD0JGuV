@@ -119,3 +119,121 @@ ExitProc:
     Debug.Print "basTestLeistungserfassungsblatt.EAkurzKey executed"
     
 End Sub
+
+' checks property procedures
+' Error Code: 1 - returned value does not match the input value
+' Error Code: 2 - returned data type does not match the expection
+Private Sub LeistungsbeschreibungLink()
+
+    ' command message
+    Debug.Print "execute basTestAngebot.LeistungsbeschreibungLink"
+    
+    Dim rstRecordset As clsAngebot
+    Set rstRecordset = New clsAngebot
+    
+    Dim strTestValue As String
+    strTestValue = "#Test#"
+     
+    ' check returned varType, feasible values are:
+        ' vbEmpty           0   Empty (uninitialized)
+        ' vbNull            1   Null (no valid data)
+        ' vbInteger         2   Integer
+        ' vbLong            3   Long integer
+        ' vbSingle          4   Single-precision floating-point number
+        ' vbDouble          5   Double-precision floating-point number
+        ' vbCurrency        6   Currency value
+        ' vbDate            7   Date value
+        ' vbString          8   String
+        ' vbObject          9   Object
+        ' vbError           10  Error value
+        ' vbBoolean         11  Boolean value
+        ' vbVariant         12  Variant (used only with arrays of variants)
+        ' vbDataObject      13  A data access object
+        ' vbDecimal         14  Decimal value
+        ' vbByte            17  Byte value
+        ' vbLongLong        20  LongLong integer (valid on 64-bit platforms only)
+        ' vbUserDefinedType 36  Variants that contain user-defined types
+        ' vbArray           8192    Array (always added to another constant when returned by this function)
+    Dim intVarType As Integer
+    intVarType = 8
+    
+    rstRecordset.LeistungsbeschreibungLink = strTestValue
+    
+    If Not rstRecordset.LeistungsbeschreibungLink = strTestValue Then
+        MsgBox "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink failed, Error Code: 1", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    If Not VarType(rstRecordset.LeistungsbeschreibungLink) = intVarType Then
+        MsgBox "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink failed, Error Code: 2", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    MsgBox "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink: Procedure successful", vbOKOnly, "Test Result"
+    
+ExitProc:
+    Set rstRecordset = Nothing
+    
+    ' event message
+    Debug.Print "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink executed"
+    
+End Sub
+
+' checks property procedures
+' Error Code: 1 - returned value does not match the input value
+' Error Code: 2 - returned data type does not match the expection
+Private Sub Bemerkung()
+
+    ' command message
+    Debug.Print "execute basTestAngebot.Bemerkung"
+    
+    Dim rstRecordset As clsAngebot
+    Set rstRecordset = New clsAngebot
+    
+    Dim strTestValue As String
+    strTestValue = "Test"
+     
+    ' check returned varType, feasible values are:
+        ' vbEmpty           0   Empty (uninitialized)
+        ' vbNull            1   Null (no valid data)
+        ' vbInteger         2   Integer
+        ' vbLong            3   Long integer
+        ' vbSingle          4   Single-precision floating-point number
+        ' vbDouble          5   Double-precision floating-point number
+        ' vbCurrency        6   Currency value
+        ' vbDate            7   Date value
+        ' vbString          8   String
+        ' vbObject          9   Object
+        ' vbError           10  Error value
+        ' vbBoolean         11  Boolean value
+        ' vbVariant         12  Variant (used only with arrays of variants)
+        ' vbDataObject      13  A data access object
+        ' vbDecimal         14  Decimal value
+        ' vbByte            17  Byte value
+        ' vbLongLong        20  LongLong integer (valid on 64-bit platforms only)
+        ' vbUserDefinedType 36  Variants that contain user-defined types
+        ' vbArray           8192    Array (always added to another constant when returned by this function)
+    Dim intVarType As Integer
+    intVarType = 8
+    
+    rstRecordset.Bemerkung = strTestValue
+    
+    If Not rstRecordset.Bemerkung = strTestValue Then
+        MsgBox "basTestLeistungserfassungsblatt.Bemerkung failed, Error Code: 1", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    If Not VarType(rstRecordset.Bemerkung) = intVarType Then
+        MsgBox "basTestLeistungserfassungsblatt.Bemerkung failed, Error Code: 2", vbCritical, "Test Result"
+        Exit Sub
+    End If
+    
+    MsgBox "basTestLeistungserfassungsblatt.Bemerkung: Procedure successful", vbOKOnly, "Test Result"
+    
+ExitProc:
+    Set rstRecordset = Nothing
+    
+    ' event message
+    Debug.Print "basTestLeistungserfassungsblatt.Bemerkung executed"
+    
+End Sub
