@@ -369,3 +369,247 @@ Private Sub TestDeleteQuery()
     End If
     
 End Sub
+
+Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.CalculateGrid"
+    End If
+    
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim aintGrid() As Integer
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    For intColumn = 0 To intNumberOfColumns - 1
+        For intRow = 0 To intNumberOfRows - 1
+            ' left
+            aintGrid(intColumn, intRow, 0) = intLeft + intColumn * (intColumnWidth + cintHorizontalSpacing)
+            ' top
+            aintGrid(intColumn, intRow, 1) = intTop + intRow * (intRowHeight + cintVerticalSpacing)
+            ' width
+            aintGrid(intColumn, intRow, 2) = intColumnWidth
+            ' height
+            aintGrid(intColumn, intRow, 3) = intRowHeight
+        Next
+    Next
+    
+    CalculateGrid = aintGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.CalculateGrid executed"
+    End If
+    
+End Function
+
+Private Sub TestCalculateGrid()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+    End If
+    
+    Dim intNumberOfRows As Integer
+    Dim intNumberOfColumns As Integer
+    Dim intRowHeight As Integer
+    Dim intColumnWidth As Integer
+    Dim intLeft As Integer
+    Dim intTop As Integer
+    
+    intLeft = 50
+    intTop = 50
+    intNumberOfColumns = 2
+    intNumberOfRows = 3
+    intRowHeight = 100
+    intColumnWidth = 50
+    
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLeistungserfassungsblattSuchenSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim intErrorState As Integer
+    intErrorState = 0
+    
+    Dim intBottom As Integer
+    Dim intRight As Integer
+    
+    intBottom = intTop + (intNumberOfRows - 1) * (intRowHeight + cintVerticalSpacing)
+    intRight = intLeft + (intNumberOfColumns - 1) * (intColumnWidth + cintHorizontalSpacing)
+    
+    If intRight <> aintInformationGrid(intNumberOfColumns - 1, 0, 0) Then
+        intErrorState = intErrorState + 1
+    End If
+    
+    If intBottom <> aintInformationGrid(0, intNumberOfRows - 1, 1) Then
+        intErrorState = intErrorState + 2
+    End If
+    
+    Select Case intErrorState
+        Case 0
+            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Procedure successful", vbOKOnly, "Test Result"
+        Case 1
+            MsgBox "Failure: horizontal value is wrong", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+        Case 2
+            MsgBox "Failure: vertical value is wrong", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+        Case 3
+            MsgBox "Failure: horizontal and vertical values are wrong", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+    End Select
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.TestCalculateGrid executed"
+    End If
+    
+End Sub
+
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.GetLeft"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.GetLeft: column 0 is not available"
+        MsgBox "basLeistungserfassungsblattSuchenSub.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.GetLeft executed"
+    End If
+    
+End Function
+
+Private Sub TestGetLeft()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.TestGetLeft"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLeistungserfassungsblattSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Const cintHorizontalSpacing As Integer = 60
+    Dim intLeftExpected As Integer
+    intLeftExpected = cintLeft + (cintTestColumn - 1) * (cintHorizontalSpacing + cintColumnWidth)
+    
+    ' test run
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim intLeftResult As Integer
+    intLeftResult = basLeistungserfassungsblattSuchenSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intLeftResult <> intLeftExpected Then
+        MsgBox "basLeistungserfassungsblattSuchenSub.TestGetLeft: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLeistungserfassungsblattSuchenSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.TestGetLeft executed"
+    End If
+    
+End Sub
+
+Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.GetTop"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.GetTop: column 0 is not available"
+        MsgBox "basLeistungserfassungsblattSuchenSub.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetTop = aintGrid(intColumn - 1, intRow - 1, 1)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.GetTop executed"
+    End If
+    
+End Function
+
+Private Sub TestGetTop()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.TestGetTop"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLeistungserfassungsblattSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Const cintVerticalSpacing As Integer = 60
+    Dim intTopExpected As Integer
+    intTopExpected = cintTop + (cintTestRow - 1) * (cintVerticalSpacing + cintRowHeight)
+    
+    ' test run
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim intTopResult As Integer
+    intTopResult = basLeistungserfassungsblattSuchenSub.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intTopResult <> intTopExpected Then
+        MsgBox "basLeistungserfassungsblattSuchenSub.TestGetTop: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLeistungserfassungsblattSuchenSub.TestGetTop: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.TestGetTop executed"
+    End If
+    
+End Sub

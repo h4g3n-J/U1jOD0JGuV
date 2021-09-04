@@ -549,7 +549,7 @@ Private Sub TestCalculateGrid()
     
     Select Case intErrorState
         Case 0
-            MsgBox "Procedure successful", vbOKOnly, "basRechnungSuchenSub.TestCalculateGrid"
+            MsgBox "basRechnungSuchenSub.TestCalculateGrid: Procedure successful", vbOKOnly, "Test Result"
         Case 1
             MsgBox "Failure: horizontal value is wrong", vbCritical, "basRechnungSuchenSub.TestCalculateGrid"
         Case 2
