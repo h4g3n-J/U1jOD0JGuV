@@ -21,56 +21,63 @@ Private mvarRecordsetClipboard As Variant
     
 Private Function DefaultProperties()
 
+     mbolVerbatim = False
+     
     ' command message
     If gconVerbatim = True Then
         Debug.Print "execute clsAngebot.DefaultProperties"
     End If
     
-    Dim varAngebotSettings(13, 2) As Variant
-    varAngebotSettings(0, 0) = "Attribut Name"
-        varAngebotSettings(0, 1) = "data type"
-        varAngebotSettings(0, 2) = "default value"
-    varAngebotSettings(1, 0) = "BWIKey"
-        varAngebotSettings(1, 1) = "string"
-        varAngebotSettings(1, 2) = Null
-    varAngebotSettings(2, 0) = "EAkurzKey"
-        varAngebotSettings(2, 1) = "string"
-        varAngebotSettings(2, 2) = Null
-    varAngebotSettings(3, 0) = "MengengeruestLink"
-        varAngebotSettings(3, 1) = "link"
-        varAngebotSettings(3, 2) = Null
-    varAngebotSettings(4, 0) = "LeistungsbeschreibungLink"
-        varAngebotSettings(4, 1) = "link"
-        varAngebotSettings(4, 2) = Null
-    varAngebotSettings(5, 0) = "Bemerkung"
-        varAngebotSettings(5, 1) = "string"
-        varAngebotSettings(5, 2) = Null
-    varAngebotSettings(6, 0) = "BeauftragtDatum"
-        varAngebotSettings(6, 1) = "date"
-        varAngebotSettings(6, 2) = Null
-    varAngebotSettings(7, 0) = "AbgebrochenDatum"
-        varAngebotSettings(7, 1) = "date"
-        varAngebotSettings(7, 2) = Null
-    varAngebotSettings(8, 0) = "AngebotDatum"
-        varAngebotSettings(8, 1) = "date"
-        varAngebotSettings(8, 2) = Null
-    varAngebotSettings(9, 0) = "AbgenommenDatum"
-        varAngebotSettings(9, 1) = "date"
-        varAngebotSettings(9, 2) = Null
-    varAngebotSettings(10, 0) = "AftrBeginn"
-        varAngebotSettings(10, 1) = "date"
-        varAngebotSettings(10, 2) = Null
-    varAngebotSettings(11, 0) = "AftrEnde"
-        varAngebotSettings(11, 1) = "date"
-        varAngebotSettings(11, 2) = Null
-    varAngebotSettings(12, 0) = "StorniertDatum"
-        varAngebotSettings(12, 1) = "date"
-        varAngebotSettings(12, 2) = Null
-    varAngebotSettings(13, 0) = "AngebotBrutto"
-        varAngebotSettings(13, 1) = "currency"
-        varAngebotSettings(13, 2) = Null
+    ' set array size according to the number of attributes
+    Dim intNumberOfAttributes As Integer
+    intNumberOfAttributes = 13
+    
+    Dim varDefaultProperties(13, 2) As Variant
+    varDefaultProperties(0, 0) = "Attribut Name"
+        varDefaultProperties(0, 1) = "data type"
+        varDefaultProperties(0, 2) = "default value"
+    varDefaultProperties(1, 0) = "BWIKey"
+        varDefaultProperties(1, 1) = "string"
+        varDefaultProperties(1, 2) = Null
+    varDefaultProperties(2, 0) = "EAkurzKey"
+        varDefaultProperties(2, 1) = "string"
+        varDefaultProperties(2, 2) = Null
+    varDefaultProperties(3, 0) = "MengengeruestLink"
+        varDefaultProperties(3, 1) = "link"
+        varDefaultProperties(3, 2) = Null
+    varDefaultProperties(4, 0) = "LeistungsbeschreibungLink"
+        varDefaultProperties(4, 1) = "link"
+        varDefaultProperties(4, 2) = Null
+    varDefaultProperties(5, 0) = "Bemerkung"
+        varDefaultProperties(5, 1) = "string"
+        varDefaultProperties(5, 2) = Null
+    varDefaultProperties(6, 0) = "BeauftragtDatum"
+        varDefaultProperties(6, 1) = "date"
+        varDefaultProperties(6, 2) = Null
+    varDefaultProperties(7, 0) = "AbgebrochenDatum"
+        varDefaultProperties(7, 1) = "date"
+        varDefaultProperties(7, 2) = Null
+    varDefaultProperties(8, 0) = "AngebotDatum"
+        varDefaultProperties(8, 1) = "date"
+        varDefaultProperties(8, 2) = Null
+    varDefaultProperties(9, 0) = "AbgenommenDatum"
+        varDefaultProperties(9, 1) = "date"
+        varDefaultProperties(9, 2) = Null
+    varDefaultProperties(10, 0) = "AftrBeginn"
+        varDefaultProperties(10, 1) = "date"
+        varDefaultProperties(10, 2) = Null
+    varDefaultProperties(11, 0) = "AftrEnde"
+        varDefaultProperties(11, 1) = "date"
+        varDefaultProperties(11, 2) = Null
+    varDefaultProperties(12, 0) = "StorniertDatum"
+        varDefaultProperties(12, 1) = "date"
+        varDefaultProperties(12, 2) = Null
+    varDefaultProperties(13, 0) = "AngebotBrutto"
+        varDefaultProperties(13, 1) = "currency"
+        varDefaultProperties(13, 2) = Null
+    ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
 
-    DefaultProperties = varAngebotSettings
+    DefaultProperties = varDefaultProperties
     
     ' event message
     If gconVerbatim = True Then
@@ -461,16 +468,16 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     rstRecordset.FindFirst (strKeyColumn & " = '" & CStr(varRecordsetName) & "'")
 
     ' assign recordset to properties
-    ' mvarRecordsetClipboard(inti, 2): propertie value
-    ' mvarRecordsetClipboard(inti, 0): propertie name
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
     Dim inti As Integer
     For inti = LBound(mvarRecordsetClipboard, 1) + 1 To UBound(mvarRecordsetClipboard, 1)
         mvarRecordsetClipboard(inti, 2) = rstRecordset.Fields(mvarRecordsetClipboard(inti, 0))
     Next
     
     ' verbatim message: return data content from array
-    ' mvarRecordsetClipboard(inti, 2): propertie value
-    ' mvarRecordsetClipboard(inti, 0): propertie name
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
     If bolLocalVerbatim = True Then
         For inti = LBound(mvarRecordsetClipboard, 1) To UBound(mvarRecordsetClipboard, 1)
             Debug.Print "clsAngebot.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
