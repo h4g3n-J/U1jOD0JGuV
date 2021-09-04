@@ -17,6 +17,12 @@ Option Explicit
 ' wird mit der Prozedur Laden geschrieben und von der
 ' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
+
+' container for selected recordset, is also relevant for properties procedures
+' lookup DefaultProperties for array composition
+Private mvarRecordsetClipboard As Variant
+
+' verbatim setting
 Private mvarRecordsetClipboard As Variant
     
 Private Function DefaultProperties()

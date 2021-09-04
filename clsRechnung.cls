@@ -21,7 +21,7 @@ Private mrstRecordset As DAO.RecordSet
 ' Prozedur Speichern abgerufen
 Private mvarClipboard As Variant
 
-' conainter for selected recordset, is also relevant for properties procedures
+' container for selected recordset, is also relevant for properties procedures
 ' lookup DefaultProperties for array composition
 Private mvarRecordsetClipboard As Variant
 

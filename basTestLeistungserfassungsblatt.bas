@@ -15,7 +15,7 @@ Private Sub Leistungserfassungsblatt()
     
     Dim strTestValue As String
     strTestValue = "Test"
-    
+     
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
         ' vbNull            1   Null (no valid data)
@@ -47,7 +47,7 @@ Private Sub Leistungserfassungsblatt()
     End If
     
     If Not VarType(rstRecordset.Leistungserfassungsblatt) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.Brutto failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestLeistungserfassungsblatt.Leistungserfassungsblatt failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
@@ -57,7 +57,7 @@ ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.RechnunugNr executed"
+    Debug.Print "basTestLeistungserfassungsblatt.Leistungserfassungsblatt executed"
     
 End Sub
 
@@ -106,7 +106,7 @@ Private Sub RechnungNr()
     End If
     
     If Not VarType(rstRecordset.RechnungNr) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.Brutto failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestLeistungserfassungsblatt.RechnungNr failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
@@ -116,7 +116,7 @@ ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.RechnunugNr executed"
+    Debug.Print "basTestLeistungserfassungsblatt.RechnungNr executed"
     
 End Sub
 ' checks property procedures
@@ -164,7 +164,7 @@ Private Sub Bemerkung()
     End If
     
     If Not VarType(rstRecordset.Bemerkung) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.Brutto failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestLeistungserfassungsblatt.Bemerkung failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
@@ -223,7 +223,7 @@ Private Sub BelegID()
     End If
     
     If Not VarType(rstRecordset.BelegID) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.Brutto failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestLeistungserfassungsblatt.BelegID failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
