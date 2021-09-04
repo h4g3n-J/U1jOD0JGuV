@@ -249,8 +249,8 @@ Private Sub BeauftragtDatum()
     Dim rstRecordset As clsAngebot
     Set rstRecordset = New clsAngebot
     
-    Dim strTestValue As String
-    strTestValue = "04.09.2021"
+    Dim datTestValue As Date
+    datTestValue = "04.09.2021"
      
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
@@ -275,9 +275,9 @@ Private Sub BeauftragtDatum()
     Dim intVarType As Integer
     intVarType = 7
     
-    rstRecordset.BeauftragtDatum = strTestValue
+    rstRecordset.BeauftragtDatum = datTestValue
     
-    If Not rstRecordset.BeauftragtDatum = strTestValue Then
+    If Not rstRecordset.BeauftragtDatum = datTestValue Then
         MsgBox "basTestLeistungserfassungsblatt.BeauftragtDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
@@ -308,8 +308,8 @@ Private Sub AbgebrochenDatum()
     Dim rstRecordset As clsAngebot
     Set rstRecordset = New clsAngebot
     
-    Dim strTestValue As String
-    strTestValue = "04.09.2021"
+    Dim datTestValue As Date
+    datTestValue = "04.09.2021"
      
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
@@ -334,9 +334,9 @@ Private Sub AbgebrochenDatum()
     Dim intVarType As Integer
     intVarType = 7
     
-    rstRecordset.AbgebrochenDatum = strTestValue
+    rstRecordset.AbgebrochenDatum = datTestValue
     
-    If Not rstRecordset.AbgebrochenDatum = strTestValue Then
+    If Not rstRecordset.AbgebrochenDatum = datTestValue Then
         MsgBox "basTestLeistungserfassungsblatt.AbgebrochenDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
@@ -367,8 +367,8 @@ Private Sub AngebotDatum()
     Dim rstRecordset As clsAngebot
     Set rstRecordset = New clsAngebot
     
-    Dim strTestValue As String
-    strTestValue = "04.09.2021"
+    Dim datTestValue As Date
+    datTestValue = "04.09.2021"
      
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
@@ -393,9 +393,9 @@ Private Sub AngebotDatum()
     Dim intVarType As Integer
     intVarType = 7
     
-    rstRecordset.AngebotDatum = strTestValue
+    rstRecordset.AngebotDatum = datTestValue
     
-    If Not rstRecordset.AngebotDatum = strTestValue Then
+    If Not rstRecordset.AngebotDatum = datTestValue Then
         MsgBox "basTestLeistungserfassungsblatt.AngebotDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
@@ -426,8 +426,8 @@ Private Sub AbgenommenDatum()
     Dim rstRecordset As clsAngebot
     Set rstRecordset = New clsAngebot
     
-    Dim strTestValue As String
-    strTestValue = "04.09.2021"
+    Dim datTestValue As Date
+    datTestValue = "04.09.2021"
      
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
@@ -452,9 +452,9 @@ Private Sub AbgenommenDatum()
     Dim intVarType As Integer
     intVarType = 7
     
-    rstRecordset.AbgenommenDatum = strTestValue
+    rstRecordset.AbgenommenDatum = datTestValue
     
-    If Not rstRecordset.AbgenommenDatum = strTestValue Then
+    If Not rstRecordset.AbgenommenDatum = datTestValue Then
         MsgBox "basTestLeistungserfassungsblatt.AbgenommenDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
@@ -485,8 +485,8 @@ Private Sub AftrBeginn()
     Dim rstRecordset As clsAngebot
     Set rstRecordset = New clsAngebot
     
-    Dim strTestValue As String
-    strTestValue = "04.09.2021"
+    Dim datTestValue As Date
+    datTestValue = "04.09.2021"
      
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
@@ -511,9 +511,9 @@ Private Sub AftrBeginn()
     Dim intVarType As Integer
     intVarType = 7
     
-    rstRecordset.AftrBeginn = strTestValue
+    rstRecordset.AftrBeginn = datTestValue
     
-    If Not rstRecordset.AftrBeginn = strTestValue Then
+    If Not rstRecordset.AftrBeginn = datTestValue Then
         MsgBox "basTestLeistungserfassungsblatt.AftrBeginn failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
@@ -544,8 +544,8 @@ Private Sub AftrEnde()
     Dim rstRecordset As clsAngebot
     Set rstRecordset = New clsAngebot
     
-    Dim strTestValue As String
-    strTestValue = "04.09.2021"
+    Dim datTestValue As Date
+    datTestValue = "04.09.2021"
      
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
@@ -570,9 +570,9 @@ Private Sub AftrEnde()
     Dim intVarType As Integer
     intVarType = 7
     
-    rstRecordset.AftrEnde = strTestValue
+    rstRecordset.AftrEnde = datTestValue
     
-    If Not rstRecordset.AftrEnde = strTestValue Then
+    If Not rstRecordset.AftrEnde = datTestValue Then
         MsgBox "basTestLeistungserfassungsblatt.AftrEnde failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
@@ -603,8 +603,8 @@ Private Sub StorniertDatum()
     Dim rstRecordset As clsAngebot
     Set rstRecordset = New clsAngebot
     
-    Dim strTestValue As String
-    strTestValue = "04.09.2021"
+    Dim datTestValue As Date
+    datTestValue = "04.09.2021"
      
     ' check returned varType, feasible values are:
         ' vbEmpty           0   Empty (uninitialized)
@@ -629,9 +629,9 @@ Private Sub StorniertDatum()
     Dim intVarType As Integer
     intVarType = 7
     
-    rstRecordset.StorniertDatum = strTestValue
+    rstRecordset.StorniertDatum = datTestValue
     
-    If Not rstRecordset.StorniertDatum = strTestValue Then
+    If Not rstRecordset.StorniertDatum = datTestValue Then
         MsgBox "basTestLeistungserfassungsblatt.StorniertDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
