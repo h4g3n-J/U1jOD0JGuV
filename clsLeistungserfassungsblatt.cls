@@ -448,7 +448,7 @@ Public Property Get RechnungNr() As Variant
     
 End Property
 
-Public Property Let bemerkung(ByVal varPropertyInput As Variant)
+Public Property Let Bemerkung(ByVal varPropertyInput As Variant)
 
     Dim strPropertyName As String
     strPropertyName = "Bemerkung"
@@ -472,7 +472,7 @@ Public Property Let bemerkung(ByVal varPropertyInput As Variant)
     
 End Property
 
-Public Property Get bemerkung() As Variant
+Public Property Get Bemerkung() As Variant
 
     Dim strPropertyName As String
     strPropertyName = "Bemerkung"
@@ -487,7 +487,7 @@ Public Property Get bemerkung() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    Bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If mbolVerbatim = True Then
@@ -570,8 +570,8 @@ End Property
 
 Public Property Get Brutto() As Variant
 
-    strPropertyName = "Brutto"
     Dim strPropertyName As String
+    strPropertyName = "Brutto"
     
     ' command message
     If mbolVerbatim = True Then
