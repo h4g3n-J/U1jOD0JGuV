@@ -22,6 +22,9 @@ Public Function BuildApplication()
     basAuftragSuchenSub.BuildAuftragSuchenSub
     basAuftragSuchen.BuildAuftragSuchen
     
+    basRechnungSuchenSub.BuildRechnungSuchenSub
+    basRechnungSuchen.BuildRechnungSuchen
+    
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal
     
@@ -31,112 +34,6 @@ Public Function BuildApplication()
     End If
     
 End Function
-
-' build qryAngebotAuswahl
-Public Sub BuildQryAngebotAuswahl(Optional varSearchTerm As Variant = "*")
-    
-    ' NULL handler
-    If IsNull(varSearchTerm) Then
-        varSearchTerm = "*"
-    End If
-        
-    ' transform to string
-    Dim strSearchTerm As String
-    strSearchTerm = CStr(varSearchTerm)
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basBuild.BuildQryAngebotAuswahl ausfuehren"
-    End If
-    
-    ' define query name
-    Dim strQueryName As String
-    strQueryName = "qryAngebotAuswahl"
-    
-    ' set current database
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-            
-    ' delete existing query of the same name
-    basBuild.DeleteQuery strQueryName
-    
-    ' set query
-    Dim qdfQuery As DAO.QueryDef
-    Set qdfQuery = dbsCurrentDB.CreateQueryDef
-    
-    With qdfQuery
-        ' set query Name
-        .Name = strQueryName
-        ' set query SQL
-        .SQL = SqlQryAngebotAuswahl(strSearchTerm)
-    End With
-    
-    ' save query
-    With dbsCurrentDB.QueryDefs
-        .Append qdfQuery
-        .Refresh
-    End With
-
-ExitProc:
-    qdfQuery.Close
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-    Set qdfQuery = Nothing
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basBuild.BuildQryAngebotAuswahl ausgeführt"
-    End If
-    
-End Sub
-
-' build qryAngebot
-Public Sub BuildQryAngebot()
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basBuild.BuildQryAngebot ausfuehren"
-    End If
-    
-    ' define query name
-    Dim strQueryName As String
-    strQueryName = "qryAngebot"
-    
-    ' set current database
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-            
-    ' delete existing query of the same name
-    basBuild.DeleteQuery strQueryName
-    
-    ' set query
-    Dim qdfQuery As DAO.QueryDef
-    Set qdfQuery = dbsCurrentDB.CreateQueryDef
-    
-    ' set query Name
-    qdfQuery.Name = strQueryName
-    
-    ' set query SQL
-    qdfQuery.SQL = SqlQryAngebot
-    
-    ' save query
-    With dbsCurrentDB.QueryDefs
-        .Append qdfQuery
-        .Refresh
-    End With
-
-ExitProc:
-    qdfQuery.Close
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-    Set qdfQuery = Nothing
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basBuild.BuildQryAngebotAuswahl ausgeführt"
-    End If
-    
-End Sub
 
 ' delete query
 ' 1. check if query exists
@@ -206,3 +103,51 @@ Private Function SqlQryAngebotAuswahl(strSearchTerm As String)
             " WHERE qryAngebot.BWIKey LIKE '*" & strSearchTerm & "*'" & _
             " ;"
 End Function
+
+' build qryAngebot
+Private Sub BuildQryAngebot()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildQryAngebot ausfuehren"
+    End If
+    
+    ' define query name
+    Dim strQueryName As String
+    strQueryName = "qryAngebot"
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+            
+    ' delete existing query of the same name
+    basBuild.DeleteQuery strQueryName
+    
+    ' set query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    ' set query Name
+    qdfQuery.Name = strQueryName
+    
+    ' set query SQL
+    qdfQuery.SQL = SqlQryAngebot
+    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
+ExitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basBuild.BuildQryAngebotAuswahl ausgeführt"
+    End If
+    
+End Sub
