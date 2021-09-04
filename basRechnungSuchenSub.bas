@@ -624,7 +624,7 @@ Private Sub TestGetLeft()
     intLeftResult = basRechnungSuchenSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intLeftResult <> intLeftExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetLeft: Test missed. Error Code: 1", vbCritical
+        MsgBox "basRechnungSuchenSub.TestGetLeft: Test failed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
     End If
@@ -695,7 +695,7 @@ Private Sub TestGetTop()
     intTopResult = basRechnungSuchenSub.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intTopResult <> intTopExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetTop: Test missed. Error Code: 1", vbCritical
+        MsgBox "basRechnungSuchenSub.TestGetTop: Test failed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetTop: Test passed.", vbOKOnly, "Test Result"
     End If
@@ -762,7 +762,7 @@ Private Sub TestGetHeight()
     intHeightResult = basRechnungSuchenSub.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intHeightResult <> intHeightExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetHeight: Test missed. Error Code: 1", vbCritical
+        MsgBox "basRechnungSuchenSub.TestGetHeight: Test failed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
     End If
@@ -829,7 +829,7 @@ Private Sub TestGetWidth()
     intWidthResult = basRechnungSuchenSub.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intWidthResult <> intWidthExpected Then
-        MsgBox "basRechnungSuchenSub.TestGetWidth: Test missed. Error Code: 1", vbCritical
+        MsgBox "basRechnungSuchenSub.TestGetWidth: Test failed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchenSub.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
     End If
