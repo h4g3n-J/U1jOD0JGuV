@@ -935,7 +935,6 @@ Public Sub SearchRechnung(ByVal strQueryName As String, ByVal strQuerySource As 
     Set dbsCurrentDB = CurrentDb
             
     ' delete existing query of the same name
-    ' basRechnungSuchenSub.ClearQuery strQueryName
     basRechnungSuchenSub.DeleteQuery strQueryName
     
     ' set query
@@ -1063,7 +1062,7 @@ Private Sub TestDeleteQuery()
     End If
     
     Dim strQueryName As String
-    strQueryName = "qryRechnungAuswahl"
+    strQueryName = "qryRechnungSuchen"
     
     ' delete query
     basRechnungSuchenSub.DeleteQuery strQueryName

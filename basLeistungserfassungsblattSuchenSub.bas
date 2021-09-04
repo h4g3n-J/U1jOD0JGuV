@@ -2,7 +2,7 @@ Attribute VB_Name = "basLeistungserfassungsblattSuchenSub"
 Option Compare Database
 Option Explicit
 
-Public Sub BuildRechnungSuchenSub()
+Public Sub BuildLeistungserfassungsblattSuchenSub()
 
     ' command message
     If gconVerbatim Then
@@ -194,4 +194,178 @@ Private Sub TestClearForm()
     
 End Sub
 
+Public Sub SearchLeistungserfassungsblatt(ByVal strQueryName As String, ByVal strQuerySource As String, ByVal strPrimaryKey As String, Optional varSearchTerm As Variant = Null)
 
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.SearchLeistungserfassungsblatt"
+    End If
+    
+    ' NULL handler
+    If IsNull(varSearchTerm) Then
+        varSearchTerm = "*"
+    End If
+        
+    ' transform to string
+    Dim strSearchTerm As String
+    strSearchTerm = CStr(varSearchTerm)
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+            
+    ' delete existing query of the same name
+    basLeistungserfassungsblattSuchenSub.DeleteQuery strQueryName
+    
+    ' set query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    With qdfQuery
+        ' set query Name
+        .Name = strQueryName
+        ' set query SQL
+        .SQL = " SELECT " & strQuerySource & ".*" & _
+                    " FROM " & strQuerySource & _
+                    " WHERE " & strQuerySource & "." & strPrimaryKey & " LIKE '*" & strSearchTerm & "*'" & _
+                    " ;"
+    End With
+    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
+ExitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.SearchLeistungserfassungsblatt executed"
+    End If
+
+End Sub
+
+Private Sub TestSearchLeistungserfassungsblatt()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.TestSearchLeistungserfassungsblatt"
+    End If
+        
+    ' build query qryRechnungSuchen
+    Dim strQueryName As String
+    strQueryName = "qryLeistungserfassungsblattSuchen"
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblLeistungserfassungsblatt"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "Leistungserfassungsblatt"
+    
+    basLeistungserfassungsblattSuchenSub.SearchLeistungserfassungsblatt strQueryName, strQuerySource, strPrimaryKey
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+        
+    Dim objForm As Object
+    For Each objForm In Application.CurrentData.AllQueries
+        If objForm.Name = strQueryName Then
+            bolObjectExists = True
+        End If
+    Next
+    
+    If bolObjectExists Then
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " detected", vbOKOnly, "basLeistungserfassungsblattSuchenSub.TestSearchLeistungserfassungsblatt"
+    Else
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not detected", vbCritical, "basLeistungserfassungsblattSuchenSub.TestSearchLeistungserfassungsblatt"
+    End If
+        
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.TestSearchLeistungserfassungsblatt executed"
+    End If
+    
+End Sub
+
+' delete query
+' 1. check if query exists
+' 2. close if query is loaded
+' 3. delete query
+Private Sub DeleteQuery(strQueryName As String)
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.DeleteQuery"
+    End If
+    
+    ' set dummy object
+    Dim objDummy As Object
+    ' search object list >>AllQueries<< for strQueryName
+    For Each objDummy In Application.CurrentData.AllQueries
+        If objDummy.Name = strQueryName Then
+            
+            ' check if query isloaded
+            If objDummy.IsLoaded Then
+                ' close query
+                DoCmd.Close acQuery, strQueryName, acSaveYes
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basLeistungserfassungsblattSuchenSub.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
+                End If
+            End If
+    
+            ' delete query
+            DoCmd.DeleteObject acQuery, strQueryName
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.DeleteQuery executed"
+    End If
+    
+End Sub
+
+Private Sub TestDeleteQuery()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchenSub.TestDeleteQuery"
+    End If
+    
+    Dim strQueryName As String
+    strQueryName = "qryLeistungserfassungsblattSuchen"
+    
+    ' delete query
+    basLeistungserfassungsblattSuchenSub.DeleteQuery strQueryName
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+        
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strQueryName Then
+            bolObjectExists = True
+        End If
+    Next
+    
+    If bolObjectExists Then
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not deleted.", vbCritical, "basLeistungserfassungsblattSuchenSub.TestClearForm"
+    Else
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " was not detected", vbOKOnly, "basLeistungserfassungsblattSuchenSub.TestClearForm"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchenSub.TestDeleteQuery executed"
+    End If
+    
+End Sub
