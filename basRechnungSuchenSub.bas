@@ -29,7 +29,14 @@ Public Sub BuildRechnungSuchenSub()
     ' build query qryRechnungSuchen
     Dim strQueryName As String
     strQueryName = "qryRechnungSuchen"
-    basRechnungSuchenSub.BuildQuery strQueryName
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblRechnung"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "RechnungNr"
+    
+    basRechnungSuchenSub.SearchRechnung strQueryName, strQuerySource, strPrimaryKey
     
     ' set recordset source
     objForm.RecordSource = strQueryName
@@ -452,151 +459,6 @@ Private Sub TestClearForm()
     ' event message
     If gconVerbatim Then
         Debug.Print "basRechnungSuchenSub.TestClearForm executed"
-    End If
-    
-End Sub
-
-Private Sub BuildQuery(ByVal strQueryName As String)
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basRechnungSuchenSub.BuildQuery"
-    End If
-    
-    ' set current database
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    ' delete query
-    basRechnungSuchenSub.ClearQuery strQueryName
-    
-    ' declare query
-    Dim qdfQuery As DAO.QueryDef
-    Set qdfQuery = dbsCurrentDB.CreateQueryDef
-    
-    ' set query Name
-    qdfQuery.Name = strQueryName
-    
-    ' set query SQL
-    qdfQuery.SQL = " SELECT tblRechnung.*" & _
-                        " FROM tblRechnung" & _
-                        " ;"
-                        
-    ' save query
-    With dbsCurrentDB.QueryDefs
-        .Append qdfQuery
-        .Refresh
-    End With
-    
-ExitProc:
-    qdfQuery.Close
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-    Set qdfQuery = Nothing
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basRechnungSuchenSub.BuildQuery executed"
-    End If
-    
-End Sub
-
-Private Sub TestBuildQuery()
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basRechnungSuchenSub.TestBuildQuery"
-    End If
-    
-    Dim strQueryName As String
-    strQueryName = "qryRechnungAuswahl"
-    
-    basRechnungSuchenSub.BuildQuery strQueryName
-    
-    Dim bolObjectExists As Boolean
-    bolObjectExists = False
-        
-    Dim objForm As Object
-    For Each objForm In Application.CurrentData.AllQueries
-        If objForm.Name = strQueryName Then
-            bolObjectExists = True
-        End If
-    Next
-    
-    If bolObjectExists Then
-        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " detected", vbOKOnly, "basRechnungSuchenSub.TestBuildQuery"
-    Else
-        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not detected", vbCritical, "basRechnungSuchenSub.TestBuildQuery"
-    End If
-        
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basRechnungSuchenSub.TestBuildQuery executed"
-    End If
-    
-End Sub
-
-Private Sub ClearQuery(ByVal strQueryName As String)
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basRechnungSuchenSub.clearQuery"
-    End If
-    
-    Dim objQuery As Object
-    For Each objQuery In Application.CurrentData.AllQueries
-        If objQuery.Name = strQueryName Then
-            
-            ' check if query is loaded
-            If objQuery.IsLoaded Then
-                DoCmd.Close acQuery, strQueryName, acSaveYes
-            End If
-                
-            'delete query
-            DoCmd.DeleteObject acQuery, strQueryName
-            Exit For
-        
-        End If
-    Next
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basRechnungSuchenSub.clearQuery executed"
-    End If
-    
-End Sub
-
-Private Sub TestClearQuery()
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basRechnungSuchenSub.TestClearQuery"
-    End If
-    
-    Dim strQueryName As String
-    strQueryName = "qryRechnungAuswahl"
-    
-    basRechnungSuchenSub.ClearQuery strQueryName
-    
-    Dim bolObjectExists As Boolean
-    bolObjectExists = False
-        
-    Dim objForm As Object
-    For Each objForm In Application.CurrentProject.AllForms
-        If objForm.Name = strQueryName Then
-            bolObjectExists = True
-        End If
-    Next
-    
-    If bolObjectExists Then
-        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not deleted.", vbCritical, "basRechnungSuchenSub.TestClearForm"
-    Else
-        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " was not detected", vbOKOnly, "basRechnungSuchenSub.TestClearForm"
-    End If
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basRechnungSuchenSub.TestClearQuery executed"
     End If
     
 End Sub
@@ -1052,7 +914,7 @@ Public Function selectRechnung()
     
 End Function
 
-Public Sub SearchRechnung(Optional varSearchTerm As Variant)
+Public Sub SearchRechnung(ByVal strQueryName As String, ByVal strQuerySource As String, ByVal strPrimaryKey As String, Optional varSearchTerm As Variant = Null)
 
     ' command message
     If gconVerbatim Then
@@ -1068,15 +930,12 @@ Public Sub SearchRechnung(Optional varSearchTerm As Variant)
     Dim strSearchTerm As String
     strSearchTerm = CStr(varSearchTerm)
     
-    ' define query name
-    Dim strQueryName As String
-    strQueryName = "qryRechnungAuswahl"
-    
     ' set current database
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
             
     ' delete existing query of the same name
+    ' basRechnungSuchenSub.ClearQuery strQueryName
     basRechnungSuchenSub.DeleteQuery strQueryName
     
     ' set query
@@ -1087,9 +946,9 @@ Public Sub SearchRechnung(Optional varSearchTerm As Variant)
         ' set query Name
         .Name = strQueryName
         ' set query SQL
-        .SQL = " SELECT qryAngebot.*" & _
-                    " FROM qryAngebot" & _
-                    " WHERE qryAngebot.BWIKey LIKE '*" & strSearchTerm & "*'" & _
+        .SQL = " SELECT " & strQuerySource & ".*" & _
+                    " FROM " & strQuerySource & _
+                    " WHERE " & strQuerySource & "." & strPrimaryKey & " LIKE '*" & strSearchTerm & "*'" & _
                     " ;"
     End With
     
@@ -1110,6 +969,48 @@ ExitProc:
         Debug.Print "basRechnungSuchenSub.SearchRechnung executed"
     End If
 
+End Sub
+
+Private Sub TestSearchRechnung()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.TestSearchRechnung"
+    End If
+        
+    ' build query qryRechnungSuchen
+    Dim strQueryName As String
+    strQueryName = "qryRechnungSuchen"
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblRechnung"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "RechnungNr"
+    
+    basRechnungSuchenSub.SearchRechnung strQueryName, strQuerySource, strPrimaryKey
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+        
+    Dim objForm As Object
+    For Each objForm In Application.CurrentData.AllQueries
+        If objForm.Name = strQueryName Then
+            bolObjectExists = True
+        End If
+    Next
+    
+    If bolObjectExists Then
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " detected", vbOKOnly, "basRechnungSuchenSub.TestSearchRechnung"
+    Else
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not detected", vbCritical, "basRechnungSuchenSub.TestSearchRechnung"
+    End If
+        
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.TestSearchRechnung executed"
+    End If
+    
 End Sub
 
 ' delete query
@@ -1153,3 +1054,40 @@ Private Sub DeleteQuery(strQueryName As String)
     End If
     
 End Sub
+
+Private Sub TestDeleteQuery()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchenSub.TestDeleteQuery"
+    End If
+    
+    Dim strQueryName As String
+    strQueryName = "qryRechnungAuswahl"
+    
+    ' delete query
+    basRechnungSuchenSub.DeleteQuery strQueryName
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+        
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strQueryName Then
+            bolObjectExists = True
+        End If
+    Next
+    
+    If bolObjectExists Then
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not deleted.", vbCritical, "basRechnungSuchenSub.TestClearForm"
+    Else
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " was not detected", vbOKOnly, "basRechnungSuchenSub.TestClearForm"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchenSub.TestDeleteQuery executed"
+    End If
+    
+End Sub
+

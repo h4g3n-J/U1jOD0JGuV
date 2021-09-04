@@ -354,7 +354,7 @@ Public Sub BuildRechnungSuchen()
             btnButton.Width = 2730
             btnButton.Height = 330
             btnButton.Caption = "Suchen"
-            btnButton.OnClick = "=OpenSearchRechnung()"
+            btnButton.OnClick = "=SearchAndReloadRechnungSuchen()"
             btnButton.Visible = True
             
         ' create exit button
@@ -865,11 +865,11 @@ Public Function CloseFrmRechnungSuchen()
     
 End Function
 
-Public Function OpenSearchRechnung()
+Public Function SearchAndReloadRechnungSuchen()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basRechnungSuchen.OpenSerchRechnung"
+        Debug.Print "execute basRechnungSuchen.SearchAndReloadRechnungSuchen"
     End If
     
     Dim strFormName As String
@@ -878,18 +878,31 @@ Public Function OpenSearchRechnung()
     Dim strSearchTextboxName As String
     strSearchTextboxName = "txtSearchBox"
     
-    ' search Angebot
-    basRechnungSuchenSub.SearchRechnung Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
+    ' search Rechnung
+    Dim strQueryName As String
+    strQueryName = "qryRechnungSuchen"
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblRechnung"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "RechnungNr"
+    
+    Dim varSearchTerm As Variant
+    varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
+    
+    basRechnungSuchenSub.SearchRechnung strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
+    
     
     ' close form
-    DoCmd.Close acForm, "frmAngebotSuchen", acSaveYes
+    DoCmd.Close acForm, strFormName, acSaveYes
     
     ' open form
-    DoCmd.OpenForm "frmAngebotSuchen", acNormal
+    DoCmd.OpenForm strFormName, acNormal
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basRechnungSuchen.OpenSerchRechnung executed"
+        Debug.Print "basRechnungSuchen.SearchAndReloadRechnungSuchen executed"
     End If
     
 End Function
