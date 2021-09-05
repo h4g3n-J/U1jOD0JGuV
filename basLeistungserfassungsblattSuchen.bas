@@ -58,7 +58,7 @@ Public Sub BuildLeistungserfassungsblattSuchen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 8
+        intNumberOfRows = 5
         intLeft = 10000
         intTop = 2430
         intWidth = 3120
@@ -90,7 +90,7 @@ Public Sub BuildLeistungserfassungsblattSuchen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
         With lblLabel
             .Name = "lbl00"
-            .Caption = "RechnungNr"
+            .Caption = "Leistungserfassungsblatt"
             .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -118,7 +118,7 @@ Public Sub BuildLeistungserfassungsblattSuchen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
         With lblLabel
             .Name = "lbl01"
-            .Caption = "Bemerkung"
+            .Caption = "RechnungNr"
             .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -146,7 +146,7 @@ Public Sub BuildLeistungserfassungsblattSuchen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
         With lblLabel
             .Name = "lbl02"
-            .Caption = "Rechnung (Link)"
+            .Caption = "Bemerkung"
             .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -174,7 +174,7 @@ Public Sub BuildLeistungserfassungsblattSuchen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
         With lblLabel
             .Name = "lbl03"
-            .Caption = "Technisch Richtig Datum"
+            .Caption = "BelegID"
             .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -202,98 +202,13 @@ Public Sub BuildLeistungserfassungsblattSuchen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
         With lblLabel
             .Name = "lbl04"
-            .Caption = "Ist Teilrechnung"
+            .Caption = "Brutto"
             .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
-        
-    'txt05
-    intColumn = 2
-    intRow = 6
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt05"
-            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-        
-    'lbl05
-    intColumn = 1
-    intRow = 6
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
-        With lblLabel
-            .Name = "lbl05"
-            .Caption = "Ist Schlussrechnung"
-            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt06
-    intColumn = 2
-    intRow = 7
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt06"
-            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = True
-        End With
-        
-    'lbl06
-    intColumn = 1
-    intRow = 7
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
-        With lblLabel
-            .Name = "lbl06"
-            .Caption = "Kalkulation LNW (Link)"
-            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt07
-    intColumn = 2
-    intRow = 8
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt07"
-            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-        
-    'lbl07
-    intColumn = 1
-    intRow = 8
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
-        With lblLabel
-            .Name = "lbl07"
-            .Caption = "Rechnung Brutto"
-            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
     ' column added? -> update intNumberOfColumns
     
     ' create lifecycle grid
@@ -311,7 +226,7 @@ Public Sub BuildLeistungserfassungsblattSuchen()
         
         aintLifecycleGrid = basLeistungserfassungsblattSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-        ' create "Rechnung erstellen" button
+        ' create "Leistungserfassungsblatt erstellen" button
         intColumn = 1
         intRow = 1
         
