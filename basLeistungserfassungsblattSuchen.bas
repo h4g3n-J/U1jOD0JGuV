@@ -708,3 +708,137 @@ Private Sub TestGetTop()
     End If
     
 End Sub
+
+Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.TestGetHeight"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestGetHeight: column 0 is not available"
+        MsgBox "basLeistungserfassungsblattSuchen.TestGetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetHeight = aintGrid(intColumn - 1, intRow - 1, 3)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestGetHeight executed"
+    End If
+    
+End Function
+
+Private Sub TestGetHeight()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.TestGetHeight"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLeistungserfassungsblattSuchen.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Dim intHeightExpected As Integer
+    intHeightExpected = cintRowHeight
+    
+    ' test run
+    Dim intHeightResult As Integer
+    intHeightResult = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intHeightResult <> intHeightExpected Then
+        MsgBox "basLeistungserfassungsblattSuchen.TestGetHeight: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLeistungserfassungsblattSuchen.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestGetHeight executed"
+    End If
+    
+End Sub
+
+Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.TestGetWidth"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestGetWidth: column 0 is not available"
+        MsgBox "basLeistungserfassungsblattSuchen.TestGetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetWidth = aintGrid(intColumn - 1, intRow - 1, 2)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestGetWidth executed"
+    End If
+    
+End Function
+
+Private Sub TestGetWidth()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.TestGetWidth"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLeistungserfassungsblattSuchen.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Dim intWidthExpected As Integer
+    intWidthExpected = cintColumnWidth
+    
+    ' test run
+    Dim intWidthResult As Integer
+    intWidthResult = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intWidthResult <> intWidthExpected Then
+        MsgBox "basLeistungserfassungsblattSuchen.TestGetWidth: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLeistungserfassungsblattSuchen.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestGetWidth executed"
+    End If
+    
+End Sub
