@@ -11,7 +11,7 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
     
     ' set form name
     Dim strFormName As String
-    strFormName = "frmLeistungserfasssungsblattSuchenSub"
+    strFormName = "frmLeistungserfassungsblattSuchenSub"
     
     ' clear form
     basLeistungserfassungsblattSuchenSub.ClearForm strFormName
@@ -215,7 +215,7 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
     ' column added? -> update intNumberOfColumns
     
     ' set oncurrent methode
-    ' objForm.OnCurrent = "=selectLeistungserfassungsblatt()"
+    objForm.OnCurrent = "=selectLeistungserfassungsblatt()"
         
     ' set form properties
     objForm.AllowDatasheetView = True

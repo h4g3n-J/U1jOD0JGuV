@@ -52,11 +52,11 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 4
+        intNumberOfRows = 5
         intLeft = 100
         intTop = 100
-        intWidth = 1700
-        intHeight = 330
+        intWidth = 2600
+        intHeight = 660
     
     ReDim aintControlGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
     
@@ -73,7 +73,7 @@ Public Sub BuildHauptmenue()
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
                 .Caption = "Auftrag Suchen"
-                .OnClick = "=OpenFrmAuftragSuchen()"
+                .OnClick = "=OpenFormAuftragSuchen()"
                 .Visible = True
             End With
             
@@ -87,7 +87,7 @@ Public Sub BuildHauptmenue()
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
                 .Caption = "Angebot Suchen"
-                .OnClick = "=OpenFrmAngebotSuchen()"
+                .OnClick = "=OpenFormAngebotSuchen()"
                 .Visible = True
             End With
             
@@ -101,7 +101,7 @@ Public Sub BuildHauptmenue()
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
                 .Caption = "Rechnung Suchen"
-                .OnClick = "=OpenFrmRechnungSuchen()"
+                .OnClick = "=OpenFormRechnungSuchen()"
                 .Visible = True
             End With
             
@@ -110,6 +110,20 @@ Public Sub BuildHauptmenue()
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd03"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Leistungserfassungsblatt Suchen"
+                .OnClick = "=OpenFormLeistungserfassungsblattSuchen()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 5
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd04"
                 .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
@@ -137,7 +151,7 @@ Public Sub BuildHauptmenue()
     
 End Sub
 
-Public Function OpenFrmAuftragSuchen()
+Public Function OpenFormAuftragSuchen()
     
     ' command message
     If gconVerbatim Then
@@ -153,7 +167,7 @@ Public Function OpenFrmAuftragSuchen()
     
 End Function
 
-Public Function OpenFrmAngebotSuchen()
+Public Function OpenFormAngebotSuchen()
     
     ' command message
     If gconVerbatim Then
@@ -176,7 +190,7 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
     End If
     
     Const cintHorizontalSpacing As Integer = 60
-    Const cintVerticalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 80
     
     Dim aintGrid() As Integer
     ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
@@ -306,7 +320,7 @@ Private Sub ClearForm(ByVal strFormName As String)
     
 End Sub
 
-Public Function OpenFrmRechnungSuchen()
+Public Function OpenFormRechnungSuchen()
     
     ' command message
     If gconVerbatim Then
@@ -318,6 +332,21 @@ Public Function OpenFrmRechnungSuchen()
     ' command message
     If gconVerbatim Then
         Debug.Print "basHauptmenue.OpenFormRechnungSuchen executed"
+    End If
+End Function
+
+Public Function OpenFormLeistungserfassungsblattSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormLeistungserfassungsblattSuchen"
+    End If
+
+    DoCmd.OpenForm "frmLeistungserfassungsblattSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormLeistungserfassungsblattSuchen executed"
     End If
 End Function
 
