@@ -235,3 +235,71 @@ Public Sub BuildLiefergegenstandSuchenSub()
     End If
     
 End Sub
+
+Private Sub ClearForm(ByVal strFormName As String)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchenSub.ClearForm"
+    End If
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        
+        If objForm.Name = strFormName Then
+        
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+            End If
+            
+            ' delete Form
+            DoCmd.DeleteObject acForm, strFormName
+            Exit For
+            
+        End If
+        
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchenSub.ClearForm executed"
+    End If
+    
+End Sub
+
+Private Sub TestClearForm()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchenSub.ClearForm"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandSuchenSub"
+    
+    basLiefergegenstandSuchenSub.ClearForm strFormName
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+        
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            bolObjectExists = True
+        End If
+    Next
+    
+    If bolObjectExists Then
+        MsgBox "Failure: " & vbCr & vbCr & strFormName & " was not deleted.", vbCritical, "basLiefergegenstandSuchenSub.TestClearForm"
+    Else
+        MsgBox "Procedure successful: " & vbCr & vbCr & strFormName & " was not detected", vbOKOnly, "basLiefergegenstandSuchenSub.TestClearForm"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchenSub.TestClearForm executed"
+    End If
+    
+End Sub
