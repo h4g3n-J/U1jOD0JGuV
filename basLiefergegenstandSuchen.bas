@@ -1112,3 +1112,70 @@ Private Sub TestGetHeight()
     End If
     
 End Sub
+
+Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.TestGetWidth"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLiefergegenstandSuchen.TestGetWidth: column 0 is not available"
+        MsgBox "basLiefergegenstandSuchen.TestGetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetWidth = aintGrid(intColumn - 1, intRow - 1, 2)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.TestGetWidth executed"
+    End If
+    
+End Function
+
+Private Sub TestGetWidth()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.TestGetWidth"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLiefergegenstandSuchen.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Dim intWidthExpected As Integer
+    intWidthExpected = cintColumnWidth
+    
+    ' test run
+    Dim intWidthResult As Integer
+    intWidthResult = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intWidthResult <> intWidthExpected Then
+        MsgBox "basLiefergegenstandSuchen.TestGetWidth: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLiefergegenstandSuchen.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.TestGetWidth executed"
+    End If
+    
+End Sub
