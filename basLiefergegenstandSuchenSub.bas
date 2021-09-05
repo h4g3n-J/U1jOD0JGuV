@@ -584,3 +584,74 @@ Private Sub TestCalculateGrid()
     End If
     
 End Sub
+
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchenSub.GetLeft"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLiefergegenstandSuchenSub.GetLeft: column 0 is not available"
+        MsgBox "basLiefergegenstandSuchenSub.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchenSub.GetLeft executed"
+    End If
+    
+End Function
+
+Private Sub TestGetLeft()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchenSub.TestGetLeft"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLiefergegenstandSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Const cintHorizontalSpacing As Integer = 60
+    Dim intLeftExpected As Integer
+    intLeftExpected = cintLeft + (cintTestColumn - 1) * (cintHorizontalSpacing + cintColumnWidth)
+    
+    ' test run
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim intLeftResult As Integer
+    intLeftResult = basLiefergegenstandSuchenSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intLeftResult <> intLeftExpected Then
+        MsgBox "basLiefergegenstandSuchenSub.TestGetLeft: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLiefergegenstandSuchenSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchenSub.TestGetLeft executed"
+    End If
+    
+End Sub
