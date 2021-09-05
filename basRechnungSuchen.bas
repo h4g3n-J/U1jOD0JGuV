@@ -365,7 +365,7 @@ Public Sub BuildRechnungSuchen()
             btnButton.Width = 3120
             btnButton.Height = 330
             btnButton.Caption = "Schlieﬂen"
-            btnButton.OnClick = "=CloseFrmRechnungSuchen()"
+            btnButton.OnClick = "=CloseFormRechnungSuchen()"
 
         ' create subform
         Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -387,7 +387,7 @@ Public Sub BuildRechnungSuchen()
         
     ' event message
     If gconVerbatim Then
-        Debug.Print "basRechnungSuchen.BuildAuftragSuchen: " & strFormName & " erstellt"
+        Debug.Print "basRechnungSuchen.BuildRechnungSuchen executed"
     End If
 
 End Sub
@@ -846,7 +846,7 @@ Private Sub TestClearForm()
     
 End Sub
 
-Public Function CloseFrmRechnungSuchen()
+Public Function CloseFormRechnungSuchen()
     
     ' command message
     If gconVerbatim Then
