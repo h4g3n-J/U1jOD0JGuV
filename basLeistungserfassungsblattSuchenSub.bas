@@ -519,6 +519,9 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
 End Function
 
 Private Sub TestCalculateGrid()
+' Error Code 1: returned horizontal value does not match the expected value
+' Error Code 2: returned vertical value does not match the expected value
+' Error Code 3: returned horizontal and vertical values do not match the expected values
     
     ' command message
     If gconVerbatim Then
@@ -566,13 +569,13 @@ Private Sub TestCalculateGrid()
     
     Select Case intErrorState
         Case 0
-            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Procedure successful", vbOKOnly, "Test Result"
+            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Test passed", vbOKOnly, "Test Result"
         Case 1
-            MsgBox "Failure: horizontal value is wrong", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Test failed, Error Code 1", vbCritical, "Test Result"
         Case 2
-            MsgBox "Failure: vertical value is wrong", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
         Case 3
-            MsgBox "Failure: horizontal and vertical values are wrong", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Test feiled: Error Code 3", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
     End Select
     
     ' event message
