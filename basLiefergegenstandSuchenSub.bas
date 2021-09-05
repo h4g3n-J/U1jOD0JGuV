@@ -726,3 +726,70 @@ Private Sub TestGetTop()
     End If
     
 End Sub
+
+Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchenSub.TestGetHeight"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLiefergegenstandSuchenSub.TestGetHeight: column 0 is not available"
+        MsgBox "basLiefergegenstandSuchenSub.TestGetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetHeight = aintGrid(intColumn - 1, intRow - 1, 3)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchenSub.TestGetHeight executed"
+    End If
+    
+End Function
+
+Private Sub TestGetHeight()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchenSub.TestGetHeight"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLiefergegenstandSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Dim intHeightExpected As Integer
+    intHeightExpected = cintRowHeight
+    
+    ' test run
+    Dim intHeightResult As Integer
+    intHeightResult = basLiefergegenstandSuchenSub.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intHeightResult <> intHeightExpected Then
+        MsgBox "basLiefergegenstandSuchenSub.TestGetHeight: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLiefergegenstandSuchenSub.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchenSub.TestGetHeight executed"
+    End If
+    
+End Sub
