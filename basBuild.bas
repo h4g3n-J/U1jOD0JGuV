@@ -12,8 +12,8 @@ Public Function BuildApplication()
     End If
     
     ' build querys
-    basBuild.BuildQryAngebotAuswahl
-    basBuild.BuildQryAngebot
+    ' basBuild.BuildQryAngebotAuswahl
+    ' basBuild.BuildQryAngebot
     
     ' build forms
     basAngebotSuchenSub.BuildAngebotSuchenSub
@@ -24,6 +24,9 @@ Public Function BuildApplication()
     
     basRechnungSuchenSub.BuildRechnungSuchenSub
     basRechnungSuchen.BuildRechnungSuchen
+    
+    basLeistungserfassungsblattSuchenSub.BuildLeistungserfassungsblattSuchenSub
+    basLeistungserfassungsblattSuchen.BuildLeistungserfassungsblattSuchen
     
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal
