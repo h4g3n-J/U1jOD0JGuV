@@ -624,7 +624,7 @@ Private Sub TestGetTop()
     intTopResult = basRechnungSuchen.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intTopResult <> intTopExpected Then
-        MsgBox "basRechnungSuchen.TestGetTop: Test missed. Error Code: 1", vbCritical
+        MsgBox "basRechnungSuchen.TestGetTop: Test failed. Error Code: 1", vbCritical
     Else
         MsgBox "basRechnungSuchen.TestGetTop: Test passed.", vbOKOnly, "Test Result"
     End If
@@ -835,7 +835,7 @@ Private Sub TestClearForm()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "execute basRechnungSuchen.TestClearForm"
+        Debug.Print "basRechnungSuchen.TestClearForm executed"
     End If
     
 End Sub
