@@ -808,6 +808,7 @@ Private Sub TestClearForm()
     Dim strFormName As String
     strFormName = "frmRechnungSuchen"
     
+    ' delete form
     basRechnungSuchen.ClearForm strFormName
     
     Dim objForm As Object
@@ -816,28 +817,21 @@ Private Sub TestClearForm()
     Dim strTempFormName As String
     strTempFormName = objForm.Name
     
+    ' create empty form
     DoCmd.Close acForm, strTempFormName, acSaveYes
     DoCmd.Rename strFormName, acForm, strTempFormName
     
-    Debug.Print "basRechnungSuchen.TestClearForm: " & strFormName & " created."
-    
-    For Each objForm In Application.CurrentProject.AllForms
-        If objForm.Name = strFormName Then
-            Debug.Print "basRechnungSuchen.TestClearForm: " & strFormName & " exists."
-            Exit For
-        End If
-    Next
-    
+    ' delete form
     basRechnungSuchen.ClearForm strFormName
     
-    Debug.Print "basRechnungSuchen.TestClearForm: ClearForm executed."
-    
     For Each objForm In Application.CurrentProject.AllForms
         If objForm.Name = strFormName Then
-            Debug.Print "basRechnungSuchen.TestClearForm: " & strFormName & " exists."
+            MsgBox "basRechnungSuchen.TestClearForm: Test failed", vbCritical, "Test Result"
             Exit For
         End If
     Next
+    
+    MsgBox "basRechnungSuchen.TestClearForm: Test succesfull", vbOKOnly, "Test Result"
     
     ' event message
     If gconVerbatim Then

@@ -391,3 +391,74 @@ Public Sub BuildLeistungserfassungsblattSuchen()
     End If
 
 End Sub
+
+Private Sub ClearForm(ByVal strFormName As String)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.ClearForm"
+    End If
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+            End If
+            ' delete form
+            DoCmd.DeleteObject acForm, strFormName
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.ClearForm executed"
+    End If
+    
+End Sub
+
+Private Sub TestClearForm()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.TestClearForm"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattSuchen"
+    
+    ' delete form
+    basLeistungserfassungsblattSuchen.ClearForm strFormName
+    
+    Dim objForm As Object
+    Set objForm = CreateForm
+    
+    Dim strTempFormName As String
+    strTempFormName = objForm.Name
+    
+    ' create empty form
+    DoCmd.Close acForm, strTempFormName, acSaveYes
+    DoCmd.Rename strFormName, acForm, strTempFormName
+    
+    ' delete form
+    basLeistungserfassungsblattSuchen.ClearForm strFormName
+    
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            MsgBox "basLeistungserfassungsblattSuchen.TestClearForm: Test failed", vbCritical, "Test Result"
+            Exit For
+        End If
+    Next
+    
+    MsgBox "basLeistungserfassungsblattSuchen.TestClearForm: Test succesfull", vbOKOnly, "Test Result"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestClearForm executed"
+    End If
+    
+End Sub
+
