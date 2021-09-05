@@ -462,3 +462,104 @@ Private Sub TestClearForm()
     
 End Sub
 
+Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.CalculateGrid"
+    End If
+    
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim aintGrid() As Integer
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    For intColumn = 0 To intNumberOfColumns - 1
+        For intRow = 0 To intNumberOfRows - 1
+            ' left
+            aintGrid(intColumn, intRow, 0) = intLeft + intColumn * (intColumnWidth + cintHorizontalSpacing)
+            ' top
+            aintGrid(intColumn, intRow, 1) = intTop + intRow * (intRowHeight + cintVerticalSpacing)
+            ' width
+            aintGrid(intColumn, intRow, 2) = intColumnWidth
+            ' height
+            aintGrid(intColumn, intRow, 3) = intRowHeight
+        Next
+    Next
+    
+    CalculateGrid = aintGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.CalculateGrid executed"
+    End If
+    
+End Function
+
+Private Sub TestCalculateGrid()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.TestCalculateGrid"
+    End If
+    
+    Dim intNumberOfRows As Integer
+    Dim intNumberOfColumns As Integer
+    Dim intRowHeight As Integer
+    Dim intColumnWidth As Integer
+    Dim intLeft As Integer
+    Dim intTop As Integer
+    
+    intLeft = 50
+    intTop = 50
+    intNumberOfColumns = 2
+    intNumberOfRows = 3
+    intRowHeight = 100
+    intColumnWidth = 50
+    
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLeistungserfassungsblattSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim intErrorState As Integer
+    intErrorState = 0
+    
+    Dim intBottom As Integer
+    Dim intRight As Integer
+    
+    intBottom = intTop + (intNumberOfRows - 1) * (intRowHeight + cintVerticalSpacing)
+    intRight = intLeft + (intNumberOfColumns - 1) * (intColumnWidth + cintHorizontalSpacing)
+    
+    If intRight <> aintInformationGrid(intNumberOfColumns - 1, 0, 0) Then
+        intErrorState = intErrorState + 1
+    End If
+    
+    If intBottom <> aintInformationGrid(0, intNumberOfRows - 1, 1) Then
+        intErrorState = intErrorState + 2
+    End If
+    
+    Select Case intErrorState
+        Case 0
+            MsgBox "Procedure successful", vbOKOnly, "basLeistungserfassungsblattSuchen.TestCalculateGrid"
+        Case 1
+            MsgBox "Failure: horizontal value is wrong", vbCritical, "basLeistungserfassungsblattSuchen.TestCalculateGrid"
+        Case 2
+            MsgBox "Failure: vertical value is wrong", vbCritical, "basLeistungserfassungsblattSuchen.TestCalculateGrid"
+        Case 3
+            MsgBox "Failure: horizontal and vertical values are wrong", vbCritical, "basLeistungserfassungsblattSuchen.TestCalculateGrid"
+    End Select
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.TestCalculateGrid executed"
+    End If
+    
+End Sub
