@@ -205,6 +205,8 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
             varOutput = CInt(varInput)
         Case "boolean"
             varOutput = CBool(varInput)
+        Case "long"
+            varOutput = CLng(varInput)
     End Select
     
     CheckDataType = varOutput
@@ -235,13 +237,14 @@ Private Function DefaultProperties()
         varDefaultProperties(0, 1) = "data type"
         varDefaultProperties(0, 2) = "default value"
     varDefaultProperties(1, 0) = "LiefergegenstandID"
-        varDefaultProperties(1, 1) = "integer"
+        ' varDefaultProperties(1, 1) = "integer"
+        varDefaultProperties(1, 1) = "long"
         varDefaultProperties(1, 2) = Null
     varDefaultProperties(2, 0) = "aftrIdKey"
         varDefaultProperties(2, 1) = "string"
         varDefaultProperties(2, 2) = Null
     varDefaultProperties(3, 0) = "bezeichnung"
-        varDefaultProperties(3, 1) = "link"
+        varDefaultProperties(3, 1) = "string"
         varDefaultProperties(3, 2) = Null
     varDefaultProperties(4, 0) = "linkLieferschein"
         varDefaultProperties(4, 1) = "link"
@@ -367,7 +370,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' select recordset from table or query
     Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
-    rstRecordset.FindFirst (strKeyColumn & " = '" & CStr(varRecordsetName) & "'")
+    rstRecordset.FindFirst (strKeyColumn = varRecordsetName)
     
     ' assign recordset to properties
     ' mvarRecordsetClipboard(inti, 2): property value
@@ -971,7 +974,7 @@ Public Property Get lieferschein() As Variant
     
 End Property
 
-Public Property Let bemerkung(ByVal varPropertyInput As Variant)
+Public Property Let Bemerkung(ByVal varPropertyInput As Variant)
 
     Dim strPropertyName As String
     strPropertyName = "bemerkung"
@@ -995,7 +998,7 @@ Public Property Let bemerkung(ByVal varPropertyInput As Variant)
     
 End Property
 
-Public Property Get bemerkung() As Variant
+Public Property Get Bemerkung() As Variant
 
     Dim strPropertyName As String
     strPropertyName = "bemerkung"
@@ -1010,7 +1013,7 @@ Public Property Get bemerkung() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    Bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If mbolVerbatim = True Then

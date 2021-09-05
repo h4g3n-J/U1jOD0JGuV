@@ -52,7 +52,7 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 5
+        intNumberOfRows = 6
         intLeft = 100
         intTop = 100
         intWidth = 2600
@@ -124,6 +124,20 @@ Public Sub BuildHauptmenue()
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd04"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Liefergegenstand suchen"
+                .OnClick = "=OpenFormLiefergegenstandSuchen()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 6
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd05"
                 .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
@@ -347,6 +361,21 @@ Public Function OpenFormLeistungserfassungsblattSuchen()
     ' command message
     If gconVerbatim Then
         Debug.Print "basHauptmenue.OpenFormLeistungserfassungsblattSuchen executed"
+    End If
+End Function
+
+Public Function OpenFormLiefergegenstandSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormLiefergegenstandSuchen"
+    End If
+
+    DoCmd.OpenForm "frmLiefergegenstandSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormLiefergegenstandSuchen executed"
     End If
 End Function
 

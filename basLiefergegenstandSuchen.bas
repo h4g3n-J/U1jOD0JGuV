@@ -14,7 +14,7 @@ Public Sub BuildLiefergegenstandSuchen()
     strFormName = "frmLiefergegenstandSuchen"
     
     ' clear form
-     BuildLiefergegenstandSuchen.ClearForm strFormName
+     basLiefergegenstandSuchen.ClearForm strFormName
      
      ' declare form
     Dim objForm As Form
@@ -67,7 +67,7 @@ Public Sub BuildLiefergegenstandSuchen()
         ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
     ' calculate information grid
-    aintInformationGrid = BuildLiefergegenstandSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+    aintInformationGrid = basLiefergegenstandSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
         
     ' create textbox before label, so label can be associated
     'txt00
@@ -76,10 +76,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt00"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -91,10 +91,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl00"
             .Caption = "LiefergegenstandID"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -104,10 +104,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt01"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -119,10 +119,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl01"
             .Caption = "aftrIdKey"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -132,12 +132,12 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt02"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = True
+            .IsHyperlink = False
         End With
         
     'lbl02
@@ -147,10 +147,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl02"
             .Caption = "bezeichnung"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -160,12 +160,12 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt03"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = False
+            .IsHyperlink = True
         End With
         
     'lbl03
@@ -175,10 +175,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl03"
             .Caption = "linkLieferschein"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -188,10 +188,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt04"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -203,10 +203,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl04"
             .Caption = "seriennummer"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -216,10 +216,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt05"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -231,10 +231,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl05"
             .Caption = "anzahl"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -244,12 +244,12 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt06"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = True
+            .IsHyperlink = False
         End With
         
     'lbl06
@@ -259,10 +259,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl06"
             .Caption = "herstellerkennzeichen"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -272,10 +272,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt07"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -287,10 +287,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl07"
             .Caption = "Uanangebot"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -300,10 +300,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt08"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -315,10 +315,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl08"
             .Caption = "angebotNetto"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -328,10 +328,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt09"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -343,10 +343,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl09"
             .Caption = "preisBrutto"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -356,10 +356,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt10"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -371,10 +371,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl10"
             .Caption = "lieferdatum"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -384,10 +384,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt11"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -399,10 +399,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl11"
             .Caption = "lieferschein"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -412,10 +412,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt12"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -427,10 +427,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl12"
             .Caption = "bemerkung"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -440,10 +440,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt13"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -455,10 +455,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl13"
             .Caption = "zielAftrID"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -468,10 +468,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt14"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -483,10 +483,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl14"
             .Caption = "zielLieferschein"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -496,12 +496,12 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt15"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = False
+            .IsHyperlink = True
         End With
         
     'lbl15
@@ -511,10 +511,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl15"
             .Caption = "zielLinkLieferschein"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -524,10 +524,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt16"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -539,10 +539,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl16"
             .Caption = "zielLieferdatum"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -552,12 +552,12 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt17"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = False
+            .IsHyperlink = True
         End With
         
     'lbl17
@@ -567,10 +567,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl17"
             .Caption = "LiefergegenstandLink"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -580,10 +580,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt18"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -595,10 +595,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl18"
             .Caption = "IstReserve"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -608,10 +608,10 @@ Public Sub BuildLiefergegenstandSuchen()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt19"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -623,10 +623,10 @@ Public Sub BuildLiefergegenstandSuchen()
         With lblLabel
             .Name = "lbl19"
             .Caption = "seriennummer2"
-            .Left = BuildLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = BuildLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = BuildLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = BuildLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
    
@@ -646,7 +646,7 @@ Public Sub BuildLiefergegenstandSuchen()
         
         ReDim aintLifecycleGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
-        aintLifecycleGrid = BuildLiefergegenstandSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+        aintLifecycleGrid = basLiefergegenstandSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
         ' create "Liefergegenstand erstellen" button
         intColumn = 1
@@ -655,10 +655,10 @@ Public Sub BuildLiefergegenstandSuchen()
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmdCreateOffer"
-                .Left = BuildLiefergegenstandSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
-                .Top = BuildLiefergegenstandSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
-                .Width = BuildLiefergegenstandSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
-                .Height = BuildLiefergegenstandSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                .Left = basLiefergegenstandSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basLiefergegenstandSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basLiefergegenstandSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basLiefergegenstandSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Liefergegenstand erstellen"
 ' insert editing here ----> .OnClick = "=OpenFormCreateOffer()"
                 .Visible = False
@@ -724,7 +724,7 @@ Public Sub BuildLiefergegenstandSuchen()
         
     ' event message
     If gconVerbatim Then
-        Debug.Print "BuildLiefergegenstandSuchen.BuildLiefergegenstandSuchen executed"
+        Debug.Print "basLiefergegenstandSuchen.BuildLiefergegenstandSuchen executed"
     End If
 
 End Sub
@@ -1179,3 +1179,65 @@ Private Sub TestGetWidth()
     End If
     
 End Sub
+
+Public Function SearchAndReloadLiefergegenstandSuchen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.SearchAndReloadLiefergegenstandSuchen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandSuchen"
+    
+    Dim strSearchTextboxName As String
+    strSearchTextboxName = "txtSearchBox"
+    
+    ' search Rechnung
+    Dim strQueryName As String
+    strQueryName = "qryLiefergegenstandSuchen"
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblLiefergegenstand"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LiefergegenstandID"
+    
+    Dim varSearchTerm As Variant
+    varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
+    
+    basLiefergegenstandSuchenSub.SearchLiefergegenstand strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
+    
+    
+    ' close form
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' open form
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.SearchAndReloadLiefergegenstandSuchen executed"
+    End If
+    
+End Function
+
+Public Function CloseFormLiefergegenstandSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.CloseForm"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandSuchen"
+    
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.CloseForm executed"
+    End If
+    
+End Function
+

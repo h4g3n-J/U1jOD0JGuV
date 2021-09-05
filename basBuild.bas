@@ -28,6 +28,9 @@ Public Function BuildApplication()
     basLeistungserfassungsblattSuchenSub.BuildLeistungserfassungsblattSuchenSub
     basLeistungserfassungsblattSuchen.BuildLeistungserfassungsblattSuchen
     
+    basLiefergegenstandSuchenSub.BuildLiefergegenstandSuchenSub
+    basLiefergegenstandSuchen.BuildLiefergegenstandSuchen
+    
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal
     

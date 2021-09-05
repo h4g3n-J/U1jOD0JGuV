@@ -214,7 +214,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt05
-    intColumn = 5
+    intColumn = 6
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -229,7 +229,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl05
-    intColumn = 5
+    intColumn = 6
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
         With lblLabel
@@ -243,7 +243,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt06
-    intColumn = 5
+    intColumn = 7
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -258,7 +258,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl06
-    intColumn = 5
+    intColumn = 7
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
         With lblLabel
@@ -272,7 +272,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt07
-    intColumn = 5
+    intColumn = 8
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -287,7 +287,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl07
-    intColumn = 5
+    intColumn = 8
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
         With lblLabel
@@ -301,7 +301,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt08
-    intColumn = 5
+    intColumn = 9
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -316,7 +316,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl08
-    intColumn = 5
+    intColumn = 9
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt08")
         With lblLabel
@@ -330,7 +330,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt09
-    intColumn = 5
+    intColumn = 10
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -345,7 +345,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl09
-    intColumn = 5
+    intColumn = 10
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt09")
         With lblLabel
@@ -359,7 +359,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt10
-    intColumn = 5
+    intColumn = 11
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -374,7 +374,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl10
-    intColumn = 5
+    intColumn = 11
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt10")
         With lblLabel
@@ -388,7 +388,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt11
-    intColumn = 5
+    intColumn = 12
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -403,7 +403,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl11
-    intColumn = 5
+    intColumn = 12
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt11")
         With lblLabel
@@ -417,7 +417,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt12
-    intColumn = 5
+    intColumn = 13
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -432,7 +432,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl12
-    intColumn = 5
+    intColumn = 13
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt12")
         With lblLabel
@@ -446,7 +446,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt13
-    intColumn = 5
+    intColumn = 14
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -461,7 +461,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl13
-    intColumn = 5
+    intColumn = 14
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt13")
         With lblLabel
@@ -475,7 +475,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt14
-    intColumn = 5
+    intColumn = 15
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -490,7 +490,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl14
-    intColumn = 5
+    intColumn = 15
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
         With lblLabel
@@ -504,7 +504,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt15
-    intColumn = 5
+    intColumn = 16
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -519,7 +519,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl15
-    intColumn = 5
+    intColumn = 16
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
         With lblLabel
@@ -533,7 +533,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt16
-    intColumn = 5
+    intColumn = 17
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -548,7 +548,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl16
-    intColumn = 5
+    intColumn = 17
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt16")
         With lblLabel
@@ -562,7 +562,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt17
-    intColumn = 5
+    intColumn = 18
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -577,7 +577,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl17
-    intColumn = 5
+    intColumn = 18
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt17")
         With lblLabel
@@ -591,7 +591,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt18
-    intColumn = 5
+    intColumn = 19
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -606,7 +606,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl18
-    intColumn = 5
+    intColumn = 19
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt18")
         With lblLabel
@@ -620,7 +620,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
         
     'txt19
-    intColumn = 5
+    intColumn = 20
     intRow = 2
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
@@ -635,7 +635,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
         End With
     
     'lbl19
-    intColumn = 5
+    intColumn = 20
     intRow = 1
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt19")
         With lblLabel
@@ -650,7 +650,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
     ' column added? -> update intNumberOfColumns
     
     ' set oncurrent methode
-    ' objForm.OnCurrent = "=selectLiefergegenstand()"
+    objForm.OnCurrent = "=selectLiefergegenstand()"
         
     ' set form properties
     objForm.AllowDatasheetView = True
