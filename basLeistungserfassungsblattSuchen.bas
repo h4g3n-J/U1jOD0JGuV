@@ -842,3 +842,22 @@ Private Sub TestGetWidth()
     End If
     
 End Sub
+
+Public Function CloseFormLeistungserfassungsblattSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.CloseForm"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattSuchen"
+    
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.CloseForm executed"
+    End If
+    
+End Function
