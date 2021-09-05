@@ -860,3 +860,88 @@ Private Sub TestGetWidth()
     End If
     
 End Sub
+
+Public Function selectLiefergegenstand()
+    ' Error Code 1: Form does not exist
+    ' Error Code 2: Parent Form is not loaded
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchenSub.selectLiefergegenstand"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandSuchen"
+    
+    ' check if frmAuftragSuchen exists (Error Code: 1)
+    Dim bolFormExists As Boolean
+    bolFormExists = False
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            bolFormExists = True
+        End If
+    Next
+    
+    If Not bolFormExists Then
+        Debug.Print "basLiefergegenstandSuchenSub.selectLiefergegenstand aborted, Error Code: 1"
+        Exit Function
+    End If
+    
+    ' if frmLiefergegenstandSuchen not isloaded go to exit (Error Code: 2)
+    If Not Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+        Debug.Print "basLiefergegenstandSuchenSub.selectLiefergegenstand aborted, Error Code: 2"
+        Exit Function
+    End If
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare primary key
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "LiefergegenstandID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Auftrag
+    Dim Liefergegenstand As clsLiefergegenstand
+    Set Liefergegenstand = New clsLiefergegenstand
+    
+    ' select recordset
+    Liefergegenstand.SelectRecordset varRecordsetName
+    
+    ' show recordset
+    ' referes to the textboxes in basLiefergegenstandSuchen
+    ' Forms.Item(strFormName).Controls.Item("insert_textboxName_here") = CallByName(insert_Object_Name, "insert_Attribute_Name_here", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Liefergegenstand, "LiefergegenstandID", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Liefergegenstand, "aftrIdKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Liefergegenstand, "bezeichnung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Liefergegenstand, "linkLieferschein", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Liefergegenstand, "seriennummer", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Liefergegenstand, "anzahl", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt06") = CallByName(Liefergegenstand, "herstellerkennzeichen", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt07") = CallByName(Liefergegenstand, "Uanangebot", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt08") = CallByName(Liefergegenstand, "angebotNetto", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt09") = CallByName(Liefergegenstand, "preisBrutto", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt10") = CallByName(Liefergegenstand, "lieferdatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt11") = CallByName(Liefergegenstand, "lieferschein", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt12") = CallByName(Liefergegenstand, "bemerkung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt13") = CallByName(Liefergegenstand, "zielAftrID", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt14") = CallByName(Liefergegenstand, "zielLieferschein", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt15") = CallByName(Liefergegenstand, "zielLinkLieferschein", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt16") = CallByName(Liefergegenstand, "zielLieferdatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt17") = CallByName(Liefergegenstand, "LiefergegenstandLink", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt18") = CallByName(Liefergegenstand, "IstReserve", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt19") = CallByName(Liefergegenstand, "seriennummer2", VbGet)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchenSub.selectLiefergegenstand executed"
+    End If
+    
+End Function
