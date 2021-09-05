@@ -915,16 +915,11 @@ Public Function selectLeistungserfassungsblatt()
     ' show recordset
     ' referes to the textboxes in basLeistungserfassungsblattSuchen
     ' Forms.Item(strFormName).Controls.Item("insert_textboxName_here") = CallByName(insert_Object_Name, "insert_Attribute_Name_here", VbGet)
-    ' start editing here -->
-    ' Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Leistungserfassungsblatt, "RechnungNr", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Leistungserfassungsblatt, "Bemerkung", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Leistungserfassungsblatt, "RechnungLink", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Leistungserfassungsblatt, "TechnischRichtigDatum", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Leistungserfassungsblatt, "IstTeilrechnung", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Leistungserfassungsblatt, "IstSchlussrechnung", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt06") = CallByName(Leistungserfassungsblatt, "KalkulationLNWLink", VbGet)
-    ' Forms.Item(strFormName).Controls.Item("txt07") = CallByName(Leistungserfassungsblatt, "RechnungBrutto", VbGet)
-    ' <-- stop editing here
+    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Leistungserfassungsblatt, "Leistungserfassungsblatt", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Leistungserfassungsblatt, "RechnungNr", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Leistungserfassungsblatt, "Bemerkung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Leistungserfassungsblatt, "BelegID", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Leistungserfassungsblatt, "Brutto", VbGet)
     
     ' event message
     If gconVerbatim Then
