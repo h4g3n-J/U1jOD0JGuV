@@ -274,7 +274,7 @@ Private Function DefaultProperties()
         varDefaultProperties(12, 1) = "string"
         varDefaultProperties(12, 2) = Null
     varDefaultProperties(13, 0) = "bemerkung"
-        varDefaultProperties(13, 1) = "sring"
+        varDefaultProperties(13, 1) = "string"
         varDefaultProperties(13, 2) = Null
     varDefaultProperties(14, 0) = "zielAftrID"
         varDefaultProperties(14, 1) = "string"
@@ -370,7 +370,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' select recordset from table or query
     Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
-    rstRecordset.FindFirst (strKeyColumn = varRecordsetName)
+    rstRecordset.FindFirst (strKeyColumn & " = " & varRecordsetName)
     
     ' assign recordset to properties
     ' mvarRecordsetClipboard(inti, 2): property value
