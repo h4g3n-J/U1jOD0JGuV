@@ -798,3 +798,179 @@ Private Sub TestClearForm()
     End If
     
 End Sub
+
+Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNumberOfRows As Integer, ByVal intLeft As Integer, ByVal intTop As Integer, ByVal intColumnWidth As Integer, ByVal intRowHeight As Integer)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.CalculateGrid"
+    End If
+    
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim aintGrid() As Integer
+    ReDim aintGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    Dim intColumn As Integer
+    Dim intRow As Integer
+    
+    For intColumn = 0 To intNumberOfColumns - 1
+        For intRow = 0 To intNumberOfRows - 1
+            ' left
+            aintGrid(intColumn, intRow, 0) = intLeft + intColumn * (intColumnWidth + cintHorizontalSpacing)
+            ' top
+            aintGrid(intColumn, intRow, 1) = intTop + intRow * (intRowHeight + cintVerticalSpacing)
+            ' width
+            aintGrid(intColumn, intRow, 2) = intColumnWidth
+            ' height
+            aintGrid(intColumn, intRow, 3) = intRowHeight
+        Next
+    Next
+    
+    CalculateGrid = aintGrid
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.CalculateGrid executed"
+    End If
+    
+End Function
+
+Private Sub TestCalculateGrid()
+' Error Code 1: returned horizontal value does not match the expected value
+' Error Code 2: returned vertical value does not match the expected value
+' Error Code 3: returned horizontal and vertical values do not match the expected values
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.TestCalculateGrid"
+    End If
+    
+    Dim intNumberOfRows As Integer
+    Dim intNumberOfColumns As Integer
+    Dim intRowHeight As Integer
+    Dim intColumnWidth As Integer
+    Dim intLeft As Integer
+    Dim intTop As Integer
+    
+    intLeft = 50
+    intTop = 50
+    intNumberOfColumns = 2
+    intNumberOfRows = 3
+    intRowHeight = 100
+    intColumnWidth = 50
+    
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLiefergegenstandSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+
+    Const cintHorizontalSpacing As Integer = 60
+    Const cintVerticalSpacing As Integer = 60
+    
+    Dim intErrorState As Integer
+    intErrorState = 0
+    
+    Dim intBottom As Integer
+    Dim intRight As Integer
+    
+    intBottom = intTop + (intNumberOfRows - 1) * (intRowHeight + cintVerticalSpacing)
+    intRight = intLeft + (intNumberOfColumns - 1) * (intColumnWidth + cintHorizontalSpacing)
+    
+    If intRight <> aintInformationGrid(intNumberOfColumns - 1, 0, 0) Then
+        intErrorState = intErrorState + 1
+    End If
+    
+    If intBottom <> aintInformationGrid(0, intNumberOfRows - 1, 1) Then
+        intErrorState = intErrorState + 2
+    End If
+    
+    Select Case intErrorState
+        Case 0
+            MsgBox "basLiefergegenstandSuchen.TestCalculateGrid: Test passed", vbOKOnly, "Test Result"
+        Case 1
+            MsgBox "basLiefergegenstandSuchen.TestCalculateGrid: Test failed, Error Code 1", vbCritical, "Test Result"
+        Case 2
+            MsgBox "basLiefergegenstandSuchen.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "Test Result"
+        Case 3
+            MsgBox "basLiefergegenstandSuchen.TestCalculateGrid: Test feiled: Error Code 3", vbCritical, "Test Result"
+    End Select
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.TestCalculateGrid executed"
+    End If
+    
+End Sub
+
+Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.GetLeft"
+    End If
+
+    If intColumn = 0 Then
+        Debug.Print "basLiefergegenstandSuchen.GetLeft: column 0 is not available"
+        MsgBox "basLiefergegenstandSuchen.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Exit Function
+    End If
+    
+    GetLeft = aintGrid(intColumn - 1, intRow - 1, 0)
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.GetLeft executed"
+    End If
+    
+End Function
+
+Private Sub TestGetLeft()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.TestGetLeft"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basLiefergegenstandSuchen.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Const cintHorizontalSpacing As Integer = 60
+    Dim intLeftExpected As Integer
+    intLeftExpected = cintLeft + (cintTestColumn - 1) * (cintHorizontalSpacing + cintColumnWidth)
+    
+    ' test run
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim intLeftResult As Integer
+    intLeftResult = basLiefergegenstandSuchen.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intLeftResult <> intLeftExpected Then
+        MsgBox "basLiefergegenstandSuchen.TestGetLeft: Test missed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basLiefergegenstandSuchen.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.TestGetLeft executed"
+    End If
+    
+End Sub
