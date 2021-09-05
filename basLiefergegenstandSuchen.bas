@@ -728,3 +728,73 @@ Public Sub BuildLiefergegenstandSuchen()
     End If
 
 End Sub
+
+Private Sub ClearForm(ByVal strFormName As String)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.ClearForm"
+    End If
+    
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            ' check if form is loaded
+            If Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
+                ' close form
+                DoCmd.Close acForm, strFormName, acSaveYes
+            End If
+            ' delete form
+            DoCmd.DeleteObject acForm, strFormName
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.ClearForm executed"
+    End If
+    
+End Sub
+
+Private Sub TestClearForm()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.TestClearForm"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandSuchen"
+    
+    ' delete form
+    basLiefergegenstandSuchen.ClearForm strFormName
+    
+    Dim objForm As Object
+    Set objForm = CreateForm
+    
+    Dim strTempFormName As String
+    strTempFormName = objForm.Name
+    
+    ' create empty form
+    DoCmd.Close acForm, strTempFormName, acSaveYes
+    DoCmd.Rename strFormName, acForm, strTempFormName
+    
+    ' delete form
+    basLiefergegenstandSuchen.ClearForm strFormName
+    
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strFormName Then
+            MsgBox "basLiefergegenstandSuchen.TestClearForm: Test failed", vbCritical, "Test Result"
+            Exit For
+        End If
+    Next
+    
+    MsgBox "basLiefergegenstandSuchen.TestClearForm: Test succesfull", vbOKOnly, "Test Result"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.TestClearForm executed"
+    End If
+    
+End Sub
