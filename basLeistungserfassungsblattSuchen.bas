@@ -861,3 +861,44 @@ Public Function CloseFormLeistungserfassungsblattSuchen()
     End If
     
 End Function
+
+Public Function SearchAndReloadLeistungserfassungsblattSuchen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.SearchAndReloadLeistungserfassungsblattSuchen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattSuchen"
+    
+    Dim strSearchTextboxName As String
+    strSearchTextboxName = "txtSearchBox"
+    
+    ' search Rechnung
+    Dim strQueryName As String
+    strQueryName = "qryLeistungserfassungsblattSuchen"
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblLeistungserfassungsblatt"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "Leistungserfassungsblatt"
+    
+    Dim varSearchTerm As Variant
+    varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
+    
+    basLeistungserfassungsblattSuchenSub.SearchLeistungserfassungsblatt strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
+    
+    ' close form
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' open form
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.SearchAndReloadLeistungserfassungsblattSuchen executed"
+    End If
+    
+End Function
