@@ -237,7 +237,6 @@ Private Function DefaultProperties()
         varDefaultProperties(0, 1) = "data type"
         varDefaultProperties(0, 2) = "default value"
     varDefaultProperties(1, 0) = "LiefergegenstandID"
-        ' varDefaultProperties(1, 1) = "integer"
         varDefaultProperties(1, 1) = "long"
         varDefaultProperties(1, 2) = Null
     varDefaultProperties(2, 0) = "aftrIdKey"
