@@ -243,3 +243,51 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
     End If
     
 End Function
+
+' checks if a specific table or query exists
+' returns true if positive
+' strModus feasible values: "table", "query"
+Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolean
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim RecordSet As Object
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+    
+    ' verbatim message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsEinzelauftrag.ObjectExists"
+    End If
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    If bolLocalVerbatim Then
+        Debug.Print "clsEinzelauftrag.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
+    End If
+    
+    Select Case strModus
+        Case "table"
+            For Each RecordSet In dbsCurrentDB.TableDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+        Case "query"
+            For Each RecordSet In dbsCurrentDB.QueryDefs
+                If RecordSet.Name = strObjectName Then
+                    bolObjectExists = True
+                End If
+            Next RecordSet
+    End Select
+    
+    ObjectExists = bolObjectExists
+    
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+End Function
