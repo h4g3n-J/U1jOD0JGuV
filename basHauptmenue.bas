@@ -52,7 +52,7 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 6
+        intNumberOfRows = 7
         intLeft = 100
         intTop = 100
         intWidth = 2600
@@ -142,11 +142,24 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Einzelauftrag suchen"
+                .OnClick = "=OpenFormEinzelauftragSuchen()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 7
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd06"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
                 .Caption = "Build Application"
                 .OnClick = "=BuildApplication()"
                 .Visible = True
             End With
-    
     ' column added? -> update intNumberOfColumns
             
         ' close form
@@ -377,5 +390,58 @@ Public Function OpenFormLiefergegenstandSuchen()
     If gconVerbatim Then
         Debug.Print "basHauptmenue.OpenFormLiefergegenstandSuchen executed"
     End If
+End Function
+
+Public Function OpenFormEinzelauftragSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormEinzelauftragSuchen"
+    End If
+
+    DoCmd.OpenForm "frmEinzelauftragSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormEinzelauftragSuchen executed"
+    End If
+End Function
+
+' builds the application form scratch
+' work in progress
+Public Function BuildApplication()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.BuildApplication"
+    End If
+        
+    ' build forms
+    basAngebotSuchenSub.BuildAngebotSuchenSub
+    basAngebotSuchen.BuildAngebotSuchen
+    
+    basAuftragSuchenSub.BuildAuftragSuchenSub
+    basAuftragSuchen.BuildAuftragSuchen
+    
+    basRechnungSuchenSub.BuildRechnungSuchenSub
+    basRechnungSuchen.BuildRechnungSuchen
+    
+    basLeistungserfassungsblattSuchenSub.BuildLeistungserfassungsblattSuchenSub
+    basLeistungserfassungsblattSuchen.BuildLeistungserfassungsblattSuchen
+    
+    basLiefergegenstandSuchenSub.BuildLiefergegenstandSuchenSub
+    basLiefergegenstandSuchen.BuildLiefergegenstandSuchen
+    
+    basEinzelauftragSuchenSub.BuildEinzelauftragSuchenSub
+    basEinzelauftragSuchen.BuildEinzelauftragSuchen
+    
+    ' open frmHauptmenue
+    DoCmd.OpenForm "frmHauptmenue", acNormal
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.BuildApplication executed"
+    End If
+    
 End Function
 

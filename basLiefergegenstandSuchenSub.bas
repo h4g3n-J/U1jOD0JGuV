@@ -666,7 +666,7 @@ Public Sub BuildLiefergegenstandSuchenSub()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basLiefergegenstandSuchenSub.BuildAuftragSuchenSub executed"
+        Debug.Print "basLiefergegenstandSuchenSub.BuildLiefergegenstandSuchenSub executed"
     End If
     
 End Sub
@@ -882,13 +882,13 @@ Private Sub TestSearchLiefergegenstand()
         
     ' build query qryRechnungSuchen
     Dim strQueryName As String
-    strQueryName = "qryLeistungserfassungsblattSuchen"
+    strQueryName = "qryLiefergegenstandSuchen"
     
     Dim strQuerySource As String
-    strQuerySource = "tblLeistungserfassungsblatt"
+    strQuerySource = "tblLiefergegenstand"
     
     Dim strPrimaryKey As String
-    strPrimaryKey = "Leistungserfassungsblatt"
+    strPrimaryKey = "LiefergegenstandID"
     
     basLiefergegenstandSuchenSub.SearchLiefergegenstand strQueryName, strQuerySource, strPrimaryKey
     
@@ -1010,7 +1010,7 @@ Private Sub TestCalculateGrid()
         Case 2
             MsgBox "basLiefergegenstandSuchenSub.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "Test Result"
         Case 3
-            MsgBox "basLiefergegenstandSuchenSub.TestCalculateGrid: Test feiled: Error Code 3", vbCritical, "Test Result"
+            MsgBox "basLiefergegenstandSuchenSub.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "Test Result"
     End Select
     
     ' event message

@@ -894,7 +894,7 @@ Private Sub TestCalculateGrid()
         Case 2
             MsgBox "basLiefergegenstandSuchen.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "Test Result"
         Case 3
-            MsgBox "basLiefergegenstandSuchen.TestCalculateGrid: Test feiled: Error Code 3", vbCritical, "Test Result"
+            MsgBox "basLiefergegenstandSuchen.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "Test Result"
     End Select
     
     ' event message

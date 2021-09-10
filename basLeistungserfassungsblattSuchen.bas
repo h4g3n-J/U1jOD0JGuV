@@ -472,7 +472,7 @@ Private Sub TestCalculateGrid()
         Case 2
             MsgBox "basLeistungserfassungsblattSuchen.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "basLeistungserfassungsblattSuchen.TestCalculateGrid"
         Case 3
-            MsgBox "basLeistungserfassungsblattSuchen.TestCalculateGrid: Test feiled: Error Code 3", vbCritical, "basLeistungserfassungsblattSuchen.TestCalculateGrid"
+            MsgBox "basLeistungserfassungsblattSuchen.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "basLeistungserfassungsblattSuchen.TestCalculateGrid"
     End Select
     
     ' event message

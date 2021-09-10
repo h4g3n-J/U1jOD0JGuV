@@ -319,7 +319,7 @@ Public Sub BuildRechnungSuchenSub()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basRechnungSuchenSub.BuildAuftragSuchenSub executed"
+        Debug.Print "basRechnungSuchenSub.BuildRechnungSuchenSub executed"
     End If
     
 End Sub

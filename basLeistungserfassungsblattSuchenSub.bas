@@ -231,7 +231,7 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basLeistungserfassungsblattSuchenSub.BuildAuftragSuchenSub executed"
+        Debug.Print "basLeistungserfassungsblattSuchenSub.BuildLeistungserfassungsblattSuchenSub executed"
     End If
     
 End Sub
@@ -575,7 +575,7 @@ Private Sub TestCalculateGrid()
         Case 2
             MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
         Case 3
-            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Test feiled: Error Code 3", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
+            MsgBox "basLeistungserfassungsblattSuchenSub.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "basLeistungserfassungsblattSuchenSub.TestCalculateGrid"
     End Select
     
     ' event message
