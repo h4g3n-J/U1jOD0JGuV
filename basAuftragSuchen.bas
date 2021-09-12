@@ -395,18 +395,18 @@ Public Sub BuildAuftragSuchen()
         
         aintLifecycleGrid = basAuftragSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-        ' create "Angebot erstellen" button
+        ' create "Angebot erfassen" button
         intColumn = 1
         intRow = 1
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateOffer"
+                .Name = "cmdSeizeOffer"
                 .Left = basAuftragSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basAuftragSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basAuftragSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basAuftragSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
-                .Caption = "Auftrag erstellen"
-                .OnClick = "=OpenFormAuftragErstellen()"
+                .Caption = "Auftrag erfassen"
+                .OnClick = "=OpenFormAuftragErfassen()"
                 .Visible = True
             End With
             
@@ -695,11 +695,11 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
     
 End Function
 
-Public Function OpenFormAuftragErstellen()
+Public Function OpenFormAuftragErfassen()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragSuchen.OpenFormAuftragErstellen"
+        Debug.Print "execute basAuftragSuchen.OpenFormAuftragErfassen"
     End If
     
     Dim strFormName As String
@@ -710,7 +710,7 @@ Public Function OpenFormAuftragErstellen()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "basAuftragSuchen.OpenFormAuftragErstellen executed"
+        Debug.Print "basAuftragSuchen.OpenFormAuftragErfassen executed"
     End If
     
 End Function
@@ -833,7 +833,7 @@ Public Function AuftragSuchenDeleteRecordset()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragSuchen.AuftragSuchenSaveRecordset"
+        Debug.Print "execute basAuftragSuchen.AuftragSuchenDeleteRecordset"
     End If
     
     ' declare form name
@@ -880,7 +880,7 @@ Public Function AuftragSuchenDeleteRecordset()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragSuchen.AuftragSuchenSaveRecordset execute"
+        Debug.Print "basAuftragSuchen.AuftragSuchenDeleteRecordset execute"
     End If
     
 End Function

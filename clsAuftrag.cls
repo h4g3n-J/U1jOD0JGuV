@@ -738,7 +738,7 @@ Public Sub CreateRecordset()
     ' check primary key value
     If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
         ' error message
-        MsgBox "AftrID ist ein Pflichtfeld, bitte Wert zuweisen!", vbCritical, "Fehlermeldung"
+        MsgBox strPrimaryKey & " ist ein Pflichtfeld, bitte Wert zuweisen!", vbCritical, "Fehlermeldung"
         Debug.Print "Error: clsAuftrag.CreateRecordset aborted, Error Code 1"
         rstRecordset.Close
         Set rstRecordset = Nothing
@@ -887,48 +887,3 @@ ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
 End Sub
-
-Private Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName As Variant, ByVal varRecordsetName As Variant) As Boolean
-
-    ' command message
-    If gconVerbatim = True Then
-        Debug.Print "execute clsAuftrag.RecordsetExists"
-    End If
-
-    Dim bolStatus As Boolean
-    bolStatus = False
-    
-    Dim bolLocalVerbatim As Boolean
-    bolLocalVerbatim = False
-    If bolLocalVerbatim Then
-        Debug.Print "clsAuftrag.RecordsetExists: varTblName = " & varTblName & " , varFieldName = " & " , varRecordsetName = " & varRecordsetName
-    End If
-    
-    varTblName = CStr(varTblName)
-    varFieldName = CStr(varFieldName)
-    varRecordsetName = CStr(varRecordsetName)
-    
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    Dim rstRecordset As DAO.RecordSet
-    Set rstRecordset = dbsCurrentDB.OpenRecordset(varTblName, dbOpenDynaset)
-    
-    If DCount(varFieldName, varTblName, varFieldName & " Like '" & varRecordsetName & "'") > 0 Then
-        bolStatus = True
-    End If
-    
-    RecordsetExists = bolStatus
-    
-ExitProc:
-    rstRecordset.Close
-    Set rstRecordset = Nothing
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-    
-    ' event message
-    If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.RecordsetExists executed"
-    End If
-    
-End Function

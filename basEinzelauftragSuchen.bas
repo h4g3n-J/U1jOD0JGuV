@@ -509,17 +509,16 @@ Public Sub BuildEinzelauftragSuchen()
         ' create "Einzelauftrag erstellen" button
         intColumn = 1
         intRow = 1
-        
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateOffer"
+                .Name = "cmdCreateEinzelauftrag"
                 .Left = basEinzelauftragSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basEinzelauftragSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basEinzelauftragSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basEinzelauftragSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Einzelauftrag erstellen"
-' insert editing here ----> .OnClick = "=OpenFormCreateOffer()"
-                .Visible = False
+                .OnClick = "=OpenFormEinzelauftragErstellen()"
+                .Visible = True
             End With
             
         ' create form title
@@ -561,6 +560,26 @@ Public Sub BuildEinzelauftragSuchen()
             btnButton.Height = 330
             btnButton.Caption = "Schließen"
             btnButton.OnClick = "=CloseFormEinzelauftragSuchen()"
+            
+        ' create save button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSave"
+            btnButton.Left = 13180
+            btnButton.Top = 1425
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Speichern"
+            btnButton.OnClick = "=EinzelauftragSuchenSaveRecordset()"
+            
+        ' create deleteRecordset button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdDeleteRecordset"
+            btnButton.Left = 13180
+            btnButton.Top = 1875
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Datensatz löschen"
+            btnButton.OnClick = "=EinzelauftragSuchenDeleteRecordset()"
 
         ' create subform
         Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -1099,5 +1118,156 @@ Public Function CloseFormEinzelauftragSuchen()
     
 End Function
 
+Public Function OpenFormEinzelauftragErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basEinzelauftragSuchen.OpenFormEinzelauftragErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmEinzelauftragErstellen"
+    
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basEinzelauftragSuchen.OpenFormEinzelauftragErstellen executed"
+    End If
+    
+End Function
 
+Public Function EinzelauftragSuchenSaveRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basEinzelauftragSuchen.EinzelauftragSuchenSaveRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmEinzelauftragSuchen"
+    
+    ' declare subform name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "EAkurzKey"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Einzelauftrag
+    Dim Einzelauftrag As clsEinzelauftrag
+    Set Einzelauftrag = New clsEinzelauftrag
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basEinzelauftragSuchen.EinzelauftragSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Einzelauftrag.SelectRecordset varRecordsetName
+    
+    ' allocate values to recordset properties
+    With Einzelauftrag
+        .MengengeruestLink = Forms.Item(strFormName).Controls("txt01")
+        .LeistungsbeschreibungLink = Forms.Item(strFormName).Controls("txt02")
+        .Bemerkung = Forms.Item(strFormName).Controls("txt03")
+        .BeauftragtDatum = Forms.Item(strFormName).Controls("txt04")
+        .AbgebrochenDatum = Forms.Item(strFormName).Controls("txt05")
+        .MitzeichnungI21Datum = Forms.Item(strFormName).Controls("txt06")
+        .MitzeichnungI25Datum = Forms.Item(strFormName).Controls("txt07")
+        .AngebotDatum = Forms.Item(strFormName).Controls("txt08")
+        .AbgenommenDatum = Forms.Item(strFormName).Controls("txt09")
+        .StorniertDatum = Forms.Item(strFormName).Controls("txt10")
+        .AngebotBrutto = Forms.Item(strFormName).Controls("txt11")
+        .BWIKey = Forms.Item(strFormName).Controls("txt12")
+        .AftrBeginn = Forms.Item(strFormName).Controls("txt13")
+        .AftrEnde = Forms.Item(strFormName).Controls("txt14")
+    End With
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    
+    If varUserInput = 1 Then
+        Einzelauftrag.SaveRecordset
+        MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
+    Else
+        Debug.Print "Error: basEinzelauftragSuchen.EinzelauftragSuchenSaveRecordset aborted, Error Code 2"
+        MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basEinzelauftragSuchen.EinzelauftragSuchenSaveRecordset execute"
+    End If
+    
+End Function
+
+Public Function EinzelauftragSuchenDeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basEinzelauftragSuchen.EinzelauftragSuchenDeleteRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmEinzelauftragSuchen"
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "EAkurzKey"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Einzelauftrag
+    Dim Einzelauftrag As clsEinzelauftrag
+    Set Einzelauftrag = New clsEinzelauftrag
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basEinzelauftragSuchen.EinzelauftragSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Einzelauftrag.SelectRecordset varRecordsetName
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Soll der Datensatz " & varRecordsetName & " wirklich gelöscht werden?", vbOKCancel, "Datensatz löschen")
+    
+    If varUserInput = 1 Then
+        Einzelauftrag.DeleteRecordset
+        MsgBox "Datensatz gelöscht", vbInformation, "Datensatz löschen"
+    Else
+        Debug.Print "Error: basEinzelauftragSuchen.AuftragSuchenDeleteRecordset aborted, Error Code 2"
+        MsgBox "löschen abgebrochen", vbInformation, "Datensatz löschen"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basEinzelauftragSuchen.EinzelauftragSuchenSaveRecordset execute"
+    End If
+    
+End Function
 

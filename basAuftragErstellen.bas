@@ -236,37 +236,6 @@ Public Sub buildAuftragErstellen()
         End With
     ' column added? -> update intNumberOfColumns
     
-    ' create lifecycle grid
-    Dim aintLifecycleGrid() As Integer
-    
-        ' grid settings
-        intNumberOfColumns = 1
-        intNumberOfRows = 1
-        intLeft = 510
-        intTop = 1700
-        intWidth = 2730
-        intHeight = 330
-        
-        ReDim aintLifecycleGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
-        
-        aintLifecycleGrid = basAuftragErstellen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
-    
-        ' create "Einzelauftrag erstellen" button
-        intColumn = 1
-        intRow = 1
-        
-        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
-            With btnButton
-                .Name = "cmdCreateOffer"
-                .Left = basAuftragErstellen.GetLeft(aintLifecycleGrid, intColumn, intRow)
-                .Top = basAuftragErstellen.GetTop(aintLifecycleGrid, intColumn, intRow)
-                .Width = basAuftragErstellen.GetWidth(aintLifecycleGrid, intColumn, intRow)
-                .Height = basAuftragErstellen.GetHeight(aintLifecycleGrid, intColumn, intRow)
-                .Caption = "Einzelauftrag erstellen"
-' insert editing here ----> .OnClick = "=OpenFormCreateOffer()"
-                .Visible = False
-            End With
-            
         ' create form title
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
             lblLabel.Name = "lblTitle"
@@ -275,7 +244,7 @@ Public Sub buildAuftragErstellen()
             lblLabel.Top = 227
             lblLabel.Width = 9210
             lblLabel.Height = 507
-            lblLabel.Caption = "Auftrag Erstellen"
+            lblLabel.Caption = "Auftrag erfassen"
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -760,48 +729,6 @@ Private Sub TestGetWidth()
     End If
     
 End Sub
-
-Public Function SearchAndReloadAuftragErstellen()
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basAuftragErstellen.SearchAndReloadAuftragErstellen"
-    End If
-    
-    Dim strFormName As String
-    strFormName = "frmAuftragErstellen"
-    
-    Dim strSearchTextboxName As String
-    strSearchTextboxName = "txtSearchBox"
-    
-    ' search Rechnung
-    Dim strQueryName As String
-    strQueryName = "qryAuftragErstellen"
-    
-    Dim strQuerySource As String
-    strQuerySource = "tblEinzelauftrag"
-    
-    Dim strPrimaryKey As String
-    strPrimaryKey = "EAkurzKey"
-    
-    Dim varSearchTerm As Variant
-    varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
-    
-    basAuftragErstellenSub.SearchEinzelauftrag strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
-    
-    
-    ' close form
-    DoCmd.Close acForm, strFormName, acSaveYes
-    
-    ' open form
-    DoCmd.OpenForm strFormName, acNormal
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basAuftragErstellen.SearchAndReloadAuftragErstellen executed"
-    End If
-    
-End Function
 
 Public Function CloseFormAuftragErstellen()
     
