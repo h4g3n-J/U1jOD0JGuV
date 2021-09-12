@@ -479,16 +479,6 @@ Public Property Get RechnungBrutto() As Variant
     
 End Property
 
-Public Sub AddRecordset()
-
-' mvarClipboard = basSupport.AddRecordsetMN( _
-    "tblAngebot", "BWIKey", "Angebot Titel", "Titel des referenzierten Angebots eingeben", "Angebot erfassen", _
-    "tblRechnung", "RechnungNr", "Rechnungsnummer", "Rechnungsnummer eingeben", "Rechnung erfassen", _
-    "tblAngebotZuRechnung", _
-    False)
-    
-End Sub
-
 ' if no recordset is selected, set to default
 ' check if query exists
 ' check if recordset exists
@@ -538,14 +528,14 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
         End If
         ' load default Value
         mvarRecordsetClipboard = DefaultProperties
-        GoTo ExitProc
+        Exit Sub
     End If
     
     ' check if target table exists, when negative _
     ' return error + exitProc
     If ObjectExists(strTableName, strObjectType) = False Then
         Debug.Print "clsRechnung.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
-        GoTo ExitProc
+        Exit Sub
     End If
     
     ' select recordset from table or query
@@ -573,7 +563,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     rstRecordset.Close
     Set rstRecordset = Nothing
 
-ExitProc:
+exitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
 End Sub
@@ -620,7 +610,7 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     
     ObjectExists = bolObjectExists
     
-ExitProc:
+exitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
     

@@ -789,14 +789,14 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
         End If
         ' default Value
         mvarRecordsetClipboard = DefaultProperties
-        GoTo ExitProc
+        Exit Sub
     End If
         
     ' check if target table exists, when negative _
     ' return error + exitProc
     If ObjectExists(strTableName, strObjectType) = False Then
         Debug.Print "clsAngebot.SelectRecordset: " & strTableName & " existiert nicht. Prozedur abgebrochen."
-        GoTo ExitProc
+        Exit Sub
     End If
     
     ' check if recordset exists
@@ -804,7 +804,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     If RecordsetExists(strTableName, strKeyColumn, varRecordsetName) <> True Then
         Debug.Print "clsAngebot.SelectRecordset: " & varRecordsetName & " existiert nicht. Prozedur abgebrochen."
         MsgBox varRecordsetName & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
-        GoTo ExitProc
+        Exit Sub
     End If
 
     ' select recordset from table or query
@@ -832,7 +832,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     rstRecordset.Close
     Set rstRecordset = Nothing
 
-ExitProc:
+exitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
 End Sub
@@ -922,7 +922,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
     
     If intError > 0 Then
         Debug.Print "basSupport.AddRecodset: Prozedur abgebrochen"
-        GoTo ExitProc
+        GoTo exitProc
     End If
     
     'ask for the names of the recordsets
@@ -935,7 +935,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
                 Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(2, lngi) & " ist leer, " _
                     & "Prozedur abgebrochen"
                 MsgBox astrConfig(2, lngi) & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
-                GoTo ExitProc
+                GoTo exitProc
             End If
         
             ' return input
@@ -959,7 +959,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
                         MsgBox "'" & astrConfig(6, lngi) & "' existiert nicht.", _
                             vbCritical, "Referenzdantensatz fehlt"
                     End If
-                GoTo ExitProc
+                GoTo exitProc
             End If
     Next
         
@@ -992,7 +992,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
     rstRecordset.Close
     Set rstRecordset = Nothing
     
-ExitProc:
+exitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
 End Function
@@ -1038,7 +1038,7 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     
     ObjectExists = bolObjectExists
     
-ExitProc:
+exitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
 End Function
@@ -1075,7 +1075,7 @@ Private Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName
     
     RecordsetExists = bolStatus
     
-ExitProc:
+exitProc:
     rstRecordset.Close
     Set rstRecordset = Nothing
     dbsCurrentDB.Close

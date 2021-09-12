@@ -286,7 +286,7 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     
     ObjectExists = bolObjectExists
     
-ExitProc:
+exitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
     
@@ -1061,14 +1061,14 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
         End If
         ' load default Value
         mvarRecordsetClipboard = DefaultProperties
-        GoTo ExitProc
+        Exit Sub
     End If
     
     ' check if target table exists, when negative _
     ' return error + exitProc
     If ObjectExists(strTableName, strObjectType) = False Then
         Debug.Print "clsEinzelauftrag.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
-        GoTo ExitProc
+        Exit Sub
     End If
     
     ' select recordset from table or query
@@ -1096,7 +1096,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     rstRecordset.Close
     Set rstRecordset = Nothing
 
-ExitProc:
+exitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
         

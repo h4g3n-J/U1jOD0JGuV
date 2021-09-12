@@ -12,13 +12,12 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
-' clipboard, relevant for saving and loading methods
-Private mvarClipboard As Variant
+' container for selected recordset, is also relevant for properties procedures
+' look-up DefaultProperties for array composition
+Dim mvarRecordsetClipboard As Variant
 
-' Private Const cintColumns As Integer = 2
-' Private Const cintRows As Integer = 11
-' Dim mavarAuftragAttributes(cintRows, cintColumns) As Variant
-Dim mavarAuftragAttributes As Variant
+' verbatim setting
+Private mbolVerbatim As Boolean
     
 Private Sub Class_Initialize()
 
@@ -28,7 +27,7 @@ Private Sub Class_Initialize()
     End If
     
     ' load default values
-    mavarAuftragAttributes = DefaultValue
+    mvarRecordsetClipboard = DefaultProperties
     
 End Sub
 
@@ -39,125 +38,145 @@ Private Sub Class_Terminate()
 End Sub
 
 ' default class values, executed with clsAuftrag.Class_Initialize
-Private Function DefaultValue()
+Private Function DefaultProperties()
     
+    mbolVerbatim = False
+    
+    ' command message
     If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.DefaultValue ausfuehren"
+        Debug.Print "execute clsAuftrag.DefaultProperties"
     End If
     
-    ' see modul header to change dimensions
-    ' Dim varAuftragSettings(cintRows, cintColumns) As Variant
-    Dim varAuftragSettings(11, 2) As Variant
+    ' set array size according to the number of attributes
+    Dim intNumberOfAttributes As Integer
+    intNumberOfAttributes = 11
     
-    varAuftragSettings(0, 0) = "Attribut name"
-        varAuftragSettings(0, 1) = "data type"
-        varAuftragSettings(0, 2) = "value"
-    varAuftragSettings(1, 0) = "AftrID"
-        varAuftragSettings(1, 1) = "string"
-        varAuftragSettings(1, 2) = Null
-    varAuftragSettings(2, 0) = "AftrTitel"
-        varAuftragSettings(2, 1) = "string"
-        varAuftragSettings(2, 2) = Null
-    varAuftragSettings(3, 0) = "StatusKey"
-        varAuftragSettings(3, 1) = "string"
-        varAuftragSettings(3, 2) = Null
-    varAuftragSettings(4, 0) = "OwnerKey"
-        varAuftragSettings(4, 1) = "string"
-        varAuftragSettings(4, 2) = Null
-    varAuftragSettings(5, 0) = "PrioritaetKey"
-        varAuftragSettings(5, 1) = "string"
-        varAuftragSettings(5, 2) = Null
-    varAuftragSettings(6, 0) = "ParentKey"
-        varAuftragSettings(6, 1) = "string"
-        varAuftragSettings(6, 2) = Null
-    varAuftragSettings(7, 0) = "Bemerkung"
-        varAuftragSettings(7, 1) = "string"
-        varAuftragSettings(7, 2) = Null
-    varAuftragSettings(8, 0) = "BeginnSoll"
-        varAuftragSettings(8, 1) = "date"
-        varAuftragSettings(8, 2) = Null
-    varAuftragSettings(9, 0) = "EndeSoll"
-        varAuftragSettings(9, 1) = "date"
-        varAuftragSettings(9, 2) = Null
-    varAuftragSettings(10, 0) = "Erstellt"
-        varAuftragSettings(10, 1) = "date"
-        varAuftragSettings(10, 2) = Null
-    varAuftragSettings(11, 0) = "Kunde"
-        varAuftragSettings(11, 1) = "string"
-        varAuftragSettings(11, 2) = Null
+    Dim varDefaultProperties As Variant
+    ReDim varDefaultProperties(intNumberOfAttributes, 2)
+    varDefaultProperties(0, 0) = "Attribut name"
+        varDefaultProperties(0, 1) = "data type"
+        varDefaultProperties(0, 2) = "value"
+    varDefaultProperties(1, 0) = "AftrID"
+        varDefaultProperties(1, 1) = "string"
+        varDefaultProperties(1, 2) = Null
+    varDefaultProperties(2, 0) = "AftrTitel"
+        varDefaultProperties(2, 1) = "string"
+        varDefaultProperties(2, 2) = Null
+    varDefaultProperties(3, 0) = "StatusKey"
+        varDefaultProperties(3, 1) = "string"
+        varDefaultProperties(3, 2) = Null
+    varDefaultProperties(4, 0) = "OwnerKey"
+        varDefaultProperties(4, 1) = "string"
+        varDefaultProperties(4, 2) = Null
+    varDefaultProperties(5, 0) = "PrioritaetKey"
+        varDefaultProperties(5, 1) = "string"
+        varDefaultProperties(5, 2) = Null
+    varDefaultProperties(6, 0) = "ParentKey"
+        varDefaultProperties(6, 1) = "string"
+        varDefaultProperties(6, 2) = Null
+    varDefaultProperties(7, 0) = "Bemerkung"
+        varDefaultProperties(7, 1) = "string"
+        varDefaultProperties(7, 2) = Null
+    varDefaultProperties(8, 0) = "BeginnSoll"
+        varDefaultProperties(8, 1) = "date"
+        varDefaultProperties(8, 2) = Null
+    varDefaultProperties(9, 0) = "EndeSoll"
+        varDefaultProperties(9, 1) = "date"
+        varDefaultProperties(9, 2) = Null
+    varDefaultProperties(10, 0) = "Erstellt"
+        varDefaultProperties(10, 1) = "date"
+        varDefaultProperties(10, 2) = Null
+    varDefaultProperties(11, 0) = "Kunde"
+        varDefaultProperties(11, 1) = "string"
+        varDefaultProperties(11, 2) = Null
+    ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
         
-    DefaultValue = varAuftragSettings
+    DefaultProperties = varDefaultProperties
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.DefaultProperties executed"
+    End If
+    
 End Function
 
-' set to default when no recordset is selected
-' check if source (query) exists
+' if no recordset is selected, set to default
+' check if query exists
 ' check if recordset exists
-' assign recordset to mavarAuftragAttributes
+' assign recordset to mvarRecordsetClipboard
 Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
-    
-    ' error handler in case no recordset is selected
-    If IsNull(varRecordsetName) Then
-        ' verbatim message
-        If gconVerbatim = True Then
-            Debug.Print "clsAuftrag.SelectRecordset: varRecordsetName ist leer, " _
-                & "Defaultwert anzeigen"
-        End If
-        ' load default Value
-        mavarAuftragAttributes = DefaultValue
-        GoTo ExitProc
+
+    ' command message
+    If mbolVerbatim Then
+        Debug.Print "execute clsAuftrag.SelectRecordset"
     End If
+
+    ' set error state
+    Dim bolErrorState As Boolean
+    bolErrorState = False
     
-    ' recordset source settings
-    ' source type, feasible values: table, query
-    Dim strSourceType As String
-    strSourceType = "table"
-    ' source name
-    Dim strSourceName As String
-    strSourceName = "tblAuftrag"
-    ' name of scanned column
+    ' name of the table or query that contains the
+    ' sought-after recordset
+    Dim strTableName As String
+    strTableName = "tblAuftrag"
+    
+    ' the type of the containing table,
+    ' feasible values are: table, query
+    Dim strObjectType As String
+    strObjectType = "table"
+    
+    ' name of the column that contains the sought recordset
     Dim strKeyColumn As String
     strKeyColumn = "AftrID"
-        
-    ' check if source exists
-    ' negative: return error + exitProc
-    If ObjectExists(strSourceName, strSourceType) = False Then
-        Debug.Print "clsAuftrag.SelectRecordset: " & strSourceName & " existiert nicht. Prozedur abgebrochen."
-        GoTo ExitProc
-    End If
-    
-    ' check if recordset exists
-    ' likely obsolete, since the recordset is chosen from selection of recordsets
-    If RecordsetExists(strSourceName, strKeyColumn, varRecordsetName) <> True Then
-        Debug.Print "clsAuftrag.SelectRecordset: " & varRecordsetName & " existiert nicht. Prozedur abgebrochen."
-        MsgBox varRecordsetName & " existiert nicht. Prozedur abgebrochen.", vbCritical, "Datensatz nicht gefunden"
-        GoTo ExitProc
-    End If
     
     ' define database
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
+    
     ' define recordset
     Dim rstRecordset As DAO.RecordSet
-
-    ' select recordset
-    Set rstRecordset = dbsCurrentDB.OpenRecordset(strSourceName, dbOpenDynaset)
+    
+    ' local verbatim setting
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    
+    ' error handler if no recordset is selected
+    If IsNull(varRecordsetName) Then
+        ' verbatim message
+        If bolLocalVerbatim = True Then
+            Debug.Print "clsAuftrag.SelectRecordset: varRecordsetName is empty, " _
+                & "prompt default value"
+        End If
+        ' load default Value
+        mvarRecordsetClipboard = DefaultProperties
+        GoTo ExitProc
+    End If
+    
+    ' check if target table exists, when negative _
+    ' return error + exitProc
+    If ObjectExists(strTableName, strObjectType) = False Then
+        Debug.Print "clsAuftrag.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
+        GoTo ExitProc
+    End If
+    
+    ' select recordset from table or query
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
     rstRecordset.FindFirst (strKeyColumn & " = '" & CStr(varRecordsetName) & "'")
-
-    ' load recordset to class properties
+    
+    ' assign recordset to properties
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
     Dim inti As Integer
-    For inti = LBound(mavarAuftragAttributes, 1) + 1 To UBound(mavarAuftragAttributes, 1)
-        ' property value [mavarAuftragAttributes(inti, 2)] = recordset value [mavarAuftragAttributes(inti, 0)]
-        mavarAuftragAttributes(inti, 2) = rstRecordset.Fields(mavarAuftragAttributes(inti, 0))
+    For inti = LBound(mvarRecordsetClipboard, 1) + 1 To UBound(mvarRecordsetClipboard, 1)
+        mvarRecordsetClipboard(inti, 2) = rstRecordset.Fields(mvarRecordsetClipboard(inti, 0))
     Next
     
-    ' set local varbatim message on or off
-    Dim bolVerbatim As Boolean
-    bolVerbatim = False
-    
-    ' verbatim message: return data from class properties
-    If bolVerbatim = True Then
-        For inti = LBound(mavarAuftragAttributes, 1) + 1 To UBound(mavarAuftragAttributes, 1)
-            Debug.Print "clsAuftrag.SelectRecordset: " & mavarAuftragAttributes(inti, 0) & vbTab & mavarAuftragAttributes(inti, 2)
+    ' verbatim message: return data content from array
+    ' mvarRecordsetClipboard(inti, 2): property value
+    ' mvarRecordsetClipboard(inti, 0): property name
+    If bolLocalVerbatim = True Then
+        For inti = LBound(mvarRecordsetClipboard, 1) To UBound(mvarRecordsetClipboard, 1)
+            Debug.Print "clsAuftrag.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
         Next
     End If
     
@@ -166,217 +185,9 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     Set rstRecordset = Nothing
 
 ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
+        dbsCurrentDB.Close
+        Set dbsCurrentDB = Nothing
 End Sub
-
-' write class properties to recordset
-Public Sub SaveRecordset(ByVal varRecordsetName As Variant)
-    
-    Dim strTargetTableName As String
-    strTargetTableName = "tblAuftrag"
-    
-    Dim strKeyColumn As String
-    strKeyColumn = mavarAuftragAttributes(1, 0)
-    
-    ' verbatim message
-    If gconVerbatim Then
-            Debug.Print "clsAuftrag.SaveRecordset ausfuehren"
-    End If
-    
-    ' error handler, case no item is selected a.k.a. varRecordset is empty
-    If IsNull(varRecordsetName) Then
-        ' verbatim message
-        Debug.Print "clsAuftrag.SaveRecordset: kein Recordset ausgew�hlt, Speichern abbrechen"
-        ' error message
-        MsgBox "Kein Datensatz ausgewaehlt", vbCritical, "Speichern abgebrochen"
-        ' abort procedure
-        GoTo ExitProc
-    End If
-    
-    ' declare current database
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    ' declare Auftrag
-    Dim rstAftr As DAO.RecordSet
-    Set rstAftr = dbsCurrentDB.OpenRecordset(strTargetTableName, dbOpenDynaset)
-    
-    ' find fist recordset where AftrID = varRecordsetName
-    rstAftr.FindFirst (strKeyColumn & " = '" & varRecordsetName & "'")
-    
-    ' local verbatim setting
-    Dim bolLocalVerbatim As Boolean
-    bolLocalVerbatim = False
-    
-    ' move through textboxes, transform datatype and write properties to recordset
-    Dim inti As Integer
-    With rstAftr
-        .Edit
-            For inti = LBound(mavarAuftragAttributes, 1) + 1 To UBound(mavarAuftragAttributes, 1)
-                ' local verbatim
-                If bolLocalVerbatim Then
-                    Debug.Print "clsAuftrag.SaveRecordset: " & mavarAuftragAttributes(inti, 0) & " = " & mavarAuftragAttributes(inti, 2)
-                End If
-                ' attribute name: mavarAuftragAttributes(inti, 0), _
-                ' property value: mavarAuftragAttributes(inti, 2), _
-                ' data type: mavarAuftragAttributes(inti, 1)
-                CallByName rstAftr, mavarAuftragAttributes(inti, 0), VbLet, CheckDataType(mavarAuftragAttributes(inti, 2), mavarAuftragAttributes(inti, 1))
-            Next
-        .Update
-    End With
-    
-    ' success message
-    MsgBox "Datensatz '" & varRecordsetName & "' gespeichert", vbInformation, "Gespeichert"
-    
-    ' clean up
-    rstAftr.Close
-    Set rstAftr = Nothing
-    
-ExitProc:
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-End Sub
-
-' inaktiv
-' durch Schaltflaeche 'Suchen' ausfuehren,
-' erzeugt Abfrage unter Beruecksichtigung des Suchbegriffs
-Public Sub Suchen(ByVal varSuchbegriff As Variant)
-    Set mdbsCurrentDb = CurrentDb
-    
-    Dim qdfAbfrage As DAO.QueryDef
-    Set qdfAbfrage = mdbsCurrentDb.CreateQueryDef
-    
-    Dim strAbfrageTitel As String
-    strAbfrageTitel = "qryAuftragAuswahl"
-    
-    If IsNull(varSuchbegriff) Then
-        varSuchbegriff = "*"
-    End If
-    
-    ' überprüft, ob die Abfrage qryAuftragAuswahl bereits geöffnet ist,
-    ' wenn ja Abfrage schließen
-    If SysCmd(acSysCmdGetObjectState, acQuery, strAbfrageTitel) = 1 Then
-        Debug.Print "clsAuftragNew.Suchen: " _
-            & "qryAuftragAuswahl geschlossen"
-        DoCmd.Close acQuery, strAbfrageTitel, acSaveYes
-    End If
-    
-    'prüfen ob Abfrage existiert, wenn ja Abfrage löschen
-    Dim RecordSet As Object
-    For Each RecordSet In mdbsCurrentDb.QueryDefs
-        If RecordSet.Name = strAbfrageTitel Then
-            DoCmd.DeleteObject acQuery, strAbfrageTitel
-        End If
-    Next RecordSet
-    
-    ' SQL-Code erzeugen
-    With qdfAbfrage
-        .SQL = " SELECT qryAuftrag.*" _
-                & " FROM qryAuftrag" _
-                & " WHERE qryAuftrag.AftrID LIKE '*" & varSuchbegriff & "*' OR qryAuftrag.AftrTitel LIKE '*" & varSuchbegriff & "*' OR qryAuftrag.BWIKey LIKE '*" & varSuchbegriff & "*' OR qryAuftrag.ParentKey LIKE '*" & varSuchbegriff & "*'" _
-                & " ;"
-        .Name = strAbfrageTitel
-    End With
-    
-    ' Query speichern
-    With mdbsCurrentDb.QueryDefs
-        .Append qdfAbfrage
-        .Refresh
-    End With
-    
-ExitProc:
-        mdbsCurrentDb.Close
-        Set mdbsCurrentDb = Nothing
-        qdfAbfrage.Close
-        Set qdfAbfrage = Nothing
-End Sub
-
-' create recordset, return True if
-' 1. referenced table dosn't exist,
-' 2. recordset name is empty,
-' 3. recordset name is taken
-Public Function AddRecordset(ByVal strRecordsetName As String) As Boolean
-    
-    ' verbatim message
-    If gconVerbatim Then
-        Debug.Print "clsAuftrag.AddRecordset ausfuehren"
-    End If
-    
-    ' settings
-    Dim strTargetName As String
-    strTargetName = "tblAuftrag"
-    
-    Dim strKeyColumn As String
-    strKeyColumn = "AftrID"
-    
-    ' error state
-    Dim bolError As Boolean
-    bolError = False
-    
-    Dim strDialogMessage As String
-    strDialogMessage = "Auftrag ID eingeben"
-    
-    Dim strDialogTitle As String
-    strDialogTitle = "Auftrag erfassen"
-    
-    ' check if strTargetName exists
-    If ObjectExists(strTargetName, "table") = False Then
-        Debug.Print "clsAuftrag.Addrecordset: " & strTargetName & " existiert nicht. Prozedur abgebrochen."
-        bolError = True
-        GoTo ExitProc
-    Else:
-        If gconVerbatim = True Then
-            Debug.Print "clsAuftrag.Addrecordset: " & strTargetName & " existiert."
-        End If
-    End If
-    
-    Dim strArtifact As String
-    strArtifact = "Auftrag"
-    
-    ' check if recordset name is empty, if true then messagebox + exit procedure
-    If basSupport.PflichtfeldIstLeer(strRecordsetName) = True Then
-        Debug.Print "clsAuftrag.Addrecordset: " & strArtifact & _
-            " ist leer. Prozedur abgebrochen."
-        MsgBox strArtifact & " ist leer. Prozedur abgebrochen.", vbCritical, "Fehler"
-        bolError = True
-        GoTo ExitProc
-    End If
-    
-    ' check if recordset already exists
-    If RecordsetExists(strTargetName, strKeyColumn, strRecordsetName) = True Then
-        Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName _
-            & " existiert bereits. Prozedur abgebrochen."
-        ' error message via messagebox
-        MsgBox "Ein Datensatz mit dem Namen '" & strRecordsetName & _
-            "' existiert bereits." & vbCrLf & "Prozedur abgebrochen.", _
-            vbCritical, "Doppelter Eintrag"
-        bolError = True
-        GoTo ExitProc
-    End If
-
-    ' create recordset
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    Dim rstRecordset As DAO.RecordSet
-    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTargetName, dbOpenDynaset)
-
-    rstRecordset.AddNew
-        rstRecordset.Fields(strKeyColumn) = strRecordsetName
-    rstRecordset.Update
-        
-    ' completion message
-    If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.AddRecordset: " & strRecordsetName & " erzeugt."
-    End If
-    
-    ' clean up
-    rstRecordset.Close
-    Set rstRecordset = Nothing
-    
-ExitProc:
-    AddRecordset = bolError
-End Function
 
 Public Property Let AftrID(ByVal varAftrID As Variant)
 
@@ -387,10 +198,10 @@ Public Property Let AftrID(ByVal varAftrID As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrID")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "AftrID")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varAftrID, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varAftrID, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -403,10 +214,10 @@ Public Property Get AftrID() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrID")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "AftrID")
 
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    AftrID = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    AftrID = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -419,10 +230,10 @@ Public Property Let AftrTitel(ByVal varAftrTitel As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrTitel")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "AftrTitel")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varAftrTitel, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varAftrTitel, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -435,10 +246,10 @@ Public Property Get AftrTitel() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "AftrTitel")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "AftrTitel")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    AftrTitel = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    AftrTitel = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -452,10 +263,10 @@ Public Property Let StatusKey(ByVal varStatusKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "StatusKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "StatusKey")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varStatusKey, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varStatusKey, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -468,10 +279,10 @@ Public Property Get StatusKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "StatusKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "StatusKey")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    StatusKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    StatusKey = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -484,10 +295,10 @@ Public Property Let PrioritaetKey(ByVal varPrioritaetKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "PrioritaetKey")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varPrioritaetKey, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPrioritaetKey, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -500,10 +311,10 @@ Public Property Get PrioritaetKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "PrioritaetKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "PrioritaetKey")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    PrioritaetKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    PrioritaetKey = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -516,10 +327,10 @@ Public Property Let ParentKey(ByVal varParentKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "ParentKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "ParentKey")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varParentKey, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varParentKey, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -532,10 +343,10 @@ Public Property Get ParentKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "ParentKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "ParentKey")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    ParentKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    ParentKey = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -548,10 +359,10 @@ Public Property Let Bemerkung(ByVal varBemerkung As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Bemerkung")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "Bemerkung")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varBemerkung, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varBemerkung, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -564,10 +375,10 @@ Public Property Get Bemerkung() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Bemerkung")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "Bemerkung")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    Bemerkung = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    Bemerkung = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -580,10 +391,10 @@ Public Property Let BeginnSoll(ByVal varBeginnSoll As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "BeginnSoll")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varBeginnSoll, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varBeginnSoll, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -596,10 +407,10 @@ Public Property Get BeginnSoll() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "BeginnSoll")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "BeginnSoll")
     
-    ' get value [mavarAuftragAttributes(intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    BeginnSoll = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard(intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    BeginnSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -612,10 +423,10 @@ Public Property Let EndeSoll(ByVal varEndeSoll As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "EndeSoll")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "EndeSoll")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varEndeSoll, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varEndeSoll, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -628,10 +439,10 @@ Public Property Get EndeSoll() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "EndeSoll")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "EndeSoll")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    EndeSoll = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    EndeSoll = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -644,10 +455,10 @@ Public Property Let Erstellt(ByVal varErstellt As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Erstellt")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "Erstellt")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varErstellt, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varErstellt, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -660,10 +471,10 @@ Public Property Get Erstellt() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Erstellt")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "Erstellt")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    Erstellt = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    Erstellt = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -676,10 +487,10 @@ Public Property Let kunde(ByVal varKunde As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Kunde")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "Kunde")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varKunde, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varKunde, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -692,10 +503,10 @@ Public Property Get kunde() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "Kunde")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "Kunde")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform corresponding to data type [mavarAuftragAttributes(intItemPosition, 1)]
-    kunde = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform corresponding to data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    kunde = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -707,10 +518,10 @@ Public Property Let OwnerKey(ByVal varOwnerKey As Variant)
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "OwnerKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "OwnerKey")
     
-    ' transform input [mavarAuftragAttributes(intItemPosition, 1)], assign to attribut value [mavarAuftragAttributes( intItemPosition, 2)]
-    mavarAuftragAttributes(intItemPosition, 2) = CheckDataType(varOwnerKey, mavarAuftragAttributes(intItemPosition, 1))
+    ' transform input [mvarRecordsetClipboard(intItemPosition, 1)], assign to attribut value [mvarRecordsetClipboard( intItemPosition, 2)]
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varOwnerKey, mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -722,10 +533,10 @@ Public Property Get OwnerKey() As Variant
     
     ' scan attribut array for attribut name
     Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mavarAuftragAttributes, "OwnerKey")
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, "OwnerKey")
     
-    ' get value [mavarAuftragAttributes( intItemPosition, 2)], transform data type [mavarAuftragAttributes(intItemPosition, 1)]
-    OwnerKey = CheckDataType(mavarAuftragAttributes(intItemPosition, 2), mavarAuftragAttributes(intItemPosition, 1))
+    ' get value [mvarRecordsetClipboard( intItemPosition, 2)], transform data type [mvarRecordsetClipboard(intItemPosition, 1)]
+    OwnerKey = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
 End Property
 
@@ -773,51 +584,6 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
 ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
-End Function
-
-Private Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName As Variant, ByVal varRecordsetName As Variant) As Boolean
-
-    ' command message
-    If gconVerbatim = True Then
-        Debug.Print "execute clsAuftrag.RecordsetExists"
-    End If
-
-    Dim bolStatus As Boolean
-    bolStatus = False
-    
-    Dim bolLocalVerbatim As Boolean
-    bolLocalVerbatim = False
-    If bolLocalVerbatim Then
-        Debug.Print "clsAuftrag.RecordsetExists: varTblName = " & varTblName & " , varFieldName = " & " , varRecordsetName = " & varRecordsetName
-    End If
-    
-    varTblName = CStr(varTblName)
-    varFieldName = CStr(varFieldName)
-    varRecordsetName = CStr(varRecordsetName)
-    
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    Dim rstRecordset As DAO.RecordSet
-    Set rstRecordset = dbsCurrentDB.OpenRecordset(varTblName, dbOpenDynaset)
-    
-    If DCount(varFieldName, varTblName, varFieldName & " Like '" & varRecordsetName & "'") > 0 Then
-        bolStatus = True
-    End If
-    
-    RecordsetExists = bolStatus
-    
-ExitProc:
-    rstRecordset.Close
-    Set rstRecordset = Nothing
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-    
-    ' event message
-    If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.RecordsetExists executed"
-    End If
-    
 End Function
 
 ' search varWanted in two dimensional array
@@ -940,7 +706,229 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     
     ' event message
     If gconVerbatim = True Then
-        Debug.Print "clsAuftrag.CheckDataType execute"
+        Debug.Print "clsAuftrag.CheckDataType executed"
     End If
 
+End Function
+
+Public Sub CreateRecordset()
+    ' Error Code 1: "AftrID" input is missing
+    ' Error Code 2: "AftrID" is taken, choose another value
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsAuftrag.CreateRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblAuftrag"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "AftrID"
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        ' error message
+        MsgBox "AftrID ist ein Pflichtfeld, bitte Wert zuweisen!", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsAuftrag.CreateRecordset aborted, Error Code 1"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    ' check if primary key value is taken
+    If DCount(strPrimaryKey, strTableName, strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'") > 0 Then
+        MsgBox mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & " wird bereits verwendet, bitte einen anderen Wert w�hlen.", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsAuftrag.CreateRecordset aborted, Error Code 2"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    rstRecordset.AddNew
+        rstRecordset!AftrID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrID"), intValuePosition)
+        rstRecordset!AftrTitel = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrTitel"), intValuePosition)
+        rstRecordset!StatusKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "StatusKey"), intValuePosition)
+        rstRecordset!OwnerKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "OwnerKey"), intValuePosition)
+        rstRecordset!PrioritaetKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "PrioritaetKey"), intValuePosition)
+        rstRecordset!ParentKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "ParentKey"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!BeginnSoll = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BeginnSoll"), intValuePosition)
+        rstRecordset!EndeSoll = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EndeSoll"), intValuePosition)
+        rstRecordset!Erstellt = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Erstellt"), intValuePosition)
+        rstRecordset!kunde = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "kunde"), intValuePosition)
+    rstRecordset.Update
+    
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Auftrag erstellen"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsAuftrag.CreateRecordset executed"
+    End If
+    
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub
+
+Public Sub DeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsAuftrag.DeleteRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblAuftrag"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "AftrID"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsAuftrag.DeleteRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    ' delete recordset
+    rstRecordset.Delete
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsAuftrag.DeleteRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+End Sub
+
+Public Sub SaveRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsAuftrag.SaveRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblAuftrag"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "AftrID"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsAuftrag.SaveRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    Dim strRecordsetName As String
+    strRecordsetName = rstRecordset.Name
+    
+    rstRecordset.Edit
+        rstRecordset!AftrTitel = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrTitel"), intValuePosition)
+        rstRecordset!StatusKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "StatusKey"), intValuePosition)
+        rstRecordset!OwnerKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "OwnerKey"), intValuePosition)
+        rstRecordset!PrioritaetKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "PrioritaetKey"), intValuePosition)
+        rstRecordset!ParentKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "ParentKey"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!BeginnSoll = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BeginnSoll"), intValuePosition)
+        rstRecordset!EndeSoll = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EndeSoll"), intValuePosition)
+        rstRecordset!Erstellt = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Erstellt"), intValuePosition)
+        rstRecordset!kunde = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "kunde"), intValuePosition)
+    rstRecordset.Update
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsAuftrag.SaveRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub
+
+Private Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName As Variant, ByVal varRecordsetName As Variant) As Boolean
+
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute clsAuftrag.RecordsetExists"
+    End If
+
+    Dim bolStatus As Boolean
+    bolStatus = False
+    
+    Dim bolLocalVerbatim As Boolean
+    bolLocalVerbatim = False
+    If bolLocalVerbatim Then
+        Debug.Print "clsAuftrag.RecordsetExists: varTblName = " & varTblName & " , varFieldName = " & " , varRecordsetName = " & varRecordsetName
+    End If
+    
+    varTblName = CStr(varTblName)
+    varFieldName = CStr(varFieldName)
+    varRecordsetName = CStr(varRecordsetName)
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(varTblName, dbOpenDynaset)
+    
+    If DCount(varFieldName, varTblName, varFieldName & " Like '" & varRecordsetName & "'") > 0 Then
+        bolStatus = True
+    End If
+    
+    RecordsetExists = bolStatus
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "clsAuftrag.RecordsetExists executed"
+    End If
+    
 End Function

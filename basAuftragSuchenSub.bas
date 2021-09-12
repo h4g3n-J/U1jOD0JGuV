@@ -6,7 +6,7 @@ Public Sub BuildAuftragSuchenSub()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragSuchenSub.BuildAuftragSuchenSub "
+        Debug.Print "execute basAuftragSuchenSub.BuildAuftragSuchenSub"
     End If
     
     ' set form name
@@ -26,10 +26,17 @@ Public Sub BuildAuftragSuchenSub()
     Dim strTempFormName As String
     strTempFormName = objForm.Name
     
-    ' build query qryAuftragSuchen
+    ' build query
     Dim strQueryName As String
     strQueryName = "qryAuftragSuchen"
-    basAuftragSuchenSub.BuildQuery strQueryName
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblAuftrag"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "AftrID"
+    
+    basLiefergegenstandSuchenSub.SearchLiefergegenstand strQueryName, strQuerySource, strPrimaryKey
     
     ' set recordset source
     objForm.RecordSource = strQueryName
@@ -379,7 +386,6 @@ Public Sub BuildAuftragSuchenSub()
             .Height = basAuftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
-        
     ' column added? -> update intNumberOfColumns
         
     ' set oncurrent methode
@@ -433,81 +439,6 @@ Private Sub ClearForm(ByVal strFormName As String)
     ' event message
     If gconVerbatim Then
         Debug.Print "basAuftragSuchenSub executed"
-    End If
-    
-End Sub
-
-Private Sub BuildQuery(ByVal strQueryName As String)
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basAuftragSuchenSub.BuildQuery"
-    End If
-    
-    ' set current database
-    Dim dbsCurrentDB As DAO.Database
-    Set dbsCurrentDB = CurrentDb
-    
-    ' delete query
-    basAuftragSuchenSub.ClearQuery strQueryName
-    
-    ' declare query
-    Dim qdfQuery As DAO.QueryDef
-    Set qdfQuery = dbsCurrentDB.CreateQueryDef
-    
-    ' set query Name
-    qdfQuery.Name = strQueryName
-    
-    ' set query SQL
-    qdfQuery.SQL = " SELECT tblAuftrag.*" & _
-                        " FROM tblAuftrag" & _
-                        " ;"
-                        
-    ' save query
-    With dbsCurrentDB.QueryDefs
-        .Append qdfQuery
-        .Refresh
-    End With
-    
-ExitProc:
-    qdfQuery.Close
-    dbsCurrentDB.Close
-    Set dbsCurrentDB = Nothing
-    Set qdfQuery = Nothing
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basAuftragSuchenSub.BuildQuery executed"
-    End If
-    
-End Sub
-
-Private Sub ClearQuery(ByVal strQueryName As String)
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basAuftragSuchenSub.clearQuery"
-    End If
-    
-    Dim objQuery As Object
-    For Each objQuery In Application.CurrentData.AllQueries
-        If objQuery.Name = strQueryName Then
-            
-            ' check if query is loaded
-            If objQuery.IsLoaded Then
-                DoCmd.Close acQuery, strQueryName, acSaveYes
-            End If
-                
-            'delete query
-            DoCmd.DeleteObject acQuery, strQueryName
-            Exit For
-        
-        End If
-    Next
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basAuftragSuchenSub.clearQuery executed"
     End If
     
 End Sub
@@ -641,6 +572,55 @@ Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal 
     
 End Function
 
+Private Sub TestGetLeft()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.TestGetLeft"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basAuftragSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Const cintHorizontalSpacing As Integer = 60
+    Dim intLeftExpected As Integer
+    intLeftExpected = cintLeft + (cintTestColumn - 1) * (cintHorizontalSpacing + cintColumnWidth)
+    
+    ' test run
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim intLeftResult As Integer
+    intLeftResult = basAuftragSuchenSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intLeftResult <> intLeftExpected Then
+        MsgBox "basAuftragSuchenSub.TestGetLeft: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basAuftragSuchenSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.TestGetLeft executed"
+    End If
+    
+End Sub
+
 ' get top from grid
 Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
@@ -658,6 +638,56 @@ Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal i
     End If
     
 End Function
+
+Private Sub TestGetTop()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.TestGetTop"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basAuftragSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Const cintVerticalSpacing As Integer = 60
+    Dim intTopExpected As Integer
+    intTopExpected = cintTop + (cintTestRow - 1) * (cintVerticalSpacing + cintRowHeight)
+    
+    ' test run
+    Dim bolErrorState As Boolean
+    bolErrorState = False
+    
+    Dim intTopResult As Integer
+    intTopResult = basAuftragSuchenSub.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intTopResult <> intTopExpected Then
+        MsgBox "basAuftragSuchenSub.TestGetTop: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basAuftragSuchenSub.TestGetTop: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.TestGetTop executed"
+    End If
+    
+End Sub
+
 
 ' get width from grid
 Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
@@ -677,6 +707,51 @@ Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal
     
 End Function
 
+Private Sub TestGetWidth()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.TestGetWidth"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basAuftragSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Dim intWidthExpected As Integer
+    intWidthExpected = cintColumnWidth
+    
+    ' test run
+    Dim intWidthResult As Integer
+    intWidthResult = basAuftragSuchenSub.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intWidthResult <> intWidthExpected Then
+        MsgBox "basAuftragSuchenSub.TestGetWidth: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basAuftragSuchenSub.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.TestGetWidth executed"
+    End If
+    
+End Sub
+
 ' get height from grid
 Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVal intRow As Integer) As Integer
     
@@ -694,4 +769,225 @@ Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVa
     End If
     
 End Function
+
+Private Sub TestGetHeight()
+    ' Error code1: returned value mismatches expected velue
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.TestGetHeight"
+    End If
+    
+    Const cintNumberOfColumns As Integer = 3
+    Const cintNumberOfRows As Integer = 2
+    Const cintRowHeight As Integer = 100
+    Const cintColumnWidth As Integer = 50
+    Const cintLeft As Integer = 50
+    Const cintTop As Integer = 50
+        
+    Dim aintInformationGrid() As Integer
+    ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
+    
+    aintInformationGrid = basAuftragSuchenSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    
+    ' set test parameters
+    Const cintTestColumn As Integer = 2
+    Const cintTestRow As Integer = 2
+    
+    ' set anticipated result
+    Dim intHeightExpected As Integer
+    intHeightExpected = cintRowHeight
+    
+    ' test run
+    Dim intHeightResult As Integer
+    intHeightResult = basAuftragSuchenSub.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
+    
+    If intHeightResult <> intHeightExpected Then
+        MsgBox "basAuftragSuchenSub.TestGetHeight: Test failed. Error Code: 1", vbCritical
+    Else
+        MsgBox "basAuftragSuchenSub.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.TestGetHeight executed"
+    End If
+    
+End Sub
+
+Public Sub SearchAuftrag(ByVal strQueryName As String, ByVal strQuerySource As String, ByVal strPrimaryKey As String, Optional varSearchTerm As Variant = Null)
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.SearchAuftrag"
+    End If
+    
+    ' NULL handler
+    If IsNull(varSearchTerm) Then
+        varSearchTerm = "*"
+    End If
+        
+    ' transform to string
+    Dim strSearchTerm As String
+    strSearchTerm = CStr(varSearchTerm)
+    
+    ' set current database
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+            
+    ' delete existing query of the same name
+    basAuftragSuchenSub.DeleteQuery strQueryName
+    
+    ' set query
+    Dim qdfQuery As DAO.QueryDef
+    Set qdfQuery = dbsCurrentDB.CreateQueryDef
+    
+    With qdfQuery
+        ' set query Name
+        .Name = strQueryName
+        ' set query SQL
+        .SQL = " SELECT " & strQuerySource & ".*" & _
+                    " FROM " & strQuerySource & _
+                    " WHERE " & strQuerySource & "." & strPrimaryKey & " LIKE '*" & strSearchTerm & "*'" & _
+                    " ;"
+    End With
+    
+    ' save query
+    With dbsCurrentDB.QueryDefs
+        .Append qdfQuery
+        .Refresh
+    End With
+
+exitProc:
+    qdfQuery.Close
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    Set qdfQuery = Nothing
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.SearchAuftrag executed"
+    End If
+
+End Sub
+
+Private Sub TestSearchAuftrag()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.TestSearchAuftrag"
+    End If
+        
+    ' build query qryRechnungSuchen
+    Dim strQueryName As String
+    strQueryName = "qryLiefergegenstandSuchen"
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblLiefergegenstand"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LiefergegenstandID"
+    
+    basAuftragSuchenSub.SearchAuftrag strQueryName, strQuerySource, strPrimaryKey
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+        
+    Dim objForm As Object
+    For Each objForm In Application.CurrentData.AllQueries
+        If objForm.Name = strQueryName Then
+            bolObjectExists = True
+        End If
+    Next
+    
+    If bolObjectExists Then
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " detected", vbOKOnly, "basAuftragSuchenSub.TestSearchAuftrag"
+    Else
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not detected", vbCritical, "basAuftragSuchenSub.TestSearchAuftrag"
+    End If
+        
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.TestSearchAuftrag executed"
+    End If
+    
+End Sub
+
+' delete query
+' 1. check if query exists
+' 2. close if query is loaded
+' 3. delete query
+Private Sub DeleteQuery(strQueryName As String)
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.DeleteQuery"
+    End If
+    
+    ' set dummy object
+    Dim objDummy As Object
+    ' search object list >>AllQueries<< for strQueryName
+    For Each objDummy In Application.CurrentData.AllQueries
+        If objDummy.Name = strQueryName Then
+            
+            ' check if query isloaded
+            If objDummy.IsLoaded Then
+                ' close query
+                DoCmd.Close acQuery, strQueryName, acSaveYes
+                ' verbatim message
+                If gconVerbatim Then
+                    Debug.Print "basAuftragSuchenSub.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
+                End If
+            End If
+    
+            ' delete query
+            DoCmd.DeleteObject acQuery, strQueryName
+            
+            ' exit loop
+            Exit For
+        End If
+    Next
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.DeleteQuery executed"
+    End If
+    
+End Sub
+
+Private Sub TestDeleteQuery()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchenSub.TestDeleteQuery"
+    End If
+    
+    Dim strQueryName As String
+    strQueryName = "qryAuftragSuchen"
+    
+    ' delete query
+    basAuftragSuchenSub.DeleteQuery strQueryName
+    
+    Dim bolObjectExists As Boolean
+    bolObjectExists = False
+        
+    Dim objForm As Object
+    For Each objForm In Application.CurrentProject.AllForms
+        If objForm.Name = strQueryName Then
+            bolObjectExists = True
+        End If
+    Next
+    
+    If bolObjectExists Then
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not deleted.", vbCritical, "basAuftragSuchenSub.TestClearForm"
+    Else
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " was not detected", vbOKOnly, "basAuftragSuchenSub.TestClearForm"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchenSub.TestDeleteQuery executed"
+    End If
+    
+End Sub
 

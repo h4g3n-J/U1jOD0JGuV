@@ -398,7 +398,6 @@ Public Sub BuildAuftragSuchen()
         ' create "Angebot erstellen" button
         intColumn = 1
         intRow = 1
-        
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmdCreateOffer"
@@ -407,8 +406,8 @@ Public Sub BuildAuftragSuchen()
                 .Width = basAuftragSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basAuftragSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Auftrag erstellen"
-                .OnClick = "=OpenFormCreateOffer()"
-' insert editing here ----> .Visible = False
+                .OnClick = "=OpenFormAuftragErstellen()"
+                .Visible = True
             End With
             
         ' create form title
@@ -438,8 +437,8 @@ Public Sub BuildAuftragSuchen()
             btnButton.Width = 2730
             btnButton.Height = 330
             btnButton.Caption = "Suchen"
-' insert editing here ----> btnButton.OnClick = "=SearchAngebot()"
-            btnButton.Visible = False
+            btnButton.OnClick = "=SearchAndReloadAuftragSuchen()"
+            btnButton.Visible = True
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -450,6 +449,26 @@ Public Sub BuildAuftragSuchen()
             btnButton.Height = 330
             btnButton.Caption = "Schließen"
             btnButton.OnClick = "=CloseFrmAuftragSuchen()"
+            
+        ' create save button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSave"
+            btnButton.Left = 13180
+            btnButton.Top = 1425
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Speichern"
+            btnButton.OnClick = "=AuftragSuchenSaveRecordset()"
+            
+        ' create deleteRecordset button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdDeleteRecordset"
+            btnButton.Left = 13180
+            btnButton.Top = 1875
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Datensatz löschen"
+            btnButton.OnClick = "=AuftragSuchenDeleteRecordset()"
             
         ' create subform
         Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -672,6 +691,196 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
     ' event message
     If gconVerbatim Then
         Debug.Print "basAuftragSuchen.CalculateGrid executed"
+    End If
+    
+End Function
+
+Public Function OpenFormAuftragErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchen.OpenFormAuftragErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmAuftragErstellen"
+    
+    DoCmd.OpenForm strFormName, acNormal
+    ' DoCmd.OpenForm strFormName, acNormal, , , acFormAdd, acDialog
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchen.OpenFormAuftragErstellen executed"
+    End If
+    
+End Function
+
+Public Function SearchAndReloadAuftragSuchen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchen.SearchAndReloadAuftragSuchen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmAuftragSuchen"
+    
+    Dim strSearchTextboxName As String
+    strSearchTextboxName = "txtSearchBox"
+    
+    ' search Rechnung
+    Dim strQueryName As String
+    strQueryName = "qryAuftragSuchen"
+    
+    Dim strQuerySource As String
+    strQuerySource = "tblAuftrag"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "AftrID"
+    
+    Dim varSearchTerm As Variant
+    varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
+    
+    basAuftragSuchenSub.SearchLeistungserfassungsblatt strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
+    
+    ' close form
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' open form
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchen.SearchAndReloadAuftragSuchen executed"
+    End If
+    
+End Function
+
+Public Function AuftragSuchenSaveRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchen.AuftragSuchenSaveRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmAuftragSuchen"
+    
+    ' declare subform name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "AftrID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Auftrag
+    Dim Auftrag As clsAuftrag
+    Set Auftrag = New clsAuftrag
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basAuftragSuchen.AuftragSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Auftrag.SelectRecordset varRecordsetName
+    
+    ' allocate values to recordset properties
+    With Auftrag
+        .StatusKey = Forms.Item(strFormName).Controls("txt02")
+        .OwnerKey = Forms.Item(strFormName).Controls("txt03")
+        .PrioritaetKey = Forms.Item(strFormName).Controls("txt04")
+        .ParentKey = Forms.Item(strFormName).Controls("txt05")
+        .Bemerkung = Forms.Item(strFormName).Controls("txt06")
+        .BeginnSoll = Forms.Item(strFormName).Controls("txt07")
+        .EndeSoll = Forms.Item(strFormName).Controls("txt08")
+        .Erstellt = Forms.Item(strFormName).Controls("txt09")
+        .kunde = Forms.Item(strFormName).Controls("txt10")
+    End With
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    
+    If varUserInput = 1 Then
+        Auftrag.SaveRecordset
+        MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
+    Else
+        Debug.Print "Error: basAuftragSuchen.AuftragSuchenSaveRecordset aborted, Error Code 2"
+        MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchen.AuftragSuchenSaveRecordset execute"
+    End If
+    
+End Function
+
+Public Function AuftragSuchenDeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragSuchen.AuftragSuchenSaveRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmAuftragSuchen"
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "AftrID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Auftrag
+    Dim Auftrag As clsAuftrag
+    Set Auftrag = New clsAuftrag
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basAuftragSuchen.AuftragSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Auftrag.SelectRecordset varRecordsetName
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Soll der Datensatz " & varRecordsetName & " wirklich gelöscht werden?", vbOKCancel, "Datensatz löschen")
+    
+    If varUserInput = 1 Then
+        Auftrag.DeleteRecordset
+        MsgBox "Datensatz gelöscht", vbInformation, "Datensatz löschen"
+    Else
+        Debug.Print "Error: basAuftragSuchen.AuftragSuchenDeleteRecordset aborted, Error Code 2"
+        MsgBox "löschen abgebrochen", vbInformation, "Datensatz löschen"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAuftragSuchen.AuftragSuchenSaveRecordset execute"
     End If
     
 End Function
