@@ -62,8 +62,6 @@ Public Sub BuildAngebotSuchen()
         intNumberOfRows = 15
         intLeft = 10000
         intTop = 2430
-        'intColumnWidth(0) = 2540
-        'intColumnWidth(1) = 3120
         intWidth = 3120
         intHeight = 330
         
@@ -71,7 +69,8 @@ Public Sub BuildAngebotSuchen()
         
         ' calculate information grid
         aintInformationGrid = basAngebotSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
-            
+        
+        ' create textbox before label, so label can be associated
         ' txt00
         intColumn = 2
         intRow = 1
@@ -454,16 +453,16 @@ Public Sub BuildAngebotSuchen()
         ' create "Angebot erstellen" button
         intColumn = 1
         intRow = 1
-        
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateOffer"
+                .Name = "cmdCreateAngebot"
                 .Left = basAngebotSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basAngebotSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basAngebotSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basAngebotSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Angebot erstellen"
-                .OnClick = "=OpenFormCreateOffer()"
+                .OnClick = "=OpenFormAngebotErstellen()"
+                .Visible = True
             End With
             
         ' create form title
@@ -495,7 +494,6 @@ Public Sub BuildAngebotSuchen()
             btnButton.Caption = "Suchen"
             btnButton.OnClick = "=OpenSearchAngebot()"
             
-            
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
         btnButton.Name = "cmdExit"
@@ -505,6 +503,26 @@ Public Sub BuildAngebotSuchen()
             btnButton.Height = 330
             btnButton.Caption = "Schließen"
             btnButton.OnClick = "=CloseFrmAngebotSuchen()"
+            
+        ' create save button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSave"
+            btnButton.Left = 13180
+            btnButton.Top = 1425
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Speichern"
+            btnButton.OnClick = "=AngebotSuchenSaveRecordset()"
+            
+        ' create deleteRecordset button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdDeleteRecordset"
+            btnButton.Left = 13180
+            btnButton.Top = 1875
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Datensatz löschen"
+            btnButton.OnClick = "=AngebotSuchenDeleteRecordset()"
     
     ' create subform
     Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -775,4 +793,155 @@ Private Function OpenFormCreateOffer()
         Debug.Print "basAngebotSuchen.OpenFormCreateOffer executed"
     End If
 
+End Function
+
+Public Function OpenFormAngebotErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchen.OpenFormAngebotErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmAngebotErstellen"
+    
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.OpenFormAngebotErstellen executed"
+    End If
+    
+End Function
+
+Public Function AngebotSuchenSaveRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchen.AngebotSuchenSaveRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmAngebotSuchen"
+    
+    ' declare subform name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "BWIKey"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Angebot
+    Dim Angebot As clsAngebot
+    Set Angebot = New clsAngebot
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basAngebotSuchen.AngebotSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Angebot.SelectRecordset varRecordsetName
+    
+    ' allocate values to recordset properties
+    With Angebot
+        .EAkurzKey = Forms.Item(strFormName).Controls("txt01")
+        .MengengeruestLink = Forms.Item(strFormName).Controls("txt02")
+        .LeistungsbeschreibungLink = Forms.Item(strFormName).Controls("txt03")
+        .Bemerkung = Forms.Item(strFormName).Controls("txt04")
+        .BeauftragtDatum = Forms.Item(strFormName).Controls("txt05")
+        .AbgebrochenDatum = Forms.Item(strFormName).Controls("txt06")
+        .AngebotDatum = Forms.Item(strFormName).Controls("txt07")
+        .AbgenommenDatum = Forms.Item(strFormName).Controls("txt08")
+        .AftrBeginn = Forms.Item(strFormName).Controls("txt09")
+        .AftrEnde = Forms.Item(strFormName).Controls("txt10")
+        .StorniertDatum = Forms.Item(strFormName).Controls("txt11")
+        .AngebotBrutto = Forms.Item(strFormName).Controls("txt12")
+    End With
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    
+    If varUserInput = 1 Then
+        Angebot.SaveRecordset
+        MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
+    Else
+        Debug.Print "Error: basAngebotSuchen.AngebotSuchenSaveRecordset aborted, Error Code 2"
+        MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.AngebotSuchenSaveRecordset execute"
+    End If
+    
+End Function
+
+Public Function AngebotSuchenDeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotSuchen.AngebotSuchenDeleteRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmAngebotSuchen"
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "BWIKey"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Angebot
+    Dim Angebot As clsAngebot
+    Set Angebot = New clsAngebot
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basAngebotSuchen.AngebotSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Angebot.SelectRecordset varRecordsetName
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Soll der Datensatz " & varRecordsetName & " wirklich gelöscht werden?", vbOKCancel, "Datensatz löschen")
+    
+    If varUserInput = 1 Then
+        Angebot.DeleteRecordset
+        MsgBox "Datensatz gelöscht", vbInformation, "Datensatz löschen"
+    Else
+        Debug.Print "Error: basAngebotSuchen.AuftragSuchenDeleteRecordset aborted, Error Code 2"
+        MsgBox "löschen abgebrochen", vbInformation, "Datensatz löschen"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotSuchen.AngebotSuchenSaveRecordset execute"
+    End If
+    
 End Function

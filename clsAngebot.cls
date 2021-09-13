@@ -832,7 +832,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     rstRecordset.Close
     Set rstRecordset = Nothing
 
-exitProc:
+ExitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
 End Sub
@@ -922,7 +922,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
     
     If intError > 0 Then
         Debug.Print "basSupport.AddRecodset: Prozedur abgebrochen"
-        GoTo exitProc
+        GoTo ExitProc
     End If
     
     'ask for the names of the recordsets
@@ -935,7 +935,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
                 Debug.Print "basSupport.AddRecordsetMN: " & astrConfig(2, lngi) & " ist leer, " _
                     & "Prozedur abgebrochen"
                 MsgBox astrConfig(2, lngi) & " ist leer. Prozedur wird abgebrochen.", vbCritical, "Fehler"
-                GoTo exitProc
+                GoTo ExitProc
             End If
         
             ' return input
@@ -959,7 +959,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
                         MsgBox "'" & astrConfig(6, lngi) & "' existiert nicht.", _
                             vbCritical, "Referenzdantensatz fehlt"
                     End If
-                GoTo exitProc
+                GoTo ExitProc
             End If
     Next
         
@@ -992,7 +992,7 @@ Private Function AddRecordsetMN(ByVal strTableAName, strTableAKeyColumn, strTabl
     rstRecordset.Close
     Set rstRecordset = Nothing
     
-exitProc:
+ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
 End Function
@@ -1038,7 +1038,7 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     
     ObjectExists = bolObjectExists
     
-exitProc:
+ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
 End Function
@@ -1075,7 +1075,7 @@ Private Function RecordsetExists(ByVal varTblName As Variant, ByVal varFieldName
     
     RecordsetExists = bolStatus
     
-exitProc:
+ExitProc:
     rstRecordset.Close
     Set rstRecordset = Nothing
     dbsCurrentDB.Close
@@ -1214,3 +1214,185 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     End If
 
 End Function
+
+Public Sub CreateRecordset()
+    ' Error Code 1: "BWIKey" input is missing
+    ' Error Code 2: "BWIKey" is taken, choose another value
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsAngebot.CreateRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblAngebot"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "BWIKey"
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        ' error message
+        MsgBox strPrimaryKey & " ist ein Pflichtfeld, bitte Wert zuweisen!", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsAngebot.CreateRecordset aborted, Error Code 1"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    ' check if primary key value is taken
+    If DCount(strPrimaryKey, strTableName, strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'") > 0 Then
+        MsgBox mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & " wird bereits verwendet, bitte einen anderen Wert wählen.", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsAngebot.CreateRecordset aborted, Error Code 2"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    rstRecordset.AddNew
+        rstRecordset!BWIKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BWIKey"), intValuePosition)
+        rstRecordset!EAkurzKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EAkurzKey"), intValuePosition)
+        rstRecordset!MengengeruestLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "MengengeruestLink"), intValuePosition)
+        rstRecordset!LeistungsbeschreibungLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "LeistungsbeschreibungLink"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!BeauftragtDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BeauftragtDatum"), intValuePosition)
+        rstRecordset!AbgebrochenDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AbgebrochenDatum"), intValuePosition)
+        rstRecordset!AngebotDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AngebotDatum"), intValuePosition)
+        rstRecordset!AbgenommenDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AbgenommenDatum"), intValuePosition)
+        rstRecordset!AftrBeginn = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrBeginn"), intValuePosition)
+        rstRecordset!AftrEnde = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrEnde"), intValuePosition)
+        rstRecordset!StorniertDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "StorniertDatum"), intValuePosition)
+        rstRecordset!AngebotBrutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AngebotBrutto"), intValuePosition)
+        ' class changed? Do not miss to update the class properties!
+    rstRecordset.Update
+    
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Auftrag erstellen"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsAngebot.CreateRecordset executed"
+    End If
+    
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub
+
+Public Sub DeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsAngebot.DeleteRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblAngebot"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "BWIKey"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsAngebot.DeleteRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    ' delete recordset
+    rstRecordset.Delete
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsAngebot.DeleteRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+End Sub
+
+Public Sub SaveRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsAngebot.SaveRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblAngebot"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "BWIKey"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsAngebot.SaveRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    Dim strRecordsetName As String
+    strRecordsetName = rstRecordset.Name
+    
+    rstRecordset.Edit
+        rstRecordset!EAkurzKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EAkurzKey"), intValuePosition)
+        rstRecordset!MengengeruestLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "MengengeruestLink"), intValuePosition)
+        rstRecordset!LeistungsbeschreibungLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "LeistungsbeschreibungLink"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!BeauftragtDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BeauftragtDatum"), intValuePosition)
+        rstRecordset!AbgebrochenDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AbgebrochenDatum"), intValuePosition)
+        rstRecordset!AngebotDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AngebotDatum"), intValuePosition)
+        rstRecordset!AbgenommenDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AbgenommenDatum"), intValuePosition)
+        rstRecordset!AftrBeginn = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrBeginn"), intValuePosition)
+        rstRecordset!AftrEnde = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrEnde"), intValuePosition)
+        rstRecordset!StorniertDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "StorniertDatum"), intValuePosition)
+        rstRecordset!AngebotBrutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AngebotBrutto"), intValuePosition)
+    rstRecordset.Update
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsAngebot.SaveRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub

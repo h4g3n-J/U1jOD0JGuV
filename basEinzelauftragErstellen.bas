@@ -56,8 +56,8 @@ Public Sub buildEinzelauftragErstellen()
         ' grid settings
         intNumberOfColumns = 2
         intNumberOfRows = 15
-        intLeft = 10000
-        intTop = 2430
+        intLeft = 566
+        intTop = 960
         intWidth = 3120
         intHeight = 330
         
@@ -87,7 +87,7 @@ Public Sub buildEinzelauftragErstellen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
         With lblLabel
             .Name = "lbl00"
-            .Caption = "EAkurzKey"
+            .Caption = "BWIKey"
             .Left = basEinzelauftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basEinzelauftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basEinzelauftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -1019,7 +1019,7 @@ Public Function EinzelauftragErstellenCreateRecordset()
     
     ' transfer values from form to clsEinzelauftrag
     With Forms.Item(strFormName)
-        rstRecordset.EAkurzKey = !txt00
+        rstRecordset.BWIKey = !txt00
         rstRecordset.MengengeruestLink = !txt01
         rstRecordset.LeistungsbeschreibungLink = !txt02
         rstRecordset.Bemerkung = !txt03
