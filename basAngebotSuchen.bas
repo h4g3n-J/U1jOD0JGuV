@@ -776,25 +776,6 @@ Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVa
     
 End Function
 
-Private Function OpenFormCreateOffer()
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basAngebotSuchen.OpenFormCreateOffer"
-    End If
-
-    Dim strFormName As String
-    strFormName "frmCreateOffer"
-    
-    DoCmd.OpenForm strFormName, acNormal
-    
-    'event message
-    If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.OpenFormCreateOffer executed"
-    End If
-
-End Function
-
 Public Function OpenFormAngebotErstellen()
     
     ' command message

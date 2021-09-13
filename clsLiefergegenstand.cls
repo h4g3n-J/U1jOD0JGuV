@@ -357,14 +357,14 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
         End If
         ' load default Value
         mvarRecordsetClipboard = DefaultProperties
-        GoTo ExitProc
+        Exit Sub
     End If
     
     ' check if target table exists, when negative _
     ' return error + exitProc
     If ObjectExists(strTableName, strObjectType) = False Then
         Debug.Print "clsLiefergegenstand.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
-        GoTo ExitProc
+        Exit Sub
     End If
     
     ' select recordset from table or query
@@ -1357,6 +1357,180 @@ Public Property Get seriennummer2() As Variant
     
 End Property
 
+Public Sub CreateRecordset()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsLiefergegenstand.CreateRecordset"
+    End If
 
+    Dim strTableName As String
+    strTableName = "tblLiefergegenstand"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LiefergegenstandID"
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    ' generate new primary key value
+    Dim lngPrimaryKeyValue As Long
+    lngPrimaryKeyValue = DMax(strPrimaryKey, strTableName) + 1
+    
+    rstRecordset.AddNew
+        rstRecordset!LiefergegenstandID = lngPrimaryKeyValue
+        rstRecordset!aftrIdKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "aftrIdKey"), intValuePosition)
+        rstRecordset!bezeichnung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "bezeichnung"), intValuePosition)
+        rstRecordset!linkLieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "linkLieferschein"), intValuePosition)
+        rstRecordset!seriennummer = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "seriennummer"), intValuePosition)
+        rstRecordset!anzahl = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "anzahl"), intValuePosition)
+        rstRecordset!herstellerkennzeichen = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "herstellerkennzeichen"), intValuePosition)
+        rstRecordset!Uanangebot = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Uanangebot"), intValuePosition)
+        rstRecordset!angebotNetto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "angebotNetto"), intValuePosition)
+        rstRecordset!preisBrutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "preisBrutto"), intValuePosition)
+        rstRecordset!lieferdatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "lieferdatum"), intValuePosition)
+        rstRecordset!lieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "lieferschein"), intValuePosition)
+        rstRecordset!zielAftrID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielAftrID"), intValuePosition)
+        rstRecordset!zielLieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielLieferschein"), intValuePosition)
+        rstRecordset!zielLinkLieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielLinkLieferschein"), intValuePosition)
+        rstRecordset!zielLieferdatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielLieferdatum"), intValuePosition)
+        rstRecordset!LiefergegenstandLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "LiefergegenstandLink"), intValuePosition)
+        rstRecordset!IstReserve = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "IstReserve"), intValuePosition)
+        rstRecordset!seriennummer2 = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "seriennummer2"), intValuePosition)
+        ' class changed? Do not miss to update the class properties!
+    rstRecordset.Update
+    
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Auftrag erstellen"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsLiefergegenstand.CreateRecordset executed"
+    End If
+    
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub
 
+Public Sub DeleteRecordset()
+    ' Error Code 1: no recordset was supplied
 
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsLiefergegenstand.DeleteRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblLiefergegenstand"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LiefergegenstandID"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsLiefergegenstand.DeleteRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    ' delete recordset
+    rstRecordset.Delete
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsLiefergegenstand.DeleteRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+End Sub
+
+Public Sub SaveRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsLiefergegenstand.SaveRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblLiefergegenstand"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LiefergegenstandID"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsLiefergegenstand.SaveRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    Dim strRecordsetName As String
+    strRecordsetName = rstRecordset.Name
+    
+    rstRecordset.Edit
+        rstRecordset!aftrIdKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "aftrIdKey"), intValuePosition)
+        rstRecordset!bezeichnung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "bezeichnung"), intValuePosition)
+        rstRecordset!linkLieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "linkLieferschein"), intValuePosition)
+        rstRecordset!seriennummer = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "seriennummer"), intValuePosition)
+        rstRecordset!anzahl = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "anzahl"), intValuePosition)
+        rstRecordset!herstellerkennzeichen = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "herstellerkennzeichen"), intValuePosition)
+        rstRecordset!Uanangebot = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Uanangebot"), intValuePosition)
+        rstRecordset!angebotNetto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "angebotNetto"), intValuePosition)
+        rstRecordset!preisBrutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "preisBrutto"), intValuePosition)
+        rstRecordset!lieferdatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "lieferdatum"), intValuePosition)
+        rstRecordset!lieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "lieferschein"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "bemerkung"), intValuePosition)
+        rstRecordset!zielAftrID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielAftrID"), intValuePosition)
+        rstRecordset!zielLieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielLieferschein"), intValuePosition)
+        rstRecordset!zielLinkLieferschein = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielLinkLieferschein"), intValuePosition)
+        rstRecordset!zielLieferdatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "zielLieferdatum"), intValuePosition)
+        rstRecordset!LiefergegenstandLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "LiefergegenstandLink"), intValuePosition)
+        rstRecordset!IstReserve = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "IstReserve"), intValuePosition)
+        rstRecordset!seriennummer2 = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "seriennummer2"), intValuePosition)
+    rstRecordset.Update
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsLiefergegenstand.SaveRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub

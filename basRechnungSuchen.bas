@@ -315,16 +315,19 @@ Public Sub BuildRechnungSuchen()
         intColumn = 1
         intRow = 1
         
+        ' create "Rechnung erstellen" button
+        intColumn = 1
+        intRow = 1
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateOffer"
+                .Name = "cmdCreateRechnung"
                 .Left = basRechnungSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basRechnungSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basRechnungSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basRechnungSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Rechnung erstellen"
-' insert editing here ----> .OnClick = "=OpenFormCreateOffer()"
-                .Visible = False
+                .OnClick = "=OpenFormRechnungErstellen()"
+                .Visible = True
             End With
             
         ' create form title
@@ -366,6 +369,26 @@ Public Sub BuildRechnungSuchen()
             btnButton.Height = 330
             btnButton.Caption = "Schließen"
             btnButton.OnClick = "=CloseFormRechnungSuchen()"
+            
+        ' create save button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSave"
+            btnButton.Left = 13180
+            btnButton.Top = 1425
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Speichern"
+            btnButton.OnClick = "=RechnungSuchenSaveRecordset()"
+            
+        ' create deleteRecordset button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdDeleteRecordset"
+            btnButton.Left = 13180
+            btnButton.Top = 1875
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Datensatz löschen"
+            btnButton.OnClick = "=RechnungSuchenDeleteRecordset()"
 
         ' create subform
         Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -897,6 +920,152 @@ Public Function SearchAndReloadRechnungSuchen()
     ' event message
     If gconVerbatim Then
         Debug.Print "basRechnungSuchen.SearchAndReloadRechnungSuchen executed"
+    End If
+    
+End Function
+
+Public Function OpenFormRechnungErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.OpenFormRechnungErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
+    
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchen.OpenFormRechnungErstellen executed"
+    End If
+    
+End Function
+
+Public Function RechnungSuchenSaveRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.RechnungSuchenSaveRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmRechnungSuchen"
+    
+    ' declare subform name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "RechnungNr"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Rechnung
+    Dim Rechnung As clsRechnung
+    Set Rechnung = New clsRechnung
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basRechnungSuchen.RechnungSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Rechnung.SelectRecordset varRecordsetName
+    
+    ' allocate values to recordset properties
+    With Rechnung
+        .Bemerkung = Forms.Item(strFormName).Controls("txt01")
+        .RechnungLink = Forms.Item(strFormName).Controls("txt02")
+        .TechnischRichtigDatum = Forms.Item(strFormName).Controls("txt03")
+        .IstTeilrechnung = Forms.Item(strFormName).Controls("txt04")
+        .IstSchlussrechnung = Forms.Item(strFormName).Controls("txt05")
+        .KalkulationLNWLink = Forms.Item(strFormName).Controls("txt06")
+        .RechnungBrutto = Forms.Item(strFormName).Controls("txt07")
+    End With
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    
+    If varUserInput = 1 Then
+        Rechnung.SaveRecordset
+        MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
+    Else
+        Debug.Print "Error: basRechnungSuchen.RechnungSuchenSaveRecordset aborted, Error Code 2"
+        MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchen.RechnungSuchenSaveRecordset execute"
+    End If
+    
+End Function
+
+Public Function RechnungSuchenDeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungSuchen.RechnungSuchenDeleteRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmRechnungSuchen"
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "RechnungNr"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Rechnung
+    Dim Rechnung As clsRechnung
+    Set Rechnung = New clsRechnung
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basRechnungSuchen.RechnungSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Rechnung.SelectRecordset varRecordsetName
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Soll der Datensatz " & varRecordsetName & " wirklich gelöscht werden?", vbOKCancel, "Datensatz löschen")
+    
+    If varUserInput = 1 Then
+        Rechnung.DeleteRecordset
+        MsgBox "Datensatz gelöscht", vbInformation, "Datensatz löschen"
+    Else
+        Debug.Print "Error: basRechnungSuchen.AuftragSuchenDeleteRecordset aborted, Error Code 2"
+        MsgBox "löschen abgebrochen", vbInformation, "Datensatz löschen"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungSuchen.RechnungSuchenSaveRecordset execute"
     End If
     
 End Function

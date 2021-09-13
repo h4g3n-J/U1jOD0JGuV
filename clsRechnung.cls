@@ -563,7 +563,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     rstRecordset.Close
     Set rstRecordset = Nothing
 
-exitProc:
+ExitProc:
         dbsCurrentDB.Close
         Set dbsCurrentDB = Nothing
 End Sub
@@ -610,7 +610,7 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     
     ObjectExists = bolObjectExists
     
-exitProc:
+ExitProc:
     dbsCurrentDB.Close
     Set dbsCurrentDB = Nothing
     
@@ -740,3 +740,175 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     End If
 
 End Function
+
+Public Sub CreateRecordset()
+    ' Error Code 1: "RechnungNr" input is missing
+    ' Error Code 2: "RechnungNr" is taken, choose another value
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsRechnung.CreateRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblRechnung"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "RechnungNr"
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        ' error message
+        MsgBox strPrimaryKey & " ist ein Pflichtfeld, bitte Wert zuweisen!", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsRechnung.CreateRecordset aborted, Error Code 1"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    ' check if primary key value is taken
+    If DCount(strPrimaryKey, strTableName, strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'") > 0 Then
+        MsgBox mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & " wird bereits verwendet, bitte einen anderen Wert wählen.", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsRechnung.CreateRecordset aborted, Error Code 2"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    rstRecordset.AddNew
+        rstRecordset!RechnungNr = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RechnungNr"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!RechnungLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RechnungLink"), intValuePosition)
+        rstRecordset!TechnischRichtigDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "TechnischRichtigDatum"), intValuePosition)
+        rstRecordset!IstTeilrechnung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "IstTeilrechnung"), intValuePosition)
+        rstRecordset!IstSchlussrechnung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "IstSchlussrechnung"), intValuePosition)
+        rstRecordset!KalkulationLNWLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "KalkulationLNWLink"), intValuePosition)
+        rstRecordset!RechnungBrutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RechnungBrutto"), intValuePosition)
+        ' class changed? Do not miss to update the class properties!
+    rstRecordset.Update
+    
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Auftrag erstellen"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsRechnung.CreateRecordset executed"
+    End If
+    
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub
+
+Public Sub DeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsRechnung.DeleteRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblRechnung"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "RechnungNr"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsRechnung.DeleteRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    ' delete recordset
+    rstRecordset.Delete
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsRechnung.DeleteRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+End Sub
+
+Public Sub SaveRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsRechnung.SaveRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblRechnung"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "RechnungNr"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsRechnung.SaveRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    Dim strRecordsetName As String
+    strRecordsetName = rstRecordset.Name
+    
+    rstRecordset.Edit
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!RechnungLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RechnungLink"), intValuePosition)
+        rstRecordset!TechnischRichtigDatum = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "TechnischRichtigDatum"), intValuePosition)
+        rstRecordset!IstTeilrechnung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "IstTeilrechnung"), intValuePosition)
+        rstRecordset!IstSchlussrechnung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "IstSchlussrechnung"), intValuePosition)
+        rstRecordset!KalkulationLNWLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "KalkulationLNWLink"), intValuePosition)
+        rstRecordset!RechnungBrutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RechnungBrutto"), intValuePosition)
+    rstRecordset.Update
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsRechnung.SaveRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub

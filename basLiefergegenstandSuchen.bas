@@ -108,7 +108,7 @@ Public Sub BuildLiefergegenstandSuchen()
             .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
+            .Visible = False
             .IsHyperlink = False
         End With
         
@@ -123,7 +123,7 @@ Public Sub BuildLiefergegenstandSuchen()
             .Top = basLiefergegenstandSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLiefergegenstandSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
+            .Visible = False
         End With
         
     'txt02
@@ -629,8 +629,6 @@ Public Sub BuildLiefergegenstandSuchen()
             .Height = basLiefergegenstandSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
-   
-    
     ' column added? -> update intNumberOfColumns
     
     ' create lifecycle grid
@@ -651,17 +649,16 @@ Public Sub BuildLiefergegenstandSuchen()
         ' create "Liefergegenstand erstellen" button
         intColumn = 1
         intRow = 1
-        
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateOffer"
+                .Name = "cmdCreateLiefergegenstand"
                 .Left = basLiefergegenstandSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basLiefergegenstandSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basLiefergegenstandSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basLiefergegenstandSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Liefergegenstand erstellen"
-' insert editing here ----> .OnClick = "=OpenFormCreateOffer()"
-                .Visible = False
+                .OnClick = "=OpenFormLiefergegenstandErstellen()"
+                .Visible = True
             End With
             
         ' create form title
@@ -703,6 +700,26 @@ Public Sub BuildLiefergegenstandSuchen()
             btnButton.Height = 330
             btnButton.Caption = "Schließen"
             btnButton.OnClick = "=CloseFormLiefergegenstandSuchen()"
+            
+        ' create save button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSave"
+            btnButton.Left = 13180
+            btnButton.Top = 1425
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Speichern"
+            btnButton.OnClick = "=LiefergegenstandSuchenSaveRecordset()"
+            
+        ' create deleteRecordset button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdDeleteRecordset"
+            btnButton.Left = 13180
+            btnButton.Top = 1875
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Datensatz löschen"
+            btnButton.OnClick = "=LiefergegenstandSuchenDeleteRecordset()"
 
         ' create subform
         Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -1237,6 +1254,164 @@ Public Function CloseFormLiefergegenstandSuchen()
     ' event message
     If gconVerbatim Then
         Debug.Print "basLiefergegenstandSuchen.CloseForm executed"
+    End If
+    
+End Function
+
+Public Function OpenFormLiefergegenstandErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.OpenFormLiefergegenstandErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandErstellen"
+    
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.OpenFormLiefergegenstandErstellen executed"
+    End If
+    
+End Function
+
+Public Function LiefergegenstandSuchenSaveRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.LiefergegenstandSuchenSaveRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandSuchen"
+    
+    ' declare subform name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "LiefergegenstandID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Liefergegenstand
+    Dim Liefergegenstand As clsLiefergegenstand
+    Set Liefergegenstand = New clsLiefergegenstand
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basLiefergegenstandSuchen.LiefergegenstandSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Liefergegenstand.SelectRecordset varRecordsetName
+    
+    ' allocate values to recordset properties
+    With Liefergegenstand
+        ' .aftrIdKey = Forms.Item(strFormName).Controls("txt01")
+        .bezeichnung = Forms.Item(strFormName).Controls("txt02")
+        .linkLieferschein = Forms.Item(strFormName).Controls("txt03")
+        .seriennummer = Forms.Item(strFormName).Controls("txt04")
+        .anzahl = Forms.Item(strFormName).Controls("txt05")
+        .herstellerkennzeichen = Forms.Item(strFormName).Controls("txt06")
+        .Uanangebot = Forms.Item(strFormName).Controls("txt07")
+        .angebotNetto = Forms.Item(strFormName).Controls("txt08")
+        .preisBrutto = Forms.Item(strFormName).Controls("txt09")
+        .lieferdatum = Forms.Item(strFormName).Controls("txt10")
+        .lieferschein = Forms.Item(strFormName).Controls("txt11")
+        .Bemerkung = Forms.Item(strFormName).Controls("txt12")
+        .zielAftrID = Forms.Item(strFormName).Controls("txt13")
+        .zielLieferschein = Forms.Item(strFormName).Controls("txt14")
+        .zielLinkLieferschein = Forms.Item(strFormName).Controls("txt15")
+        .zielLieferdatum = Forms.Item(strFormName).Controls("txt16")
+        .LiefergegenstandLink = Forms.Item(strFormName).Controls("txt17")
+        .IstReserve = Forms.Item(strFormName).Controls("txt18")
+        .seriennummer2 = Forms.Item(strFormName).Controls("txt19")
+    End With
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    
+    If varUserInput = 1 Then
+        Liefergegenstand.SaveRecordset
+        MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
+    Else
+        Debug.Print "Error: basLiefergegenstandSuchen.LiefergegenstandSuchenSaveRecordset aborted, Error Code 2"
+        MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.LiefergegenstandSuchenSaveRecordset execute"
+    End If
+    
+End Function
+
+Public Function LiefergegenstandSuchenDeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLiefergegenstandSuchen.LiefergegenstandSuchenDeleteRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmLiefergegenstandSuchen"
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "LiefergegenstandID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Liefergegenstand
+    Dim Liefergegenstand As clsLiefergegenstand
+    Set Liefergegenstand = New clsLiefergegenstand
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basLiefergegenstandSuchen.LiefergegenstandSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Liefergegenstand.SelectRecordset varRecordsetName
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Soll der Datensatz " & varRecordsetName & " wirklich gelöscht werden?", vbOKCancel, "Datensatz löschen")
+    
+    If varUserInput = 1 Then
+        Liefergegenstand.DeleteRecordset
+        MsgBox "Datensatz gelöscht", vbInformation, "Datensatz löschen"
+    Else
+        Debug.Print "Error: basLiefergegenstandSuchen.AuftragSuchenDeleteRecordset aborted, Error Code 2"
+        MsgBox "löschen abgebrochen", vbInformation, "Datensatz löschen"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLiefergegenstandSuchen.LiefergegenstandSuchenSaveRecordset execute"
     End If
     
 End Function
