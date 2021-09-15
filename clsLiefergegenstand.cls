@@ -1406,7 +1406,7 @@ Public Sub CreateRecordset()
         ' class changed? Do not miss to update the class properties!
     rstRecordset.Update
     
-    MsgBox "Datensatz erzeugt", vbOKOnly, "Auftrag erstellen"
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Liefergegenstand erstellen"
     
     ' event message
     If gconVerbatim Then

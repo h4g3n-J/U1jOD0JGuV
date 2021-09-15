@@ -741,7 +741,7 @@ Public Function SearchAndReloadAuftragSuchen()
     Dim varSearchTerm As Variant
     varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
     
-    basAuftragSuchenSub.SearchLeistungserfassungsblatt strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
+    basAuftragSuchenSub.SearchAuftrag strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
     
     ' close form
     DoCmd.Close acForm, strFormName, acSaveYes

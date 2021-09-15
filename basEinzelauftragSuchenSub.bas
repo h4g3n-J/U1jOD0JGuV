@@ -33,10 +33,7 @@ Public Sub BuildEinzelauftragSuchenSub()
     Dim strQuerySource As String
     strQuerySource = "tblEinzelauftrag"
     
-    Dim strPrimaryKey As String
-    strPrimaryKey = "EAkurzKey"
-    
-    basEinzelauftragSuchenSub.SearchEinzelauftrag strQueryName, strQuerySource, strPrimaryKey
+    basEinzelauftragSuchenSub.SearchEinzelauftrag strQueryName, strQuerySource
     
     ' set recordset source
     objForm.RecordSource = strQueryName
@@ -53,7 +50,7 @@ Public Sub BuildEinzelauftragSuchenSub()
         Dim intColumn As Integer
         Dim intRow As Integer
         
-            intNumberOfColumns = 15
+            intNumberOfColumns = 16
             intNumberOfRows = 2
             intColumnWidth = 1500
             intRowHeight = 330
@@ -502,6 +499,35 @@ Public Sub BuildEinzelauftragSuchenSub()
             .Height = basEinzelauftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
+        
+    'txt15
+    intColumn = 16
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt15"
+            .ControlSource = "EATitel"
+            .Left = basEinzelauftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basEinzelauftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basEinzelauftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basEinzelauftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl15
+    intColumn = 16
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
+        With lblLabel
+            .Name = "lbl15"
+            .Caption = "EATitel"
+            .Left = basEinzelauftragSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basEinzelauftragSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basEinzelauftragSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basEinzelauftragSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
     ' column added? -> update intNumberOfColumns
     
     ' set oncurrent methode
@@ -672,7 +698,7 @@ Private Sub TestDeleteQuery()
     
 End Sub
 
-Public Sub SearchEinzelauftrag(ByVal strQueryName As String, ByVal strQuerySource As String, ByVal strPrimaryKey As String, Optional varSearchTerm As Variant = Null)
+Public Sub SearchEinzelauftrag(ByVal strQueryName As String, ByVal strQuerySource As String, Optional varSearchTerm As Variant = Null)
 
     ' command message
     If gconVerbatim Then
@@ -683,6 +709,12 @@ Public Sub SearchEinzelauftrag(ByVal strQueryName As String, ByVal strQuerySourc
     If IsNull(varSearchTerm) Then
         varSearchTerm = "*"
     End If
+    
+    Dim strSearchField01 As String
+    strSearchField01 = "EAkurzKey"
+    
+    Dim strSearchField02 As String
+    strSearchField02 = "EATitel"
         
     ' transform to string
     Dim strSearchTerm As String
@@ -705,7 +737,7 @@ Public Sub SearchEinzelauftrag(ByVal strQueryName As String, ByVal strQuerySourc
         ' set query SQL
         .SQL = " SELECT " & strQuerySource & ".*" & _
                     " FROM " & strQuerySource & _
-                    " WHERE " & strQuerySource & "." & strPrimaryKey & " LIKE '*" & strSearchTerm & "*'" & _
+                    " WHERE (" & strQuerySource & "." & strSearchField01 & " Like '*" & strSearchTerm & "*') OR (" & strQuerySource & "." & strSearchField02 & " Like '*" & strSearchTerm & "*')" & _
                     " ;"
     End With
     
@@ -742,10 +774,7 @@ Private Sub TestSearchEinzelauftrag()
     Dim strQuerySource As String
     strQuerySource = "tblEinzelauftrag"
     
-    Dim strPrimaryKey As String
-    strPrimaryKey = "EAkurzKey"
-    
-    basEinzelauftragSuchenSub.SearchEinzelauftrag strQueryName, strQuerySource, strPrimaryKey
+    basEinzelauftragSuchenSub.SearchEinzelauftrag strQueryName, strQuerySource
     
     Dim bolObjectExists As Boolean
     bolObjectExists = False
@@ -1164,7 +1193,7 @@ Public Function SelectEinzelauftrag()
     Dim strFormName As String
     strFormName = "frmEinzelauftragSuchen"
     
-    ' check if frmAuftragSuchen exists (Error Code: 1)
+    ' check if frmEinzelauftragSuchen exists (Error Code: 1)
     Dim bolFormExists As Boolean
     bolFormExists = False
     
@@ -1223,6 +1252,7 @@ Public Function SelectEinzelauftrag()
     Forms.Item(strFormName).Controls.Item("txt12") = CallByName(Einzelauftrag, "BWIKey", VbGet)
     Forms.Item(strFormName).Controls.Item("txt13") = CallByName(Einzelauftrag, "AftrBeginn", VbGet)
     Forms.Item(strFormName).Controls.Item("txt14") = CallByName(Einzelauftrag, "AftrEnde", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt15") = CallByName(Einzelauftrag, "EATitel", VbGet)
     
     ' event message
     If gconVerbatim Then

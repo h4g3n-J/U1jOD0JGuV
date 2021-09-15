@@ -55,7 +55,7 @@ Public Sub buildEinzelauftragErstellen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 15
+        intNumberOfRows = 16
         intLeft = 566
         intTop = 960
         intWidth = 3120
@@ -87,7 +87,7 @@ Public Sub buildEinzelauftragErstellen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
         With lblLabel
             .Name = "lbl00"
-            .Caption = "BWIKey"
+            .Caption = "EAkurzKey"
             .Left = basEinzelauftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basEinzelauftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basEinzelauftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -480,6 +480,34 @@ Public Sub buildEinzelauftragErstellen()
         With lblLabel
             .Name = "lbl14"
             .Caption = "AftrEnde"
+            .Left = basEinzelauftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basEinzelauftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basEinzelauftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basEinzelauftragErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt15
+    intColumn = 2
+    intRow = 16
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt15"
+            .Left = basEinzelauftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basEinzelauftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basEinzelauftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basEinzelauftragErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl15
+    intColumn = 1
+    intRow = 16
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
+        With lblLabel
+            .Name = "lbl15"
+            .Caption = "EATitel"
             .Left = basEinzelauftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basEinzelauftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basEinzelauftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -1019,7 +1047,7 @@ Public Function EinzelauftragErstellenCreateRecordset()
     
     ' transfer values from form to clsEinzelauftrag
     With Forms.Item(strFormName)
-        rstRecordset.BWIKey = !txt00
+        rstRecordset.EAkurzKey = !txt00
         rstRecordset.MengengeruestLink = !txt01
         rstRecordset.LeistungsbeschreibungLink = !txt02
         rstRecordset.Bemerkung = !txt03
@@ -1034,6 +1062,7 @@ Public Function EinzelauftragErstellenCreateRecordset()
         rstRecordset.BWIKey = !txt12
         rstRecordset.AftrBeginn = !txt13
         rstRecordset.AftrEnde = !txt14
+        rstRecordset.EATitel = !txt15
     End With
     
     ' create Recordset

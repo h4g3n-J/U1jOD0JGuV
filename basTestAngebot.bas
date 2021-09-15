@@ -4,7 +4,7 @@ Option Explicit
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub BWIKey()
 
     ' command message
@@ -42,28 +42,28 @@ Private Sub BWIKey()
     rstRecordset.BWIKey = strTestValue
     
     If Not rstRecordset.BWIKey = strTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.BWIKey failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.BWIKey failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.BWIKey) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.BWIKey failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.BWIKey failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.BWIKey: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.BWIKey: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.BWIKey executed"
+    Debug.Print "basTestAngebot.BWIKey executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub EAkurzKey()
 
     ' command message
@@ -101,28 +101,28 @@ Private Sub EAkurzKey()
     rstRecordset.EAkurzKey = strTestValue
     
     If Not rstRecordset.EAkurzKey = strTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.EAkurzKey failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.EAkurzKey failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.EAkurzKey) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.EAkurzKey failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.EAkurzKey failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.EAkurzKey: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.EAkurzKey: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.EAkurzKey executed"
+    Debug.Print "basTestAngebot.EAkurzKey executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub LeistungsbeschreibungLink()
 
     ' command message
@@ -160,28 +160,28 @@ Private Sub LeistungsbeschreibungLink()
     rstRecordset.LeistungsbeschreibungLink = strTestValue
     
     If Not rstRecordset.LeistungsbeschreibungLink = strTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.LeistungsbeschreibungLink failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.LeistungsbeschreibungLink) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.LeistungsbeschreibungLink failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.LeistungsbeschreibungLink: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.LeistungsbeschreibungLink executed"
+    Debug.Print "basTestAngebot.LeistungsbeschreibungLink executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub Bemerkung()
 
     ' command message
@@ -219,28 +219,28 @@ Private Sub Bemerkung()
     rstRecordset.Bemerkung = strTestValue
     
     If Not rstRecordset.Bemerkung = strTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.Bemerkung failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.Bemerkung failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.Bemerkung) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.Bemerkung failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.Bemerkung failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.Bemerkung: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.Bemerkung: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.Bemerkung executed"
+    Debug.Print "basTestAngebot.Bemerkung executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub BeauftragtDatum()
 
     ' command message
@@ -278,28 +278,28 @@ Private Sub BeauftragtDatum()
     rstRecordset.BeauftragtDatum = datTestValue
     
     If Not rstRecordset.BeauftragtDatum = datTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.BeauftragtDatum failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.BeauftragtDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.BeauftragtDatum) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.BeauftragtDatum failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.BeauftragtDatum failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.BeauftragtDatum: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.BeauftragtDatum: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.BeauftragtDatum executed"
+    Debug.Print "basTestAngebot.BeauftragtDatum executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub AbgebrochenDatum()
 
     ' command message
@@ -337,28 +337,28 @@ Private Sub AbgebrochenDatum()
     rstRecordset.AbgebrochenDatum = datTestValue
     
     If Not rstRecordset.AbgebrochenDatum = datTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.AbgebrochenDatum failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AbgebrochenDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.AbgebrochenDatum) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.AbgebrochenDatum failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AbgebrochenDatum failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.AbgebrochenDatum: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.AbgebrochenDatum: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.AbgebrochenDatum executed"
+    Debug.Print "basTestAngebot.AbgebrochenDatum executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub AngebotDatum()
 
     ' command message
@@ -396,28 +396,28 @@ Private Sub AngebotDatum()
     rstRecordset.AngebotDatum = datTestValue
     
     If Not rstRecordset.AngebotDatum = datTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.AngebotDatum failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AngebotDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.AngebotDatum) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.AngebotDatum failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AngebotDatum failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.AngebotDatum: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.AngebotDatum: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.AngebotDatum executed"
+    Debug.Print "basTestAngebot.AngebotDatum executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub AbgenommenDatum()
 
     ' command message
@@ -455,28 +455,28 @@ Private Sub AbgenommenDatum()
     rstRecordset.AbgenommenDatum = datTestValue
     
     If Not rstRecordset.AbgenommenDatum = datTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.AbgenommenDatum failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AbgenommenDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.AbgenommenDatum) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.AbgenommenDatum failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AbgenommenDatum failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.AbgenommenDatum: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.AbgenommenDatum: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.AbgenommenDatum executed"
+    Debug.Print "basTestAngebot.AbgenommenDatum executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub AftrBeginn()
 
     ' command message
@@ -514,28 +514,28 @@ Private Sub AftrBeginn()
     rstRecordset.AftrBeginn = datTestValue
     
     If Not rstRecordset.AftrBeginn = datTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.AftrBeginn failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AftrBeginn failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.AftrBeginn) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.AftrBeginn failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AftrBeginn failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.AftrBeginn: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.AftrBeginn: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.AftrBeginn executed"
+    Debug.Print "basTestAngebot.AftrBeginn executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub AftrEnde()
 
     ' command message
@@ -573,28 +573,28 @@ Private Sub AftrEnde()
     rstRecordset.AftrEnde = datTestValue
     
     If Not rstRecordset.AftrEnde = datTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.AftrEnde failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AftrEnde failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.AftrEnde) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.AftrEnde failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AftrEnde failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.AftrEnde: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.AftrEnde: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.AftrEnde executed"
+    Debug.Print "basTestAngebot.AftrEnde executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub StorniertDatum()
 
     ' command message
@@ -632,28 +632,28 @@ Private Sub StorniertDatum()
     rstRecordset.StorniertDatum = datTestValue
     
     If Not rstRecordset.StorniertDatum = datTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.StorniertDatum failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.StorniertDatum failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.StorniertDatum) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.StorniertDatum failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.StorniertDatum failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.StorniertDatum: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.StorniertDatum: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.StorniertDatum executed"
+    Debug.Print "basTestAngebot.StorniertDatum executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub AngebotBrutto()
 
     ' command message
@@ -691,21 +691,21 @@ Private Sub AngebotBrutto()
     rstRecordset.AngebotBrutto = curTestValue
     
     If Not rstRecordset.AngebotBrutto = curTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.AngebotBrutto failed, Error Code: 1", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AngebotBrutto failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
     If Not VarType(rstRecordset.AngebotBrutto) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.AngebotBrutto failed, Error Code: 2", vbCritical, "Test Result"
+        MsgBox "basTestAngebot.AngebotBrutto failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.AngebotBrutto: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestAngebot.AngebotBrutto: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.AngebotBrutto executed"
+    Debug.Print "basTestAngebot.AngebotBrutto executed"
     
 End Sub

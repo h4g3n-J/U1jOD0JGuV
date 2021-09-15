@@ -58,7 +58,7 @@ Public Sub BuildEinzelauftragSuchen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 15
+        intNumberOfRows = 16
         intLeft = 10000
         intTop = 2430
         intWidth = 3120
@@ -483,6 +483,34 @@ Public Sub BuildEinzelauftragSuchen()
         With lblLabel
             .Name = "lbl14"
             .Caption = "AftrEnde"
+            .Left = basEinzelauftragSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basEinzelauftragSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basEinzelauftragSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basEinzelauftragSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt15
+    intColumn = 2
+    intRow = 16
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt15"
+            .Left = basEinzelauftragSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basEinzelauftragSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basEinzelauftragSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basEinzelauftragSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl15
+    intColumn = 1
+    intRow = 16
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
+        With lblLabel
+            .Name = "lbl16"
+            .Caption = "EATitel"
             .Left = basEinzelauftragSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basEinzelauftragSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basEinzelauftragSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -1077,13 +1105,10 @@ Public Function SearchAndReloadEinzelauftragSuchen()
     Dim strQuerySource As String
     strQuerySource = "tblEinzelauftrag"
     
-    Dim strPrimaryKey As String
-    strPrimaryKey = "EAkurzKey"
-    
     Dim varSearchTerm As Variant
     varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
     
-    basEinzelauftragSuchenSub.SearchEinzelauftrag strQueryName, strQuerySource, strPrimaryKey, varSearchTerm
+    basEinzelauftragSuchenSub.SearchEinzelauftrag strQueryName, strQuerySource, varSearchTerm
     
     
     ' close form
@@ -1192,6 +1217,7 @@ Public Function EinzelauftragSuchenSaveRecordset()
         .BWIKey = Forms.Item(strFormName).Controls("txt12")
         .AftrBeginn = Forms.Item(strFormName).Controls("txt13")
         .AftrEnde = Forms.Item(strFormName).Controls("txt14")
+        .EATitel = Forms.Item(strFormName).Controls("txt15")
     End With
     
     ' delete recordset

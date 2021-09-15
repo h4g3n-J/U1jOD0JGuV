@@ -52,7 +52,7 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 7
+        intNumberOfRows = 8
         intLeft = 100
         intTop = 100
         intWidth = 2600
@@ -152,6 +152,20 @@ Public Sub BuildHauptmenue()
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd06"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Auftragsübersicht"
+                .OnClick = "=OpenFormAuftragUebersicht()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 8
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd07"
                 .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
@@ -407,6 +421,21 @@ Public Function OpenFormEinzelauftragSuchen()
     End If
 End Function
 
+Public Function OpenFormAuftragUebersicht()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormAuftragUebersicht"
+    End If
+
+    DoCmd.OpenForm "frmAuftragUebersicht", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormAuftragUebersicht executed"
+    End If
+End Function
+
 ' builds the application form scratch
 ' work in progress
 Public Function BuildApplication()
@@ -419,21 +448,30 @@ Public Function BuildApplication()
     ' build forms
     basAngebotSuchenSub.BuildAngebotSuchenSub
     basAngebotSuchen.BuildAngebotSuchen
+    basAngebotErstellen.buildAngebotErstellen
     
     basAuftragSuchenSub.BuildAuftragSuchenSub
     basAuftragSuchen.BuildAuftragSuchen
+    basAngebotErstellen.buildAngebotErstellen
     
     basRechnungSuchenSub.BuildRechnungSuchenSub
     basRechnungSuchen.BuildRechnungSuchen
+    basRechnungErstellen.buildRechnungErstellen
     
     basLeistungserfassungsblattSuchenSub.BuildLeistungserfassungsblattSuchenSub
     basLeistungserfassungsblattSuchen.BuildLeistungserfassungsblattSuchen
+    basLeistungserfassungsblattErstellen.buildLeistungserfassungsblattErstellen
     
     basLiefergegenstandSuchenSub.BuildLiefergegenstandSuchenSub
     basLiefergegenstandSuchen.BuildLiefergegenstandSuchen
+    basLiefergegenstandErstellen.buildLiefergegenstandErstellen
     
     basEinzelauftragSuchenSub.BuildEinzelauftragSuchenSub
     basEinzelauftragSuchen.BuildEinzelauftragSuchen
+    basEinzelauftragErstellen.buildEinzelauftragErstellen
+    
+    basAuftragUebersichtSub.BuildAuftragUebersichtSub
+    basAuftragUebersicht.BuildAuftragUebersicht
     
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal

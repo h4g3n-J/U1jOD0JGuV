@@ -229,18 +229,18 @@ Public Sub BuildLeistungserfassungsblattSuchen()
         ' create "Leistungserfassungsblatt erstellen" button
         intColumn = 1
         intRow = 1
-        
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateOffer"
+                .Name = "cmdCreateLeistungserfassungsblatt"
                 .Left = basLeistungserfassungsblattSuchen.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basLeistungserfassungsblattSuchen.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basLeistungserfassungsblattSuchen.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basLeistungserfassungsblattSuchen.GetHeight(aintLifecycleGrid, intColumn, intRow)
-                .Caption = "Rechnung erstellen"
-' insert editing here ----> .OnClick = "=OpenFormCreateOffer()"
-                .Visible = False
+                .Caption = "Leistungserfassungsblatt erstellen"
+                .OnClick = "=OpenFormLeistungserfassungsblattErstellen()"
+                .Visible = True
             End With
+
             
         ' create form title
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
@@ -281,6 +281,26 @@ Public Sub BuildLeistungserfassungsblattSuchen()
             btnButton.Height = 330
             btnButton.Caption = "Schließen"
             btnButton.OnClick = "=CloseFormLeistungserfassungsblattSuchen()"
+            
+        ' create save button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdSave"
+            btnButton.Left = 13180
+            btnButton.Top = 1425
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Speichern"
+            btnButton.OnClick = "=LeistungserfassungsblattSuchenSaveRecordset()"
+            
+        ' create deleteRecordset button
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+        btnButton.Name = "cmdDeleteRecordset"
+            btnButton.Left = 13180
+            btnButton.Top = 1875
+            btnButton.Width = 3120
+            btnButton.Height = 330
+            btnButton.Caption = "Datensatz löschen"
+            btnButton.OnClick = "=LeistungserfassungsblattSuchenDeleteRecordset()"
 
         ' create subform
         Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -798,7 +818,7 @@ Public Function SearchAndReloadLeistungserfassungsblattSuchen()
     strQuerySource = "tblLeistungserfassungsblatt"
     
     Dim strPrimaryKey As String
-    strPrimaryKey = "Leistungserfassungsblatt"
+    strPrimaryKey = "LeistungserfassungsblattID"
     
     Dim varSearchTerm As Variant
     varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
@@ -814,6 +834,149 @@ Public Function SearchAndReloadLeistungserfassungsblattSuchen()
     ' event message
     If gconVerbatim Then
         Debug.Print "basLeistungserfassungsblattSuchen.SearchAndReloadLeistungserfassungsblattSuchen executed"
+    End If
+    
+End Function
+
+Public Function OpenFormLeistungserfassungsblattErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.OpenFormLeistungserfassungsblattErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattErstellen"
+    
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.OpenFormLeistungserfassungsblattErstellen executed"
+    End If
+    
+End Function
+
+Public Function LeistungserfassungsblattSuchenSaveRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.LeistungserfassungsblattSuchenSaveRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattSuchen"
+    
+    ' declare subform name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "LeistungserfassungsblattID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Leistungserfassungsblatt
+    Dim Leistungserfassungsblatt As clsLeistungserfassungsblatt
+    Set Leistungserfassungsblatt = New clsLeistungserfassungsblatt
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basLeistungserfassungsblattSuchen.LeistungserfassungsblattSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Leistungserfassungsblatt.SelectRecordset varRecordsetName
+    
+    ' allocate values to recordset properties
+    With Leistungserfassungsblatt
+        .RechnungNr = Forms.Item(strFormName).Controls("txt01")
+        .Bemerkung = Forms.Item(strFormName).Controls("txt02")
+        .BelegID = Forms.Item(strFormName).Controls("txt03")
+        .Brutto = Forms.Item(strFormName).Controls("txt04")
+    End With
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    
+    If varUserInput = 1 Then
+        Leistungserfassungsblatt.SaveRecordset
+        MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
+    Else
+        Debug.Print "Error: basLeistungserfassungsblattSuchen.LeistungserfassungsblattSuchenSaveRecordset aborted, Error Code 2"
+        MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.LeistungserfassungsblattSuchenSaveRecordset execute"
+    End If
+    
+End Function
+
+Public Function LeistungserfassungsblattSuchenDeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+    ' Error Code 2: user aborted function
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattSuchen.LeistungserfassungsblattSuchenDeleteRecordset"
+    End If
+    
+    ' declare form name
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattSuchen"
+    
+    ' declare control object name
+    Dim strControlObjectName As String
+    strControlObjectName = "frbSubForm"
+    
+    ' declare reference attribute
+    Dim strReferenceAttributeName As String
+    strReferenceAttributeName = "LeistungserfassungsblattID"
+    
+    ' set recordset origin
+    Dim varRecordsetName As Variant
+    varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
+    
+    ' initiate class Leistungserfassungsblatt
+    Dim Leistungserfassungsblatt As clsLeistungserfassungsblatt
+    Set Leistungserfassungsblatt = New clsLeistungserfassungsblatt
+    
+    ' check primary key value
+    If IsNull(varRecordsetName) Then
+        Debug.Print "Error: basLeistungserfassungsblattSuchen.LeistungserfassungsblattSuchenSaveRecordset aborted, Error Code 1"
+        MsgBox "Es wurde kein Datensatz ausgewählt. Speichern abgebrochen.", vbCritical, "Fehler"
+        Exit Function
+    End If
+    
+    ' select recordset
+    Leistungserfassungsblatt.SelectRecordset varRecordsetName
+    
+    ' delete recordset
+    Dim varUserInput As Variant
+    varUserInput = MsgBox("Soll der Datensatz " & varRecordsetName & " wirklich gelöscht werden?", vbOKCancel, "Datensatz löschen")
+    
+    If varUserInput = 1 Then
+        Leistungserfassungsblatt.DeleteRecordset
+        MsgBox "Datensatz gelöscht", vbInformation, "Datensatz löschen"
+    Else
+        Debug.Print "Error: basLeistungserfassungsblattSuchen.AuftragSuchenDeleteRecordset aborted, Error Code 2"
+        MsgBox "löschen abgebrochen", vbInformation, "Datensatz löschen"
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattSuchen.LeistungserfassungsblattSuchenSaveRecordset execute"
     End If
     
 End Function

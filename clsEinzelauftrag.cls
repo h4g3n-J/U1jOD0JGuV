@@ -54,7 +54,7 @@ Private Function DefaultProperties()
     
     ' set array size according to the number of attributes
     Dim intNumberOfAttributes As Integer
-    intNumberOfAttributes = 15
+    intNumberOfAttributes = 16
     
     Dim varDefaultProperties As Variant
     ReDim varDefaultProperties(intNumberOfAttributes, 2)
@@ -106,6 +106,9 @@ Private Function DefaultProperties()
     varDefaultProperties(15, 0) = "AftrEnde"
         varDefaultProperties(15, 1) = "date"
         varDefaultProperties(15, 2) = Null
+    varDefaultProperties(16, 0) = "EATitel"
+        varDefaultProperties(16, 1) = "string"
+        varDefaultProperties(16, 2) = Null
     ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
 
     DefaultProperties = varDefaultProperties
@@ -1012,6 +1015,54 @@ Public Property Get AftrEnde() As Variant
     
 End Property
 
+Public Property Let EATitel(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "EATitel"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsEinzelauftrag Let EATitel"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsEinzelauftrag Let EATitel executed"
+    End If
+    
+End Property
+
+Public Property Get EATitel() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "EATitel"
+
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsEinzelauftrag Get EATitel"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    EATitel = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsEinzelauftrag Get EATitel executed"
+    End If
+    
+End Property
+
 ' if no recordset is selected, set to default
 ' check if query exists
 ' check if recordset exists
@@ -1166,10 +1217,11 @@ Public Sub CreateRecordset()
         rstRecordset!BWIKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BWIKey"), intValuePosition)
         rstRecordset!AftrBeginn = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrBeginn"), intValuePosition)
         rstRecordset!AftrEnde = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrEnde"), intValuePosition)
+        rstRecordset!EATitel = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EATitel"), intValuePosition)
         ' class changed? Do not miss to update the class properties!
     rstRecordset.Update
     
-    MsgBox "Datensatz erzeugt", vbOKOnly, "Auftrag erstellen"
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Einzelauftrag erstellen"
     
     ' event message
     If gconVerbatim Then
@@ -1279,6 +1331,7 @@ Public Sub SaveRecordset()
         rstRecordset!BWIKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BWIKey"), intValuePosition)
         rstRecordset!AftrBeginn = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrBeginn"), intValuePosition)
         rstRecordset!AftrEnde = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AftrEnde"), intValuePosition)
+        rstRecordset!EATitel = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EATitel"), intValuePosition)
     rstRecordset.Update
     
     ' event message

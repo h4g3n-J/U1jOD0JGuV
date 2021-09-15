@@ -2,6 +2,9 @@ Attribute VB_Name = "basAngebotErstellen"
 Option Compare Database
 Option Explicit
 
+Public gvarAngebotErstellenClipboardAftrID As Variant
+Public gvarAngebotErstellenClipboardAftrTitel As Variant
+
 Public Sub buildAngebotErstellen()
 
     ' command message
@@ -29,6 +32,12 @@ Public Sub buildAngebotErstellen()
     ' set form caption
     objForm.Caption = strFormName
     
+    ' set On Open event
+    objForm.OnOpen = "=OnOpenFrmAngebotErstellen()"
+    
+    ' set On Close event
+    objForm.OnClose = "=OnCloseFrmAngebotErstellen()"
+    
     ' declare command button
     Dim btnButton As CommandButton
     
@@ -55,7 +64,7 @@ Public Sub buildAngebotErstellen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 13
+        intNumberOfRows = 15
         intLeft = 566
         intTop = 960
         intWidth = 3120
@@ -87,7 +96,7 @@ Public Sub buildAngebotErstellen()
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
             With lblLabel
                 .Name = "lbl00"
-                .Caption = "BWIKey"
+                .Caption = "Angebot ID"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -424,6 +433,64 @@ Public Sub buildAngebotErstellen()
             With lblLabel
                 .Name = "lbl12"
                 .Caption = "Preis Brutto"
+                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt13
+        intColumn = 2
+        intRow = 14
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt13"
+                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+            End With
+            
+        ' lbl13
+        intColumn = 1
+        intRow = 14
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt13")
+            With lblLabel
+                .Name = "lbl13"
+                .Caption = "AftrID"
+                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt14
+        intColumn = 2
+        intRow = 15
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt14"
+                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                ' .BorderStyle = Transparent
+                .BorderStyle = 0
+            End With
+            
+        ' lbl14
+        intColumn = 1
+        intRow = 15
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
+            With lblLabel
+                .Name = "lbl14"
+                .Caption = "AftrTitel"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -933,6 +1000,9 @@ Public Function CloseFormAngebotErstellen()
         Debug.Print "execute basAngebotErstellen.CloseForm"
     End If
     
+    gvarAngebotErstellenClipboardAftrID = Null
+    gvarAngebotErstellenClipboardAftrTitel = Null
+    
     Dim strFormName As String
     strFormName = "frmAngebotErstellen"
     
@@ -946,40 +1016,75 @@ Public Function CloseFormAngebotErstellen()
 End Function
 
 Public Function AngebotErstellenCreateRecordset()
+' Error Code 1: no value assgined to BWIKey
 
     ' command message
     If gconVerbatim Then
         Debug.Print "execute basAngebotErstellen.AngebotErstellenCreateRecordset"
     End If
     
-    Dim strTableName As String
-    strTableName = "tblAngebot"
-    
     Dim strFormName As String
     strFormName = "frmAngebotErstellen"
     
-    Dim rstRecordset As clsAngebot
-    Set rstRecordset = New clsAngebot
+    Dim strMandatoryFieldName As String
+    strMandatoryFieldName = "Angebot ID"
+    
+    If IsNull(Forms.Item(strFormName)!txt00) Then
+        MsgBox "Sie haben im Pflichtfeld '" & strMandatoryFieldName & "' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
+    End If
+    
+    Dim rstRecordset01 As clsAngebot
+    Set rstRecordset01 = New clsAngebot
     
     ' transfer values from form to clsAngebot
     With Forms.Item(strFormName)
-        rstRecordset.BWIKey = !txt00
-        rstRecordset.EAkurzKey = !txt01
-        rstRecordset.MengengeruestLink = !txt02
-        rstRecordset.LeistungsbeschreibungLink = !txt03
-        rstRecordset.Bemerkung = !txt04
-        rstRecordset.BeauftragtDatum = !txt05
-        rstRecordset.AbgebrochenDatum = !txt06
-        rstRecordset.AngebotDatum = !txt07
-        rstRecordset.AbgenommenDatum = !txt08
-        rstRecordset.AftrBeginn = !txt09
-        rstRecordset.AftrEnde = !txt10
-        rstRecordset.StorniertDatum = !txt11
-        rstRecordset.AngebotBrutto = !txt12
+        rstRecordset01.BWIKey = !txt00
+        rstRecordset01.EAkurzKey = !txt01
+        rstRecordset01.MengengeruestLink = !txt02
+        rstRecordset01.LeistungsbeschreibungLink = !txt03
+        rstRecordset01.Bemerkung = !txt04
+        rstRecordset01.BeauftragtDatum = !txt05
+        rstRecordset01.AbgebrochenDatum = !txt06
+        rstRecordset01.AngebotDatum = !txt07
+        rstRecordset01.AbgenommenDatum = !txt08
+        rstRecordset01.AftrBeginn = !txt09
+        rstRecordset01.AftrEnde = !txt10
+        rstRecordset01.StorniertDatum = !txt11
+        rstRecordset01.AngebotBrutto = !txt12
     End With
     
-    ' create Recordset
-    rstRecordset.CreateRecordset
+    ' create Recordset clsAngebot
+    rstRecordset01.CreateRecordset
+    
+    Dim rstConnection As clsAuftragZuAngebot
+    Set rstConnection = New clsAuftragZuAngebot
+    
+    Dim strConnectionPrimaryAttribute As String
+    strConnectionPrimaryAttribute = "txt13"
+    
+    Dim strConnectionSecondaryAttribute As String
+    strConnectionSecondaryAttribute = "txt00"
+    
+    Dim varConnectionPrimaryValue As Variant
+    varConnectionPrimaryValue = Forms.Item(strFormName)!txt13
+    
+    Dim varConnctionsSecondaryValue As Variant
+    varConnctionsSecondaryValue = Forms.Item(strFormName)!txt00
+    
+    ' If Not (IsEmpty(varConnctionsSecondaryValue)) And Not (IsEmpty(varConnectionPrimaryValue)) Then
+    If Not (IsNull(varConnctionsSecondaryValue)) And Not (IsNull(varConnectionPrimaryValue)) Then
+        ' assign values from form to clsAngebot
+            rstConnection.RefAftrID = varConnectionPrimaryValue
+            rstConnection.RefBWIkey = varConnctionsSecondaryValue
+        
+        ' create Recordset clsAuftragZuAngebot
+        rstConnection.CreateRecordset
+    Else
+        MsgBox "Sie haben keine Wert im Feld AuftragID eingegeben." & vbCrLf & _
+        "Das Angebot muss einem Auftrag manuell zugeordnet werden.", vbInformation, "Speichern"
+    End If
     
     ' event message
     If gconVerbatim Then
@@ -988,3 +1093,36 @@ Public Function AngebotErstellenCreateRecordset()
     
 End Function
 
+Public Function OnOpenFrmAngebotErstellen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotErstellen.OnOpenFrmAngebotErstellen"
+    End If
+    
+    Forms!frmAngebotErstellen.Form!txt13 = gvarAngebotErstellenClipboardAftrID
+    Forms!frmAngebotErstellen.Form!txt14 = gvarAngebotErstellenClipboardAftrTitel
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotErstellen.OnOpenFrmAngebotErstellen executed"
+    End If
+    
+End Function
+
+Public Function OnCloseFrmAngebotErstellen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAngebotErstellen.OnCloseFrmAngebotErstellen"
+    End If
+    
+    gvarAngebotErstellenClipboardAftrID = Null
+    gvarAngebotErstellenClipboardAftrTitel = Null
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basAngebotErstellen.OnCloseFrmAngebotErstellen executed"
+    End If
+    
+End Function

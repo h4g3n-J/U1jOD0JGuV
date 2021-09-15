@@ -12,16 +12,7 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
-'Hauptdatensatz der Klasse
-Private mrstRecordset As DAO.RecordSet
-
-' dient als Zwischenspeicher fuer die ID des
-' mit dem Cursor ausgewaehlten Datensatzes im Unterformular
-' wird mit der Prozedur Laden geschrieben und von der
-' Prozedur Speichern abgerufen
-Private mvarClipboard As Variant
-
-' conainter for selected recordset, is also relevant for properties procedures
+' container for selected recordset, is also relevant for properties procedures
 ' lookup DefaultProperties for array composition
 Private mvarRecordsetClipboard As Variant
 
@@ -46,7 +37,7 @@ Private Function DefaultProperties()
     varDefaultProperties(0, 0) = "Attribut Name"
         varDefaultProperties(0, 1) = "data type"
         varDefaultProperties(0, 2) = "default value"
-    varDefaultProperties(1, 0) = "Leistungserfassungsblatt"
+    varDefaultProperties(1, 0) = "LeistungserfassungsblattID"
         varDefaultProperties(1, 1) = "string"
         varDefaultProperties(1, 2) = Null
     varDefaultProperties(2, 0) = "RechnungNr"
@@ -160,7 +151,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' name of the column that contains the sought recordset
     Dim strKeyColumn As String
-    strKeyColumn = "Leistungserfassungsblatt"
+    strKeyColumn = "LeistungserfassungsblattID"
     
     ' define database
     Dim dbsCurrentDB As DAO.Database
@@ -355,11 +346,11 @@ End Sub
 Public Property Let Leistungserfassungsblatt(ByVal varPropertyInput As Variant)
 
     Dim strPropertyName As String
-    strPropertyName = "Leistungserfassungsblatt"
+    strPropertyName = "LeistungserfassungsblattID"
     
     'command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsLeistungserfassungsblatt Let Leistungserfassungsblatt"
+        Debug.Print "execute clsLeistungserfassungsblatt Let LeistungserfassungsblattID"
     End If
     
     ' scan property array (mvarRecordsetClipboard) for attribut name
@@ -371,19 +362,19 @@ Public Property Let Leistungserfassungsblatt(ByVal varPropertyInput As Variant)
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsLeistungserfassungsblatt Let Leistungserfassungsblatt executed"
+        Debug.Print "clsLeistungserfassungsblatt Let LeistungserfassungsblattID executed"
     End If
     
 End Property
 
-Public Property Get Leistungserfassungsblatt() As Variant
+Public Property Get LeistungserfassungsblattID() As Variant
 
     Dim strPropertyName As String
-    strPropertyName = "Leistungserfassungsblatt"
+    strPropertyName = "LeistungserfassungsblattID"
 
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsLeistungserfassungsblatt Get Leistungserfassungsblatt"
+        Debug.Print "execute clsLeistungserfassungsblatt Get LeistungserfassungsblattID"
     End If
     
     ' scan attribut array (mvarRecordsetClipboard) for attribut name
@@ -391,11 +382,11 @@ Public Property Get Leistungserfassungsblatt() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    Leistungserfassungsblatt = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    LeistungserfassungsblattID = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsLeistungserfassungsblatt Get Leistungserfassungsblatt executed"
+        Debug.Print "clsLeistungserfassungsblatt Get LeistungserfassungsblattID executed"
     End If
     
 End Property
@@ -592,10 +583,168 @@ Public Property Get Brutto() As Variant
     
 End Property
 
-Public Sub AddRecordset()
-    mvarClipboard = basSupport.AddRecordsetMN("tblRechnung", "RechnungNr", "Rechnungsnummer", "Referenzierte Rechnungsnummer eingeben", "Rechnung erfassen", _
-    "tblLeistungserfassungsblatt", "Leistungserfassungsblatt", "Leistungserfassungsblatt", "Leistungserfassungsblattnummer eingeben", "Leistungserfassungsblatt erfassen", _
-    "tblRechnungZuLeistungserfassung", _
-    False)
+Public Sub CreateRecordset()
+    ' Error Code 1: "Leistungserfassungsblatt" input is missing
+    ' Error Code 2: "Leistungserfassungsblatt" is taken, choose another value
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsLeistungserfassungsblatt.CreateRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblLeistungserfassungsblatt"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LeistungserfassungsblattID"
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        ' error message
+        MsgBox strPrimaryKey & " ist ein Pflichtfeld, bitte Wert zuweisen!", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsLeistungserfassungsblatt.CreateRecordset aborted, Error Code 1"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    ' check if primary key value is taken
+    If DCount(strPrimaryKey, strTableName, strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'") > 0 Then
+        MsgBox mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & " wird bereits verwendet, bitte einen anderen Wert wählen.", vbCritical, "Fehlermeldung"
+        Debug.Print "Error: clsLeistungserfassungsblatt.CreateRecordset aborted, Error Code 2"
+        rstRecordset.Close
+        Set rstRecordset = Nothing
+        Exit Sub
+    End If
+    
+    rstRecordset.AddNew
+        rstRecordset!LeistungserfassungsblattID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "LeistungserfassungsblattID"), intValuePosition)
+        rstRecordset!RechnungNr = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RechnungNr"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!BelegID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BelegID"), intValuePosition)
+        rstRecordset!Brutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Brutto"), intValuePosition)
+        ' class changed? Do not miss to update the class properties!
+    rstRecordset.Update
+    
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Leistungserfassungsblatt erstellen"
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsLeistungserfassungsblatt.CreateRecordset executed"
+    End If
+    
+ExitProc:
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
 End Sub
 
+Public Sub DeleteRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsLeistungserfassungsblatt.DeleteRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblLeistungserfassungsblatt"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LeistungserfassungsblattID"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsLeistungserfassungsblatt.DeleteRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    ' delete recordset
+    rstRecordset.Delete
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsLeistungserfassungsblatt.DeleteRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+    
+End Sub
+
+Public Sub SaveRecordset()
+    ' Error Code 1: no recordset was supplied
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute clsLeistungserfassungsblatt.SaveRecordset"
+    End If
+
+    Dim strTableName As String
+    strTableName = "tblLeistungserfassungsblatt"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "LeistungserfassungsblattID"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    Dim dbsCurrentDB As DAO.Database
+    Set dbsCurrentDB = CurrentDb
+    
+    Dim rstRecordset As DAO.RecordSet
+    Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
+    
+    ' check primary key value
+    If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
+        Debug.Print "Error: clsLeistungserfassungsblatt.SaveRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+        
+    ' load recordset
+    rstRecordset.FindFirst (strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'")
+    
+    Dim strRecordsetName As String
+    strRecordsetName = rstRecordset.Name
+    
+    rstRecordset.Edit
+        rstRecordset!RechnungNr = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RechnungNr"), intValuePosition)
+        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+        rstRecordset!BelegID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BelegID"), intValuePosition)
+        rstRecordset!Brutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Brutto"), intValuePosition)
+    rstRecordset.Update
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "clsLeistungserfassungsblatt.SaveRecordset executed"
+    End If
+    
+ExitProc:
+    rstRecordset.Close
+    Set rstRecordset = Nothing
+    dbsCurrentDB.Close
+    Set dbsCurrentDB = Nothing
+End Sub

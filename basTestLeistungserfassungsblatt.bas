@@ -4,11 +4,11 @@ Option Explicit
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
-Private Sub Leistungserfassungsblatt()
+' Error Code: 2 - returned data type does not match the expectation
+Private Sub LeistungserfassungsblattID()
 
     ' command message
-    Debug.Print "execute basTestLeistungserfassungsblatt.Leistungserfassungsblatt"
+    Debug.Print "execute basTestLeistungserfassungsblatt.LeistungserfassungsblattID"
     
     Dim rstRecordset As clsLeistungserfassungsblatt
     Set rstRecordset = New clsLeistungserfassungsblatt
@@ -39,31 +39,31 @@ Private Sub Leistungserfassungsblatt()
     Dim intVarType As Integer
     intVarType = 8
     
-    rstRecordset.Leistungserfassungsblatt = strTestValue
+    rstRecordset.LeistungserfassungsblattID = strTestValue
     
-    If Not rstRecordset.Leistungserfassungsblatt = strTestValue Then
-        MsgBox "basTestLeistungserfassungsblatt.Leistungserfassungsblatt failed, Error Code: 1", vbCritical, "Test Result"
+    If Not rstRecordset.LeistungserfassungsblattID = strTestValue Then
+        MsgBox "basTest.LeistungserfassungsblattID failed, Error Code: 1", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    If Not VarType(rstRecordset.Leistungserfassungsblatt) = intVarType Then
-        MsgBox "basTestLeistungserfassungsblatt.Leistungserfassungsblatt failed, Error Code: 2", vbCritical, "Test Result"
+    If Not VarType(rstRecordset.LeistungserfassungsblattID) = intVarType Then
+        MsgBox "basTestLeistungserfassungsblatt.LeistungserfassungsblattID failed, Error Code: 2", vbCritical, "Test Result"
         Exit Sub
     End If
     
-    MsgBox "basTestLeistungserfassungsblatt.Leistungserfassungsblatt: Procedure successful", vbOKOnly, "Test Result"
+    MsgBox "basTestLeistungserfassungsblatt.LeistungserfassungsblattID: Procedure successful", vbOKOnly, "Test Result"
     
 ExitProc:
     Set rstRecordset = Nothing
     
     ' event message
-    Debug.Print "basTestLeistungserfassungsblatt.Leistungserfassungsblatt executed"
+    Debug.Print "basTestLeistungserfassungsblatt.LeistungserfassungsblattID executed"
     
 End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub RechnungNr()
 
     ' command message
@@ -121,7 +121,7 @@ ExitProc:
 End Sub
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub Bemerkung()
 
     ' command message
@@ -180,7 +180,7 @@ End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub BelegID()
 
     ' command message
@@ -239,7 +239,7 @@ End Sub
 
 ' checks property procedures
 ' Error Code: 1 - returned value does not match the input value
-' Error Code: 2 - returned data type does not match the expection
+' Error Code: 2 - returned data type does not match the expectation
 Private Sub Brutto()
 
     ' command message

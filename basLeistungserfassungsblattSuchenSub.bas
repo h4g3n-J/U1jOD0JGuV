@@ -34,7 +34,7 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
     strQuerySource = "tblLeistungserfassungsblatt"
     
     Dim strPrimaryKey As String
-    strPrimaryKey = "Leistungserfassungsblatt"
+    strPrimaryKey = "LeistungserfassungsblattID"
     
     basLeistungserfassungsblattSuchenSub.SearchLeistungserfassungsblatt strQueryName, strQuerySource, strPrimaryKey
     
@@ -74,7 +74,7 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt00"
-            .ControlSource = "Leistungserfassungsblatt"
+            .ControlSource = "LeistungserfassungsblattID"
             .Left = basLeistungserfassungsblattSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -89,7 +89,7 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
         With lblLabel
             .Name = "lbl00"
-            .Caption = "Leistungserfassungsblatt"
+            .Caption = "LeistungserfassungsblattID"
             .Left = basLeistungserfassungsblattSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -375,7 +375,7 @@ Private Sub TestSearchLeistungserfassungsblatt()
     strQuerySource = "tblLeistungserfassungsblatt"
     
     Dim strPrimaryKey As String
-    strPrimaryKey = "Leistungserfassungsblatt"
+    strPrimaryKey = "LeistungserfassungsblattID"
     
     basLeistungserfassungsblattSuchenSub.SearchLeistungserfassungsblatt strQueryName, strQuerySource, strPrimaryKey
     
@@ -902,7 +902,7 @@ Public Function selectLeistungserfassungsblatt()
     
     ' declare primary key
     Dim strReferenceAttributeName As String
-    strReferenceAttributeName = "Leistungserfassungsblatt"
+    strReferenceAttributeName = "LeistungserfassungsblattID"
     
     ' set recordset origin
     Dim varRecordsetName As Variant
@@ -918,7 +918,7 @@ Public Function selectLeistungserfassungsblatt()
     ' show recordset
     ' referes to the textboxes in basLeistungserfassungsblattSuchen
     ' Forms.Item(strFormName).Controls.Item("insert_textboxName_here") = CallByName(insert_Object_Name, "insert_Attribute_Name_here", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Leistungserfassungsblatt, "Leistungserfassungsblatt", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Leistungserfassungsblatt, "LeistungserfassungsblattID", VbGet)
     Forms.Item(strFormName).Controls.Item("txt01") = CallByName(Leistungserfassungsblatt, "RechnungNr", VbGet)
     Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Leistungserfassungsblatt, "Bemerkung", VbGet)
     Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Leistungserfassungsblatt, "BelegID", VbGet)
