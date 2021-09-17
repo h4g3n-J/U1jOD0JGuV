@@ -52,7 +52,7 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 8
+        intNumberOfRows = 10
         intLeft = 100
         intTop = 100
         intWidth = 2600
@@ -166,6 +166,34 @@ Public Sub BuildHauptmenue()
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd07"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Auftrag - Angebot Beziehungen verwalten"
+                .OnClick = "=OpenFormAuftragZuAngebotVerwalten()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 9
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd08"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Einzelauftrag - Angebot Beziehung verwalten"
+                .OnClick = "=OpenFormEinzelauftragZuAngebotVerwalten()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 10
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd09"
                 .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
@@ -436,6 +464,36 @@ Public Function OpenFormAuftragUebersicht()
     End If
 End Function
 
+Public Function OpenFormAuftragZuAngebotVerwalten()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormAuftragZuAngebotVerwalten"
+    End If
+
+    DoCmd.OpenForm "frmAuftragZuAngebotVerwalten", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormAuftragZuAngebotVerwalten executed"
+    End If
+End Function
+
+Public Function OpenFormEinzelauftragZuAngebotVerwalten()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormEinzelauftragZuAngebotVerwalten"
+    End If
+
+    DoCmd.OpenForm "frmEinzelauftragZuAngebotVerwalten", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormEinzelauftragZuAngebotVerwalten executed"
+    End If
+End Function
+
 ' builds the application form scratch
 ' work in progress
 Public Function BuildApplication()
@@ -472,6 +530,12 @@ Public Function BuildApplication()
     
     basAuftragUebersichtSub.BuildAuftragUebersichtSub
     basAuftragUebersicht.BuildAuftragUebersicht
+    
+    basAuftragZuAngebotVerwaltenSub.BuildAuftragZuAngebotVerwaltenSub
+    basAuftragZuAngebotVerwalten.BuildAuftragZuAngebotVerwalten
+    
+    basEinzelauftragZuAngebotVerwaltenSub.BuildEinzelauftragZuAngebotVerwaltenSub
+    basEinzelauftragZuAngebotVerwalten.BuildEinzelauftragZuAngebotVerwalten
     
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal

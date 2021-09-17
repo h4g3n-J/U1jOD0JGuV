@@ -509,27 +509,26 @@ Public Function SelectAngebot()
     varRecordsetName = Forms.Item(strFormName).Controls(strControlObjectName).Controls(strReferenceAttributeName)
     
     ' initiate class Angebot
-    Dim angebot As clsAngebot
-    Set angebot = New clsAngebot
+    Dim Angebot As clsAngebot
+    Set Angebot = New clsAngebot
     
     ' select recordset
-    angebot.SelectRecordset varRecordsetName
+    Angebot.SelectRecordset varRecordsetName
     
     ' show recordset
     ' Forms.Item(strFormName).Controls.Item("insert textboxName here") = CallByName(Auftrag, "insert Attribute Name here", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(angebot, "BWIKey", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt01") = CallByName(angebot, "EAkurzKey", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt02") = CallByName(angebot, "MengengeruestLink", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt03") = CallByName(angebot, "LeistungsbeschreibungLink", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt04") = CallByName(angebot, "Bemerkung", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt05") = CallByName(angebot, "BeauftragtDatum", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt06") = CallByName(angebot, "AbgebrochenDatum", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt07") = CallByName(angebot, "AngebotDatum", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt08") = CallByName(angebot, "AbgenommenDatum", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt09") = CallByName(angebot, "AftrBeginn", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt10") = CallByName(angebot, "AftrEnde", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt11") = CallByName(angebot, "StorniertDatum", VbGet)
-    Forms.Item(strFormName).Controls.Item("txt12") = CallByName(angebot, "AngebotBrutto", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt00") = CallByName(Angebot, "BWIKey", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Angebot, "MengengeruestLink", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Angebot, "LeistungsbeschreibungLink", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Angebot, "Bemerkung", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Angebot, "BeauftragtDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt06") = CallByName(Angebot, "AbgebrochenDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt07") = CallByName(Angebot, "AngebotDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt08") = CallByName(Angebot, "AbgenommenDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt09") = CallByName(Angebot, "AftrBeginn", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt10") = CallByName(Angebot, "AftrEnde", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt11") = CallByName(Angebot, "StorniertDatum", VbGet)
+    Forms.Item(strFormName).Controls.Item("txt12") = CallByName(Angebot, "AngebotBrutto", VbGet)
     
     ' event message
     If gconVerbatim Then
@@ -537,7 +536,7 @@ Public Function SelectAngebot()
     End If
     
 ExitProc:
-    Set angebot = Nothing
+    Set Angebot = Nothing
 End Function
 
 ' returns array

@@ -30,7 +30,7 @@ Private Function DefaultProperties()
     
     ' set array size according to the number of attributes
     Dim intNumberOfAttributes As Integer
-    intNumberOfAttributes = 5
+    intNumberOfAttributes = 6
     
     Dim varDefaultProperties As Variant
     ReDim varDefaultProperties(intNumberOfAttributes, 2)
@@ -52,6 +52,9 @@ Private Function DefaultProperties()
     varDefaultProperties(5, 0) = "Brutto"
         varDefaultProperties(5, 1) = "currency"
         varDefaultProperties(5, 2) = Null
+    varDefaultProperties(6, 0) = "Haushaltsjahr"
+        varDefaultProperties(6, 1) = "long"
+        varDefaultProperties(6, 2) = Null
     ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
         
     DefaultProperties = varDefaultProperties
@@ -314,6 +317,8 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
             varOutput = CInt(varInput)
         Case "boolean"
             varOutput = CBool(varInput)
+        Case "long"
+            varOutput = CLng(varInput)
     End Select
     
     CheckDataType = varOutput
@@ -583,6 +588,54 @@ Public Property Get Brutto() As Variant
     
 End Property
 
+Public Property Let Haushaltsjahr(ByVal varPropertyInput As Variant)
+
+    Dim strPropertyName As String
+    strPropertyName = "Haushaltsjahr"
+    
+    'command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Let Haushaltsjahr"
+    End If
+    
+    ' scan property array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
+    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Let Haushaltsjahr executed"
+    End If
+    
+End Property
+
+Public Property Get Haushaltsjahr() As Variant
+
+    Dim strPropertyName As String
+    strPropertyName = "Haushaltsjahr"
+    
+    ' command message
+    If mbolVerbatim = True Then
+        Debug.Print "execute clsLeistungserfassungsblatt Get Haushaltsjahr"
+    End If
+    
+    ' scan attribut array (mvarRecordsetClipboard) for attribut name
+    Dim intItemPosition As Integer
+    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
+    
+    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
+    Haushaltsjahr = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    
+    ' event message
+    If mbolVerbatim = True Then
+        Debug.Print "clsLeistungserfassungsblatt Get Haushaltsjahr executed"
+    End If
+    
+End Property
+
 Public Sub CreateRecordset()
     ' Error Code 1: "Leistungserfassungsblatt" input is missing
     ' Error Code 2: "Leistungserfassungsblatt" is taken, choose another value
@@ -632,6 +685,7 @@ Public Sub CreateRecordset()
         rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
         rstRecordset!BelegID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BelegID"), intValuePosition)
         rstRecordset!Brutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Brutto"), intValuePosition)
+        rstRecordset!Haushaltsjahr = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Haushaltsjahr"), intValuePosition)
         ' class changed? Do not miss to update the class properties!
     rstRecordset.Update
     
@@ -735,6 +789,7 @@ Public Sub SaveRecordset()
         rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
         rstRecordset!BelegID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BelegID"), intValuePosition)
         rstRecordset!Brutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Brutto"), intValuePosition)
+        rstRecordset!Haushaltsjahr = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Haushaltsjahr"), intValuePosition)
     rstRecordset.Update
     
     ' event message

@@ -293,7 +293,6 @@ Public Sub BuildRechnungSuchen()
             .Height = basRechnungSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
-        
     ' column added? -> update intNumberOfColumns
     
     ' create lifecycle grid
@@ -995,7 +994,7 @@ Public Function RechnungSuchenSaveRecordset()
     
     ' delete recordset
     Dim varUserInput As Variant
-    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz '" & varRecordsetName & "' wirklich gespeichert werden?", vbOKCancel, "Speichern")
     
     If varUserInput = 1 Then
         Rechnung.SaveRecordset

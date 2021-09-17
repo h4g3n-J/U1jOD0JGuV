@@ -39,6 +39,9 @@ Public Sub BuildAngebotSuchen()
     ' declare textbox
     Dim txtTextbox As TextBox
     
+    ' declare combobox
+    Dim cboCombobox As ComboBox
+    
     ' declare subform
     Dim frmSubForm As SubForm
     
@@ -102,15 +105,18 @@ Public Sub BuildAngebotSuchen()
         ' txt01
         intColumn = 2
         intRow = 2
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-            With txtTextbox
-                .Name = "txt01"
+        Set cboCombobox = CreateControl(strTempFormName, acComboBox, acDetail)
+            With cboCombobox
+                .Name = "cbo01"
                 .Left = basAngebotSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotSuchen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
                 .Height = basAngebotSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+                .RowSource = "tblEinzelauftrag"
+                .AllowValueListEdits = False
+                .ListItemsEditForm = "frmEinzelauftragErstellen"
             End With
             
         ' lbl01
@@ -797,7 +803,8 @@ End Function
 
 Public Function AngebotSuchenSaveRecordset()
     ' Error Code 1: no recordset was supplied
-    ' Error Code 2: user aborted function
+    ' Error Code 2: a recordset of that name already exists
+    ' Error Code 3: user aborted function
 
     ' command message
     If gconVerbatim Then
@@ -831,12 +838,34 @@ Public Function AngebotSuchenSaveRecordset()
         Exit Function
     End If
     
+    ' check for forbidden values
+    Dim strDomainName01 As String
+    strDomainName01 = "tblEinzelauftrag"
+    
+    Dim strFieldName01 As String
+    strFieldName01 = "EAkurzKey"
+    
+    Dim strMandatoryFieldName01 As String
+    strMandatoryFieldName01 = "Einzelauftrag ID"
+    
+    Dim strErrorMessage As String
+    
+    If DCount("[" & strFieldName01 & "]", strDomainName01, "[" & strFieldName01 & "] Like '" & Forms.Item(strFormName)!cbo01 & "'") = 0 Then
+        strErrorMessage = "Bitte wählen Sie im Feld " & strMandatoryFieldName01 & "' ausschließlich Werte aus der Drop-Down-Liste."
+    End If
+    
+    If strErrorMessage <> "" Then
+        MsgBox strErrorMessage, vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 2"
+        Exit Function
+    End If
+    
     ' select recordset
     Angebot.SelectRecordset varRecordsetName
     
     ' allocate values to recordset properties
     With Angebot
-        .EAkurzKey = Forms.Item(strFormName).Controls("txt01")
+        .EAkurzKey = Forms.Item(strFormName).Controls("cbo01")
         .MengengeruestLink = Forms.Item(strFormName).Controls("txt02")
         .LeistungsbeschreibungLink = Forms.Item(strFormName).Controls("txt03")
         .Bemerkung = Forms.Item(strFormName).Controls("txt04")
@@ -852,13 +881,13 @@ Public Function AngebotSuchenSaveRecordset()
     
     ' delete recordset
     Dim varUserInput As Variant
-    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz '" & varRecordsetName & "' wirklich gespeichert werden?", vbOKCancel, "Speichern")
     
     If varUserInput = 1 Then
         Angebot.SaveRecordset
         MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
     Else
-        Debug.Print "Error: basAngebotSuchen.AngebotSuchenSaveRecordset aborted, Error Code 2"
+        Debug.Print "Error: basAngebotSuchen.AngebotSuchenSaveRecordset aborted, Error Code 3"
         MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
     End If
     

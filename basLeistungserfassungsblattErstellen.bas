@@ -55,7 +55,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 13
+        intNumberOfRows = 6
         intLeft = 566
         intTop = 960
         intWidth = 3120
@@ -200,6 +200,34 @@ Public Sub buildLeistungserfassungsblattErstellen()
         With lblLabel
             .Name = "lbl04"
             .Caption = "Brutto"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt05
+    intColumn = 2
+    intRow = 6
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt05"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl05
+    intColumn = 1
+    intRow = 6
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+        With lblLabel
+            .Name = "lbl05"
+            .Caption = "Haushaltsjahr"
             .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -744,6 +772,7 @@ Public Function LeistungserfassungsblattErstellenCreateRecordset()
         rstRecordset.Bemerkung = !txt02
         rstRecordset.BelegID = !txt03
         rstRecordset.Brutto = !txt04
+        rstRecordset.Haushaltsjahr = !txt05
     End With
     
     ' create Recordset

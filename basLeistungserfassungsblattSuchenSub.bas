@@ -53,7 +53,7 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
         Dim intColumn As Integer
         Dim intRow As Integer
         
-            intNumberOfColumns = 5
+            intNumberOfColumns = 6
             intNumberOfRows = 2
             intColumnWidth = 2500
             intRowHeight = 330
@@ -206,6 +206,35 @@ Public Sub BuildLeistungserfassungsblattSuchenSub()
         With lblLabel
             .Name = "lbl04"
             .Caption = "Brutto"
+            .Left = basLeistungserfassungsblattSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt04
+    intColumn = 6
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt05"
+            .ControlSource = "Haushaltsjahr"
+            .Left = basLeistungserfassungsblattSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattSuchenSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl04
+    intColumn = 6
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+        With lblLabel
+            .Name = "lbl05"
+            .Caption = "Haushaltsjahr"
             .Left = basLeistungserfassungsblattSuchenSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchenSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchenSub.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -923,7 +952,7 @@ Public Function selectLeistungserfassungsblatt()
     Forms.Item(strFormName).Controls.Item("txt02") = CallByName(Leistungserfassungsblatt, "Bemerkung", VbGet)
     Forms.Item(strFormName).Controls.Item("txt03") = CallByName(Leistungserfassungsblatt, "BelegID", VbGet)
     Forms.Item(strFormName).Controls.Item("txt04") = CallByName(Leistungserfassungsblatt, "Brutto", VbGet)
-    
+    Forms.Item(strFormName).Controls.Item("txt05") = CallByName(Leistungserfassungsblatt, "Haushaltsjahr", VbGet)
     ' event message
     If gconVerbatim Then
         Debug.Print "basLeistungserfassungsblattSuchenSub.selectLeistungserfassungsblatt executed"

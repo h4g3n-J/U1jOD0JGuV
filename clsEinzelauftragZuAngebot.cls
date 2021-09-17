@@ -2,12 +2,12 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "clsAuftragZuAngebot"
+Attribute VB_Name = "clsEinzelauftragZuAngebot"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-' clsAuftragZuAngebot
+' clsEinzelauftragZuAngebot
 
 Option Compare Database
 Option Explicit
@@ -23,11 +23,11 @@ Private Sub Class_Initialize()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "initialize clsAuftragZuAngebot"
+        Debug.Print "initialize clsEinzelauftragZuAngebot"
     End If
     
     Dim strQryChecksumName As String
-    strQryChecksumName = "qryChecksumAuftragZuAngebot"
+    strQryChecksumName = "qryChecksumEinzelauftragZuAngebot"
     
     Dim strObjectType As String
     strObjectType = "query"
@@ -41,13 +41,13 @@ Private Sub Class_Initialize()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsAuftragZuAngebot initialized"
+        Debug.Print "clsEinzelauftragZuAngebot initialized"
     End If
     
 End Sub
 
 Private Sub Class_Terminate()
-    Debug.Print "clsAuftragZuAngebot terminated"
+    Debug.Print "clsEinzelauftragZuAngebot terminated"
 End Sub
 
 Private Function DefaultProperties()
@@ -56,7 +56,7 @@ Private Function DefaultProperties()
 
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot.DefaultProperties"
+        Debug.Print "execute clsEinzelauftragZuAngebot.DefaultProperties"
     End If
     
     ' set array size according to the number of attributes
@@ -71,7 +71,7 @@ Private Function DefaultProperties()
     varDefaultProperties(1, 0) = "ID"
         varDefaultProperties(1, 1) = "long"
         varDefaultProperties(1, 2) = Null
-    varDefaultProperties(2, 0) = "RefAftrID"
+    varDefaultProperties(2, 0) = "RefEAkurzKey"
         varDefaultProperties(2, 1) = "string"
         varDefaultProperties(2, 2) = Null
     varDefaultProperties(3, 0) = "RefBWIkey"
@@ -86,7 +86,7 @@ Private Function DefaultProperties()
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot.DefaultProperties executed"
+        Debug.Print "clsEinzelauftragZuAngebot.DefaultProperties executed"
     End If
     
 End Function
@@ -98,7 +98,7 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
 
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot.CheckDataType"
+        Debug.Print "execute clsEinzelauftragZuAngebot.CheckDataType"
     End If
     
     ' local verbatim setting
@@ -107,14 +107,14 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     
     ' local verbatim message
     If bolLocalVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
+        Debug.Print "clsEinzelauftragZuAngebot.CheckDataType: varInput = " & varInput & " , varMode = " & varMode
     End If
     
     If IsNull(varInput) Then
     
         ' local verbatim
         If bolLocalVerbatim Then
-            Debug.Print "clsAuftragZuAngebot.CheckDataType: varInput ist null"
+            Debug.Print "clsEinzelauftragZuAngebot.CheckDataType: varInput ist null"
         End If
         
         ' return input
@@ -152,7 +152,7 @@ Private Function CheckDataType(ByVal varInput, varMode As Variant) As Variant
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot.CheckDataType executed"
+        Debug.Print "clsEinzelauftragZuAngebot.CheckDataType executed"
     End If
 
 End Function
@@ -165,7 +165,7 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
     
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot.FindItemInArray"
+        Debug.Print "execute clsEinzelauftragZuAngebot.FindItemInArray"
     End If
    
     Dim intIndex As Integer
@@ -175,7 +175,7 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
     bolLocalVerbatim = False
     
     If bolLocalVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.FindItemInArray: varWanted = " & varWanted
+        Debug.Print "clsEinzelauftragZuAngebot.FindItemInArray: varWanted = " & varWanted
     End If
     
     Select Case strArrayStyle
@@ -184,7 +184,7 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
             ' scan array until match
             Do While avarArray(intIndex, intField) <> varWanted
                 If intIndex = UBound(avarArray, 1) Then
-                    Debug.Print "clsAuftragZuAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    Debug.Print "clsEinzelauftragZuAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
                     FindItemInArray = Null
                     Exit Function
                 Else
@@ -195,7 +195,7 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
         Case "B"
             Do While avarArray(intField, intIndex) <> varWanted
                 If intIndex = UBound(avarArray, 2) Then
-                    Debug.Print "clsAuftragZuAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
+                    Debug.Print "clsEinzelauftragZuAngebot.FindItemInArray: '" & varWanted & "' im übergebenen Array nicht gefunden"
                     FindItemInArray = Null
                     Exit Function
                 Else
@@ -204,7 +204,7 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
             Loop
         ' input error handler
         Case Else
-            Debug.Print "clsAuftragZuAngebot.FindItemInArray: arrayStyle ungültig, Wertevorrat beachten"
+            Debug.Print "clsEinzelauftragZuAngebot.FindItemInArray: arrayStyle ungültig, Wertevorrat beachten"
             Exit Function
         End Select
     
@@ -213,7 +213,7 @@ Private Function FindItemInArray(ByVal avarArray, varWanted As Variant, Optional
 
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot.FindItemInArray executed"
+        Debug.Print "clsEinzelauftragZuAngebot.FindItemInArray executed"
     End If
     
 End Function
@@ -233,14 +233,14 @@ Private Function ObjectExists(ByVal strObjectName, strModus As String) As Boolea
     
     ' verbatim message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot.ObjectExists"
+        Debug.Print "execute clsEinzelauftragZuAngebot.ObjectExists"
     End If
     
     Dim bolLocalVerbatim As Boolean
     bolLocalVerbatim = False
     
     If bolLocalVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
+        Debug.Print "clsEinzelauftragZuAngebot.ObjectExists: strObjectName = " & strObjectName & " , strModus = " & strModus
     End If
     
     Select Case strModus
@@ -273,7 +273,7 @@ Public Property Let ID(ByVal varPropertyInput As Variant)
     
     'command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Let ID"
+        Debug.Print "execute clsEinzelauftragZuAngebot Let ID"
     End If
     
     ' scan property array (mvarRecordsetClipboard) for attribut name
@@ -285,7 +285,7 @@ Public Property Let ID(ByVal varPropertyInput As Variant)
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Let ID executed"
+        Debug.Print "clsEinzelauftragZuAngebot Let ID executed"
     End If
     
 End Property
@@ -297,7 +297,7 @@ Public Property Get ID() As Variant
 
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Get ID"
+        Debug.Print "execute clsEinzelauftragZuAngebot Get ID"
     End If
     
     ' scan attribut array (mvarRecordsetClipboard) for attribut name
@@ -309,19 +309,19 @@ Public Property Get ID() As Variant
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Get ID executed"
+        Debug.Print "clsEinzelauftragZuAngebot Get ID executed"
     End If
     
 End Property
 
-Public Property Let RefAftrID(ByVal varPropertyInput As Variant)
+Public Property Let RefEAkurzKey(ByVal varPropertyInput As Variant)
 
     Dim strPropertyName As String
-    strPropertyName = "RefAftrID"
+    strPropertyName = "RefEAkurzKey"
     
     'command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Let RefAftrID"
+        Debug.Print "execute clsEinzelauftragZuAngebot Let RefEAkurzKey"
     End If
     
     ' scan property array (mvarRecordsetClipboard) for attribut name
@@ -333,19 +333,19 @@ Public Property Let RefAftrID(ByVal varPropertyInput As Variant)
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Let RefAftrID executed"
+        Debug.Print "clsEinzelauftragZuAngebot Let RefEAkurzKey executed"
     End If
     
 End Property
 
-Public Property Get RefAftrID() As Variant
+Public Property Get RefEAkurzKey() As Variant
 
     Dim strPropertyName As String
-    strPropertyName = "RefAftrID"
+    strPropertyName = "RefEAkurzKey"
 
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Get RefAftrID"
+        Debug.Print "execute clsEinzelauftragZuAngebot Get RefEAkurzKey"
     End If
     
     ' scan attribut array (mvarRecordsetClipboard) for attribut name
@@ -353,11 +353,11 @@ Public Property Get RefAftrID() As Variant
     intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
     
     ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    RefAftrID = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
+    RefEAkurzKey = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Get RefAftrID executed"
+        Debug.Print "clsEinzelauftragZuAngebot Get RefEAkurzKey executed"
     End If
     
 End Property
@@ -369,7 +369,7 @@ Public Property Let RefBWIkey(ByVal varPropertyInput As Variant)
     
     'command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Let RefBWIkey"
+        Debug.Print "execute clsEinzelauftragZuAngebot Let RefBWIkey"
     End If
     
     ' scan property array (mvarRecordsetClipboard) for attribut name
@@ -381,7 +381,7 @@ Public Property Let RefBWIkey(ByVal varPropertyInput As Variant)
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Let RefBWIkey executed"
+        Debug.Print "clsEinzelauftragZuAngebot Let RefBWIkey executed"
     End If
     
 End Property
@@ -393,7 +393,7 @@ Public Property Get RefBWIkey() As Variant
 
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Get RefBWIkey"
+        Debug.Print "execute clsEinzelauftragZuAngebot Get RefBWIkey"
     End If
     
     ' scan attribut array (mvarRecordsetClipboard) for attribut name
@@ -405,7 +405,7 @@ Public Property Get RefBWIkey() As Variant
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Get RefBWIkey executed"
+        Debug.Print "clsEinzelauftragZuAngebot Get RefBWIkey executed"
     End If
     
 End Property
@@ -417,7 +417,7 @@ Public Property Let Bemerkung(ByVal varPropertyInput As Variant)
     
     'command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Let Bemerkung"
+        Debug.Print "execute clsEinzelauftragZuAngebot Let Bemerkung"
     End If
     
     ' scan property array (mvarRecordsetClipboard) for attribut name
@@ -429,7 +429,7 @@ Public Property Let Bemerkung(ByVal varPropertyInput As Variant)
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Let Bemerkung executed"
+        Debug.Print "clsEinzelauftragZuAngebot Let Bemerkung executed"
     End If
     
 End Property
@@ -441,7 +441,7 @@ Public Property Get Bemerkung() As Variant
 
     ' command message
     If mbolVerbatim = True Then
-        Debug.Print "execute clsAuftragZuAngebot Get Bemerkung"
+        Debug.Print "execute clsEinzelauftragZuAngebot Get Bemerkung"
     End If
     
     ' scan attribut array (mvarRecordsetClipboard) for attribut name
@@ -453,7 +453,7 @@ Public Property Get Bemerkung() As Variant
     
     ' event message
     If mbolVerbatim = True Then
-        Debug.Print "clsAuftragZuAngebot Get Bemerkung executed"
+        Debug.Print "clsEinzelauftragZuAngebot Get Bemerkung executed"
     End If
     
 End Property
@@ -466,7 +466,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
 
     ' command message
     If mbolVerbatim Then
-        Debug.Print "execute clsAuftragZuAngebot.SelectRecordset"
+        Debug.Print "execute clsEinzelauftragZuAngebot.SelectRecordset"
     End If
 
     ' set error state
@@ -476,7 +476,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     ' name of the table or query that contains the
     ' sought-after recordset
     Dim strTableName As String
-    strTableName = "tblAuftragZuAngebot"
+    strTableName = "tblEinzelauftragZuAngebot"
     
     ' the type of the containing table,
     ' feasible values are: table, query
@@ -502,7 +502,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     If IsNull(varRecordsetName) Then
         ' verbatim message
         If bolLocalVerbatim = True Then
-            Debug.Print "clsAuftragZuAngebot.SelectRecordset: varRecordsetName is empty, " _
+            Debug.Print "clsEinzelauftragZuAngebot.SelectRecordset: varRecordsetName is empty, " _
                 & "prompt default value"
         End If
         ' load default Value
@@ -513,7 +513,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     ' check if target table exists, when negative _
     ' return error + exitProc
     If ObjectExists(strTableName, strObjectType) = False Then
-        Debug.Print "clsAuftragZuAngebot.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
+        Debug.Print "clsEinzelauftragZuAngebot.SelectRecordset: " & strTableName & " does not exist. Procedure canceled."
         Exit Sub
     End If
     
@@ -534,7 +534,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     ' mvarRecordsetClipboard(inti, 0): property name
     If bolLocalVerbatim = True Then
         For inti = LBound(mvarRecordsetClipboard, 1) To UBound(mvarRecordsetClipboard, 1)
-            Debug.Print "clsAuftragZuAngebot.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
+            Debug.Print "clsEinzelauftragZuAngebot.SelectRecordset: " & mvarRecordsetClipboard(inti, 0) & vbTab & mvarRecordsetClipboard(inti, 2)
         Next
     End If
     
@@ -548,7 +548,7 @@ ExitProc:
         
     ' event message
     If mbolVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.SelectRecordset executed"
+        Debug.Print "clsEinzelauftragZuAngebot.SelectRecordset executed"
     End If
     
 End Sub
@@ -558,29 +558,29 @@ Public Sub CreateRecordset()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute clsAuftragZuAngebot.CreateRecordset"
+        Debug.Print "execute clsEinzelauftragZuAngebot.CreateRecordset"
     End If
 
     Dim strTableName As String
-    strTableName = "tblAuftragZuAngebot"
+    strTableName = "tblEinzelauftragZuAngebot"
     
     Dim strPrimaryKey As String
     strPrimaryKey = "ID"
     
     Dim strConnectionPrimaryAttribute As String
-    strConnectionPrimaryAttribute = "RefAftrID"
+    strConnectionPrimaryAttribute = "RefEAkurzKey"
     
     Dim strConnectionPrimaryAttributeAlias As String
-    strConnectionPrimaryAttributeAlias = "Ticket"
+    strConnectionPrimaryAttributeAlias = "Einzelauftrag ID"
     
     Dim strConnectionSecondaryAttribute As String
     strConnectionSecondaryAttribute = "RefBWIkey"
     
     Dim strConnectionSecondaryAttributeAlias As String
-    strConnectionSecondaryAttributeAlias = "Angebot"
+    strConnectionSecondaryAttributeAlias = "Angebot ID"
     
     Dim strDomainName As String
-    strDomainName = "qryChecksumAuftragZuAngebot"
+    strDomainName = "qryChecksumEinzelauftragZuAngebot"
     
     Dim strFieldName As String
     strFieldName = "checksum"
@@ -603,7 +603,7 @@ Public Sub CreateRecordset()
     
     ' check if input is null
     If IsNull(varConnectionPrimaryValue) Or IsNull(varConnectionSecondaryValue) Then
-        Debug.Print "Error: clsAuftragZuAngebot.CreateRecordset aborted, Error Code 1"
+        Debug.Print "Error: clsEinzelauftragZuAngebot.CreateRecordset aborted, Error Code 1"
         GoTo ExitProc
     End If
     
@@ -613,7 +613,7 @@ Public Sub CreateRecordset()
     
     If DCount("[" & strFieldName & "]", strDomainName, "[" & strFieldName & "] Like '" & strDummy & "'") > 0 Then
         MsgBox "Das " & strConnectionSecondaryAttributeAlias & " '" & varConnectionSecondaryValue & "' wurde bereits mit dem " & strConnectionPrimaryAttributeAlias & " '" & varConnectionPrimaryValue & "' verknüpft.", vbCritical, "Beziehung erfassen abgebrochen"
-        Debug.Print "Error: clsAuftragZuAngebot.CreateRecordset, Error Code 1"
+        Debug.Print "Error: clsEinzelauftragZuAngebot.CreateRecordset, Error Code 1"
         GoTo ExitProc
     End If
     
@@ -624,7 +624,7 @@ Public Sub CreateRecordset()
     ' create recordset
     rstRecordset.AddNew
             rstRecordset!ID = lngPrimaryKeyValue
-            rstRecordset!RefAftrID = varConnectionPrimaryValue
+            rstRecordset!RefEAkurzKey = varConnectionPrimaryValue
             rstRecordset!RefBWIkey = varConnectionSecondaryValue
             rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
             ' class changed? Do not miss to update the class properties!
@@ -634,7 +634,7 @@ Public Sub CreateRecordset()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.CreateRecordset executed"
+        Debug.Print "clsEinzelauftragZuAngebot.CreateRecordset executed"
     End If
     
 ExitProc:
@@ -647,11 +647,11 @@ Public Sub DeleteRecordset()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute clsAuftragZuAngebot.DeleteRecordset"
+        Debug.Print "execute clsEinzelauftragZuAngebot.DeleteRecordset"
     End If
 
     Dim strTableName As String
-    strTableName = "tblAuftragZuAngebot"
+    strTableName = "tblEinzelauftragZuAngebot"
     
     Dim strPrimaryKey As String
     strPrimaryKey = "ID"
@@ -667,7 +667,7 @@ Public Sub DeleteRecordset()
     
     ' check primary key value
     If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
-        Debug.Print "Error: clsAuftragZuAngebot.DeleteRecordset aborted, Error Code 1"
+        Debug.Print "Error: clsEinzelauftragZuAngebot.DeleteRecordset aborted, Error Code 1"
         GoTo ExitProc
     End If
         
@@ -679,7 +679,7 @@ Public Sub DeleteRecordset()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.DeleteRecordset executed"
+        Debug.Print "clsEinzelauftragZuAngebot.DeleteRecordset executed"
     End If
     
 ExitProc:
@@ -695,11 +695,11 @@ Public Sub SaveRecordset()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute clsAuftragZuAngebot.SaveRecordset"
+        Debug.Print "execute clsEinzelauftragZuAngebot.SaveRecordset"
     End If
 
     Dim strTableName As String
-    strTableName = "tblAuftragZuAngebot"
+    strTableName = "tblEinzelauftragZuAngebot"
     
     Dim strPrimaryKey As String
     strPrimaryKey = "ID"
@@ -715,7 +715,7 @@ Public Sub SaveRecordset()
     
     ' check primary key value
     If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
-        Debug.Print "Error: clsAuftragZuAngebot.SaveRecordset aborted, Error Code 1"
+        Debug.Print "Error: clsEinzelauftragZuAngebot.SaveRecordset aborted, Error Code 1"
         GoTo ExitProc
     End If
         
@@ -726,14 +726,14 @@ Public Sub SaveRecordset()
     strRecordsetName = rstRecordset.Name
     
     rstRecordset.Edit
-        rstRecordset!RefAftrID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RefAftrID"), intValuePosition)
+        rstRecordset!RefEAkurzKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RefEAkurzKey"), intValuePosition)
         rstRecordset!RefBWIkey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RefBWIkey"), intValuePosition)
         rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
     rstRecordset.Update
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.SaveRecordset executed"
+        Debug.Print "clsEinzelauftragZuAngebot.SaveRecordset executed"
     End If
     
 ExitProc:
@@ -747,20 +747,20 @@ Private Sub BuildCheckSum()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute clsAuftragZuAngebot.SearchEinzelauftrag"
+        Debug.Print "execute clsEinzelauftragZuAngebot.SearchEinzelauftrag"
     End If
     
     Dim strDomainName As String
-    strDomainName = "tblAuftragZuAngebot"
+    strDomainName = "tblEinzelauftragZuAngebot"
     
     Dim strCheckField01 As String
-    strCheckField01 = "RefAftrID"
+    strCheckField01 = "RefEAkurzKey"
     
     Dim strCheckField02 As String
     strCheckField02 = "RefBWIkey"
     
     Dim strQueryName As String
-    strQueryName = "qryChecksumAuftragZuAngebot"
+    strQueryName = "qryChecksumEinzelauftragZuAngebot"
     
     ' set current database
     Dim dbsCurrentDB As DAO.Database
@@ -792,7 +792,9 @@ ExitProc:
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.SearchEinzelauftrag executed"
+        Debug.Print "clsEinzelauftragZuAngebot.SearchEinzelauftrag executed"
     End If
     
 End Sub
+
+

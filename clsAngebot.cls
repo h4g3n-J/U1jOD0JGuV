@@ -38,49 +38,47 @@ Private Function DefaultProperties()
     Dim intNumberOfAttributes As Integer
     intNumberOfAttributes = 13
     
-    Dim varDefaultProperties(13, 2) As Variant
+    Dim varDefaultProperties As Variant
+    ReDim varDefaultProperties(intNumberOfAttributes, 2)
     varDefaultProperties(0, 0) = "Attribut Name"
         varDefaultProperties(0, 1) = "data type"
         varDefaultProperties(0, 2) = "default value"
     varDefaultProperties(1, 0) = "BWIKey"
         varDefaultProperties(1, 1) = "string"
         varDefaultProperties(1, 2) = Null
-    varDefaultProperties(2, 0) = "EAkurzKey"
-        varDefaultProperties(2, 1) = "string"
+    varDefaultProperties(2, 0) = "MengengeruestLink"
+        varDefaultProperties(2, 1) = "link"
         varDefaultProperties(2, 2) = Null
-    varDefaultProperties(3, 0) = "MengengeruestLink"
+    varDefaultProperties(3, 0) = "LeistungsbeschreibungLink"
         varDefaultProperties(3, 1) = "link"
         varDefaultProperties(3, 2) = Null
-    varDefaultProperties(4, 0) = "LeistungsbeschreibungLink"
-        varDefaultProperties(4, 1) = "link"
+    varDefaultProperties(4, 0) = "Bemerkung"
+        varDefaultProperties(4, 1) = "string"
         varDefaultProperties(4, 2) = Null
-    varDefaultProperties(5, 0) = "Bemerkung"
-        varDefaultProperties(5, 1) = "string"
+    varDefaultProperties(5, 0) = "BeauftragtDatum"
+        varDefaultProperties(5, 1) = "date"
         varDefaultProperties(5, 2) = Null
-    varDefaultProperties(6, 0) = "BeauftragtDatum"
+    varDefaultProperties(6, 0) = "AbgebrochenDatum"
         varDefaultProperties(6, 1) = "date"
         varDefaultProperties(6, 2) = Null
-    varDefaultProperties(7, 0) = "AbgebrochenDatum"
+    varDefaultProperties(7, 0) = "AngebotDatum"
         varDefaultProperties(7, 1) = "date"
         varDefaultProperties(7, 2) = Null
-    varDefaultProperties(8, 0) = "AngebotDatum"
+    varDefaultProperties(8, 0) = "AbgenommenDatum"
         varDefaultProperties(8, 1) = "date"
         varDefaultProperties(8, 2) = Null
-    varDefaultProperties(9, 0) = "AbgenommenDatum"
+    varDefaultProperties(9, 0) = "AftrBeginn"
         varDefaultProperties(9, 1) = "date"
         varDefaultProperties(9, 2) = Null
-    varDefaultProperties(10, 0) = "AftrBeginn"
+    varDefaultProperties(10, 0) = "AftrEnde"
         varDefaultProperties(10, 1) = "date"
         varDefaultProperties(10, 2) = Null
-    varDefaultProperties(11, 0) = "AftrEnde"
+    varDefaultProperties(11, 0) = "StorniertDatum"
         varDefaultProperties(11, 1) = "date"
         varDefaultProperties(11, 2) = Null
-    varDefaultProperties(12, 0) = "StorniertDatum"
-        varDefaultProperties(12, 1) = "date"
+    varDefaultProperties(12, 0) = "AngebotBrutto"
+        varDefaultProperties(12, 1) = "currency"
         varDefaultProperties(12, 2) = Null
-    varDefaultProperties(13, 0) = "AngebotBrutto"
-        varDefaultProperties(13, 1) = "currency"
-        varDefaultProperties(13, 2) = Null
     ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
 
     DefaultProperties = varDefaultProperties
@@ -153,54 +151,6 @@ Public Property Get BWIKey() As Variant
     ' event message
     If mbolVerbatim = True Then
         Debug.Print "clsAngebot Get BWIKey executed"
-    End If
-    
-End Property
-
-Public Property Let EAkurzKey(ByVal varPropertyInput As Variant)
-
-    Dim strPropertyName As String
-    strPropertyName = "EAkurzKey"
-    
-    'command message
-    If mbolVerbatim = True Then
-        Debug.Print "execute clsAngebot Let EAkurzKey"
-    End If
-    
-    ' scan property array (mvarRecordsetClipboard) for attribut name
-    Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
-    
-    ' transform varPropertyInput into target data type (mvarRecordsetClipboard(intItemPosition, 1)) and assign to recordset (mvarRecordsetClipboard(intItemPosition, 2))
-    mvarRecordsetClipboard(intItemPosition, 2) = CheckDataType(varPropertyInput, mvarRecordsetClipboard(intItemPosition, 1))
-    
-    ' event message
-    If mbolVerbatim = True Then
-        Debug.Print "clsAngebot Let EAkurzKey executed"
-    End If
-    
-End Property
-
-Public Property Get EAkurzKey() As Variant
-
-    Dim strPropertyName As String
-    strPropertyName = "EAkurzKey"
-
-    ' command message
-    If mbolVerbatim = True Then
-        Debug.Print "execute clsAngebot Get EAkurzKey"
-    End If
-    
-    ' scan attribut array (mvarRecordsetClipboard) for attribut name
-    Dim intItemPosition As Integer
-    intItemPosition = FindItemInArray(mvarRecordsetClipboard, strPropertyName)
-    
-    ' get value (mvarRecordsetClipboard( intItemPosition, 2)), transform into target data type (mvarRecordsetClipboard(intItemPosition, 1))
-    EAkurzKey = CheckDataType(mvarRecordsetClipboard(intItemPosition, 2), mvarRecordsetClipboard(intItemPosition, 1))
-    
-    ' event message
-    If mbolVerbatim = True Then
-        Debug.Print "clsAngebot Get EAkurzKey executed"
     End If
     
 End Property
@@ -1070,7 +1020,7 @@ Public Sub CreateRecordset()
     
     ' check primary key value
     If IsNull(mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition)) Then
-        MsgBox strPrimaryKey & " ist ein Pflichtfeld, bitte geben Sie einen Wert ein!", vbCritical, "Speichern"
+        MsgBox "clsAngebot.CreateRecordset: mandatory value is missing, Error Code 1", vbCritical, "Error"
         Debug.Print "Error: clsAngebot.CreateRecordset aborted, Error Code 1"
         rstRecordset.Close
         Set rstRecordset = Nothing
@@ -1079,7 +1029,7 @@ Public Sub CreateRecordset()
     
     ' check if primary key value is taken
     If DCount(strPrimaryKey, strTableName, strPrimaryKey & " Like '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "'") > 0 Then
-        MsgBox "Das Angebot '" & mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strPrimaryKey), intValuePosition) & "' wurde bereits erfasst, es wurde kein neuer Datensatz erstellt." & vbCrLf & vbCrLf & "Verwenden Sie die Funktion 'Angebot bearbeiten', um Änderungen an diesem Datensatz vorzunehmen.", vbCritical, "Speichern abgebrochen"
+        MsgBox "clsAngebot.CreateRecordset: recordset of that name is taken, Error Code 2", vbCritical, "Error"
         Debug.Print "Error: clsAngebot.CreateRecordset aborted, Error Code 2"
         rstRecordset.Close
         Set rstRecordset = Nothing
@@ -1088,7 +1038,6 @@ Public Sub CreateRecordset()
     
     rstRecordset.AddNew
         rstRecordset!BWIKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "BWIKey"), intValuePosition)
-        rstRecordset!EAkurzKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EAkurzKey"), intValuePosition)
         rstRecordset!MengengeruestLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "MengengeruestLink"), intValuePosition)
         rstRecordset!LeistungsbeschreibungLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "LeistungsbeschreibungLink"), intValuePosition)
         rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
@@ -1102,8 +1051,6 @@ Public Sub CreateRecordset()
         rstRecordset!AngebotBrutto = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "AngebotBrutto"), intValuePosition)
         ' class changed? Do not miss to update the class properties!
     rstRecordset.Update
-    
-    MsgBox "Datensatz erzeugt", vbOKOnly, "Angebot erstellen"
     
     ' event message
     If gconVerbatim Then
@@ -1199,7 +1146,6 @@ Public Sub SaveRecordset()
     strRecordsetName = rstRecordset.Name
     
     rstRecordset.Edit
-        rstRecordset!EAkurzKey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "EAkurzKey"), intValuePosition)
         rstRecordset!MengengeruestLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "MengengeruestLink"), intValuePosition)
         rstRecordset!LeistungsbeschreibungLink = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "LeistungsbeschreibungLink"), intValuePosition)
         rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)

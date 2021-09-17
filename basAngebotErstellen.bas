@@ -47,6 +47,9 @@ Public Sub buildAngebotErstellen()
     ' declare textbox
     Dim txtTextbox As TextBox
     
+    ' declare combobox
+    Dim cboCombobox As ComboBox
+    
     ' declare grid variables
         Dim intNumberOfColumns As Integer
         Dim intNumberOfRows As Integer
@@ -107,15 +110,18 @@ Public Sub buildAngebotErstellen()
         ' txt01
         intColumn = 2
         intRow = 2
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-            With txtTextbox
-                .Name = "txt01"
+        Set cboCombobox = CreateControl(strTempFormName, acComboBox, acDetail)
+            With cboCombobox
+                .Name = "cbo01"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
                 .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+                .RowSource = "tblEinzelauftrag"
+                .AllowValueListEdits = False
+                .ListItemsEditForm = "frmEinzelauftragErstellen"
             End With
             
         ' lbl01
@@ -1017,6 +1023,8 @@ End Function
 
 Public Function AngebotErstellenCreateRecordset()
 ' Error Code 1: no value assgined to BWIKey
+' Error Code 2: a recordset of that name already exists
+' Error Code 3: input value is not on the value list
 
     ' command message
     If gconVerbatim Then
@@ -1035,13 +1043,51 @@ Public Function AngebotErstellenCreateRecordset()
         Exit Function
     End If
     
+    ' check if primary key value is taken
+    Dim strTableName As String
+    strTableName = "tblAngebot"
+    
+    Dim strPrimaryKey As String
+    strPrimaryKey = "BWIKey"
+    
+    Dim intValuePosition As Integer
+    intValuePosition = 2
+    
+    If DCount(strPrimaryKey, strTableName, strPrimaryKey & " Like '" & Forms.Item(strFormName)!txt00 & "'") > 0 Then
+        MsgBox "Das Angebot '" & Forms.Item(strFormName)!cbo01 & "' wurde bereits erfasst." & vbCrLf & vbCrLf & "Verwenden Sie das Formular 'Angebot bearbeiten', um Änderungen an diesem Datensatz vorzunehmen.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset aborted, Error Code 2"
+        Exit Function
+    End If
+    
+    ' check for forbidden values
+    Dim strDomainName01 As String
+    strDomainName01 = "tblEinzelauftrag"
+    
+    Dim strFieldName01 As String
+    strFieldName01 = "EAkurzKey"
+    
+    Dim strMandatoryFieldName01 As String
+    strMandatoryFieldName01 = "Einzelauftrag ID"
+    
+    Dim strErrorMessage As String
+    
+    If DCount("[" & strFieldName01 & "]", strDomainName01, "[" & strFieldName01 & "] Like '" & Forms.Item(strFormName)!cbo01 & "'") = 0 Then
+        strErrorMessage = "Bitte wählen Sie im Feld " & strMandatoryFieldName01 & "' ausschließlich Werte aus der Drop-Down-Liste."
+    End If
+    
+    If strErrorMessage <> "" Then
+        MsgBox strErrorMessage, vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 3"
+        Exit Function
+    End If
+    
     Dim rstRecordset01 As clsAngebot
     Set rstRecordset01 = New clsAngebot
     
     ' transfer values from form to clsAngebot
     With Forms.Item(strFormName)
         rstRecordset01.BWIKey = !txt00
-        rstRecordset01.EAkurzKey = !txt01
+        rstRecordset01.EAkurzKey = !cbo01
         rstRecordset01.MengengeruestLink = !txt02
         rstRecordset01.LeistungsbeschreibungLink = !txt03
         rstRecordset01.Bemerkung = !txt04
@@ -1058,6 +1104,8 @@ Public Function AngebotErstellenCreateRecordset()
     ' create Recordset clsAngebot
     rstRecordset01.CreateRecordset
     
+    MsgBox "Datensatz erzeugt", vbOKOnly, "Angebot erstellen"
+    
     Dim rstConnection As clsAuftragZuAngebot
     Set rstConnection = New clsAuftragZuAngebot
     
@@ -1073,9 +1121,8 @@ Public Function AngebotErstellenCreateRecordset()
     Dim varConnctionsSecondaryValue As Variant
     varConnctionsSecondaryValue = Forms.Item(strFormName)!txt00
     
-    ' If Not (IsEmpty(varConnctionsSecondaryValue)) And Not (IsEmpty(varConnectionPrimaryValue)) Then
     If Not (IsNull(varConnctionsSecondaryValue)) And Not (IsNull(varConnectionPrimaryValue)) Then
-        ' assign values from form to clsAngebot
+        ' assign values to clsAngebot
             rstConnection.RefAftrID = varConnectionPrimaryValue
             rstConnection.RefBWIkey = varConnctionsSecondaryValue
         
@@ -1083,7 +1130,7 @@ Public Function AngebotErstellenCreateRecordset()
         rstConnection.CreateRecordset
     Else
         MsgBox "Sie haben keine Wert im Feld AuftragID eingegeben." & vbCrLf & _
-        "Das Angebot muss einem Auftrag manuell zugeordnet werden.", vbInformation, "Speichern"
+        "Das Angebot muss nachträglich einem Auftrag zugeordnet werden.", vbInformation, "Speichern"
     End If
     
     ' event message

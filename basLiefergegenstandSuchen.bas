@@ -1341,7 +1341,7 @@ Public Function LiefergegenstandSuchenSaveRecordset()
     
     ' delete recordset
     Dim varUserInput As Variant
-    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz '" & varRecordsetName & "' wirklich gespeichert werden?", vbOKCancel, "Speichern")
     
     If varUserInput = 1 Then
         Liefergegenstand.SaveRecordset

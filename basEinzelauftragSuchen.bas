@@ -507,7 +507,7 @@ Public Sub BuildEinzelauftragSuchen()
     'lbl15
     intColumn = 1
     intRow = 16
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
         With lblLabel
             .Name = "lbl16"
             .Caption = "EATitel"
@@ -1222,7 +1222,7 @@ Public Function EinzelauftragSuchenSaveRecordset()
     
     ' delete recordset
     Dim varUserInput As Variant
-    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz '" & varRecordsetName & "' wirklich gespeichert werden?", vbOKCancel, "Speichern")
     
     If varUserInput = 1 Then
         Einzelauftrag.SaveRecordset

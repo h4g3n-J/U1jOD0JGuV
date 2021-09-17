@@ -58,7 +58,7 @@ Public Sub BuildLeistungserfassungsblattSuchen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 5
+        intNumberOfRows = 6
         intLeft = 10000
         intTop = 2430
         intWidth = 3120
@@ -203,6 +203,34 @@ Public Sub BuildLeistungserfassungsblattSuchen()
         With lblLabel
             .Name = "lbl04"
             .Caption = "Brutto"
+            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt05
+    intColumn = 2
+    intRow = 6
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt05"
+            .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattSuchen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl05
+    intColumn = 1
+    intRow = 6
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+        With lblLabel
+            .Name = "lbl05"
+            .Caption = "Haushaltsjahr"
             .Left = basLeistungserfassungsblattSuchen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattSuchen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattSuchen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -902,11 +930,12 @@ Public Function LeistungserfassungsblattSuchenSaveRecordset()
         .Bemerkung = Forms.Item(strFormName).Controls("txt02")
         .BelegID = Forms.Item(strFormName).Controls("txt03")
         .Brutto = Forms.Item(strFormName).Controls("txt04")
+        .Haushaltsjahr = Forms.Item(strFormName).Controls("txt05")
     End With
     
     ' delete recordset
     Dim varUserInput As Variant
-    varUserInput = MsgBox("Sollen die Änderungen am Datensatz " & varRecordsetName & " wirklich gespeichert werden?", vbOKCancel, "Speichern")
+    varUserInput = MsgBox("Sollen die Änderungen am Datensatz '" & varRecordsetName & "' wirklich gespeichert werden?", vbOKCancel, "Speichern")
     
     If varUserInput = 1 Then
         Leistungserfassungsblatt.SaveRecordset
