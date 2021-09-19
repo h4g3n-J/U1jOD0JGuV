@@ -52,7 +52,7 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 16
+        intNumberOfRows = 17
         intLeft = 100
         intTop = 100
         intWidth = 3800
@@ -278,6 +278,20 @@ Public Sub BuildHauptmenue()
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd15"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Liefergegenstand Übersicht"
+                .OnClick = "=OpenFormLiefergegenstandUebersicht()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 17
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd16"
                 .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
@@ -670,6 +684,22 @@ Public Function OpenFormKontinuierlicheLeistungenZuRechnungVerwalten()
     End If
 End Function
 
+Public Function OpenFormLiefergegenstandUebersicht()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormLiefergegenstandUebersicht"
+    End If
+
+    DoCmd.OpenForm "frmLiefergegenstandUebersicht", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormLiefergegenstandUebersicht executed"
+    End If
+End Function
+
+
 ' builds the application form scratch
 ' work in progress
 Public Function BuildApplication()
@@ -731,6 +761,9 @@ Public Function BuildApplication()
     
     basKontinuierlicheLeistungenZuRechnungVerwaltenSub.BuildKontinuierlicheLeistungenZurRechnungVerwaltenSub
     basKontinuierlicheLeistungenZuRechnungVerwalten.BuildKontinuierlicheLeistungenZuRechnungVerwalten
+    
+    basLiefergegenstandUebersichtSub.BuildLiefergegenstandUebersichtSub
+    basLiefergegenstandUebersicht.BuildLiefergegenstandUebersicht
     
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal
