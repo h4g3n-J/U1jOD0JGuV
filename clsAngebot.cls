@@ -36,7 +36,7 @@ Private Function DefaultProperties()
     
     ' set array size according to the number of attributes
     Dim intNumberOfAttributes As Integer
-    intNumberOfAttributes = 13
+    intNumberOfAttributes = 12
     
     Dim varDefaultProperties As Variant
     ReDim varDefaultProperties(intNumberOfAttributes, 2)

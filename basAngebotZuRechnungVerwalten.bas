@@ -1,20 +1,20 @@
-Attribute VB_Name = "basEinzelauftragZuAngebotVerwalten"
+Attribute VB_Name = "basAngebotZuRechnungVerwalten"
 Option Compare Database
 Option Explicit
 
-Public Sub BuildEinzelauftragZuAngebotVerwalten()
+Public Sub BuildAngebotZuRechnungVerwalten()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute BuildEinzelauftragZuAngebotVerwalten.BuildEinzelauftragZuAngebotVerwalten"
+        Debug.Print "execute BuildAngebotZuRechnungVerwalten.BuildAngebotZuRechnungVerwalten"
     End If
     
     ' set form name
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
     
     ' clear form
-     basEinzelauftragZuAngebotVerwalten.ClearForm strFormName
+     basAngebotZuRechnungVerwalten.ClearForm strFormName
      
      ' declare form
     Dim objForm As Form
@@ -70,7 +70,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
         ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
     ' calculate information grid
-    aintInformationGrid = basEinzelauftragZuAngebotVerwalten.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+    aintInformationGrid = basAngebotZuRechnungVerwalten.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
         
     ' create textbox before label, so label can be associated
     'txt00
@@ -79,10 +79,10 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt00"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
@@ -95,10 +95,10 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
         With lblLabel
             .Name = "lbl00"
             .Caption = "ID"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -108,15 +108,15 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
     Set cboCombobox = CreateControl(strTempFormName, acComboBox, acDetail)
         With cboCombobox
             .Name = "cbo01"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
-            .RowSource = "tblEinzelauftrag"
+            .RowSource = "tblAngebot"
             .AllowValueListEdits = False
-            .ListItemsEditForm = "frmEinzelauftragErstellen"
+            .ListItemsEditForm = "frmAngebotErstellen"
         End With
         
     'lbl01
@@ -125,11 +125,11 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
         With lblLabel
             .Name = "lbl01"
-            .Caption = "Einzelauftrag ID"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Caption = "Angebot ID"
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
     
@@ -139,15 +139,15 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
     Set cboCombobox = CreateControl(strTempFormName, acComboBox, acDetail)
         With cboCombobox
             .Name = "cbo02"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
-            .RowSource = "tblAngebot"
+            .RowSource = "tblRechnung"
             .AllowValueListEdits = False
-            .ListItemsEditForm = "frmAngebotErstellen"
+            .ListItemsEditForm = "frmRechnungErstellen"
         End With
         
     'lbl02
@@ -156,11 +156,11 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
         With lblLabel
             .Name = "lbl02"
-            .Caption = "Angebot ID"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Caption = "Rechnung ID"
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -170,10 +170,10 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt03"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -185,10 +185,10 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
         With lblLabel
             .Name = "lbl03"
             .Caption = "Bemerkung"
-            .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
     ' column added? -> update intNumberOfColumns
@@ -206,20 +206,22 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
         
         ReDim aintLifecycleGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
-        aintLifecycleGrid = basEinzelauftragZuAngebotVerwalten.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
+        aintLifecycleGrid = basAngebotZuRechnungVerwalten.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-        ' create "Einzelauftrag erstellen" button
+        ' create "Rechnung erstellen" button
         intColumn = 1
         intRow = 1
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateEinzelauftrag"
-                .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintLifecycleGrid, intColumn, intRow)
-                .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintLifecycleGrid, intColumn, intRow)
-                .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintLifecycleGrid, intColumn, intRow)
-                .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintLifecycleGrid, intColumn, intRow)
-                .Caption = "Einzelauftrag erstellen"
-                .OnClick = "=OpenFormAuftragErstellen_EinzelauftragZuAngebot()"
+                .Name = "cmdCreateRechnung"
+                .Left = basAngebotZuRechnungVerwalten.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basAngebotZuRechnungVerwalten.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basAngebotZuRechnungVerwalten.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basAngebotZuRechnungVerwalten.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                ' .Caption = "Rechnung erstellen"
+                .Caption = "Angebot erstellen"
+                ' .OnClick = "=OpenFormAuftragErstellen_AngebotZuRechnung()"
+                .OnClick = "=OpenFormAngebotErstellen_AngebotZuRechnungVerwalten()"
                 .Visible = True
             End With
             
@@ -229,12 +231,14 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmdCreateAngebot"
-                .Left = basEinzelauftragZuAngebotVerwalten.GetLeft(aintLifecycleGrid, intColumn, intRow)
-                .Top = basEinzelauftragZuAngebotVerwalten.GetTop(aintLifecycleGrid, intColumn, intRow)
-                .Width = basEinzelauftragZuAngebotVerwalten.GetWidth(aintLifecycleGrid, intColumn, intRow)
-                .Height = basEinzelauftragZuAngebotVerwalten.GetHeight(aintLifecycleGrid, intColumn, intRow)
-                .Caption = "Angebot erstellen"
-                .OnClick = "=OpenFormAngebotErstellen_EinzelauftragZuAngebot()"
+                .Left = basAngebotZuRechnungVerwalten.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basAngebotZuRechnungVerwalten.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basAngebotZuRechnungVerwalten.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basAngebotZuRechnungVerwalten.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                ' .Caption = "Angebot erstellen"
+                .Caption = "Rechnung erstellen"
+                ' .OnClick = "=OpenFormAngebotErstellen_AngebotZuRechnung()"
+                .OnClick = "=OpenFormRechnungErstellen_AngebotZuRechnungVerwalten()"
                 .Visible = True
             End With
             
@@ -246,7 +250,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
             lblLabel.Top = 227
             lblLabel.Width = 9210
             lblLabel.Height = 507
-            lblLabel.Caption = "Beziehung Einzelauftrag - Angebot verwalten"
+            lblLabel.Caption = "Beziehung Angebot - Rechnung verwalten"
             
         ' create search box
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
@@ -265,7 +269,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
             btnButton.Width = 2730
             btnButton.Height = 330
             btnButton.Caption = "Suchen"
-            btnButton.OnClick = "=SearchAndReloadEinzelauftragZuAngebotVerwalten()"
+            btnButton.OnClick = "=SearchAndReloadAngebotZuRechnungVerwalten()"
             btnButton.Visible = True
             
         ' create exit button
@@ -276,7 +280,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
             btnButton.Width = 3120
             btnButton.Height = 330
             btnButton.Caption = "Schließen"
-            btnButton.OnClick = "=CloseFormEinzelauftragZuAngebotVerwalten()"
+            btnButton.OnClick = "=CloseFormAngebotZuRechnungVerwalten()"
             
         ' create save button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -286,7 +290,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
             btnButton.Width = 3120
             btnButton.Height = 330
             btnButton.Caption = "Speichern"
-            btnButton.OnClick = "=EinzelauftragZuAngebotVerwaltenSaveRecordset()"
+            btnButton.OnClick = "=AngebotZuRechnungVerwaltenSaveRecordset()"
             
         ' create createRecordset button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -296,7 +300,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
             btnButton.Width = 3120
             btnButton.Height = 330
             btnButton.Caption = "Beziehung erstellen"
-            btnButton.OnClick = "=CreateRecordsetEinzelauftragZuAngebot()"
+            btnButton.OnClick = "=CreateRecordsetAngebotZuRechnung()"
             
         ' create deleteRecordset button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -306,7 +310,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
             btnButton.Width = 3120
             btnButton.Height = 330
             btnButton.Caption = "Datensatz löschen"
-            btnButton.OnClick = "=EinzelauftragZuAngebotVerwaltenDeleteRecordset()"
+            btnButton.OnClick = "=AngebotZuRechnungVerwaltenDeleteRecordset()"
 
         ' create subform
         Set frmSubForm = CreateControl(strTempFormName, acSubform, acDetail)
@@ -317,7 +321,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
             .Top = 2820
             .Width = 9218
             .Height = 5055
-            .SourceObject = "frmEinzelauftragZuAngebotVerwaltenSub"
+            .SourceObject = "frmAngebotZuRechnungVerwaltenSub"
             .Locked = True
         End With
                 
@@ -329,7 +333,7 @@ Public Sub BuildEinzelauftragZuAngebotVerwalten()
         
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.BuildEinzelauftragZuAngebotVerwalten executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.BuildAngebotZuRechnungVerwalten executed"
     End If
 
 End Sub
@@ -338,7 +342,7 @@ Private Sub ClearForm(ByVal strFormName As String)
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.ClearForm"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.ClearForm"
     End If
     
     Dim objForm As Object
@@ -357,7 +361,7 @@ Private Sub ClearForm(ByVal strFormName As String)
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.ClearForm executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.ClearForm executed"
     End If
     
 End Sub
@@ -366,14 +370,14 @@ Private Sub TestClearForm()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestClearForm"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestClearForm"
     End If
     
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
     
     ' delete form
-    basEinzelauftragZuAngebotVerwalten.ClearForm strFormName
+    basAngebotZuRechnungVerwalten.ClearForm strFormName
     
     Dim objForm As Object
     Set objForm = CreateForm
@@ -386,20 +390,20 @@ Private Sub TestClearForm()
     DoCmd.Rename strFormName, acForm, strTempFormName
     
     ' delete form
-    basEinzelauftragZuAngebotVerwalten.ClearForm strFormName
+    basAngebotZuRechnungVerwalten.ClearForm strFormName
     
     For Each objForm In Application.CurrentProject.AllForms
         If objForm.Name = strFormName Then
-            MsgBox "basEinzelauftragZuAngebotVerwalten.TestClearForm: Test failed", vbCritical, "Test Result"
+            MsgBox "basAngebotZuRechnungVerwalten.TestClearForm: Test failed", vbCritical, "Test Result"
             Exit For
         End If
     Next
     
-    MsgBox "basEinzelauftragZuAngebotVerwalten.TestClearForm: Test succesfull", vbOKOnly, "Test Result"
+    MsgBox "basAngebotZuRechnungVerwalten.TestClearForm: Test succesfull", vbOKOnly, "Test Result"
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestClearForm executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestClearForm executed"
     End If
     
 End Sub
@@ -408,7 +412,7 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.CalculateGrid"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.CalculateGrid"
     End If
     
     Const cintHorizontalSpacing As Integer = 60
@@ -437,7 +441,7 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.CalculateGrid executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.CalculateGrid executed"
     End If
     
 End Function
@@ -449,7 +453,7 @@ Private Sub TestCalculateGrid()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestCalculateGrid"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestCalculateGrid"
     End If
     
     Dim intNumberOfRows As Integer
@@ -469,7 +473,7 @@ Private Sub TestCalculateGrid()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
     
-    aintInformationGrid = basEinzelauftragZuAngebotVerwalten.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    aintInformationGrid = basAngebotZuRechnungVerwalten.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
 
     Const cintHorizontalSpacing As Integer = 60
     Const cintVerticalSpacing As Integer = 60
@@ -493,18 +497,18 @@ Private Sub TestCalculateGrid()
     
     Select Case intErrorState
         Case 0
-            MsgBox "basEinzelauftragZuAngebotVerwalten.TestCalculateGrid: Test passed", vbOKOnly, "Test Result"
+            MsgBox "basAngebotZuRechnungVerwalten.TestCalculateGrid: Test passed", vbOKOnly, "Test Result"
         Case 1
-            MsgBox "basEinzelauftragZuAngebotVerwalten.TestCalculateGrid: Test failed, Error Code 1", vbCritical, "Test Result"
+            MsgBox "basAngebotZuRechnungVerwalten.TestCalculateGrid: Test failed, Error Code 1", vbCritical, "Test Result"
         Case 2
-            MsgBox "basEinzelauftragZuAngebotVerwalten.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "Test Result"
+            MsgBox "basAngebotZuRechnungVerwalten.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "Test Result"
         Case 3
-            MsgBox "basEinzelauftragZuAngebotVerwalten.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "Test Result"
+            MsgBox "basAngebotZuRechnungVerwalten.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "Test Result"
     End Select
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestCalculateGrid executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestCalculateGrid executed"
     End If
     
 End Sub
@@ -513,12 +517,12 @@ Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal 
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.GetLeft"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.GetLeft"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.GetLeft: column 0 is not available"
-        MsgBox "basEinzelauftragZuAngebotVerwalten.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basAngebotZuRechnungVerwalten.GetLeft: column 0 is not available"
+        MsgBox "basAngebotZuRechnungVerwalten.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -526,7 +530,7 @@ Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal 
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.GetLeft executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.GetLeft executed"
     End If
     
 End Function
@@ -536,7 +540,7 @@ Private Sub TestGetLeft()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestGetLeft"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestGetLeft"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -549,7 +553,7 @@ Private Sub TestGetLeft()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basEinzelauftragZuAngebotVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basAngebotZuRechnungVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -565,17 +569,17 @@ Private Sub TestGetLeft()
     bolErrorState = False
     
     Dim intLeftResult As Integer
-    intLeftResult = basEinzelauftragZuAngebotVerwalten.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
+    intLeftResult = basAngebotZuRechnungVerwalten.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intLeftResult <> intLeftExpected Then
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetLeft: Test missed. Error Code: 1", vbCritical
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetLeft: Test missed. Error Code: 1", vbCritical
     Else
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetLeft executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetLeft executed"
     End If
     
 End Sub
@@ -584,12 +588,12 @@ Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal i
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.GetTop"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.GetTop"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.GetTop: column 0 is not available"
-        MsgBox "basEinzelauftragZuAngebotVerwalten.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basAngebotZuRechnungVerwalten.GetTop: column 0 is not available"
+        MsgBox "basAngebotZuRechnungVerwalten.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -597,7 +601,7 @@ Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal i
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.GetTop executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.GetTop executed"
     End If
     
 End Function
@@ -607,7 +611,7 @@ Private Sub TestGetTop()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestGetTop"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestGetTop"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -620,7 +624,7 @@ Private Sub TestGetTop()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basEinzelauftragZuAngebotVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basAngebotZuRechnungVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -636,17 +640,17 @@ Private Sub TestGetTop()
     bolErrorState = False
     
     Dim intTopResult As Integer
-    intTopResult = basEinzelauftragZuAngebotVerwalten.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
+    intTopResult = basAngebotZuRechnungVerwalten.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intTopResult <> intTopExpected Then
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetTop: Test failed. Error Code: 1", vbCritical
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetTop: Test failed. Error Code: 1", vbCritical
     Else
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetTop: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetTop: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetTop executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetTop executed"
     End If
     
 End Sub
@@ -655,12 +659,12 @@ Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVa
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestGetHeight"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestGetHeight"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetHeight: column 0 is not available"
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetHeight: column 0 is not available"
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -668,7 +672,7 @@ Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVa
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetHeight executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetHeight executed"
     End If
     
 End Function
@@ -678,7 +682,7 @@ Private Sub TestGetHeight()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestGetHeight"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestGetHeight"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -691,7 +695,7 @@ Private Sub TestGetHeight()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basEinzelauftragZuAngebotVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basAngebotZuRechnungVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -703,17 +707,17 @@ Private Sub TestGetHeight()
     
     ' test run
     Dim intHeightResult As Integer
-    intHeightResult = basEinzelauftragZuAngebotVerwalten.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
+    intHeightResult = basAngebotZuRechnungVerwalten.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intHeightResult <> intHeightExpected Then
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetHeight: Test failed. Error Code: 1", vbCritical
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetHeight: Test failed. Error Code: 1", vbCritical
     Else
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetHeight executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetHeight executed"
     End If
     
 End Sub
@@ -722,12 +726,12 @@ Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestGetWidth"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestGetWidth"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetWidth: column 0 is not available"
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetWidth: column 0 is not available"
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -735,7 +739,7 @@ Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetWidth executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetWidth executed"
     End If
     
 End Function
@@ -745,7 +749,7 @@ Private Sub TestGetWidth()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.TestGetWidth"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.TestGetWidth"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -758,7 +762,7 @@ Private Sub TestGetWidth()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basEinzelauftragZuAngebotVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basAngebotZuRechnungVerwalten.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -770,30 +774,30 @@ Private Sub TestGetWidth()
     
     ' test run
     Dim intWidthResult As Integer
-    intWidthResult = basEinzelauftragZuAngebotVerwalten.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
+    intWidthResult = basAngebotZuRechnungVerwalten.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intWidthResult <> intWidthExpected Then
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetWidth: Test failed. Error Code: 1", vbCritical
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetWidth: Test failed. Error Code: 1", vbCritical
     Else
-        MsgBox "basEinzelauftragZuAngebotVerwalten.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basAngebotZuRechnungVerwalten.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.TestGetWidth executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.TestGetWidth executed"
     End If
     
 End Sub
 
-Public Function SearchAndReloadEinzelauftragZuAngebotVerwalten()
+Public Function SearchAndReloadAngebotZuRechnungVerwalten()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.SearchAndReloadEinzelauftragZuAngebotVerwalten"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.SearchAndReloadAngebotZuRechnungVerwalten"
     End If
     
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
     
     Dim strSearchTextboxName As String
     strSearchTextboxName = "txtSearchBox"
@@ -803,7 +807,7 @@ Public Function SearchAndReloadEinzelauftragZuAngebotVerwalten()
     varSearchTerm = Application.Forms.Item(strFormName).Controls(strSearchTextboxName)
     
     ' build query
-    basEinzelauftragZuAngebotVerwaltenSub.SearchEinzelauftragZuAngebot varSearchTerm
+    basAngebotZuRechnungVerwaltenSub.SearchAngebotZuRechnung varSearchTerm
     
     ' close form
     DoCmd.Close acForm, strFormName, acSaveYes
@@ -813,54 +817,54 @@ Public Function SearchAndReloadEinzelauftragZuAngebotVerwalten()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.SearchAndReloadEinzelauftragZuAngebotVerwalten executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.SearchAndReloadAngebotZuRechnungVerwalten executed"
     End If
     
 End Function
 
-Public Function CloseFormEinzelauftragZuAngebotVerwalten()
+Public Function CloseFormAngebotZuRechnungVerwalten()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.CloseForm"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.CloseForm"
     End If
     
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
     
     DoCmd.Close acForm, strFormName, acSaveYes
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.CloseForm executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.CloseForm executed"
     End If
     
 End Function
 
-Public Function OpenFormAuftragErstellen_EinzelauftragZuAngebot()
+Public Function OpenFormRechnungErstellen_AngebotZuRechnungVerwalten()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.OpenFormAuftragErstellen_AuftragZuAngebot"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.OpenFormRechnungErstellen_AngebotZuRechnungVerwalten"
     End If
     
     Dim strFormName As String
-    strFormName = "frmEinzelauftragErstellen"
+    strFormName = "frmRechnungErstellen"
     
     DoCmd.OpenForm strFormName, acNormal
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.OpenFormAuftragErstellen_AuftragZuAngebot executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.OpenFormRechnungErstellen_AngebotZuRechnungVerwalten executed"
     End If
     
 End Function
 
-Public Function OpenFormAngebotErstellen_EinzelauftragZuAngebot()
+Public Function OpenFormAngebotErstellen_AngebotZuRechnungVerwalten()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.OpenFormAngebotErstellen_AuftragZuAngebot"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.OpenFormAngebotErstellen_AngebotZuRechnungVerwalten"
     End If
     
     Dim strFormName As String
@@ -870,22 +874,22 @@ Public Function OpenFormAngebotErstellen_EinzelauftragZuAngebot()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.OpenFormAngebotErstellen_AuftragZuAngebot executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.OpenFormAngebotErstellen_AngebotZuRechnungVerwalten"
     End If
     
 End Function
 
-Public Function EinzelauftragZuAngebotVerwaltenSaveRecordset()
+Public Function AngebotZuRechnungVerwaltenSaveRecordset()
     ' Error Code 1: user canceled function
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.EinzelauftragZuAngebotVerwaltenSaveRecordset"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.AngebotZuRechnungVerwaltenSaveRecordset"
     End If
     
     ' declare form name
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
     
     ' declare subform name
     Dim strControlObjectName As String
@@ -916,16 +920,16 @@ Public Function EinzelauftragZuAngebotVerwaltenSaveRecordset()
     End If
     
     ' declare class
-    Dim EinzelauftragZuAngebot As clsEinzelauftragZuAngebot
-    Set EinzelauftragZuAngebot = New clsEinzelauftragZuAngebot
+    Dim AngebotZuRechnung As clsAngebotZuRechnung
+    Set AngebotZuRechnung = New clsAngebotZuRechnung
     
     ' select recordset
-    EinzelauftragZuAngebot.SelectRecordset varRecordsetID
+    AngebotZuRechnung.SelectRecordset varRecordsetID
     
     ' allocate values to recordset properties
-    With EinzelauftragZuAngebot
-        .RefEAkurzKey = Forms.Item(strFormName).Controls("cbo01")
-        .RefBWIkey = Forms.Item(strFormName).Controls("cbo02")
+    With AngebotZuRechnung
+        .RefBWIkey = Forms.Item(strFormName).Controls("cbo01")
+        .RefRechnungNr = Forms.Item(strFormName).Controls("cbo02")
         .Bemerkung = Forms.Item(strFormName).Controls("txt03")
     End With
     
@@ -935,32 +939,32 @@ Public Function EinzelauftragZuAngebotVerwaltenSaveRecordset()
     
         If varUserInput = 1 Then
             ' save changes
-            EinzelauftragZuAngebot.SaveRecordset
+            AngebotZuRechnung.SaveRecordset
             MsgBox "Änderungen gespeichert", vbInformation, "Änderungen Speichern"
         Else
-            Debug.Print "Error: basEinzelauftragZuAngebotVerwalten.EinzelauftragZuAngebotVerwaltenSaveRecordset aborted, Error Code 1"
+            Debug.Print "Error: basAngebotZuRechnungVerwalten.AngebotZuRechnungVerwaltenSaveRecordset aborted, Error Code 1"
             MsgBox "Speichern abgebrochen", vbInformation, "Änderungen Speichern"
         End If
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.EinzelauftragZuAngebotVerwaltenSaveRecordset executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.AngebotZuRechnungVerwaltenSaveRecordset executed"
     End If
     
 End Function
 
-Public Function EinzelauftragZuAngebotVerwaltenDeleteRecordset()
+Public Function AngebotZuRechnungVerwaltenDeleteRecordset()
 
     ' Error Code 1: user aborted function
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.EinzelauftragZuAngebotVerwaltenDeleteRecordset"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.AngebotZuRechnungVerwaltenDeleteRecordset"
     End If
     
     ' declare form name
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
     
     ' declare control object name
     Dim strControlObjectName As String
@@ -979,11 +983,11 @@ Public Function EinzelauftragZuAngebotVerwaltenDeleteRecordset()
     End If
         
     ' initiate class AuftragZuAngebot
-    Dim EinzelauftragZuAngebot As clsEinzelauftragZuAngebot
-    Set EinzelauftragZuAngebot = New clsEinzelauftragZuAngebot
+    Dim AngebotZuRechnung As clsAngebotZuRechnung
+    Set AngebotZuRechnung = New clsAngebotZuRechnung
     
     ' select recordset
-    EinzelauftragZuAngebot.SelectRecordset varRecordsetID
+    AngebotZuRechnung.SelectRecordset varRecordsetID
     
     ' consent request
     Dim varUserInput As Variant
@@ -991,29 +995,29 @@ Public Function EinzelauftragZuAngebotVerwaltenDeleteRecordset()
     
         If varUserInput = 1 Then
             ' delete recordset
-            EinzelauftragZuAngebot.DeleteRecordset
+            AngebotZuRechnung.DeleteRecordset
             MsgBox "Datensatz gelöscht", vbInformation, "Datensatz löschen"
         Else
-            Debug.Print "Error: basEinzelauftragZuAngebotVerwalten.AuftragSuchenDeleteRecordset aborted, Error Code 2"
+            Debug.Print "Error: basAngebotZuRechnungVerwalten.AuftragSuchenDeleteRecordset aborted, Error Code 2"
             MsgBox "löschen abgebrochen", vbInformation, "Datensatz löschen"
         End If
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.EinzelauftragZuAngebotVerwaltenSaveRecordset execute"
+        Debug.Print "basAngebotZuRechnungVerwalten.AngebotZuRechnungVerwaltenSaveRecordset execute"
     End If
     
 End Function
 
-Public Function CreateRecordsetEinzelauftragZuAngebot()
+Public Function CreateRecordsetAngebotZuRechnung()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.RecordsetAuftragZuAngebotErstellen"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.RecordsetAuftragZuAngebotErstellen"
     End If
     
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
        
     Dim varInput01 As Variant
     varInput01 = Forms.Item(strFormName)!cbo01
@@ -1032,13 +1036,13 @@ Public Function CreateRecordsetEinzelauftragZuAngebot()
     End If
     
     ' create recordset
-    Dim rstRecordset01 As clsEinzelauftragZuAngebot
-    Set rstRecordset01 = New clsEinzelauftragZuAngebot
+    Dim rstRecordset01 As clsAngebotZuRechnung
+    Set rstRecordset01 = New clsAngebotZuRechnung
     
     ' transfer values
     With Forms.Item(strFormName)
-        rstRecordset01.RefEAkurzKey = !cbo01
-        rstRecordset01.RefBWIkey = !cbo02
+        rstRecordset01.RefBWIkey = !cbo01
+        rstRecordset01.RefRechnungNr = !cbo02
         rstRecordset01.Bemerkung = !txt03
     End With
     
@@ -1047,7 +1051,7 @@ Public Function CreateRecordsetEinzelauftragZuAngebot()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.RecordsetAuftragZuAngebotErstellen execute"
+        Debug.Print "basAngebotZuRechnungVerwalten.RecordsetAuftragZuAngebotErstellen execute"
     End If
 
 End Function
@@ -1057,7 +1061,7 @@ Private Function IsForbiddenValue(ByVal varInput01 As Variant, ByVal varInput02 
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.IsForbiddenValue"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.IsForbiddenValue"
     End If
     
     Dim bolStatus As Boolean
@@ -1065,45 +1069,45 @@ Private Function IsForbiddenValue(ByVal varInput01 As Variant, ByVal varInput02 
     
     ' name of table01
     Dim strDomainName01 As String
-    strDomainName01 = "tblEinzelauftrag"
+    strDomainName01 = "tblAngebot"
     
     ' name of field01 in table01
     Dim strFieldName01 As String
-    strFieldName01 = "EAkurzKey"
+    strFieldName01 = "BWIKey"
     
     ' alias for field01 in error prompt
-    Dim strMandatoryFieldName01 As String
-    strMandatoryFieldName01 = "Einzelauftrag ID"
+    Dim strFieldAlias01 As String
+    strFieldAlias01 = "Angebot ID"
     
     ' name of table02
     Dim strDomainName02 As String
-    strDomainName02 = "tblAngebot"
+    strDomainName02 = "tblRechnung"
     
     ' name of field02
     Dim strFieldName02 As String
-    strFieldName02 = "BWIKey"
+    strFieldName02 = "RechnungNr"
     
     ' alias for field02 in error prompt
-    Dim strMandatoryFieldName02 As String
-    strMandatoryFieldName02 = "Angebot ID"
+    Dim strFieldAlias02 As String
+    strFieldAlias02 = "Rechnung Nr"
 
     ' declare error variable
     Dim strErrorMessage As String
 
     ' check table01
     If DCount("[" & strFieldName01 & "]", strDomainName01, "[" & strFieldName01 & "] Like '" & varInput01 & "'") = 0 Then
-        strErrorMessage = "Bitte wählen Sie im Feld " & strMandatoryFieldName01 & "' ausschließlich Werte aus der Drop-Down-Liste." & vbCrLf
+        strErrorMessage = "Bitte wählen Sie im Feld " & strFieldAlias01 & "' ausschließlich Werte aus der Drop-Down-Liste." & vbCrLf
     End If
     
     ' check table02
     If DCount("[" & strFieldName02 & "]", strDomainName02, "[" & strFieldName02 & "] Like '" & varInput02 & "'") = 0 Then
-        strErrorMessage = strErrorMessage & "Bitte wählen Sie im Feld " & strMandatoryFieldName02 & "' ausschließlich Werte aus der Drop-Down-Liste." & vbCrLf
+        strErrorMessage = strErrorMessage & "Bitte wählen Sie im Feld " & strFieldAlias02 & "' ausschließlich Werte aus der Drop-Down-Liste." & vbCrLf
     End If
     
     ' error prompt
     If strErrorMessage <> "" Then
         MsgBox strErrorMessage, vbCritical, "Speichern abgebrochen"
-        Debug.Print "Error: basEinzelauftragZuAngebotVerwalten.IsForbiddenValue, Error Code 1"
+        Debug.Print "Error: basAngebotZuRechnungVerwalten.IsForbiddenValue, Error Code 1"
         bolStatus = True
     End If
     
@@ -1111,7 +1115,7 @@ Private Function IsForbiddenValue(ByVal varInput01 As Variant, ByVal varInput02 
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.IsForbiddenValue executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.IsForbiddenValue executed"
     End If
     
 End Function
@@ -1121,7 +1125,7 @@ Private Function InputIsMissing(ByVal varInput01 As Variant, ByVal varInput02 As
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.IsForbiddenValue"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.IsForbiddenValue"
     End If
     
     Dim bolStatus As Boolean
@@ -1129,26 +1133,26 @@ Private Function InputIsMissing(ByVal varInput01 As Variant, ByVal varInput02 As
 
     ' declare form name
     Dim strFormName As String
-    strFormName = "frmEinzelauftragZuAngebotVerwalten"
+    strFormName = "frmAngebotZuRechnungVerwalten"
     
     ' declare name of field01
-    Dim strMandatoryFieldName01 As String
-    strMandatoryFieldName01 = "Einzelauftrag ID"
+    Dim strFieldAlias01 As String
+    strFieldAlias01 = "Rechnung Nr"
     
     ' declare name of field02
-    Dim strMandatoryFieldName02 As String
-    strMandatoryFieldName02 = "Angebot ID"
+    Dim strFieldAlias02 As String
+    strFieldAlias02 = "Angebot ID"
     
     ' declare error variable
     Dim strErrorMessage As String
     
     ' check values
     If IsNull(varInput01) Then
-        strErrorMessage = "Sie haben im Pflichtfeld '" & strMandatoryFieldName01 & "' keinen Wert eingegeben." & vbCrLf
+        strErrorMessage = "Sie haben im Pflichtfeld '" & strFieldAlias01 & "' keinen Wert eingegeben." & vbCrLf
     End If
     
     If IsNull(varInput02) Then
-        strErrorMessage = strErrorMessage & "Sie haben im Pflichtfeld '" & strMandatoryFieldName02 & "' keinen Wert eingegeben."
+        strErrorMessage = strErrorMessage & "Sie haben im Pflichtfeld '" & strFieldAlias02 & "' keinen Wert eingegeben."
     End If
     
     If strErrorMessage <> "" Then
@@ -1161,7 +1165,7 @@ Private Function InputIsMissing(ByVal varInput01 As Variant, ByVal varInput02 As
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.IsForbiddenValue executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.IsForbiddenValue executed"
     End If
     
 End Function
@@ -1171,7 +1175,7 @@ Private Function NotARecordSelected(ByVal varInput As Variant) As Boolean
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basEinzelauftragZuAngebotVerwalten.NotARecordSelected"
+        Debug.Print "execute basAngebotZuRechnungVerwalten.NotARecordSelected"
     End If
     
     Dim bolStatus As Boolean
@@ -1179,7 +1183,7 @@ Private Function NotARecordSelected(ByVal varInput As Variant) As Boolean
 
     ' check primary key value
     If IsNull(varInput) Then
-        Debug.Print "Error: basEinzelauftragZuAngebotVerwalten.NotARecordSelected aborted, Error Code 1"
+        Debug.Print "Error: basAngebotZuRechnungVerwalten.NotARecordSelected aborted, Error Code 1"
         MsgBox "Es wurde kein Datensatz ausgewählt!", vbCritical, "Fehler"
         bolStatus = True
     End If
@@ -1188,8 +1192,9 @@ Private Function NotARecordSelected(ByVal varInput As Variant) As Boolean
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basEinzelauftragZuAngebotVerwalten.NotARecordSelected executed"
+        Debug.Print "basAngebotZuRechnungVerwalten.NotARecordSelected executed"
     End If
     
 End Function
+
 

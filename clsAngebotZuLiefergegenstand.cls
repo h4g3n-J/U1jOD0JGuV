@@ -20,10 +20,20 @@ Private mvarRecordsetClipboard As Variant
 Private mbolVerbatim As Boolean
 
 Private Sub Class_Initialize()
-
+    
     ' command message
     If gconVerbatim Then
         Debug.Print "initialize clsAngebotZuLiefergegenstand"
+    End If
+    
+    Dim strQryChecksumName As String
+    strQryChecksumName = "qryChecksumAngebotZuLiefergegenstand"
+    
+    Dim strObjectType As String
+    strObjectType = "query"
+    
+    If Not (ObjectExists(strQryChecksumName, strObjectType)) Then
+        BuildCheckSum
     End If
     
     ' load default value to recordset
@@ -51,7 +61,7 @@ Private Function DefaultProperties()
     
     ' set array size according to the number of attributes
     Dim intNumberOfAttributes As Integer
-    intNumberOfAttributes = 3
+    intNumberOfAttributes = 4
     
     Dim varDefaultProperties As Variant
     ReDim varDefaultProperties(intNumberOfAttributes, 2)
@@ -65,8 +75,11 @@ Private Function DefaultProperties()
         varDefaultProperties(2, 1) = "string"
         varDefaultProperties(2, 2) = Null
     varDefaultProperties(3, 0) = "RefLiefergegenstandID"
-        varDefaultProperties(3, 1) = "long"
+        varDefaultProperties(3, 1) = "string"
         varDefaultProperties(3, 2) = Null
+    varDefaultProperties(4, 0) = "Bemerkung"
+        varDefaultProperties(4, 1) = "string"
+        varDefaultProperties(4, 2) = Null
     ' Attribute added or removed? -> dont't miss to adjust intNumberOfAttributes (above)
 
     DefaultProperties = varDefaultProperties
@@ -506,7 +519,7 @@ Public Sub SelectRecordset(ByVal varRecordsetName As Variant)
     
     ' select recordset from table or query
     Set rstRecordset = dbsCurrentDB.OpenRecordset(strTableName, dbOpenDynaset)
-    rstRecordset.FindFirst (strKeyColumn & " = '" & varRecordsetName & "'")
+    rstRecordset.FindFirst (strKeyColumn & " = " & varRecordsetName)
     
     ' assign recordset to properties
     ' mvarRecordsetClipboard(inti, 2): property value
@@ -541,6 +554,7 @@ ExitProc:
 End Sub
 
 Public Sub CreateRecordset()
+' Error Code 1: relationship between recordsets was recorded earlier
     
     ' command message
     If gconVerbatim Then
@@ -553,6 +567,24 @@ Public Sub CreateRecordset()
     Dim strPrimaryKey As String
     strPrimaryKey = "ID"
     
+    Dim strField01Name As String
+    strField01Name = "RefBWIkey"
+    
+    Dim strField01Alias As String
+    strField01Alias = "Angebot ID"
+    
+    Dim strField02Name As String
+    strField02Name = "RefLiefergegenstandID"
+    
+    Dim strField02Alias As String
+    strField02Alias = "Liefergegenstand ID"
+    
+    Dim strDomainName As String
+    strDomainName = "qryChecksumAngebotZuLiefergegenstand"
+    
+    Dim strFieldName03 As String
+    strFieldName03 = "checksum"
+    
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
     
@@ -561,20 +593,44 @@ Public Sub CreateRecordset()
     
     Dim intValuePosition As Integer
     intValuePosition = 2
+        
+    ' get property values from mvarRecordsetClipboard
+    Dim varField01Value As Variant
+    varField01Value = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strField01Name), intValuePosition)
     
-    ' generate primary key value
-    Dim lngPrimaryKeyValue As Long
-    lngPrimaryKeyValue = DMax(strPrimaryKey, strTableName) + 1
+    Dim varField02Value As Variant
+    varField02Value = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strField02Name), intValuePosition)
     
+    ' check if input is null
+    If IsNull(varField01Value) Or IsNull(varField02Value) Then
+        Debug.Print "Error: clsAngebotZuLiefergegenstand.CreateRecordset aborted, Error Code 1"
+        GoTo ExitProc
+    End If
+    
+    ' check if relationship already exists
+    Dim strDummy As String
+    strDummy = varField01Value & varField02Value
+    
+    If DCount("[" & strFieldName03 & "]", strDomainName, "[" & strFieldName03 & "] Like '" & strDummy & "'") > 0 Then
+        MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde bereits mit dem " & strField01Alias & " '" & varField01Value & "' verknüpft.", vbCritical, "Beziehung erfassen abgebrochen"
+        Debug.Print "Error: clsAngebotZuLiefergegenstand.CreateRecordset, Error Code 1"
+        GoTo ExitProc
+    End If
+    
+    ' generate primary key
+    Dim lngPrimaryKey As Long
+    lngPrimaryKey = Nz(DMax(strPrimaryKey, strTableName)) + 1
+    
+    ' create recordset
     rstRecordset.AddNew
-        rstRecordset!ID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "ID"), intValuePosition)
-        rstRecordset!RefBWIkey = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RefBWIkey"), intValuePosition)
-        rstRecordset!RefLiefergegenstandID = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "RefLiefergegenstandID"), intValuePosition)
-        rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
-        ' class changed? Do not miss to update the class properties!
-    rstRecordset.Update
+            rstRecordset!ID = lngPrimaryKey
+            rstRecordset!RefBWIkey = varField01Value
+            rstRecordset!RefLiefergegenstandID = varField02Value
+            rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
+            ' class changed? Do not miss to update the class properties!
+        rstRecordset.Update
     
-    ' MsgBox "Datensatz erzeugt", vbOKOnly, "AngebotZuLiefergegenstand erstellen"
+    MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde dem " & strField01Alias & " '" & varField01Value & "' zugeordnet.", vbInformation, "Beziehung erfasst"
     
     ' event message
     If gconVerbatim Then
@@ -691,20 +747,20 @@ Private Sub BuildCheckSum()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute clsAuftragZuAngebot.SearchEinzelauftrag"
+        Debug.Print "execute clsAngebotZuLiefergegenstand.SearchEinzelauftrag"
     End If
     
-    Dim strTableName As String
-    strTableName = "tblAuftragZuAngebot"
+    Dim strDomainName As String
+    strDomainName = "tblAngebotZuLiefergegenstand"
     
-    Dim strCheckProperty01 As String
-    strCheckProperty01 = "RefAftrID"
+    Dim strCheckField01 As String
+    strCheckField01 = "RefBWIkey"
     
-    Dim strCheckProperty02 As String
-    strCheckProperty02 = "RefBWIkey"
+    Dim strCheckField02 As String
+    strCheckField02 = "RefLiefergegenstandID"
     
     Dim strQueryName As String
-    strQueryName = "qryChecksumAuftragZuAngebot"
+    strQueryName = "qryChecksumAngebotZuLiefergegenstand"
     
     ' set current database
     Dim dbsCurrentDB As DAO.Database
@@ -718,8 +774,8 @@ Private Sub BuildCheckSum()
         ' set query Name
         .Name = strQueryName
         ' set query SQL
-        .SQL = " SELECT " & strTableName & ".*, [" & strTableName & "]![" & strCheckProperty01 & "] & [" & strTableName & "]![" & strCheckProperty02 & "] AS checksum" & _
-                    " FROM " & strTableName & ";"
+        .SQL = " SELECT [" & strDomainName & "]![" & strCheckField01 & "] & [" & strDomainName & "]![" & strCheckField02 & "] AS checksum" & _
+                    " FROM " & strDomainName & ";"
     End With
     
     ' save query
@@ -736,7 +792,8 @@ ExitProc:
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsAuftragZuAngebot.SearchEinzelauftrag executed"
+        Debug.Print "clsAngebotZuLiefergegenstand.SearchEinzelauftrag executed"
     End If
     
 End Sub
+

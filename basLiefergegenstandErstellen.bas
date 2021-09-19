@@ -636,7 +636,7 @@ Public Sub buildLiefergegenstandErstellen()
             lblLabel.Top = 227
             lblLabel.Width = 9210
             lblLabel.Height = 507
-            lblLabel.Caption = "Liefergegenstand erfassen"
+            lblLabel.Caption = "Liefergegenstand erstellen"
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)

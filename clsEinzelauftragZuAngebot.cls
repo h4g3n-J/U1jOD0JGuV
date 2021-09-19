@@ -619,7 +619,7 @@ Public Sub CreateRecordset()
     
     ' generate primary key
     Dim lngPrimaryKeyValue As Long
-    lngPrimaryKeyValue = DMax(strPrimaryKey, strTableName) + 1
+    lngPrimaryKeyValue = Nz(DMax(strPrimaryKey, strTableName)) + 1
     
     ' create recordset
     rstRecordset.AddNew

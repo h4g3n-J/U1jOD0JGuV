@@ -107,7 +107,7 @@ Public Sub buildAngebotErstellen()
                 .Visible = True
             End With
         
-        ' txt01
+        ' cbo01
         intColumn = 2
         intRow = 2
         Set cboCombobox = CreateControl(strTempFormName, acComboBox, acDetail)
@@ -513,7 +513,7 @@ Public Sub buildAngebotErstellen()
             lblLabel.Top = 227
             lblLabel.Width = 9210
             lblLabel.Height = 507
-            lblLabel.Caption = "Angebot erfassen"
+            lblLabel.Caption = "Angebot erstellen"
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -1066,13 +1066,13 @@ Public Function AngebotErstellenCreateRecordset()
     Dim strFieldName01 As String
     strFieldName01 = "EAkurzKey"
     
-    Dim strMandatoryFieldName01 As String
-    strMandatoryFieldName01 = "Einzelauftrag ID"
+    Dim strFieldAlias01 As String
+    strFieldAlias01 = "Einzelauftrag ID"
     
     Dim strErrorMessage As String
     
     If DCount("[" & strFieldName01 & "]", strDomainName01, "[" & strFieldName01 & "] Like '" & Forms.Item(strFormName)!cbo01 & "'") = 0 Then
-        strErrorMessage = "Bitte w‰hlen Sie im Feld " & strMandatoryFieldName01 & "' ausschlieﬂlich Werte aus der Drop-Down-Liste."
+        strErrorMessage = "Bitte w‰hlen Sie im Feld " & strFieldAlias01 & "' ausschlieﬂlich Werte aus der Drop-Down-Liste."
     End If
     
     If strErrorMessage <> "" Then
@@ -1109,21 +1109,21 @@ Public Function AngebotErstellenCreateRecordset()
     Dim rstConnection As clsAuftragZuAngebot
     Set rstConnection = New clsAuftragZuAngebot
     
-    Dim strConnectionPrimaryAttribute As String
-    strConnectionPrimaryAttribute = "txt13"
+    Dim strField01Name As String
+    strField01Name = "txt13"
     
-    Dim strConnectionSecondaryAttribute As String
-    strConnectionSecondaryAttribute = "txt00"
+    Dim strField02Name As String
+    strField02Name = "txt00"
     
-    Dim varConnectionPrimaryValue As Variant
-    varConnectionPrimaryValue = Forms.Item(strFormName)!txt13
+    Dim varField01Value As Variant
+    varField01Value = Forms.Item(strFormName)!txt13
     
     Dim varConnctionsSecondaryValue As Variant
     varConnctionsSecondaryValue = Forms.Item(strFormName)!txt00
     
-    If Not (IsNull(varConnctionsSecondaryValue)) And Not (IsNull(varConnectionPrimaryValue)) Then
+    If Not (IsNull(varConnctionsSecondaryValue)) And Not (IsNull(varField01Value)) Then
         ' assign values to clsAngebot
-            rstConnection.RefAftrID = varConnectionPrimaryValue
+            rstConnection.RefAftrID = varField01Value
             rstConnection.RefBWIkey = varConnctionsSecondaryValue
         
         ' create Recordset clsAuftragZuAngebot

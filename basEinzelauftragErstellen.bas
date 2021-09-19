@@ -524,7 +524,7 @@ Public Sub buildEinzelauftragErstellen()
             lblLabel.Top = 227
             lblLabel.Width = 9210
             lblLabel.Height = 507
-            lblLabel.Caption = "Einzelauftrag erfassen"
+            lblLabel.Caption = "Einzelauftrag erstellen"
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)

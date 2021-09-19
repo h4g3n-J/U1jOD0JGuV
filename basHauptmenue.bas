@@ -52,10 +52,10 @@ Public Sub BuildHauptmenue()
     
         ' grid settings
         intNumberOfColumns = 1
-        intNumberOfRows = 10
+        intNumberOfRows = 16
         intLeft = 100
         intTop = 100
-        intWidth = 2600
+        intWidth = 3800
         intHeight = 660
     
     ReDim aintControlGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
@@ -170,7 +170,7 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Auftrag - Angebot Beziehungen verwalten"
+                .Caption = "Auftrag - Angebot" & vbCrLf & " Beziehungen verwalten"
                 .OnClick = "=OpenFormAuftragZuAngebotVerwalten()"
                 .Visible = True
             End With
@@ -184,7 +184,7 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Einzelauftrag - Angebot Beziehung verwalten"
+                .Caption = "Einzelauftrag - Angebot" & vbCrLf & " Beziehung verwalten"
                 .OnClick = "=OpenFormEinzelauftragZuAngebotVerwalten()"
                 .Visible = True
             End With
@@ -194,6 +194,90 @@ Public Sub BuildHauptmenue()
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd09"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Angebot - Rechnung" & vbCrLf & " Beziehung verwalten"
+                .OnClick = "=OpenFormAngebotZuRechnungVerwalten()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 11
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd10"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Einzelauftrag - Rechnung" & vbCrLf & " Beziehung verwalten"
+                .OnClick = "=OpenFormEinzelauftragZuRechnungVerwalten()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 12
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd11"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Angebot - Liefergegenstand" & vbCrLf & " Beziehung verwalten"
+                .OnClick = "=OpenFormAngebotZuLiefergegenstandVerwalten()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 13
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd12"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Rechnung - Leistungserfassungsblatt" & vbCrLf & " Beziehung verwalten"
+                .OnClick = "=OpenFormRechnungZuLeistungserfassungsblattVerwalten()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 14
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd13"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Kontinuierliche Leistungen suchen"
+                .OnClick = "=OpenFormKontinuierlicheLeistungenSuchen()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 15
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd14"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = "Kontinuierliche Leistungen - Rechnung" & vbCrLf & " Beziehung verwalten"
+                .OnClick = "=OpenFormKontinuierlicheLeistungenZuRechnungVerwalten()"
+                .Visible = True
+            End With
+            
+    intColumn = 1
+    intRow = 16
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd15"
                 .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
@@ -494,6 +578,98 @@ Public Function OpenFormEinzelauftragZuAngebotVerwalten()
     End If
 End Function
 
+
+Public Function OpenFormAngebotZuRechnungVerwalten()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormAngebotZuRechnungVerwalten"
+    End If
+
+    DoCmd.OpenForm "frmAngebotZuRechnungVerwalten", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormAngebotZuRechnungVerwalten executed"
+    End If
+End Function
+
+Public Function OpenFormEinzelauftragZuRechnungVerwalten()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormEinzelauftragZuRechnungVerwalten"
+    End If
+
+    DoCmd.OpenForm "frmEinzelauftragZuRechnungVerwalten", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormEinzelauftragZuRechnungVerwalten executed"
+    End If
+End Function
+
+
+Public Function OpenFormAngebotZuLiefergegenstandVerwalten()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormAngebotZuLiefergegenstandVerwalten"
+    End If
+
+    DoCmd.OpenForm "frmAngebotZuLiefergegenstandVerwalten", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormAngebotZuLiefergegenstandVerwalten executed"
+    End If
+End Function
+
+Public Function OpenFormRechnungZuLeistungserfassungsblattVerwalten()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormRechnungZuLeistungserfassungsblattVerwalten"
+    End If
+
+    DoCmd.OpenForm "frmRechnungZuLeistungserfassungsblattVerwalten", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormRechnungZuLeistungserfassungsblattVerwalten executed"
+    End If
+End Function
+
+Public Function OpenFormKontinuierlicheLeistungenSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormKontinuierlicheLeistungenSuchen"
+    End If
+
+    DoCmd.OpenForm "frmKontinuierlicheLeistungenSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormKontinuierlicheLeistungenSuchen executed"
+    End If
+End Function
+
+Public Function OpenFormKontinuierlicheLeistungenZuRechnungVerwalten()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormKontinuierlicheLeistungenZuRechnungVerwalten"
+    End If
+
+    DoCmd.OpenForm "frmKontinuierlicheLeistungenZuRechnungVerwalten", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormKontinuierlicheLeistungenZuRechnungVerwalten executed"
+    End If
+End Function
+
 ' builds the application form scratch
 ' work in progress
 Public Function BuildApplication()
@@ -528,6 +704,10 @@ Public Function BuildApplication()
     basEinzelauftragSuchen.BuildEinzelauftragSuchen
     basEinzelauftragErstellen.buildEinzelauftragErstellen
     
+    basKontinuierlicheLeistungenSuchenSub.BuildKontinuierlicheLeistungenSuchenSub
+    basKontinuierlicheLeistungenSuchen.BuildKontinuierlicheLeistungenSuchen
+    basKontinuierlicheLeistungenErstellen.buildKontinuierlicheLeistungenErstellen
+    
     basAuftragUebersichtSub.BuildAuftragUebersichtSub
     basAuftragUebersicht.BuildAuftragUebersicht
     
@@ -536,6 +716,21 @@ Public Function BuildApplication()
     
     basEinzelauftragZuAngebotVerwaltenSub.BuildEinzelauftragZuAngebotVerwaltenSub
     basEinzelauftragZuAngebotVerwalten.BuildEinzelauftragZuAngebotVerwalten
+    
+    basAngebotZuRechnungVerwaltenSub.BuildAngebotZuRechnungVerwaltenSub
+    basAngebotZuRechnungVerwalten.BuildAngebotZuRechnungVerwalten
+    
+    basEinzelauftragZuRechnungVerwaltenSub.BuildEinzelauftragZuRechnungVerwaltenSub
+    basEinzelauftragZuRechnungVerwalten.BuildEinzelauftragZuRechnungVerwalten
+    
+    basAngebotZuLiefergegenstandVerwaltenSub.buildAngebotZuLiefergegenstandVerwaltenSub
+    basAngebotZuLiefergegenstandVerwalten.BuildEinzelauftragZuRechnungVerwalten
+    
+    basRechnungZuLeistungserfassungsblattVerwaltenSub.buildRechnungZuLeistungserfassungsblattVerwaltenSub
+    basRechnungZuLeistungserfassungsblattVerwalten.BuildRechnungZuLeistungserfassungsblattVerwalten
+    
+    basKontinuierlicheLeistungenZuRechnungVerwaltenSub.BuildKontinuierlicheLeistungenZurRechnungVerwaltenSub
+    basKontinuierlicheLeistungenZuRechnungVerwalten.BuildKontinuierlicheLeistungenZuRechnungVerwalten
     
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal
@@ -546,4 +741,5 @@ Public Function BuildApplication()
     End If
     
 End Function
+
 
