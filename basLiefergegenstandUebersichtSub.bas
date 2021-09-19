@@ -1,20 +1,20 @@
-Attribute VB_Name = "basAuftragUebersichtSub"
+Attribute VB_Name = "basLiefergegenstandUebersichtSub"
 Option Compare Database
 Option Explicit
 
-Public Sub BuildAuftragUebersichtSub()
+Public Sub BuildLiefergegenstandUebersichtSub()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.BuildAuftragUebersichtSub"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.BuildLiefergegenstandUebersichtSub"
     End If
     
     ' set form name
     Dim strFormName As String
-    strFormName = "frmAuftragUebersichtSub"
+    strFormName = "frmLiefergegenstandUebersichtSub"
     
     ' clear form
-    basAuftragUebersichtSub.ClearForm strFormName
+    basLiefergegenstandUebersichtSub.ClearForm strFormName
     
     ' declare form
     Dim objForm As Form
@@ -28,10 +28,10 @@ Public Sub BuildAuftragUebersichtSub()
     
     ' build query
     Dim strQueryName As String
-    strQueryName = "qryAuftragUebersicht"
+    strQueryName = "qryLiefergegenstandUebersicht"
     
-    ' build query qryAuftragUebersichtSub
-    basAuftragUebersichtSub.SearchAuftragUebersicht (strQueryName)
+    ' build query LiefergegenstandUebersichtSub
+    basLiefergegenstandUebersichtSub.SearchLiefergegenstandUebersicht (strQueryName)
     
     ' set recordset source
     objForm.RecordSource = strQueryName
@@ -57,7 +57,7 @@ Public Sub BuildAuftragUebersichtSub()
     
     ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1)
     
-    aintInformationGrid = basAuftragUebersichtSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    aintInformationGrid = basLiefergegenstandUebersichtSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
     
     Dim lblLabel As Label
     Dim txtTextbox As TextBox
@@ -70,10 +70,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt00"
             .ControlSource = "AftrID"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -85,10 +85,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl00"
             .Caption = "AftrID"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -99,10 +99,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt01"
             .ControlSource = "AftrTitel"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -114,10 +114,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl01"
             .Caption = "AftrTitel"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -128,10 +128,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt02"
             .ControlSource = "BWIKey"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -143,10 +143,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl02"
             .Caption = "BWIKey"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -157,10 +157,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt03"
             .ControlSource = "LeistungsbeschreibungLink"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = True
         End With
@@ -172,10 +172,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl03"
             .Caption = "LeistungsbeschreibungLink"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -186,10 +186,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt04"
             .ControlSource = "MengengeruestLink"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -201,10 +201,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl04"
             .Caption = "MengengeruestLink"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -215,10 +215,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt05"
             .ControlSource = "EaAngebot"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -230,10 +230,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl05"
             .Caption = "EaAngebot"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -244,10 +244,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt06"
             .ControlSource = "BeauftragtDatum"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -259,10 +259,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl06"
             .Caption = "BeauftragtDatum"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -273,10 +273,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt07"
             .ControlSource = "AbgenommenDatum"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -288,10 +288,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl07"
             .Caption = "AbgenommenDatum"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -302,10 +302,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt08"
             .ControlSource = "RechnungNr"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -317,10 +317,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl08"
             .Caption = "RechnungNr"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -331,10 +331,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt09"
             .ControlSource = "RechnungBrutto"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -346,10 +346,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl09"
             .Caption = "RechnungBrutto"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -360,10 +360,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt10"
             .ControlSource = "EaRechnung"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -375,10 +375,10 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl10"
             .Caption = "EaRechnung"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
         
@@ -389,10 +389,10 @@ Public Sub BuildAuftragUebersichtSub()
         With txtTextbox
             .Name = "txt11"
             .ControlSource = "LeistungserfassungsblattID"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
         End With
@@ -404,17 +404,17 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl11"
             .Caption = "LeistungserfassungsblattID"
-            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Left = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
     ' column added? -> update intNumberOfColumns
     
     ' set oncurrent methode
     ' ->
-    objForm.OnCurrent = "=SelectAuftragUebersicht()"
+    objForm.OnCurrent = "=SelectLiefergegenstandUebersicht()"
         
     ' set form properties
     objForm.AllowDatasheetView = True
@@ -430,7 +430,7 @@ Public Sub BuildAuftragUebersichtSub()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.BuildAuftragUebersichtSub executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.BuildLiefergegenstandUebersichtSub executed"
     End If
     
 End Sub
@@ -439,7 +439,7 @@ Private Sub ClearForm(ByVal strFormName As String)
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.ClearForm"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.ClearForm"
     End If
     
     Dim objForm As Object
@@ -463,7 +463,7 @@ Private Sub ClearForm(ByVal strFormName As String)
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.ClearForm executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.ClearForm executed"
     End If
     
 End Sub
@@ -472,13 +472,13 @@ Private Sub TestClearForm()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.ClearForm"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.ClearForm"
     End If
     
     Dim strFormName As String
-    strFormName = "frmAuftragUebersichtSub"
+    strFormName = "frmLiefergegenstandUebersichtSub"
     
-    basAuftragUebersichtSub.ClearForm strFormName
+    basLiefergegenstandUebersichtSub.ClearForm strFormName
     
     Dim bolObjectExists As Boolean
     bolObjectExists = False
@@ -491,14 +491,14 @@ Private Sub TestClearForm()
     Next
     
     If bolObjectExists Then
-        MsgBox "Failure: " & vbCr & vbCr & strFormName & " was not deleted.", vbCritical, "basAuftragUebersichtSub.TestClearForm"
+        MsgBox "Failure: " & vbCr & vbCr & strFormName & " was not deleted.", vbCritical, "basLiefergegenstandUebersichtSub.TestClearForm"
     Else
-        MsgBox "Procedure successful: " & vbCr & vbCr & strFormName & " was not detected", vbOKOnly, "basAuftragUebersichtSub.TestClearForm"
+        MsgBox "Procedure successful: " & vbCr & vbCr & strFormName & " was not detected", vbOKOnly, "basLiefergegenstandUebersichtSub.TestClearForm"
     End If
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestClearForm executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestClearForm executed"
     End If
     
 End Sub
@@ -511,7 +511,7 @@ Private Sub DeleteQuery(strQueryName As String)
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.DeleteQuery"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.DeleteQuery"
     End If
     
     ' set dummy object
@@ -526,7 +526,7 @@ Private Sub DeleteQuery(strQueryName As String)
                 DoCmd.Close acQuery, strQueryName, acSaveYes
                 ' verbatim message
                 If gconVerbatim Then
-                    Debug.Print "basAuftragUebersichtSub.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
+                    Debug.Print "basLiefergegenstandUebersichtSub.DeleteQuery: " & strQueryName & " ist geoeffnet, Abfrage geschlossen"
                 End If
             End If
     
@@ -540,7 +540,7 @@ Private Sub DeleteQuery(strQueryName As String)
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.DeleteQuery executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.DeleteQuery executed"
     End If
     
 End Sub
@@ -549,14 +549,14 @@ Private Sub TestDeleteQuery()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestDeleteQuery"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestDeleteQuery"
     End If
     
     Dim strQueryName As String
-    strQueryName = "qryAuftragUebersicht"
+    strQueryName = "qryLiefergegenstandUebersicht"
     
     ' delete query
-    basAuftragUebersichtSub.DeleteQuery strQueryName
+    basLiefergegenstandUebersichtSub.DeleteQuery strQueryName
     
     Dim bolObjectExists As Boolean
     bolObjectExists = False
@@ -569,23 +569,23 @@ Private Sub TestDeleteQuery()
     Next
     
     If bolObjectExists Then
-        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not deleted.", vbCritical, "basAuftragUebersichtSub.TestClearForm"
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not deleted.", vbCritical, "basLiefergegenstandUebersichtSub.TestClearForm"
     Else
-        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " was not detected", vbOKOnly, "basAuftragUebersichtSub.TestClearForm"
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " was not detected", vbOKOnly, "basLiefergegenstandUebersichtSub.TestClearForm"
     End If
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestDeleteQuery executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestDeleteQuery executed"
     End If
     
 End Sub
 
-Public Sub SearchAuftragUebersicht(ByVal strQueryName As String, Optional varSearchTerm As Variant = Null)
+Public Sub SearchLiefergegenstandUebersicht(ByVal strQueryName As String, Optional varSearchTerm As Variant = Null)
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.SearchAuftragUebersicht"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.SearchLiefergegenstandUebersicht"
     End If
     
     ' NULL handler
@@ -602,7 +602,7 @@ Public Sub SearchAuftragUebersicht(ByVal strQueryName As String, Optional varSea
     Set dbsCurrentDB = CurrentDb
             
     ' delete existing query of the same name
-    basAuftragUebersichtSub.DeleteQuery strQueryName
+    basLiefergegenstandUebersichtSub.DeleteQuery strQueryName
     
     ' set query
     Dim qdfQuery As DAO.QueryDef
@@ -612,10 +612,10 @@ Public Sub SearchAuftragUebersicht(ByVal strQueryName As String, Optional varSea
         ' set query Name
         .Name = strQueryName
         ' set query SQL
-        .SQL = " SELECT tblAuftrag.AftrID, tblAuftrag.AftrTitel, tblAngebot.BWIKey, tblAngebot.LeistungsbeschreibungLink, tblAngebot.MengengeruestLink, tblEinzelauftrag.EAkurzKey AS EaAngebot, tblAngebot.BeauftragtDatum, tblAngebot.AbgenommenDatum, tblRechnung.RechnungNr, tblRechnung.RechnungBrutto, tblEinzelauftrag_1.EAkurzKey AS EaRechnung, tblLeistungserfassungsblatt.LeistungserfassungsblattID" & _
-                " FROM (tblEinzelauftragZuRechnung RIGHT JOIN ((((((((tblAuftrag LEFT JOIN tblAuftragZuAngebot ON tblAuftrag.AftrID = tblAuftragZuAngebot.RefAftrID) LEFT JOIN tblAngebot ON tblAuftragZuAngebot.RefBWIkey = tblAngebot.BWIKey) LEFT JOIN tblEinzelauftragZuAngebot ON tblAngebot.BWIKey = tblEinzelauftragZuAngebot.RefBWIkey) LEFT JOIN tblEinzelauftrag ON tblEinzelauftragZuAngebot.RefEAkurzKey = tblEinzelauftrag.EAkurzKey) LEFT JOIN tblAngebotZuRechnung ON tblAngebot.BWIKey = tblAngebotZuRechnung.RefBWIkey) LEFT JOIN tblRechnung ON tblAngebotZuRechnung.RefRechnungNr = tblRechnung.RechnungNr) LEFT JOIN tblRechnungZuLeistungserfassungsblatt ON tblRechnung.RechnungNr = tblRechnungZuLeistungserfassungsblatt.RefRechnungNr) LEFT JOIN tblLeistungserfassungsblatt ON tblRechnungZuLeistungserfassungsblatt.RefLeistungserfassungsblattID = tblLeistungserfassungsblatt.LeistungserfassungsblattID) ON tblEinzelauftragZuRechnung.RefRechnungNr = tblRechnung.RechnungNr) LEFT JOIN" & _
-                " tblEinzelauftrag As tblEinzelauftrag_1 ON tblEinzelauftragZuRechnung.RefEAkurzKey = tblEinzelauftrag_1.EAkurzKey " & _
-                " WHERE (((tblAuftrag.AftrID) Like '" & varSearchTerm & "')) OR (((tblAuftrag.AftrTitel) Like '" & varSearchTerm & "')) OR (((tblAngebot.BWIKey) Like '" & varSearchTerm & "')) OR (((tblEinzelauftrag.EAkurzKey) Like '" & varSearchTerm & "')) OR (((tblEinzelauftrag_1.EAkurzKey) Like '" & varSearchTerm & "')) OR (((tblLeistungserfassungsblatt.LeistungserfassungsblattID) Like '" & varSearchTerm & "')); "
+        .SQL = " SELECT tblAuftrag.AftrID, tblAuftrag.AftrTitel, tblAngebot.BWIKey, tblAngebot.MengengeruestLink, tblAngebot.LeistungsbeschreibungLink, tblLiefergegenstand.bezeichnung, tblLiefergegenstand.linkLieferschein, tblLiefergegenstand.seriennummer, tblLiefergegenstand.anzahl, tblLiefergegenstand.herstellerkennzeichen, tblLiefergegenstand.lieferdatum, tblLiefergegenstand.zielAftrID, tblLiefergegenstand.zielLinkLieferschein, tblLiefergegenstand.zielLieferdatum, tblLiefergegenstand.LiefergegenstandLink, tblLiefergegenstand.seriennummer2, tblLiefergegenstand.bemerkung" & _
+                    " FROM (((tblAuftrag LEFT JOIN tblAuftragZuAngebot ON tblAuftrag.AftrID = tblAuftragZuAngebot.RefAftrID) LEFT JOIN tblAngebot ON tblAuftragZuAngebot.RefBWIkey = tblAngebot.BWIKey) LEFT JOIN tblAngebotZuLiefergegenstand ON tblAngebot.BWIKey = tblAngebotZuLiefergegenstand.RefBWIkey) LEFT JOIN tblLiefergegenstand ON tblAngebotZuLiefergegenstand.RefLiefergegenstandID = tblLiefergegenstand.LiefergegenstandID" & _
+                    " WHERE (((tblAuftrag.AftrID) Like '" & varSearchTerm & "')) OR (((tblAuftrag.AftrTitel) Like '" & varSearchTerm & "')) OR (((tblAngebot.BWIKey) Like '" & varSearchTerm & "')) OR (((tblLiefergegenstand.bezeichnung) Like '" & varSearchTerm & "')) OR (((tblLiefergegenstand.seriennummer) Like '" & varSearchTerm & "')) OR (((tblLiefergegenstand.herstellerkennzeichen) Like '" & varSearchTerm & "')) OR (((tblLiefergegenstand.zielAftrID) Like '" & varSearchTerm & "')) OR (((tblLiefergegenstand.seriennummer2) Like '" & varSearchTerm & "'))" & _
+                ";"
     End With
     
     ' save query
@@ -632,24 +632,24 @@ ExitProc:
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.SearchAuftragUebersicht executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.SearchLiefergegenstandUebersicht executed"
     End If
 
 End Sub
 
-Private Sub TestSearchAuftragUebersicht()
+Private Sub TestSearchLiefergegenstandUebersicht()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestSearchAuftragUebersicht"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestSearchLiefergegenstandUebersicht"
     End If
         
     ' build query qryRechnungSuchen
     Dim strQueryName As String
-    strQueryName = "qryAuftragUebersicht"
+    strQueryName = "qryLiefergegenstandUebersicht"
     
-    ' build query qryAuftragUebersichtSub
-    basAuftragUebersichtSub.SearchAuftragUebersicht strQueryName
+    ' basBuildQueryLiefergegenstandUebersicht
+    basLiefergegenstandUebersichtSub.SearchLiefergegenstandUebersicht strQueryName
     
     Dim bolObjectExists As Boolean
     bolObjectExists = False
@@ -662,14 +662,14 @@ Private Sub TestSearchAuftragUebersicht()
     Next
     
     If bolObjectExists Then
-        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " detected", vbOKOnly, "basAuftragUebersichtSub.TestSearchAuftragUebersicht"
+        MsgBox "Procedure successful: " & vbCr & vbCr & strQueryName & " detected", vbOKOnly, "basLiefergegenstandUebersichtSub.TestSearchLiefergegenstandUebersicht"
     Else
-        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not detected", vbCritical, "basAuftragUebersichtSub.TestSearchAuftragUebersicht"
+        MsgBox "Failure: " & vbCr & vbCr & strQueryName & " was not detected", vbCritical, "basLiefergegenstandUebersichtSub.TestSearchLiefergegenstandUebersicht"
     End If
         
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestSearchAuftragUebersicht executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestSearchLiefergegenstandUebersicht executed"
     End If
     
 End Sub
@@ -678,7 +678,7 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.CalculateGrid"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.CalculateGrid"
     End If
     
     Const cintHorizontalSpacing As Integer = 60
@@ -707,7 +707,7 @@ Private Function CalculateGrid(ByVal intNumberOfColumns As Integer, ByVal intNum
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.CalculateGrid executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.CalculateGrid executed"
     End If
     
 End Function
@@ -719,7 +719,7 @@ Private Sub TestCalculateGrid()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestCalculateGrid"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestCalculateGrid"
     End If
     
     Dim intNumberOfRows As Integer
@@ -739,7 +739,7 @@ Private Sub TestCalculateGrid()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
     
-    aintInformationGrid = basAuftragUebersichtSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
+    aintInformationGrid = basLiefergegenstandUebersichtSub.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intColumnWidth, intRowHeight)
 
     Const cintHorizontalSpacing As Integer = 60
     Const cintVerticalSpacing As Integer = 60
@@ -763,18 +763,18 @@ Private Sub TestCalculateGrid()
     
     Select Case intErrorState
         Case 0
-            MsgBox "basAuftragUebersichtSub.TestCalculateGrid: Test passed", vbOKOnly, "Test Result"
+            MsgBox "basLiefergegenstandUebersichtSub.TestCalculateGrid: Test passed", vbOKOnly, "Test Result"
         Case 1
-            MsgBox "basAuftragUebersichtSub.TestCalculateGrid: Test failed, Error Code 1", vbCritical, "Test Result"
+            MsgBox "basLiefergegenstandUebersichtSub.TestCalculateGrid: Test failed, Error Code 1", vbCritical, "Test Result"
         Case 2
-            MsgBox "basAuftragUebersichtSub.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "Test Result"
+            MsgBox "basLiefergegenstandUebersichtSub.TestCalculateGrid: Test failed, Error Code 2", vbCritical, "Test Result"
         Case 3
-            MsgBox "basAuftragUebersichtSub.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "Test Result"
+            MsgBox "basLiefergegenstandUebersichtSub.TestCalculateGrid: Test failed: Error Code 3", vbCritical, "Test Result"
     End Select
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestCalculateGrid executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestCalculateGrid executed"
     End If
     
 End Sub
@@ -783,12 +783,12 @@ Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal 
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.GetLeft"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.GetLeft"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basAuftragUebersichtSub.GetLeft: column 0 is not available"
-        MsgBox "basAuftragUebersichtSub.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basLiefergegenstandUebersichtSub.GetLeft: column 0 is not available"
+        MsgBox "basLiefergegenstandUebersichtSub.GetLeft: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -796,7 +796,7 @@ Private Function GetLeft(aintGrid As Variant, ByVal intColumn As Integer, ByVal 
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.GetLeft executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.GetLeft executed"
     End If
     
 End Function
@@ -806,7 +806,7 @@ Private Sub TestGetLeft()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestGetLeft"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestGetLeft"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -819,7 +819,7 @@ Private Sub TestGetLeft()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basAuftragUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basLiefergegenstandUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -835,17 +835,17 @@ Private Sub TestGetLeft()
     bolErrorState = False
     
     Dim intLeftResult As Integer
-    intLeftResult = basAuftragUebersichtSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
+    intLeftResult = basLiefergegenstandUebersichtSub.GetLeft(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intLeftResult <> intLeftExpected Then
-        MsgBox "basAuftragUebersichtSub.TestGetLeft: Test failed. Error Code: 1", vbCritical
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetLeft: Test failed. Error Code: 1", vbCritical
     Else
-        MsgBox "basAuftragUebersichtSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetLeft: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestGetLeft executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetLeft executed"
     End If
     
 End Sub
@@ -854,12 +854,12 @@ Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal i
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.GetTop"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.GetTop"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basAuftragUebersichtSub.GetTop: column 0 is not available"
-        MsgBox "basAuftragUebersichtSub.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basLiefergegenstandUebersichtSub.GetTop: column 0 is not available"
+        MsgBox "basLiefergegenstandUebersichtSub.GetTop: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -867,7 +867,7 @@ Private Function GetTop(aintGrid As Variant, ByVal intColumn As Integer, ByVal i
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.GetTop executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.GetTop executed"
     End If
     
 End Function
@@ -877,7 +877,7 @@ Private Sub TestGetTop()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestGetTop"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestGetTop"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -890,7 +890,7 @@ Private Sub TestGetTop()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basAuftragUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basLiefergegenstandUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -906,17 +906,17 @@ Private Sub TestGetTop()
     bolErrorState = False
     
     Dim intTopResult As Integer
-    intTopResult = basAuftragUebersichtSub.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
+    intTopResult = basLiefergegenstandUebersichtSub.GetTop(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intTopResult <> intTopExpected Then
-        MsgBox "basAuftragUebersichtSub.TestGetTop: Test failed. Error Code: 1", vbCritical
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetTop: Test failed. Error Code: 1", vbCritical
     Else
-        MsgBox "basAuftragUebersichtSub.TestGetTop: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetTop: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestGetTop executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetTop executed"
     End If
     
 End Sub
@@ -925,12 +925,12 @@ Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVa
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestGetHeight"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestGetHeight"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basAuftragUebersichtSub.TestGetHeight: column 0 is not available"
-        MsgBox "basAuftragUebersichtSub.TestGetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetHeight: column 0 is not available"
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetHeight: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -938,7 +938,7 @@ Private Function GetHeight(aintGrid As Variant, ByVal intColumn As Integer, ByVa
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestGetHeight executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetHeight executed"
     End If
     
 End Function
@@ -948,7 +948,7 @@ Private Sub TestGetHeight()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestGetHeight"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestGetHeight"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -961,7 +961,7 @@ Private Sub TestGetHeight()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basAuftragUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basLiefergegenstandUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -973,17 +973,17 @@ Private Sub TestGetHeight()
     
     ' test run
     Dim intHeightResult As Integer
-    intHeightResult = basAuftragUebersichtSub.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
+    intHeightResult = basLiefergegenstandUebersichtSub.GetHeight(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intHeightResult <> intHeightExpected Then
-        MsgBox "basAuftragUebersichtSub.TestGetHeight: Test failed. Error Code: 1", vbCritical
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetHeight: Test failed. Error Code: 1", vbCritical
     Else
-        MsgBox "basAuftragUebersichtSub.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetHeight: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestGetHeight executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetHeight executed"
     End If
     
 End Sub
@@ -992,12 +992,12 @@ Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestGetWidth"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestGetWidth"
     End If
 
     If intColumn = 0 Then
-        Debug.Print "basAuftragUebersichtSub.TestGetWidth: column 0 is not available"
-        MsgBox "basAuftragUebersichtSub.TestGetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetWidth: column 0 is not available"
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetWidth: column 0 is not available. Please choose a higher value", vbCritical, "Error"
         Exit Function
     End If
     
@@ -1005,7 +1005,7 @@ Private Function GetWidth(aintGrid As Variant, ByVal intColumn As Integer, ByVal
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestGetWidth executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetWidth executed"
     End If
     
 End Function
@@ -1015,7 +1015,7 @@ Private Sub TestGetWidth()
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.TestGetWidth"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.TestGetWidth"
     End If
     
     Const cintNumberOfColumns As Integer = 3
@@ -1028,7 +1028,7 @@ Private Sub TestGetWidth()
     Dim aintInformationGrid() As Integer
     ReDim aintInformationGrid(cintNumberOfColumns - 1, cintNumberOfRows - 1, 3)
     
-    aintInformationGrid = basAuftragUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
+    aintInformationGrid = basLiefergegenstandUebersichtSub.CalculateGrid(cintNumberOfColumns, cintNumberOfRows, cintLeft, cintTop, cintColumnWidth, cintRowHeight)
     
     ' set test parameters
     Const cintTestColumn As Integer = 2
@@ -1040,35 +1040,35 @@ Private Sub TestGetWidth()
     
     ' test run
     Dim intWidthResult As Integer
-    intWidthResult = basAuftragUebersichtSub.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
+    intWidthResult = basLiefergegenstandUebersichtSub.GetWidth(aintInformationGrid, cintTestColumn, cintTestRow)
     
     If intWidthResult <> intWidthExpected Then
-        MsgBox "basAuftragUebersichtSub.TestGetWidth: Test failed. Error Code: 1", vbCritical
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetWidth: Test failed. Error Code: 1", vbCritical
     Else
-        MsgBox "basAuftragUebersichtSub.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
+        MsgBox "basLiefergegenstandUebersichtSub.TestGetWidth: Test passed.", vbOKOnly, "Test Result"
     End If
 
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.TestGetWidth executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.TestGetWidth executed"
     End If
     
 End Sub
 
-Public Function SelectAuftragUebersicht()
+Public Function SelectLiefergegenstandUebersicht()
     ' Error Code 1: Form does not exist
     ' Error Code 2: Parent Form is not loaded
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragUebersichtSub.SelectAuftragUebersicht"
+        Debug.Print "execute basLiefergegenstandUebersichtSub.SelectLiefergegenstandUebersicht"
     End If
     
     ' declare form name
     Dim strFormName As String
-    strFormName = "frmAuftragUebersicht"
+    strFormName = "frmLiefergegenstandUebersicht"
     
-    ' check if frmAuftragUebersicht exists (Error Code: 1)
+    ' check if frmLiefergegenstandUebersicht exists (Error Code: 1)
     Dim bolFormExists As Boolean
     bolFormExists = False
     
@@ -1080,22 +1080,19 @@ Public Function SelectAuftragUebersicht()
     Next
     
     If Not bolFormExists Then
-        Debug.Print "basAuftragUebersichtSub.SelectAuftragUebersicht aborted, Error Code: 1"
+        Debug.Print "basLiefergegenstandUebersichtSub.SelectLiefergegenstandUebersicht aborted, Error Code: 1"
         Exit Function
     End If
     
-    ' if frmAuftragUebersicht not isloaded go to exit (Error Code: 2)
+    ' if frmLiefergegenstandUebersicht not isloaded go to exit (Error Code: 2)
     If Not Application.CurrentProject.AllForms.Item(strFormName).IsLoaded Then
-        Debug.Print "basAuftragUebersichtSub.SelectAuftragUebersicht aborted, Error Code: 2"
+        Debug.Print "basLiefergegenstandUebersichtSub.SelectLiefergegenstandUebersicht aborted, Error Code: 2"
         Exit Function
     End If
-      
-    ' .ControlSource = Forms!frmAuftragUebersicht!frbSubForm.Form!txt00
-    ' Forms!frmAuftragUebersicht.Form!txt00 = Forms!frmAuftragUebersicht!frbSubForm.Form!txt00
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAuftragUebersichtSub.SelectAuftragUebersicht executed"
+        Debug.Print "basLiefergegenstandUebersichtSub.SelectLiefergegenstandUebersicht executed"
     End If
     
 End Function
