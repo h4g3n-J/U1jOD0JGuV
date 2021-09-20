@@ -775,4 +775,110 @@ Public Function BuildApplication()
     
 End Function
 
+' search varWanted in two dimensional array
+' avarArray style: name, column, row, alias
+' array style A: (intIndex, strField)
+' array style B: (strField, intIndex)
+' strField feasible values: caption, column, row, function
+Private Function ReturnValueByName(ByVal avarArray, varWanted As Variant, ByVal strField As String) As Variant
+    
+    ' command message
+    If gconVerbatim = True Then
+        Debug.Print "execute basHauptmenue.ReturnValueByName"
+    End If
+   
+    Dim intIndex As Integer
+    intIndex = 0
+    
+    Dim intValue As Integer
+    intValue = 0
+    
+    Select Case strField
+        Case "caption"
+            intValue = 0
+        Case "column"
+            intValue = 1
+        Case "row"
+            intValue = 2
+        Case "function"
+            intValue = 3
+    End Select
+    
+    ' scan array until match
+    Do While avarArray(intIndex, 0) <> varWanted
+        If intIndex = UBound(avarArray, 1) Then
+            Debug.Print "basHauptmenue.ReturnValueByName: '" & varWanted & "' im übergebenen Array nicht gefunden"
+            ReturnValueByName = Null
+            Exit Function
+        Else
+            intIndex = intIndex + 1
+        End If
+    Loop
+    
+    ' return value
+    ReturnValueByName = avarArray(intIndex, intValue)
+    
+    ' event message
+    If gconVerbatim = True Then
+        Debug.Print "basHauptmenue.ReturnValueByName executed"
+    End If
+    
+End Function
+
+Private Sub TestReturnValueByName()
+
+    Dim intNumberOfAttributes As Integer
+    intNumberOfAttributes = 3
+
+    Dim varTestArray As Variant
+    ReDim varTestArray(intNumberOfAttributes, 3)
+
+    varTestArray(0, 0) = "caption"
+        varTestArray(0, 1) = "column"
+        varTestArray(0, 2) = "row"
+        varTestArray(0, 3) = "function"
+    varTestArray(1, 0) = "Auftrag Suchen"
+        varTestArray(1, 1) = 1
+        varTestArray(1, 2) = 1
+        varTestArray(1, 3) = "=OpenFormAuftragSuchen()"
+    varTestArray(2, 0) = "Angebot Suchen"
+        varTestArray(2, 1) = 1
+        varTestArray(2, 2) = 2
+        varTestArray(2, 3) = "=OpenFormAngebotSuchen()"
+    varTestArray(3, 0) = "Rechnung Suchen"
+        varTestArray(3, 1) = 2
+        varTestArray(3, 2) = 3
+        varTestArray(3, 3) = "=OpenFormRechnungSuchen()"
+        
+    Dim varReturnedValue01 As Variant
+    varReturnedValue01 = ReturnValueByName(varTestArray, "Rechnung Suchen", "caption")
+    
+    Dim varReturnedValue02 As Variant
+    varReturnedValue02 = ReturnValueByName(varTestArray, "Rechnung Suchen", "column")
+    
+    Dim varReturnedValue03 As Variant
+    varReturnedValue03 = ReturnValueByName(varTestArray, "Rechnung Suchen", "row")
+    
+    Dim varReturnedValue04 As Variant
+    varReturnedValue04 = ReturnValueByName(varTestArray, "Rechnung Suchen", "function")
+    
+    Dim varExpectedValue01 As Variant
+    varExpectedValue01 = varTestArray(3, 0)
+    
+    Dim varExpectedValue02 As Variant
+    varExpectedValue02 = varTestArray(3, 1)
+    
+    Dim varExpectedValue03 As Variant
+    varExpectedValue03 = varTestArray(3, 2)
+    
+    Dim varExpectedValue04 As Variant
+    varExpectedValue04 = varTestArray(3, 3)
+    
+    If varReturnedValue01 = varExpectedValue01 And varReturnedValue02 = varExpectedValue02 And varReturnedValue03 = varExpectedValue03 And varReturnedValue04 = varReturnedValue04 Then
+        MsgBox "basHauptmenue.TestReturnValueByName passed", vbOKOnly, "Test Result"
+    Else
+        MsgBox "basHauptmenue.TestReturnValueByName failed", vbCritical, "Test Result"
+    End If
+    
+End Sub
 
