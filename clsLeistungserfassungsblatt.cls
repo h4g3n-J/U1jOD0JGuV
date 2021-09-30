@@ -348,7 +348,7 @@ Private Sub Class_Terminate()
     Debug.Print "clsLeistungserfassungsblatt terminated"
 End Sub
 
-Public Property Let Leistungserfassungsblatt(ByVal varPropertyInput As Variant)
+Public Property Let LeistungserfassungsblattID(ByVal varPropertyInput As Variant)
 
     Dim strPropertyName As String
     strPropertyName = "LeistungserfassungsblattID"

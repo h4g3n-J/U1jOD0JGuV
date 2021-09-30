@@ -36,6 +36,9 @@ Public Sub BuildHauptmenue()
     ' declare command button
     Dim btnButton As CommandButton
     
+    ' declare labels
+    Dim lblLabel As Label
+    
     ' declare grid variables
         Dim intNumberOfColumns As Integer
         Dim intNumberOfRows As Integer
@@ -51,8 +54,8 @@ Public Sub BuildHauptmenue()
     Dim aintControlGrid() As Integer
     
         ' grid settings
-        intNumberOfColumns = 1
-        intNumberOfRows = 17
+        intNumberOfColumns = 4
+        intNumberOfRows = 10
         intLeft = 100
         intTop = 100
         intWidth = 3800
@@ -63,8 +66,177 @@ Public Sub BuildHauptmenue()
     ' calculate control grid
     aintControlGrid = basHauptmenue.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-    intColumn = 1
-    intRow = 1
+    ' define layout
+    Dim intNumberOfElements As Integer
+    intNumberOfElements = 22
+
+    Dim avarLayout As Variant
+    ReDim avarLayout(intNumberOfElements, 3)
+    
+    avarLayout(0, 0) = ""  ' caption
+        avarLayout(0, 1) = 0  ' column
+        avarLayout(0, 2) = 0  ' row
+        avarLayout(0, 3) = ""  ' function
+    avarLayout(19, 0) = "Übersicht"
+        avarLayout(19, 1) = 1
+        avarLayout(19, 2) = 1
+        avarLayout(19, 3) = ""
+    ' ---
+    avarLayout(1, 0) = "Ticketübersicht"
+        avarLayout(1, 1) = 1
+        avarLayout(1, 2) = 2
+        avarLayout(1, 3) = "=" & "OpenFormAuftragUebersicht" & "()"
+    avarLayout(2, 0) = "Liefergegenstand" & " " & "Übersicht"
+        avarLayout(2, 1) = 2
+        avarLayout(2, 2) = 2
+        avarLayout(2, 3) = "=" & "OpenFormLiefergegenstandUebersicht" & "()"
+    avarLayout(3, 0) = "Einzelauftrag" & " " & "Übersicht"
+        avarLayout(3, 1) = 3
+        avarLayout(3, 2) = 2
+        avarLayout(3, 3) = "=" & "OpenFormEinzelauftragUebersicht" & "()"
+    ' ---
+    avarLayout(20, 0) = "Bearbeiten"
+        avarLayout(20, 1) = 1
+        avarLayout(20, 2) = 3
+        avarLayout(20, 3) = ""
+    ' ---
+    avarLayout(4, 0) = "Ticket" & " " & "bearbeiten"
+        avarLayout(4, 1) = 1
+        avarLayout(4, 2) = 4
+        avarLayout(4, 3) = "=" & "OpenFormAuftragSuchen" & "()"
+    avarLayout(5, 0) = "Angebot" & " " & "bearbeiten"
+        avarLayout(5, 1) = 2
+        avarLayout(5, 2) = 4
+        avarLayout(5, 3) = "=" & "OpenFormAngebotSuchen" & "()"
+    avarLayout(6, 0) = "Rechnung" & " " & "bearbeiten"
+        avarLayout(6, 1) = 3
+        avarLayout(6, 2) = 4
+        avarLayout(6, 3) = "=" & "OpenFormRechnungSuchen" & "()"
+    avarLayout(7, 0) = "Leistungserfassungsblatt" & " " & "bearbeiten"
+        avarLayout(7, 1) = 4
+        avarLayout(7, 2) = 4
+        avarLayout(7, 3) = "=" & "OpenFormLeistungserfassungsblattSuchen" & "()"
+    ' ---
+    avarLayout(8, 0) = "Liefergegenstand" & " " & "bearbeiten"
+        avarLayout(8, 1) = 1
+        avarLayout(8, 2) = 5
+        avarLayout(8, 3) = "=" & "OpenFormLiefergegenstandSuchen" & "()"
+    avarLayout(9, 0) = "Einzelauftrag" & " " & "bearbeiten"
+        avarLayout(9, 1) = 2
+        avarLayout(9, 2) = 5
+        avarLayout(9, 3) = "=" & "OpenFormEinzelauftragSuchen" & "()"
+    avarLayout(10, 0) = "Kontinuierliche" & " " & "Leistungen" & " " & "berbeiten"
+        avarLayout(10, 1) = 3
+        avarLayout(10, 2) = 5
+        avarLayout(10, 3) = "=" & "OpenFormKontinuierlicheLeistungenSuchen" & "()"
+    ' ---
+    avarLayout(21, 0) = "Beziehungen verwalten"
+        avarLayout(21, 1) = 1
+        avarLayout(21, 2) = 6
+        avarLayout(21, 3) = ""
+    ' ---
+    avarLayout(11, 0) = "Ticket - Angebot verwalten"
+        avarLayout(11, 1) = 1
+        avarLayout(11, 2) = 7
+        avarLayout(11, 3) = "=" & "OpenFormAuftragZuAngebotVerwalten" & "()"
+    avarLayout(12, 0) = "Angebot - Rechnung verwalten"
+        avarLayout(12, 1) = 2
+        avarLayout(12, 2) = 7
+        avarLayout(12, 3) = "=" & "OpenFormAngebotZuRechnungVerwalten" & "()"
+    avarLayout(13, 0) = "Rechnung - Leistungserfassungsblatt verwalten"
+        avarLayout(13, 1) = 3
+        avarLayout(13, 2) = 7
+        avarLayout(13, 3) = "=" & "OpenFormRechnungZuLeistungserfassungsblattVerwalten" & "()"
+    ' ---
+    avarLayout(14, 0) = "Angebot - Liefergegenstand verwalten"
+        avarLayout(14, 1) = 1
+        avarLayout(14, 2) = 8
+        avarLayout(14, 3) = "=" & "OpenFormAngebotZuLiefergegenstandVerwalten" & "()"
+    avarLayout(15, 0) = "Einzelauftrag - Angebot verwalten"
+        avarLayout(15, 1) = 2
+        avarLayout(15, 2) = 8
+        avarLayout(15, 3) = "=" & "OpenFormEinzelauftragZuAngebotVerwalten" & "()"
+    avarLayout(16, 0) = "Einzelauftrag - Rechnung verwalten"
+        avarLayout(16, 1) = 3
+        avarLayout(16, 2) = 8
+        avarLayout(16, 3) = "=" & "OpenFormEinzelauftragZuRechnungVerwalten" & "()"
+    avarLayout(17, 0) = "Kontinuierliche Leistungen - Rechnung verwalten"
+        avarLayout(17, 1) = 4
+        avarLayout(17, 2) = 8
+        avarLayout(17, 3) = "=" & "OpenFormKontinuierlicheLeistungenZuRechnungVerwalten" & "()"
+    ' ---
+    avarLayout(22, 0) = "Anwendung laden"
+        avarLayout(22, 1) = 1
+        avarLayout(22, 2) = 9
+        avarLayout(22, 3) = ""
+    ' ---
+    avarLayout(18, 0) = "Build Application"
+        avarLayout(18, 1) = 1
+        avarLayout(18, 2) = 10
+        avarLayout(18, 3) = "=" & "BuildApplication" & "()"
+           
+    Dim strValueWanted As String
+    
+    ' create control elements
+    strValueWanted = "Übersicht"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
+        With lblLabel
+            .Name = "lbl01"
+            .Visible = True
+            .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+            .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+            .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+            .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+            .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+        End With
+        
+    strValueWanted = "Bearbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
+        With lblLabel
+            .Name = "lbl02"
+            .Visible = True
+            .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+            .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+            .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+            .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+            .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+        End With
+        
+    strValueWanted = "Beziehungen verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
+        With lblLabel
+            .Name = "lbl03"
+            .Visible = True
+            .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+            .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+            .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+            .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+            .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+        End With
+        
+    strValueWanted = "Anwendung laden"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
+        With lblLabel
+            .Name = "lbl04"
+            .Visible = True
+            .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+            .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+            .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+            .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+            .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+        End With
+    
+    strValueWanted = "Ticketübersicht"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd00"
@@ -72,13 +244,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Auftrag Suchen"
-                .OnClick = "=OpenFormAuftragSuchen()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 2
+    
+    strValueWanted = "Liefergegenstand" & " " & "Übersicht"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd01"
@@ -86,13 +259,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Angebot Suchen"
-                .OnClick = "=OpenFormAngebotSuchen()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 3
+    
+    strValueWanted = "Einzelauftrag" & " " & "Übersicht"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd02"
@@ -100,13 +274,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Rechnung Suchen"
-                .OnClick = "=OpenFormRechnungSuchen()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 4
+    
+    strValueWanted = "Ticket" & " " & "bearbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd03"
@@ -114,13 +289,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Leistungserfassungsblatt Suchen"
-                .OnClick = "=OpenFormLeistungserfassungsblattSuchen()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 5
+    
+    strValueWanted = "Angebot" & " " & "bearbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd04"
@@ -128,13 +304,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Liefergegenstand suchen"
-                .OnClick = "=OpenFormLiefergegenstandSuchen()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 6
+    
+    strValueWanted = "Rechnung" & " " & "bearbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd05"
@@ -142,13 +319,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Einzelauftrag suchen"
-                .OnClick = "=OpenFormEinzelauftragSuchen()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 7
+    
+    strValueWanted = "Leistungserfassungsblatt" & " " & "bearbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd06"
@@ -156,13 +334,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Auftragsübersicht"
-                .OnClick = "=OpenFormAuftragUebersicht()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 8
+    
+    strValueWanted = "Liefergegenstand" & " " & "bearbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd07"
@@ -170,13 +349,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Auftrag - Angebot" & vbCrLf & " Beziehungen verwalten"
-                .OnClick = "=OpenFormAuftragZuAngebotVerwalten()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 9
+    
+    strValueWanted = "Einzelauftrag" & " " & "bearbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd08"
@@ -184,13 +364,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Einzelauftrag - Angebot" & vbCrLf & " Beziehung verwalten"
-                .OnClick = "=OpenFormEinzelauftragZuAngebotVerwalten()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 10
+    
+    strValueWanted = "Kontinuierliche" & " " & "Leistungen" & " " & "berbeiten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd09"
@@ -198,13 +379,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Angebot - Rechnung" & vbCrLf & " Beziehung verwalten"
-                .OnClick = "=OpenFormAngebotZuRechnungVerwalten()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 11
+    
+    strValueWanted = "Ticket - Angebot verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd10"
@@ -212,13 +394,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Einzelauftrag - Rechnung" & vbCrLf & " Beziehung verwalten"
-                .OnClick = "=OpenFormEinzelauftragZuRechnungVerwalten()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 12
+    
+    strValueWanted = "Angebot - Rechnung verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd11"
@@ -226,13 +409,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Angebot - Liefergegenstand" & vbCrLf & " Beziehung verwalten"
-                .OnClick = "=OpenFormAngebotZuLiefergegenstandVerwalten()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 13
+    
+    strValueWanted = "Rechnung - Leistungserfassungsblatt verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd12"
@@ -240,13 +424,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Rechnung - Leistungserfassungsblatt" & vbCrLf & " Beziehung verwalten"
-                .OnClick = "=OpenFormRechnungZuLeistungserfassungsblattVerwalten()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 14
+    
+    strValueWanted = "Angebot - Liefergegenstand verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd13"
@@ -254,13 +439,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Kontinuierliche Leistungen suchen"
-                .OnClick = "=OpenFormKontinuierlicheLeistungenSuchen()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 15
+    
+    strValueWanted = "Einzelauftrag - Angebot verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd14"
@@ -268,13 +454,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Kontinuierliche Leistungen - Rechnung" & vbCrLf & " Beziehung verwalten"
-                .OnClick = "=OpenFormKontinuierlicheLeistungenZuRechnungVerwalten()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 16
+    
+    strValueWanted = "Einzelauftrag - Rechnung verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd15"
@@ -282,13 +469,14 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Liefergegenstand Übersicht"
-                .OnClick = "=OpenFormLiefergegenstandUebersicht()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
-            
-    intColumn = 1
-    intRow = 17
+    
+    strValueWanted = "Kontinuierliche Leistungen - Rechnung verwalten"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
     Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
                 .Name = "cmd16"
@@ -296,8 +484,23 @@ Public Sub BuildHauptmenue()
                 .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
                 .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
                 .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
-                .Caption = "Build Application"
-                .OnClick = "=BuildApplication()"
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
+                .Visible = True
+            End With
+    
+    strValueWanted = "Build Application"
+    intColumn = ReturnValueByName(avarLayout, strValueWanted, "column")
+    intRow = ReturnValueByName(avarLayout, strValueWanted, "row")
+    Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmd17"
+                .Left = basHauptmenue.GetLeft(aintControlGrid, intColumn, intRow)
+                .Top = basHauptmenue.GetTop(aintControlGrid, intColumn, intRow)
+                .Width = basHauptmenue.GetWidth(aintControlGrid, intColumn, intRow)
+                .Height = basHauptmenue.GetHeight(aintControlGrid, intColumn, intRow)
+                .Caption = ReturnValueByName(avarLayout, strValueWanted, "name")
+                .OnClick = ReturnValueByName(avarLayout, strValueWanted, "function")
                 .Visible = True
             End With
     ' column added? -> update intNumberOfColumns
@@ -547,6 +750,22 @@ Public Function OpenFormEinzelauftragSuchen()
     End If
 End Function
 
+Public Function OpenFormKontinuierlicheLeistungenSuchen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormKontinuierlicheLeistungenSuchen"
+    End If
+
+    DoCmd.OpenForm "frmKontinuierlicheLeistungenSuchen", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormKontinuierlicheLeistungenSuchen executed"
+    End If
+End Function
+
+
 Public Function OpenFormAuftragUebersicht()
     
     ' command message
@@ -654,21 +873,6 @@ Public Function OpenFormRechnungZuLeistungserfassungsblattVerwalten()
     End If
 End Function
 
-Public Function OpenFormKontinuierlicheLeistungenSuchen()
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basHauptmenue.OpenFormKontinuierlicheLeistungenSuchen"
-    End If
-
-    DoCmd.OpenForm "frmKontinuierlicheLeistungenSuchen", acNormal
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "basHauptmenue.OpenFormKontinuierlicheLeistungenSuchen executed"
-    End If
-End Function
-
 Public Function OpenFormKontinuierlicheLeistungenZuRechnungVerwalten()
     
     ' command message
@@ -696,6 +900,21 @@ Public Function OpenFormLiefergegenstandUebersicht()
     ' command message
     If gconVerbatim Then
         Debug.Print "basHauptmenue.OpenFormLiefergegenstandUebersicht executed"
+    End If
+End Function
+
+Public Function OpenFormEinzelauftragUebersicht()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basHauptmenue.OpenFormEinzelauftragUebersicht"
+    End If
+
+    DoCmd.OpenForm "frmEinzelauftragUebersicht", acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basHauptmenue.OpenFormEinzelauftragUebersicht executed"
     End If
 End Function
 
@@ -764,6 +983,13 @@ Public Function BuildApplication()
     
     basLiefergegenstandUebersichtSub.BuildLiefergegenstandUebersichtSub
     basLiefergegenstandUebersicht.BuildLiefergegenstandUebersicht
+    
+    basEinzelauftragUebersichtSub.BuildEinzelauftragUebersichtSub
+    basEinzelauftragUebersicht.BuildEinzelauftragUebersicht
+    
+    basAuftragErstellen.buildAuftragErstellen
+    basAngebotErstellen.buildAngebotErstellen
+    basAuftragErteilen.buildAuftragErteilen
     
     ' open frmHauptmenue
     DoCmd.OpenForm "frmHauptmenue", acNormal

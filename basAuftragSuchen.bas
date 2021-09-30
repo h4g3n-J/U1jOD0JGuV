@@ -395,7 +395,7 @@ Public Sub BuildAuftragSuchen()
         
         aintLifecycleGrid = basAuftragSuchen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-        ' create "Angebot erfassen" button
+        ' create "Angebot erstellen" button
         intColumn = 1
         intRow = 1
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -808,7 +808,7 @@ Public Function AuftragSuchenSaveRecordset()
         .kunde = Forms.Item(strFormName).Controls("txt10")
     End With
     
-    ' delete recordset
+    ' save recordset
     Dim varUserInput As Variant
     varUserInput = MsgBox("Sollen die Änderungen am Datensatz '" & varRecordsetName & "' wirklich gespeichert werden?", vbOKCancel, "Speichern")
     

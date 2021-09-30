@@ -2,6 +2,12 @@ Attribute VB_Name = "basRechnungErstellen"
 Option Compare Database
 Option Explicit
 
+Public gvarRechnungErstellenClipboardAftrID As Variant
+Public gvarRechnungErstellenClipboardBWIKey As Variant
+Public gvarRechnungErstellenClipboardEAIDAngebot As Variant
+Public gvarRechnungErstellenClipboardRechnungNr As Variant
+Public gvarRechnungErstellenClipboardEAIDRechnung As Variant
+
 Public Sub buildRechnungErstellen()
 
     ' command message
@@ -29,6 +35,12 @@ Public Sub buildRechnungErstellen()
     ' set form caption
     objForm.Caption = strFormName
     
+    ' set On Open event
+    objForm.OnOpen = "=OnOpenFrmRechnungErstellen()"
+    
+    ' set On Close event
+    objForm.OnClose = "=OnCloseFrmRechnungErstellen()"
+    
     ' declare command button
     Dim btnButton As CommandButton
     
@@ -37,6 +49,12 @@ Public Sub buildRechnungErstellen()
     
     ' declare textbox
     Dim txtTextbox As TextBox
+    
+    ' declare combobox
+    Dim cboCombobox As ComboBox
+    
+    ' declare checkbox
+    Dim chkCheckbox As CheckBox
     
     ' declare grid variables
         Dim intNumberOfColumns As Integer
@@ -55,7 +73,7 @@ Public Sub buildRechnungErstellen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 13
+        intNumberOfRows = 18
         intLeft = 566
         intTop = 960
         intWidth = 3120
@@ -67,230 +85,530 @@ Public Sub buildRechnungErstellen()
         aintInformationGrid = basRechnungErstellen.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
         
         ' create textbox before label, so label can be associated
-    'txt00
-    intColumn = 2
-    intRow = 1
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt00"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-    
-    'lbl00
-    intColumn = 1
-    intRow = 1
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
-        With lblLabel
-            .Name = "lbl00"
-            .Caption = "RechnungNr"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
+        ' txt00
+        intColumn = 2
+        intRow = 3
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt00"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+            End With
+            
+        ' lbl00
+        intColumn = 1
+        intRow = 3
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
+            With lblLabel
+                .Name = "lbl00"
+                .Caption = "Angebot ID"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
         
-    'txt01
-    intColumn = 2
-    intRow = 2
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt01"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-        
-    'lbl01
-    intColumn = 1
-    intRow = 2
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
-        With lblLabel
-            .Name = "lbl01"
-            .Caption = "Bemerkung"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt02
-    intColumn = 2
-    intRow = 3
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt02"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = True
-        End With
-        
-    'lbl02
-    intColumn = 1
-    intRow = 3
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
-        With lblLabel
-            .Name = "lbl02"
-            .Caption = "Rechnung (Link)"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt03
-    intColumn = 2
-    intRow = 4
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt03"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-        
-    'lbl03
-    intColumn = 1
-    intRow = 4
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
-        With lblLabel
-            .Name = "lbl03"
-            .Caption = "Technisch Richtig Datum"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt04
-    intColumn = 2
-    intRow = 5
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt04"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-        
-    'lbl04
-    intColumn = 1
-    intRow = 5
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
-        With lblLabel
-            .Name = "lbl04"
-            .Caption = "Ist Teilrechnung"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt05
-    intColumn = 2
-    intRow = 6
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt05"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-        
-    'lbl05
-    intColumn = 1
-    intRow = 6
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
-        With lblLabel
-            .Name = "lbl05"
-            .Caption = "Ist Schlussrechnung"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt06
-    intColumn = 2
-    intRow = 7
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt06"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = True
-        End With
-        
-    'lbl06
-    intColumn = 1
-    intRow = 7
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
-        With lblLabel
-            .Name = "lbl06"
-            .Caption = "Kalkulation LNW (Link)"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-        
-    'txt07
-    intColumn = 2
-    intRow = 8
-    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-        With txtTextbox
-            .Name = "txt07"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-            .IsHyperlink = False
-        End With
-        
-    'lbl07
-    intColumn = 1
-    intRow = 8
-    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
-        With lblLabel
-            .Name = "lbl07"
-            .Caption = "Rechnung Brutto"
-            .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-            .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-            .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-            .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-            .Visible = True
-        End With
-    ' column added? -> update intNumberOfColumns
+        ' txt01
+        intColumn = 2
+        intRow = 9
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt01"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+                .Format = "Short Date"
+            End With
+            
+        ' lbl01
+        intColumn = 1
+        intRow = 9
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
+            With lblLabel
+                .Name = "lbl01"
+                .Caption = "Abgenommen am"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt02
+        intColumn = 2
+        intRow = 4
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt02"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = True
+                .BorderStyle = 0
+            End With
+            
+        ' lbl02
+        intColumn = 1
+        intRow = 4
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
+            With lblLabel
+                .Name = "lbl02"
+                .Caption = "Mengengerüst"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .BorderStyle = 0
+            End With
+            
+        ' txt03
+        intColumn = 2
+        intRow = 5
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt03"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = True
+                .BorderStyle = 0
+            End With
+            
+        ' lbl03
+        intColumn = 1
+        intRow = 5
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
+            With lblLabel
+                .Name = "lbl03"
+                .Caption = "Leistungsbeschreibung"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .BorderStyle = 0
+            End With
+            
+        ' txt04
+        intColumn = 2
+        intRow = 10
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt04"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+            End With
+            
+        ' lbl04
+        intColumn = 1
+        intRow = 10
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
+            With lblLabel
+                .Name = "lbl04"
+                .Caption = "Bemerkung (Angebot)"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt05
+        intColumn = 2
+        intRow = 8
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt05"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+                .Format = "Short Date"
+            End With
+            
+        ' lbl05
+        intColumn = 1
+        intRow = 8
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+            With lblLabel
+                .Name = "lbl05"
+                .Caption = "Beauftragt am"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt06
+        intColumn = 2
+        intRow = 11
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt06"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+            End With
+            
+        ' lbl06
+        intColumn = 1
+        intRow = 11
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
+            With lblLabel
+                .Name = "lbl06"
+                .Caption = "Rechnung Nummer*"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' chk07
+        intColumn = 2
+        intRow = 12
+        Set chkCheckbox = CreateControl(strTempFormName, acCheckBox, acDetail)
+            With chkCheckbox
+                .Name = "chk07"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' lbl07
+        intColumn = 1
+        intRow = 12
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "chk07")
+            With lblLabel
+                .Name = "lbl07"
+                .Caption = "Teilrechnung"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' chk08
+        intColumn = 2
+        intRow = 13
+        Set chkCheckbox = CreateControl(strTempFormName, acCheckBox, acDetail)
+            With chkCheckbox
+                .Name = "chk08"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' lbl08
+        intColumn = 1
+        intRow = 13
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "chk08")
+            With lblLabel
+                .Name = "lbl08"
+                .Caption = "Schlussrechnung"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt09
+        intColumn = 2
+        intRow = 14
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt09"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 1
+                .Format = "Currency"
+            End With
+            
+        ' lbl09
+        intColumn = 1
+        intRow = 14
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt09")
+            With lblLabel
+                .Name = "lbl09"
+                .Caption = "Rechnung Brutto*"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt10
+        intColumn = 2
+        intRow = 16
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt10"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = True
+                .BorderStyle = 1
+            End With
+            
+        ' lbl10
+        intColumn = 1
+        intRow = 16
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt10")
+            With lblLabel
+                .Name = "lbl10"
+                .Caption = "Rechnung Link*"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt11
+        intColumn = 2
+        intRow = 17
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt11"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = True
+            End With
+            
+        ' lbl11
+        intColumn = 1
+        intRow = 17
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt11")
+            With lblLabel
+                .Name = "lbl11"
+                .Caption = "LNW-Kontrolle (Link)"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt12
+        intColumn = 2
+        intRow = 18
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt12"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 1
+            End With
+            
+        ' lbl12
+        intColumn = 1
+        intRow = 18
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt12")
+            With lblLabel
+                .Name = "lbl12"
+                .Caption = "Bemerkung (Rechnung)"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt13
+        intColumn = 2
+        intRow = 1
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt13"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+            End With
+            
+        ' lbl13
+        intColumn = 1
+        intRow = 1
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt13")
+            With lblLabel
+                .Name = "lbl13"
+                .Caption = "Ticket ID"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt14
+        intColumn = 2
+        intRow = 2
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt14"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+            End With
+            
+        ' lbl14
+        intColumn = 1
+        intRow = 2
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
+            With lblLabel
+                .Name = "lbl14"
+                .Caption = "Zusammenfassung"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt15
+        intColumn = 2
+        intRow = 7
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt15"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+            End With
+            
+        ' lbl15
+        intColumn = 1
+        intRow = 7
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
+            With lblLabel
+                .Name = "lbl15"
+                .Caption = "Einzelauftrag (Angebot)"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' cbo16
+        intColumn = 2
+        intRow = 15
+        Set cboCombobox = CreateControl(strTempFormName, acComboBox, acDetail)
+            With cboCombobox
+                .Name = "cbo16"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .RowSource = "tblEinzelauftrag"
+                .AllowValueListEdits = False
+                .ListItemsEditForm = "frmEinzelauftragErstellen"
+            End With
+            
+        ' lbl16
+        intColumn = 1
+        intRow = 15
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "cbo16")
+            With lblLabel
+                .Name = "lbl16"
+                .Caption = "Einzelauftrag (Rechnung)*"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+            
+        ' txt17
+        intColumn = 2
+        intRow = 6
+        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            With txtTextbox
+                .Name = "txt17"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+                .IsHyperlink = False
+                .BorderStyle = 0
+                .Format = "Currency"
+            End With
+            
+        ' lbl17
+        intColumn = 1
+        intRow = 6
+        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt17")
+            With lblLabel
+                .Name = "lbl17"
+                .Caption = "Angebot Brutto"
+                .Left = basRechnungErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                .Top = basRechnungErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                .Width = basRechnungErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                .Height = basRechnungErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                .Visible = True
+            End With
+        ' column added? -> update intNumberOfColumns
                 
         ' create form title
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail)
@@ -300,7 +618,7 @@ Public Sub buildRechnungErstellen()
             lblLabel.Top = 227
             lblLabel.Width = 9210
             lblLabel.Height = 507
-            lblLabel.Caption = "Rechnung erfassen"
+            lblLabel.Caption = "Auftrag erteilen"
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -786,25 +1104,6 @@ Private Sub TestGetWidth()
     
 End Sub
 
-Public Function CloseFormRechnungErstellen()
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basRechnungErstellen.CloseForm"
-    End If
-    
-    Dim strFormName As String
-    strFormName = "frmRechnungErstellen"
-    
-    DoCmd.Close acForm, strFormName, acSaveYes
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basRechnungErstellen.CloseForm executed"
-    End If
-    
-End Function
-
 Public Function RechnungErstellenCreateRecordset()
 
     ' command message
@@ -818,27 +1117,201 @@ Public Function RechnungErstellenCreateRecordset()
     Dim strFormName As String
     strFormName = "frmRechnungErstellen"
     
-    Dim rstRecordset As clsRechnung
-    Set rstRecordset = New clsRechnung
+    Dim varRechnungNummer As Variant
+    varRechnungNummer = Forms.Item(strFormName)!txt06
+    
+    Dim varRechnungBrutto As Variant
+    varRechnungBrutto = Forms.Item(strFormName)!txt09
+    
+    Dim varEAIDRechnung As Variant
+    varEAIDRechnung = Forms.Item(strFormName)!cbo16
+    
+    Dim varRechnungLink As Variant
+    varRechnungLink = Forms.Item(strFormName)!txt10
+    
+    ' check if varRechnungNummer is empty
+    If IsNull(varRechnungNummer) Then
+        MsgBox "Sie haben im Pflichtfeld 'Rechnung Nummer' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
+    End If
+    
+    ' check if varRechnungBrutto is empty
+    If IsNull(varRechnungBrutto) Then
+        MsgBox "Sie haben im Pflichtfeld 'Rechnung Brutto' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
+    End If
+    
+    ' check if varEAIDRechnung is empty
+    If IsNull(varEAIDRechnung) Then
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        MsgBox "Sie haben im Pflichtfeld 'Einzelauftrag (Rechnung)' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Exit Function
+    ' check for forbidden values in varEAIDRechnung
+    ElseIf DCount("[EAkurzKey]", "tblEinzelauftrag", "[EAkurzKey] Like '" & varEAIDRechnung & "'") = 0 Then
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 3"
+        MsgBox "Bitte wählen Sie im Feld 'Einzelauftrag (Rechnung)' ausschließlich Werte aus der Drop-Down-Liste.", vbCritical, "Speichern abgebrochen"
+        Exit Function
+    End If
+    
+    ' check if varRechnungLink is empty
+    If IsNull(varRechnungLink) Then
+        MsgBox "Sie haben im Pflichtfeld 'Rechung Link' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
+    End If
+    
+    ' create recordsets
+    Dim rstRechnung As clsRechnung
+    Set rstRechnung = New clsRechnung
+    
+    Dim rstEinzelauftragZuRechnung As clsEinzelauftragZuRechnung
+    Set rstEinzelauftragZuRechnung = New clsEinzelauftragZuRechnung
+    
+    Dim rstAngebotZuRechnung As clsAngebotZuRechnung
+    Set rstAngebotZuRechnung = New clsAngebotZuRechnung
     
     ' transfer values from form to clsRechnung
     With Forms.Item(strFormName)
-        rstRecordset.RechnungNr = !txt00
-        rstRecordset.Bemerkung = !txt01
-        rstRecordset.RechnungLink = !txt02
-        rstRecordset.TechnischRichtigDatum = !txt03
-        rstRecordset.IstTeilrechnung = !txt04
-        rstRecordset.IstSchlussrechnung = !txt05
-        rstRecordset.KalkulationLNWLink = !txt06
-        rstRecordset.RechnungBrutto = !txt07
+        rstRechnung.RechnungNr = varRechnungNummer
+        rstEinzelauftragZuRechnung.RefRechnungNr = varRechnungNummer
+        rstAngebotZuRechnung.RefRechnungNr = varRechnungNummer
+        rstAngebotZuRechnung.RefBWIkey = gvarRechnungErstellenClipboardBWIKey
+        rstRechnung.IstTeilrechnung = !chk07
+        rstRechnung.IstSchlussrechnung = !chk08
+        rstRechnung.RechnungBrutto = !txt09
+        rstEinzelauftragZuRechnung.RefEAkurzKey = varEAIDRechnung
+        rstRechnung.RechnungLink = varRechnungLink
+        rstRechnung.KalkulationLNWLink = !txt11
+        rstRechnung.Bemerkung = !txt12
     End With
     
-    ' create Recordset
-    rstRecordset.CreateRecordset
+    ' create recordset rechnung
+    ' check if varRechnungNummer already exists
+    If DCount("[RechnungNr]", "tblRechnung", "[RechnungNr] Like '" & varRechnungNummer & "'") > 0 Then
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 2"
+        rstRechnung.SaveRecordset
+        MsgBox "Änderungen gespeichert", vbOKOnly, "Speichern"
+    Else
+        rstRechnung.CreateRecordset
+    End If
+
+    ' check if relationship EinzelauftragZuRechnung already exists
+    Dim strDomainName01 As String
+    strDomainName01 = "qryChecksumEinzelauftragZuRechnung"
+    
+    Dim strDummy As String
+    strDummy = varEAIDRechnung & varRechnungNummer
+    
+    If DCount("[checksum]", strDomainName01, "[checksum] Like '" & strDummy & "'") > 0 Then
+        Debug.Print "Error: clsEinzelauftragZuRechnung.CreateRecordset, Error Code 1"
+    Else
+        ' create recordset EinzelauftragZuRechnung
+        rstEinzelauftragZuRechnung.CreateRecordset
+    End If
+    
+    ' check if relationship AngebotZuRechnung already exists
+    Dim strDomainName02 As String
+    strDomainName02 = "qryChecksumAngebotZuRechnung"
+    
+    strDummy = gvarRechnungErstellenClipboardBWIKey & varRechnungNummer
+    
+    If DCount("[checksum]", strDomainName02, "[checksum] Like '" & strDummy & "'") > 0 Then
+        Debug.Print "Error: clsEinzelauftragZuRechnung.CreateRecordset, Error Code 2"
+    Else
+        rstAngebotZuRechnung.CreateRecordset
+    End If
     
     ' event message
     If gconVerbatim Then
         Debug.Print "basRechnungErstellen.RechnungErstellenCreateRecordset executed"
+    End If
+    
+End Function
+
+Public Function OnCloseFrmRechnungErstellen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.OnCloseFrmRechnungErstellen"
+    End If
+    
+    gvarRechnungErstellenClipboardAftrID = Null
+    gvarRechnungErstellenClipboardBWIKey = Null
+    gvarRechnungErstellenClipboardEAIDAngebot = Null
+    gvarRechnungErstellenClipboardEAIDRechnung = Null
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.OnCloseFrmRechnungErstellen executed"
+    End If
+    
+End Function
+
+Public Function CloseFormRechnungErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.CloseFormRechnungErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
+    
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.CloseFormRechnungErstellen executed"
+    End If
+    
+End Function
+
+Public Function OnOpenFrmRechnungErstellen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.OnOpenfrmRechnungErstellen"
+    End If
+    
+    Dim rstTicket As clsAuftrag
+    Set rstTicket = New clsAuftrag
+    rstTicket.SelectRecordset (gvarRechnungErstellenClipboardAftrID)
+    
+    Dim rstAngebot As clsAngebot
+    Set rstAngebot = New clsAngebot
+    rstAngebot.SelectRecordset (gvarRechnungErstellenClipboardBWIKey)
+    
+    Dim rstRechnung As clsRechnung
+    Set rstRechnung = New clsRechnung
+    rstRechnung.SelectRecordset (gvarRechnungErstellenClipboardRechnungNr)
+    
+    Forms!frmRechnungErstellen.Form!txt13 = rstTicket.AftrID
+    Forms!frmRechnungErstellen.Form!txt14 = rstTicket.AftrTitel
+    Forms!frmRechnungErstellen.Form!txt00 = rstAngebot.BWIKey
+    Forms!frmRechnungErstellen.Form!txt02 = rstAngebot.MengengeruestLink
+    Forms!frmRechnungErstellen.Form!txt03 = rstAngebot.LeistungsbeschreibungLink
+    Forms!frmRechnungErstellen.Form!txt17 = rstAngebot.AngebotBrutto
+    Forms!frmRechnungErstellen.Form!txt15 = gvarRechnungErstellenClipboardEAIDAngebot
+    Forms!frmRechnungErstellen.Form!txt05 = rstAngebot.BeauftragtDatum
+    Forms!frmRechnungErstellen.Form!txt01 = rstAngebot.AbgenommenDatum
+    Forms!frmRechnungErstellen.Form!txt04 = rstAngebot.Bemerkung
+    Forms!frmRechnungErstellen.Form!txt06 = rstRechnung.RechnungNr
+    Forms!frmRechnungErstellen.Form!chk07 = Nz(rstRechnung.IstTeilrechnung, False)
+    Forms!frmRechnungErstellen.Form!chk08 = Nz(rstRechnung.IstSchlussrechnung, False)
+    Forms!frmRechnungErstellen.Form!txt09 = rstRechnung.RechnungBrutto
+    Forms!frmRechnungErstellen.Form!cbo16 = gvarRechnungErstellenClipboardEAIDRechnung
+    Forms!frmRechnungErstellen.Form!txt10 = rstRechnung.RechnungLink
+    Forms!frmRechnungErstellen.Form!txt11 = rstRechnung.KalkulationLNWLink
+    Forms!frmRechnungErstellen.Form!txt12 = rstRechnung.Bemerkung
+    
+    ' set focus
+    Forms!frmRechnungErstellen!txt06.SetFocus
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.OnOpenfrmRechnungErstellen executed"
     End If
     
 End Function

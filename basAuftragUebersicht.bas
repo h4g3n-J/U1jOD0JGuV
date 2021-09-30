@@ -87,6 +87,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![AftrID]"
+            .BorderStyle = 0
     End With
     
     'lbl00
@@ -95,7 +96,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
         With lblLabel
             .Name = "lbl00"
-            .Caption = "AftrID"
+            .Caption = "Ticket ID"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -116,6 +117,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![AftrTitel]"
+            .BorderStyle = 0
         End With
         
     'lbl01
@@ -124,7 +126,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
         With lblLabel
             .Name = "lbl01"
-            .Caption = "AftrTitel"
+            .Caption = "Zusammenfassung"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -145,6 +147,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![BWIKey]"
+            .BorderStyle = 0
         End With
         
     'lbl02
@@ -153,7 +156,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
         With lblLabel
             .Name = "lbl02"
-            .Caption = "BWIKey"
+            .Caption = "Angebot"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -174,6 +177,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = True
             .ControlSource = "=[frbSubForm].[Form]![LeistungsbeschreibungLink]"
+            .BorderStyle = 0
         End With
         
     'lbl03
@@ -182,7 +186,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
         With lblLabel
             .Name = "lbl03"
-            .Caption = "LeistungsbeschreibungLink"
+            .Caption = "Leistungsbeschreibung (Link)"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -203,6 +207,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = True
             .ControlSource = "=[frbSubForm].[Form]![MengengeruestLink]"
+            .BorderStyle = 0
         End With
         
     'lbl04
@@ -211,7 +216,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
         With lblLabel
             .Name = "lbl04"
-            .Caption = "MengengeruestLink"
+            .Caption = "Mengengerüst (Link)"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -232,6 +237,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![EaAngebot]"
+            .BorderStyle = 0
         End With
         
     'lbl05
@@ -240,7 +246,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
         With lblLabel
             .Name = "lbl05"
-            .Caption = "Angeboten EA"
+            .Caption = "Angeboten zum EA"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -261,6 +267,8 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![BeauftragtDatum]"
+            .Format = "Short Date"
+            .BorderStyle = 0
         End With
         
     'lbl06
@@ -269,7 +277,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
         With lblLabel
             .Name = "lbl06"
-            .Caption = "BeauftragtDatum"
+            .Caption = "Beauftragt am"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -290,6 +298,8 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![AbgenommenDatum]"
+            .Format = "Short Date"
+            .BorderStyle = 0
         End With
         
     'lbl07
@@ -298,7 +308,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
         With lblLabel
             .Name = "lbl07"
-            .Caption = "AbgenommenDatum"
+            .Caption = "Abgenommen am"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -319,6 +329,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![RechnungNr]"
+            .BorderStyle = 0
         End With
         
     'lbl08
@@ -327,7 +338,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt08")
         With lblLabel
             .Name = "lbl08"
-            .Caption = "RechnungNr"
+            .Caption = "RechnungsNr"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -348,6 +359,8 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![RechnungBrutto]"
+            .Format = "Currency"
+            .BorderStyle = 0
         End With
         
     'lbl09
@@ -356,7 +369,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt09")
         With lblLabel
             .Name = "lbl09"
-            .Caption = "RechnungBrutto"
+            .Caption = "Rechnung (Brutto)"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -377,6 +390,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![EaRechnung]"
+            .BorderStyle = 0
         End With
         
     'lbl10
@@ -385,7 +399,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt10")
         With lblLabel
             .Name = "lbl10"
-            .Caption = "Abgerechnet EA"
+            .Caption = "Abgerechnet im EA"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -406,6 +420,7 @@ Public Sub BuildAuftragUebersicht()
             .Visible = True
             .IsHyperlink = False
             .ControlSource = "=[frbSubForm].[Form]![LeistungserfassungsblattID]"
+            .BorderStyle = 0
         End With
         
     'lbl11
@@ -414,7 +429,7 @@ Public Sub BuildAuftragUebersicht()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt11")
         With lblLabel
             .Name = "lbl11"
-            .Caption = "LeistungserfassungsblattID"
+            .Caption = "Leistungserfassungsblatt"
             .Left = basAuftragUebersicht.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersicht.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersicht.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -427,29 +442,29 @@ Public Sub BuildAuftragUebersicht()
     Dim aintLifecycleGrid() As Integer
     
         ' grid settings
-        intNumberOfColumns = 2
+        intNumberOfColumns = 5
         intNumberOfRows = 1
         intLeft = 510
         intTop = 1700
-        intWidth = 2730
+        intWidth = 2450
         intHeight = 330
         
         ReDim aintLifecycleGrid(intNumberOfColumns - 1, intNumberOfRows - 1, 3)
         
         aintLifecycleGrid = basAuftragUebersicht.CalculateGrid(intNumberOfColumns, intNumberOfRows, intLeft, intTop, intWidth, intHeight)
     
-        ' create "Auftrag erstellen" button
+        ' create "Ticket erstellen" button
         intColumn = 1
         intRow = 1
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
             With btnButton
-                .Name = "cmdCreateAuftrag"
+                .Name = "cmdCreateTicket"
                 .Left = basAuftragUebersicht.GetLeft(aintLifecycleGrid, intColumn, intRow)
                 .Top = basAuftragUebersicht.GetTop(aintLifecycleGrid, intColumn, intRow)
                 .Width = basAuftragUebersicht.GetWidth(aintLifecycleGrid, intColumn, intRow)
                 .Height = basAuftragUebersicht.GetHeight(aintLifecycleGrid, intColumn, intRow)
-                .Caption = "Auftrag erstellen"
-                .OnClick = "=OpenAuftragUebersichtAuftragErstellen()"
+                .Caption = "Ticket erstellen"
+                .OnClick = "=OpenAuftragUebersichtTicketErstellen()"
                 .Visible = True
             End With
             
@@ -465,6 +480,51 @@ Public Sub BuildAuftragUebersicht()
                 .Height = basAuftragUebersicht.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Angebot erstellen"
                 .OnClick = "=OpenAuftragUebersichtAngebotErstellen()"
+                .Visible = True
+            End With
+            
+        ' create "Auftrag erteilen" button
+        intColumn = 3
+        intRow = 1
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmdExecuteOrder"
+                .Left = basAuftragUebersicht.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basAuftragUebersicht.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basAuftragUebersicht.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basAuftragUebersicht.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                .Caption = "Auftrag erteilen"
+                .OnClick = "=OpenAuftragUebersichtAuftragErteilen()"
+                .Visible = True
+            End With
+            
+        ' create "Leistung abnehmen" button
+        intColumn = 4
+        intRow = 1
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmdConfirmService"
+                .Left = basAuftragUebersicht.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basAuftragUebersicht.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basAuftragUebersicht.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basAuftragUebersicht.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                .Caption = "Leistung abnehmen"
+                .OnClick = "=OpenAuftragUebersichtLeistungAbnehmen()"
+                .Visible = True
+            End With
+            
+        ' create "Rechnung erstellen" button
+        intColumn = 5
+        intRow = 1
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmdCreateInvoice"
+                .Left = basAuftragUebersicht.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basAuftragUebersicht.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basAuftragUebersicht.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basAuftragUebersicht.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                .Caption = "Rechnung erstellen"
+                .OnClick = "=OpenAuftragUebersichtRechnungErstellen()"
                 .Visible = True
             End With
             
@@ -1064,22 +1124,21 @@ Public Function OpenFormAuftragUebersichtErstellen()
     
 End Function
 
-Public Function OpenAuftragUebersichtAuftragErstellen()
+Public Function OpenAuftragUebersichtTicketErstellen()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAuftragSuchen.OpenAuftragUebersichtAuftragErstellen"
+        Debug.Print "execute basAuftragSuchen.OpenAuftragUebersichtTicketErstellen"
     End If
     
     Dim strFormName As String
     strFormName = "frmAuftragErstellen"
     
     DoCmd.OpenForm strFormName, acNormal
-    ' DoCmd.OpenForm strFormName, acNormal, , , acFormAdd, acDialog
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "basAuftragSuchen.OpenAuftragUebersichtAuftragErstellen executed"
+        Debug.Print "basAuftragSuchen.OpenAuftragUebersichtTicketErstellen executed"
     End If
     
 End Function
@@ -1088,7 +1147,7 @@ Public Function OpenAuftragUebersichtAngebotErstellen()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAngebotSuchen.OpenAuftragUebersichtAngebotErstellen"
+        Debug.Print "execute basAuftragUebersicht.OpenAuftragUebersichtAngebotErstellen"
     End If
     
     ' name the opening form
@@ -1123,9 +1182,238 @@ Public Function OpenAuftragUebersichtAngebotErstellen()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "basAngebotSuchen.OpenAuftragUebersichtAngebotErstellen executed"
+        Debug.Print "basAuftragUebersicht.OpenAuftragUebersichtAngebotErstellen executed"
     End If
     
 End Function
 
+Public Function OpenAuftragUebersichtAuftragErteilen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragUebersicht.OpenAuftragUebersichtAuftragErteilen"
+    End If
+    
+    ' name the opening form
+    Dim strFormName As String
+    strFormName = "frmAuftragErteilen"
+    
+    ' name the current form
+    Dim strFormNameClipboardSource As String
+    strFormNameClipboardSource = "frmAuftragUebersicht"
+    
+    ' name the subform of the current form
+    Dim strSubformName As String
+    strSubformName = "frbSubForm"
+    
+    ' name the attributes that will be used in the opening form
+    
+    ' select Angebot
+    Dim rstAngebot As clsAngebot
+    Set rstAngebot = New clsAngebot
+    
+    Dim strFieldBWIKey As String
+    strFieldBWIKey = "txt02"
+    
+    rstAngebot.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldBWIKey))
+    
+    ' select Ticket
+    Dim rstTicket As clsAuftrag
+    Set rstTicket = New clsAuftrag
+        
+    Dim strFieldAftrID As String
+    strFieldAftrID = "txt00"
+    
+    rstTicket.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldAftrID))
+    
+    ' get Einzelauftrag
+    Dim strFieldEAID As String
+    strFieldEAID = "txt05"
+    
+    ' reset frmAuftragErteilenClipboard
+    gvarAuftragErteilenClipboardAftrID = Null
+    gvarAuftragErteilenClipboardBWIKey = Null
+    gvarAuftragErteilenClipboardEinzelauftrag = Null
+    
+    ' send AftrID and AftrTitel to frmAuftragErteilen's Clipboard
+    gvarAuftragErteilenClipboardAftrID = rstTicket.AftrID
+    gvarAuftragErteilenClipboardBWIKey = rstAngebot.BWIKey
+    gvarAuftragErteilenClipboardEinzelauftrag = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldEAID)
+    
+    If IsNull(gvarAuftragErteilenClipboardBWIKey) Then
+        MsgBox "Zu dem ausgewählten Datensatz wurde bisher kein Angebot erfasst.", vbCritical, "Angebot erfassen"
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtAuftragErteilen, no offer to recordset"
+        Exit Function
+    End If
+    
+    ' open form
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basAuftragUebersicht.OpenAuftragUebersichtAuftragErteilen executed"
+    End If
+    
+End Function
 
+Public Function OpenAuftragUebersichtLeistungAbnehmen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen"
+    End If
+    
+    ' name the opening form
+    Dim strFormName As String
+    strFormName = "frmLeistungAbnehmen"
+    
+    ' name the current form
+    Dim strFormNameClipboardSource As String
+    strFormNameClipboardSource = "frmAuftragUebersicht"
+    
+    ' name the subform of the current form
+    Dim strSubformName As String
+    strSubformName = "frbSubForm"
+    
+    ' select Ticket
+    Dim rstTicket As clsAuftrag
+    Set rstTicket = New clsAuftrag
+        
+    Dim strFieldAftrID As String
+    strFieldAftrID = "txt00"
+    
+    rstTicket.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldAftrID))
+    
+    ' select Angebot
+    Dim rstAngebot As clsAngebot
+    Set rstAngebot = New clsAngebot
+    
+    Dim strFieldBWIKey As String
+    strFieldBWIKey = "txt02"
+    
+    rstAngebot.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldBWIKey))
+    
+    ' reset frmLeistungAbnehmenClipboard
+    gvarLeistungAbnehmenClipboardAftrID = Null
+    gvarLeistungAbnehmenClipboardBWIKey = Null
+    
+    ' send AftrID and AftrTitel to frmLeistungAbnehmen's Clipboard
+    gvarLeistungAbnehmenClipboardAftrID = rstTicket.AftrID
+    gvarLeistungAbnehmenClipboardBWIKey = rstAngebot.BWIKey
+    
+    ' check BWIKey
+    If IsNull(gvarLeistungAbnehmenClipboardBWIKey) Then
+        MsgBox "Zu dem ausgewählten Datensatz wurde bisher kein Angebot erfasst.", vbCritical, "Angebot erfassen"
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen, no offer to recordset"
+        Exit Function
+    End If
+    
+    ' check BeauftragtDatum
+    If IsNull(rstAngebot.BeauftragtDatum) Then
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen canceled, Error Code 1"
+        MsgBox "Das ausgewählte Angebot wurde bisher nicht beauftragt.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    ' open form
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen executed"
+    End If
+    
+End Function
+
+Public Function OpenAuftragUebersichtRechnungErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragUebersicht.OpenAuftragUebersichtRechnungErstellen"
+    End If
+    
+    ' name the opening form
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
+    
+    ' name the current form
+    Dim strFormNameClipboardSource As String
+    strFormNameClipboardSource = "frmAuftragUebersicht"
+    
+    ' name the subform of the current form
+    Dim strSubformName As String
+    strSubformName = "frbSubForm"
+    
+    ' name the attributes that will be used in the opening form
+    ' get TicketID
+    Dim rstTicket As clsAuftrag
+    Set rstTicket = New clsAuftrag
+    
+    Dim strFieldAftrID As String
+    strFieldAftrID = "txt00"
+    
+    rstTicket.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldAftrID))
+    
+    ' get AngebotID
+    Dim rstAngebot As clsAngebot
+    Set rstAngebot = New clsAngebot
+    
+    Dim strFieldBWIKey As String
+    strFieldBWIKey = "txt02"
+    rstAngebot.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldBWIKey))
+    
+    ' get Einzelauftrag
+    Dim strFieldEAIDAngebot As String
+    strFieldEAIDAngebot = "txt05"
+    
+    Dim strFieldEAIDRechnung As String
+    strFieldEAIDRechnung = "txt10"
+    
+    ' get Rechnung
+    Dim strFieldRechnungNr As String
+    strFieldRechnungNr = "txt08"
+    
+    ' reset frmRechnungErstellenClipboard
+    gvarRechnungErstellenClipboardAftrID = Null
+    gvarRechnungErstellenClipboardBWIKey = Null
+    gvarRechnungErstellenClipboardEAIDAngebot = Null
+    gvarRechnungErstellenClipboardRechnungNr = Null
+    gvarRechnungErstellenClipboardEAIDRechnung = Null
+    
+    ' send AftrID and AftrTitel to frmRechnungErstellen's Clipboard
+    gvarRechnungErstellenClipboardAftrID = rstTicket.AftrID
+    gvarRechnungErstellenClipboardBWIKey = rstAngebot.BWIKey
+    gvarRechnungErstellenClipboardEAIDAngebot = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldEAIDAngebot)
+    gvarRechnungErstellenClipboardRechnungNr = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldRechnungNr)
+    gvarRechnungErstellenClipboardEAIDRechnung = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldEAIDRechnung)
+    
+    ' check BWIKey
+    If IsNull(gvarRechnungErstellenClipboardBWIKey) Then
+        MsgBox "Zu dem ausgewählten Datensatz wurde bisher kein Angebot erfasst.", vbCritical, "Angebot erfassen"
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen, no offer to recordset"
+        Exit Function
+    End If
+    
+    ' check BeauftragtDatum
+    If IsNull(rstAngebot.BeauftragtDatum) Then
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen canceled, Error Code 1"
+        MsgBox "Das ausgewählte Angebot wurde bisher nicht beauftragt.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    ' check AbgenommenDatum
+    If IsNull(rstAngebot.AbgenommenDatum) Then
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen canceled, Error Code 1"
+        MsgBox "Die Leistung zu dem ausgewählten Angebot wurde bisher nicht abgenommen.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    ' open form
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basAuftragUebersicht.OpenAuftragUebersichtRechnungErstellen executed"
+    End If
+    
+End Function

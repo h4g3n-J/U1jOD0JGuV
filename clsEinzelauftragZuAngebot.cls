@@ -567,23 +567,23 @@ Public Sub CreateRecordset()
     Dim strPrimaryKey As String
     strPrimaryKey = "ID"
     
-    Dim strConnectionPrimaryAttribute As String
-    strConnectionPrimaryAttribute = "RefEAkurzKey"
+    Dim strField01Name As String
+    strField01Name = "RefEAkurzKey"
     
-    Dim strConnectionPrimaryAttributeAlias As String
-    strConnectionPrimaryAttributeAlias = "Einzelauftrag ID"
+    Dim strField01Alias As String
+    strField01Alias = "Einzelauftrag"
     
-    Dim strConnectionSecondaryAttribute As String
-    strConnectionSecondaryAttribute = "RefBWIkey"
+    Dim strField02Name As String
+    strField02Name = "RefBWIkey"
     
-    Dim strConnectionSecondaryAttributeAlias As String
-    strConnectionSecondaryAttributeAlias = "Angebot ID"
+    Dim strField02Alias As String
+    strField02Alias = "Angebot"
     
     Dim strDomainName As String
     strDomainName = "qryChecksumEinzelauftragZuAngebot"
     
-    Dim strFieldName As String
-    strFieldName = "checksum"
+    Dim strFieldName03 As String
+    strFieldName03 = "checksum"
     
     Dim dbsCurrentDB As DAO.Database
     Set dbsCurrentDB = CurrentDb
@@ -595,42 +595,42 @@ Public Sub CreateRecordset()
     intValuePosition = 2
         
     ' get property values from mvarRecordsetClipboard
-    Dim varConnectionPrimaryValue As Variant
-    varConnectionPrimaryValue = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strConnectionPrimaryAttribute), intValuePosition)
+    Dim varField01Value As Variant
+    varField01Value = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strField01Name), intValuePosition)
     
-    Dim varConnectionSecondaryValue As Variant
-    varConnectionSecondaryValue = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strConnectionSecondaryAttribute), intValuePosition)
+    Dim varField02Value As Variant
+    varField02Value = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, strField02Name), intValuePosition)
     
     ' check if input is null
-    If IsNull(varConnectionPrimaryValue) Or IsNull(varConnectionSecondaryValue) Then
+    If IsNull(varField01Value) Or IsNull(varField02Value) Then
         Debug.Print "Error: clsEinzelauftragZuAngebot.CreateRecordset aborted, Error Code 1"
         GoTo ExitProc
     End If
     
     ' check if relationship already exists
     Dim strDummy As String
-    strDummy = varConnectionPrimaryValue & varConnectionSecondaryValue
+    strDummy = varField01Value & varField02Value
     
-    If DCount("[" & strFieldName & "]", strDomainName, "[" & strFieldName & "] Like '" & strDummy & "'") > 0 Then
-        MsgBox "Das " & strConnectionSecondaryAttributeAlias & " '" & varConnectionSecondaryValue & "' wurde bereits mit dem " & strConnectionPrimaryAttributeAlias & " '" & varConnectionPrimaryValue & "' verknüpft.", vbCritical, "Beziehung erfassen abgebrochen"
+    If DCount("[" & strFieldName03 & "]", strDomainName, "[" & strFieldName03 & "] Like '" & strDummy & "'") > 0 Then
+        MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde bereits mit dem " & strField01Alias & " '" & varField01Value & "' verknüpft.", vbCritical, "Beziehung erfassen abgebrochen"
         Debug.Print "Error: clsEinzelauftragZuAngebot.CreateRecordset, Error Code 1"
         GoTo ExitProc
     End If
     
     ' generate primary key
-    Dim lngPrimaryKeyValue As Long
-    lngPrimaryKeyValue = Nz(DMax(strPrimaryKey, strTableName)) + 1
+    Dim lngPrimaryKey As Long
+    lngPrimaryKey = Nz(DMax(strPrimaryKey, strTableName)) + 1
     
     ' create recordset
     rstRecordset.AddNew
-            rstRecordset!ID = lngPrimaryKeyValue
-            rstRecordset!RefEAkurzKey = varConnectionPrimaryValue
-            rstRecordset!RefBWIkey = varConnectionSecondaryValue
+            rstRecordset!ID = lngPrimaryKey
+            rstRecordset!RefEAkurzKey = varField01Value
+            rstRecordset!RefBWIkey = varField02Value
             rstRecordset!Bemerkung = mvarRecordsetClipboard(FindItemInArray(mvarRecordsetClipboard, "Bemerkung"), intValuePosition)
             ' class changed? Do not miss to update the class properties!
         rstRecordset.Update
     
-    MsgBox "Das " & strConnectionSecondaryAttributeAlias & " '" & varConnectionSecondaryValue & "' wurde dem " & strConnectionPrimaryAttributeAlias & " '" & varConnectionPrimaryValue & "' zugeordnet.", vbInformation, "Beziehung erfasst"
+    MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde dem " & strField01Alias & " '" & varField01Value & "' zugeordnet.", vbInformation, "Beziehung erfasst"
     
     ' event message
     If gconVerbatim Then

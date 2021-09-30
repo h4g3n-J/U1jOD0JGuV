@@ -87,7 +87,7 @@ Public Sub buildAuftragErstellen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
         With lblLabel
             .Name = "lbl00"
-            .Caption = "AftrID"
+            .Caption = "Ticket ID*"
             .Left = basAuftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -106,7 +106,7 @@ Public Sub buildAuftragErstellen()
             .Width = basAuftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basAuftragErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = True
+            .IsHyperlink = False
         End With
         
     'lbl01
@@ -115,7 +115,7 @@ Public Sub buildAuftragErstellen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
         With lblLabel
             .Name = "lbl01"
-            .Caption = "AftrTitel"
+            .Caption = "Zusammenfassung*"
             .Left = basAuftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -125,7 +125,7 @@ Public Sub buildAuftragErstellen()
         
     'txt02
     intColumn = 2
-    intRow = 3
+    intRow = 6
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt02"
@@ -139,7 +139,7 @@ Public Sub buildAuftragErstellen()
         
     'lbl02
     intColumn = 1
-    intRow = 3
+    intRow = 6
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
         With lblLabel
             .Name = "lbl02"
@@ -171,7 +171,7 @@ Public Sub buildAuftragErstellen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
         With lblLabel
             .Name = "lbl03"
-            .Caption = "BeginnSoll"
+            .Caption = "Beginn Soll"
             .Left = basAuftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -199,7 +199,7 @@ Public Sub buildAuftragErstellen()
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
         With lblLabel
             .Name = "lbl04"
-            .Caption = "EndeSoll"
+            .Caption = "Ende Soll"
             .Left = basAuftragErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -209,7 +209,7 @@ Public Sub buildAuftragErstellen()
         
     'txt05
     intColumn = 2
-    intRow = 6
+    intRow = 3
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt05"
@@ -223,7 +223,7 @@ Public Sub buildAuftragErstellen()
         
     'lbl05
     intColumn = 1
-    intRow = 6
+    intRow = 3
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
         With lblLabel
             .Name = "lbl05"
@@ -244,7 +244,7 @@ Public Sub buildAuftragErstellen()
             lblLabel.Top = 227
             lblLabel.Width = 9210
             lblLabel.Height = 507
-            lblLabel.Caption = "Auftrag erfassen"
+            lblLabel.Caption = "Auftrag erstellen"
             
         ' create exit button
         Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
@@ -762,13 +762,32 @@ Public Function AuftragErstellenCreateRecordset()
     Dim strFormName As String
     strFormName = "frmAuftragErstellen"
     
+    ' check mandatory fields
+    Dim varAuftragID As Variant
+    varAuftragID = Forms.Item(strFormName)!txt00
+    
+    Dim varAftrTitel As Variant
+    varAftrTitel = Forms.Item(strFormName)!txt01
+    
+    If IsNull(varAuftragID) Then
+        Debug.Print "Error: basAuftragErstellen.AuftragErstellenCreateRecordset aborted, Error Code 1"
+        MsgBox "Das Feld 'Ticket ID' ist ein Pflichtfeld. Bitte weisen Sie einen Wert zu.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    If IsNull(varAftrTitel) Then
+        Debug.Print "Error: basAuftragErstellen.AuftragErstellenCreateRecordset aborted, Error Code 1"
+        MsgBox "Das Feld 'Zusammenfassung' ist ein Pflichtfeld. Bitte weisen Sie einen Wert zu.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
     Dim rstRecordset As clsAuftrag
     Set rstRecordset = New clsAuftrag
     
     ' transfer values from form to clsAuftrag
     With Forms.Item(strFormName)
-        rstRecordset.AftrID = !txt00
-        rstRecordset.AftrTitel = !txt01
+        rstRecordset.AftrID = varAuftragID
+        rstRecordset.AftrTitel = varAftrTitel
         rstRecordset.Bemerkung = !txt02
         rstRecordset.BeginnSoll = !txt03
         rstRecordset.EndeSoll = !txt04
@@ -783,7 +802,9 @@ Public Function AuftragErstellenCreateRecordset()
         Debug.Print "basAuftragErstellen.AuftragErstellenCreateRecordset executed"
     End If
     
+    Set rstRecordset = Nothing
 End Function
+
 
 
 

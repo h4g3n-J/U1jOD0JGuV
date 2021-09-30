@@ -81,7 +81,7 @@ Public Sub buildAngebotErstellen()
         ' create textbox before label, so label can be associated
         ' txt00
         intColumn = 2
-        intRow = 1
+        intRow = 3
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt00"
@@ -95,11 +95,11 @@ Public Sub buildAngebotErstellen()
             
         ' lbl00
         intColumn = 1
-        intRow = 1
+        intRow = 3
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
             With lblLabel
                 .Name = "lbl00"
-                .Caption = "Angebot ID"
+                .Caption = "Angebot ID*"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -109,7 +109,7 @@ Public Sub buildAngebotErstellen()
         
         ' cbo01
         intColumn = 2
-        intRow = 2
+        intRow = 7
         Set cboCombobox = CreateControl(strTempFormName, acComboBox, acDetail)
             With cboCombobox
                 .Name = "cbo01"
@@ -126,11 +126,11 @@ Public Sub buildAngebotErstellen()
             
         ' lbl01
         intColumn = 1
-        intRow = 2
+        intRow = 7
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
             With lblLabel
                 .Name = "lbl01"
-                .Caption = "Einzelauftrag"
+                .Caption = "Einzelauftrag*"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -140,7 +140,7 @@ Public Sub buildAngebotErstellen()
             
         ' txt02
         intColumn = 2
-        intRow = 3
+        intRow = 5
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt02"
@@ -154,11 +154,11 @@ Public Sub buildAngebotErstellen()
             
         ' lbl02
         intColumn = 1
-        intRow = 3
+        intRow = 5
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
             With lblLabel
                 .Name = "lbl02"
-                .Caption = "Mengengerüst"
+                .Caption = "Mengengerüst*"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -168,7 +168,7 @@ Public Sub buildAngebotErstellen()
             
         ' txt03
         intColumn = 2
-        intRow = 4
+        intRow = 6
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt03"
@@ -182,11 +182,11 @@ Public Sub buildAngebotErstellen()
             
         ' lbl03
         intColumn = 1
-        intRow = 4
+        intRow = 6
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
             With lblLabel
                 .Name = "lbl03"
-                .Caption = "Leistungsbeschreibung"
+                .Caption = "Leistungsbeschreibung*"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -196,7 +196,7 @@ Public Sub buildAngebotErstellen()
             
         ' txt04
         intColumn = 2
-        intRow = 5
+        intRow = 11
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt04"
@@ -210,7 +210,7 @@ Public Sub buildAngebotErstellen()
             
         ' lbl04
         intColumn = 1
-        intRow = 5
+        intRow = 11
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
             With lblLabel
                 .Name = "lbl04"
@@ -222,65 +222,65 @@ Public Sub buildAngebotErstellen()
                 .Visible = True
             End With
             
-        ' txt05
-        intColumn = 2
-        intRow = 6
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-            With txtTextbox
-                .Name = "txt05"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-                .IsHyperlink = False
-            End With
+        ' ' txt05
+        ' intColumn = 2
+        ' intRow = 6
+        ' Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            ' With txtTextbox
+                ' .Name = "txt05"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+                ' .IsHyperlink = False
+            ' End With
             
-        ' lbl05
-        intColumn = 1
-        intRow = 6
-        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
-            With lblLabel
-                .Name = "lbl05"
-                .Caption = "Beauftragt"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-            End With
+        ' ' lbl05
+        ' intColumn = 1
+        ' intRow = 6
+        ' Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
+            ' With lblLabel
+                ' .Name = "lbl05"
+                ' .Caption = "Beauftragt"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+            ' End With
             
-        ' txt06
-        intColumn = 2
-        intRow = 7
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-            With txtTextbox
-                .Name = "txt06"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-                .IsHyperlink = False
-            End With
+        ' ' txt06
+        ' intColumn = 2
+        ' intRow = 7
+        ' Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            ' With txtTextbox
+                ' .Name = "txt06"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+                ' .IsHyperlink = False
+            ' End With
             
-        ' lbl06
-        intColumn = 1
-        intRow = 7
-        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
-            With lblLabel
-                .Name = "lbl06"
-                .Caption = "Abgebrochen"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-            End With
+        ' ' lbl06
+        ' intColumn = 1
+        ' intRow = 7
+        ' Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
+            ' With lblLabel
+                ' .Name = "lbl06"
+                ' .Caption = "Abgebrochen"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+            ' End With
             
         ' txt07
         intColumn = 2
-        intRow = 8
+        intRow = 4
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt07"
@@ -290,15 +290,16 @@ Public Sub buildAngebotErstellen()
                 .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+                .Format = "short date"
             End With
             
         ' lbl07
         intColumn = 1
-        intRow = 8
+        intRow = 4
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt07")
             With lblLabel
                 .Name = "lbl07"
-                .Caption = "Angeboten"
+                .Caption = "Angeboten am*"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -306,37 +307,37 @@ Public Sub buildAngebotErstellen()
                 .Visible = True
             End With
             
-        ' txt08
-        intColumn = 2
-        intRow = 9
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-            With txtTextbox
-                .Name = "txt08"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-                .IsHyperlink = False
-            End With
+        ' ' txt08
+        ' intColumn = 2
+        ' intRow = 9
+        ' Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            ' With txtTextbox
+                ' .Name = "txt08"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+                ' .IsHyperlink = False
+            ' End With
             
-        ' lbl08
-        intColumn = 1
-        intRow = 9
-        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt08")
-            With lblLabel
-                .Name = "lbl08"
-                .Caption = "Abgenommen"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-            End With
+        ' ' lbl08
+        ' intColumn = 1
+        ' intRow = 9
+        ' Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt08")
+            ' With lblLabel
+                ' .Name = "lbl08"
+                ' .Caption = "Abgenommen"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+            ' End With
             
         ' txt09
         intColumn = 2
-        intRow = 10
+        intRow = 9
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt09"
@@ -346,11 +347,12 @@ Public Sub buildAngebotErstellen()
                 .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+                .Format = "short date"
             End With
             
         ' lbl09
         intColumn = 1
-        intRow = 10
+        intRow = 9
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt09")
             With lblLabel
                 .Name = "lbl09"
@@ -364,7 +366,7 @@ Public Sub buildAngebotErstellen()
             
         ' txt10
         intColumn = 2
-        intRow = 11
+        intRow = 10
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt10"
@@ -374,11 +376,12 @@ Public Sub buildAngebotErstellen()
                 .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+                .Format = "short date"
             End With
             
         ' lbl10
         intColumn = 1
-        intRow = 11
+        intRow = 10
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt10")
             With lblLabel
                 .Name = "lbl10"
@@ -390,37 +393,37 @@ Public Sub buildAngebotErstellen()
                 .Visible = True
             End With
             
-        ' txt11
-        intColumn = 2
-        intRow = 12
-        Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
-            With txtTextbox
-                .Name = "txt11"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-                .IsHyperlink = False
-            End With
+        ' ' txt11
+        ' intColumn = 2
+        ' intRow = 12
+        ' Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+            ' With txtTextbox
+                ' .Name = "txt11"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+                ' .IsHyperlink = False
+            ' End With
             
-        ' lbl11
-        intColumn = 1
-        intRow = 12
-        Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt11")
-            With lblLabel
-                .Name = "lbl11"
-                .Caption = "Storniert"
-                .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
-                .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
-                .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
-                .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
-                .Visible = True
-            End With
+        ' ' lbl11
+        ' intColumn = 1
+        ' intRow = 12
+        ' Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt11")
+            ' With lblLabel
+                ' .Name = "lbl11"
+                ' .Caption = "Storniert"
+                ' .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+                ' .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+                ' .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+                ' .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+                ' .Visible = True
+            ' End With
             
         ' txt12
         intColumn = 2
-        intRow = 13
+        intRow = 8
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt12"
@@ -430,15 +433,16 @@ Public Sub buildAngebotErstellen()
                 .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+                .Format = "Currency"
             End With
             
         ' lbl12
         intColumn = 1
-        intRow = 13
+        intRow = 8
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt12")
             With lblLabel
                 .Name = "lbl12"
-                .Caption = "Preis Brutto"
+                .Caption = "Preis Brutto*"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -448,7 +452,7 @@ Public Sub buildAngebotErstellen()
             
         ' txt13
         intColumn = 2
-        intRow = 14
+        intRow = 1
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt13"
@@ -458,15 +462,16 @@ Public Sub buildAngebotErstellen()
                 .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
+                .BorderStyle = 0
             End With
             
         ' lbl13
         intColumn = 1
-        intRow = 14
+        intRow = 1
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt13")
             With lblLabel
                 .Name = "lbl13"
-                .Caption = "AftrID"
+                .Caption = "Ticket ID"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -476,7 +481,7 @@ Public Sub buildAngebotErstellen()
             
         ' txt14
         intColumn = 2
-        intRow = 15
+        intRow = 2
         Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
             With txtTextbox
                 .Name = "txt14"
@@ -486,17 +491,16 @@ Public Sub buildAngebotErstellen()
                 .Height = basAngebotErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
                 .Visible = True
                 .IsHyperlink = False
-                ' .BorderStyle = Transparent
                 .BorderStyle = 0
             End With
             
         ' lbl14
         intColumn = 1
-        intRow = 15
+        intRow = 2
         Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
             With lblLabel
                 .Name = "lbl14"
-                .Caption = "AftrTitel"
+                .Caption = "Zusammenfassung"
                 .Left = basAngebotErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
                 .Top = basAngebotErstellen.GetTop(aintInformationGrid, intColumn, intRow)
                 .Width = basAngebotErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -1003,7 +1007,7 @@ Public Function CloseFormAngebotErstellen()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basAngebotErstellen.CloseForm"
+        Debug.Print "execute basAngebotErstellen.CloseFormAngebotErstellen"
     End If
     
     gvarAngebotErstellenClipboardAftrID = Null
@@ -1016,14 +1020,14 @@ Public Function CloseFormAngebotErstellen()
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basAngebotErstellen.CloseForm executed"
+        Debug.Print "basAngebotErstellen.CloseFormAngebotErstellen executed"
     End If
     
 End Function
 
 Public Function AngebotErstellenCreateRecordset()
-' Error Code 1: no value assgined to BWIKey
-' Error Code 2: a recordset of that name already exists
+' Error Code 1: no value assigned to BWIKey
+' Error Code 2: recordset of that name already exists
 ' Error Code 3: input value is not on the value list
 
     ' command message
@@ -1034,109 +1038,149 @@ Public Function AngebotErstellenCreateRecordset()
     Dim strFormName As String
     strFormName = "frmAngebotErstellen"
     
-    Dim strMandatoryFieldName As String
-    strMandatoryFieldName = "Angebot ID"
+    ' get mandatory values
+    Dim varBWIKey As Variant
+    varBWIKey = Forms.Item(strFormName)!txt00
     
-    If IsNull(Forms.Item(strFormName)!txt00) Then
-        MsgBox "Sie haben im Pflichtfeld '" & strMandatoryFieldName & "' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+    Dim varEAID As Variant
+    varEAID = Forms.Item(strFormName)!cbo01
+    
+    Dim varMengengeruest As Variant
+    varMengengeruest = Forms.Item(strFormName)!txt02
+    
+    Dim varLeistungsbeschreibug As Variant
+    varLeistungsbeschreibug = Forms.Item(strFormName)!txt03
+    
+    Dim varAngebotDatum As Variant
+    varAngebotDatum = Forms.Item(strFormName)!txt07
+    
+    Dim varAngebotBrutto As Variant
+    varAngebotBrutto = Forms.Item(strFormName)!txt12
+    
+    ' check mandatory fields
+    ' check if varBWIKey is empty
+    If IsNull(varBWIKey) Then
+        MsgBox "Sie haben im Pflichtfeld 'Angebot ID' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
+        ' check if varBWIKey is taken
+        ElseIf DCount("[BWIKey]", "tblAngebot", "[BWIkey] Like '" & varBWIKey & "'") > 0 Then
+            MsgBox "Das Angebot '" & varBWIKey & "' wurde bereits erfasst.", vbCritical, "Speichern abgebrochen"
+            Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset failed, Error Code 2"
+            Exit Function
+    End If
+        
+    ' check if varAngebotDatum is empty
+    If IsNull(varAngebotDatum) Then
+        MsgBox "Sie haben im Pflichtfeld 'Angeboten am' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
         Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
         Exit Function
     End If
     
-    ' check if primary key value is taken
-    Dim strTableName As String
-    strTableName = "tblAngebot"
-    
-    Dim strPrimaryKey As String
-    strPrimaryKey = "BWIKey"
-    
-    Dim intValuePosition As Integer
-    intValuePosition = 2
-    
-    If DCount(strPrimaryKey, strTableName, strPrimaryKey & " Like '" & Forms.Item(strFormName)!txt00 & "'") > 0 Then
-        MsgBox "Das Angebot '" & Forms.Item(strFormName)!cbo01 & "' wurde bereits erfasst." & vbCrLf & vbCrLf & "Verwenden Sie das Formular 'Angebot bearbeiten', um Änderungen an diesem Datensatz vorzunehmen.", vbCritical, "Speichern abgebrochen"
-        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset aborted, Error Code 2"
+    ' check if varMengengeruest is empty
+    If IsNull(varMengengeruest) Then
+        MsgBox "Sie haben im Pflichtfeld 'Mengengerüst' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
         Exit Function
     End If
     
-    ' check for forbidden values
-    Dim strDomainName01 As String
-    strDomainName01 = "tblEinzelauftrag"
-    
-    Dim strFieldName01 As String
-    strFieldName01 = "EAkurzKey"
-    
-    Dim strFieldAlias01 As String
-    strFieldAlias01 = "Einzelauftrag ID"
-    
-    Dim strErrorMessage As String
-    
-    If DCount("[" & strFieldName01 & "]", strDomainName01, "[" & strFieldName01 & "] Like '" & Forms.Item(strFormName)!cbo01 & "'") = 0 Then
-        strErrorMessage = "Bitte wählen Sie im Feld " & strFieldAlias01 & "' ausschließlich Werte aus der Drop-Down-Liste."
+    ' check if varLeistungsbeschreibug is empty
+    If IsNull(varLeistungsbeschreibug) Then
+        MsgBox "Sie haben im Pflichtfeld 'Leistungsbeschreibung' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
     End If
-    
-    If strErrorMessage <> "" Then
-        MsgBox strErrorMessage, vbCritical, "Speichern abgebrochen"
+        
+    ' check if varEAID is empty
+    If IsNull(varEAID) Then
+        MsgBox "Sie haben im Pflichtfeld 'Einzelauftrag' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
+    ' check for forbidden values in varEAID
+    ElseIf DCount("[EAkurzKey]", "tblEinzelauftrag", "[EAkurzKey] Like '" & varEAID & "'") = 0 Then
+        MsgBox "Bitte wählen Sie im Feld 'Einzelauftrag ID' ausschließlich Werte aus der Drop-Down-Liste.", vbCritical, "Speichern abgebrochen"
         Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 3"
         Exit Function
     End If
     
+    
+    ' check if varAngebotBrutto is empty
+    If IsNull(varAngebotBrutto) Then
+        MsgBox "Sie haben im Pflichtfeld 'Preis Brutto' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
+        Exit Function
+    End If
+    
+    Dim strTestObject01 As String
+    strTestObject01 = varEAID & varBWIKey
+    
+    If DCount("[checksum]", "qryChecksumEinzelauftragZuAngebot", "[checksum] Like '" & strTestObject01 & "'") > 0 Then
+        MsgBox "Das Angebot '" & varBWIKey & "' wurde bereits mit dem Einzelauftrag '" & varEAID & "' verknüpft.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: clsEinzelauftragZuAngebot.CreateRecordset, Error Code 1"
+        Exit Function
+    End If
+    
+    Dim strTestObject02 As String
+    ' strTestObject02 = varAuftragID & varBWIKey
+    strTestObject02 = gvarAngebotErstellenClipboardAftrID & varBWIKey
+    
+    If DCount("[checksum]", "qryChecksumAuftragZuAngebot", "[checksum] Like '" & strTestObject02 & "'") > 0 Then
+        MsgBox "Das Angebot '" & varBWIKey & "' wurde bereits mit dem Ticket '" & gvarAngebotErstellenClipboardAftrID & "' verknüpft.", vbCritical, "Speichern abgebrochen"
+        Debug.Print "Error: clsEinzelauftragZuAngebot.CreateRecordset, Error Code 1"
+        Exit Function
+    End If
+    
+    ' transfer values to clsAngebot
     Dim rstRecordset01 As clsAngebot
     Set rstRecordset01 = New clsAngebot
     
-    ' transfer values from form to clsAngebot
     With Forms.Item(strFormName)
-        rstRecordset01.BWIKey = !txt00
-        rstRecordset01.EAkurzKey = !cbo01
+        rstRecordset01.BWIKey = varBWIKey
         rstRecordset01.MengengeruestLink = !txt02
         rstRecordset01.LeistungsbeschreibungLink = !txt03
         rstRecordset01.Bemerkung = !txt04
-        rstRecordset01.BeauftragtDatum = !txt05
-        rstRecordset01.AbgebrochenDatum = !txt06
+        ' rstRecordset01.BeauftragtDatum = !txt05
+        ' rstRecordset01.AbgebrochenDatum = !txt06
         rstRecordset01.AngebotDatum = !txt07
-        rstRecordset01.AbgenommenDatum = !txt08
+        ' rstRecordset01.AbgenommenDatum = !txt08
         rstRecordset01.AftrBeginn = !txt09
         rstRecordset01.AftrEnde = !txt10
-        rstRecordset01.StorniertDatum = !txt11
+        ' rstRecordset01.StorniertDatum = !txt11
         rstRecordset01.AngebotBrutto = !txt12
     End With
+    
+    ' transfer values to clsEinzelauftratZuAngebot
+    Dim rstRecordset02 As clsEinzelauftragZuAngebot
+    Set rstRecordset02 = New clsEinzelauftragZuAngebot
+    
+    rstRecordset02.RefBWIkey = varBWIKey
+    rstRecordset02.RefEAkurzKey = varEAID
+    
+    ' transfer values to clsAuftragZuAngebot
+    Dim rstRecordset03 As clsAuftragZuAngebot
+    Set rstRecordset03 = New clsAuftragZuAngebot
+    
+    rstRecordset03.RefAftrID = gvarAngebotErstellenClipboardAftrID
+    rstRecordset03.RefBWIkey = varBWIKey
     
     ' create Recordset clsAngebot
     rstRecordset01.CreateRecordset
     
-    MsgBox "Datensatz erzeugt", vbOKOnly, "Angebot erstellen"
+    ' create recordset clsEinzelauftragZuAngebot
+    rstRecordset02.CreateRecordset
     
-    Dim rstConnection As clsAuftragZuAngebot
-    Set rstConnection = New clsAuftragZuAngebot
-    
-    Dim strField01Name As String
-    strField01Name = "txt13"
-    
-    Dim strField02Name As String
-    strField02Name = "txt00"
-    
-    Dim varField01Value As Variant
-    varField01Value = Forms.Item(strFormName)!txt13
-    
-    Dim varConnctionsSecondaryValue As Variant
-    varConnctionsSecondaryValue = Forms.Item(strFormName)!txt00
-    
-    If Not (IsNull(varConnctionsSecondaryValue)) And Not (IsNull(varField01Value)) Then
-        ' assign values to clsAngebot
-            rstConnection.RefAftrID = varField01Value
-            rstConnection.RefBWIkey = varConnctionsSecondaryValue
-        
-        ' create Recordset clsAuftragZuAngebot
-        rstConnection.CreateRecordset
-    Else
-        MsgBox "Sie haben keine Wert im Feld AuftragID eingegeben." & vbCrLf & _
-        "Das Angebot muss nachträglich einem Auftrag zugeordnet werden.", vbInformation, "Speichern"
-    End If
+    ' create recordset clsAuftragZuAngebot
+    rstRecordset03.CreateRecordset
     
     ' event message
     If gconVerbatim Then
         Debug.Print "basAngebotErstellen.AngebotErstellenCreateRecordset executed"
     End If
+    
+ExitProc:
+    Set rstRecordset01 = Nothing
+    Set rstRecordset02 = Nothing
+    Set rstRecordset03 = Nothing
     
 End Function
 

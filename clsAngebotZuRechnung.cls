@@ -571,13 +571,13 @@ Public Sub CreateRecordset()
     strField01Name = "RefBWIKey"
     
     Dim strField01Alias As String
-    strField01Alias = "Angebot ID"
+    strField01Alias = "Angebot"
     
     Dim strField02Name As String
     strField02Name = "RefRechnungNr"
     
     Dim strField02Alias As String
-    strField02Alias = "Angebot ID"
+    strField02Alias = "Rechnung Nummer"
     
     Dim strDomainName As String
     strDomainName = "qryChecksumAngebotZuRechnung"
@@ -612,7 +612,7 @@ Public Sub CreateRecordset()
     strDummy = varField01Value & varField02Value
     
     If DCount("[" & strFieldName03 & "]", strDomainName, "[" & strFieldName03 & "] Like '" & strDummy & "'") > 0 Then
-        MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde bereits mit dem " & strField01Alias & " '" & varField01Value & "' verknüpft.", vbCritical, "Beziehung erfassen abgebrochen"
+        ' MsgBox "Die " & strField02Alias & " '" & varField02Value & "' ist bereits mit dem " & strField01Alias & " '" & varField01Value & "' verknüpft.", vbCritical, "Beziehung erfassen abgebrochen"
         Debug.Print "Error: clsAngebotZuRechnung.CreateRecordset, Error Code 1"
         GoTo ExitProc
     End If
@@ -630,7 +630,7 @@ Public Sub CreateRecordset()
             ' class changed? Do not miss to update the class properties!
         rstRecordset.Update
     
-    MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde dem " & strField01Alias & " '" & varField01Value & "' zugeordnet.", vbInformation, "Beziehung erfasst"
+    MsgBox "Die " & strField02Alias & " '" & varField02Value & "' wurde dem " & strField01Alias & " '" & varField01Value & "' zugeordnet.", vbInformation, "Beziehung erfasst"
     
     ' event message
     If gconVerbatim Then
@@ -747,7 +747,7 @@ Private Sub BuildCheckSum()
     
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute clsAngebotZuRechnung.SearchEinzelauftrag"
+        Debug.Print "execute clsAngebotZuRechnung.BuildCheckSum"
     End If
     
     Dim strDomainName As String
@@ -792,7 +792,7 @@ ExitProc:
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "clsAngebotZuRechnung.SearchEinzelauftrag executed"
+        Debug.Print "clsAngebotZuRechnung.BuildCheckSum executed"
     End If
     
 End Sub
