@@ -570,14 +570,8 @@ Public Sub CreateRecordset()
     Dim strField01Name As String
     strField01Name = "RefRechnungNr"
     
-    Dim strField01Alias As String
-    strField01Alias = "Rechnung Nr"
-    
     Dim strField02Name As String
     strField02Name = "RefLeistungserfassungsblattID"
-    
-    Dim strField02Alias As String
-    strField02Alias = "Leistungserfassungsblatt"
     
     Dim strDomainName As String
     strDomainName = "qryChecksumRechnungZuLeistungserfassungsblatt"
@@ -611,8 +605,9 @@ Public Sub CreateRecordset()
     Dim strDummy As String
     strDummy = varField01Value & varField02Value
     
+    ' check if relationship RechnungZuLeistungserfassungsblatt is taken
     If DCount("[" & strFieldName03 & "]", strDomainName, "[" & strFieldName03 & "] Like '" & strDummy & "'") > 0 Then
-        MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde bereits mit dem " & strField01Alias & " '" & varField01Value & "' verknüpft.", vbCritical, "Beziehung erfassen abgebrochen"
+        MsgBox "Das Leistungserfassungsblatt '" & varField02Value & "' wurde bereits mit der Rechnung Nr '" & varField01Value & "' verknüpft.", vbCritical, "Speichern"
         Debug.Print "Error: clsRechnungZuLeistungserfassungsblatt.CreateRecordset, Error Code 1"
         GoTo ExitProc
     End If
@@ -630,7 +625,8 @@ Public Sub CreateRecordset()
             ' class changed? Do not miss to update the class properties!
         rstRecordset.Update
     
-    MsgBox "Das " & strField02Alias & " '" & varField02Value & "' wurde dem " & strField01Alias & " '" & varField01Value & "' zugeordnet.", vbInformation, "Beziehung erfasst"
+    ' success message
+    MsgBox "Das Leistungserfassungsblatt '" & varField02Value & "' wurde der Rechnung Nr '" & varField01Value & "' zugeordnet.", vbInformation, "Beziehung erfasst"
     
     ' event message
     If gconVerbatim Then
