@@ -442,7 +442,7 @@ Public Sub BuildAuftragUebersicht()
     Dim aintLifecycleGrid() As Integer
     
         ' grid settings
-        intNumberOfColumns = 5
+        intNumberOfColumns = 6
         intNumberOfRows = 1
         intLeft = 510
         intTop = 1700
@@ -525,6 +525,22 @@ Public Sub BuildAuftragUebersicht()
                 .Height = basAuftragUebersicht.GetHeight(aintLifecycleGrid, intColumn, intRow)
                 .Caption = "Rechnung erstellen"
                 .OnClick = "=OpenAuftragUebersichtRechnungErstellen()"
+                .Visible = True
+            End With
+            
+        ' OpenAuftragUebersichtLeistungserfassungsblattErstellen
+        ' create "Rechnung erstellen" button
+        intColumn = 6
+        intRow = 1
+        Set btnButton = CreateControl(strTempFormName, acCommandButton, acDetail)
+            With btnButton
+                .Name = "cmdCreateLeistungserfassungsblatt"
+                .Left = basAuftragUebersicht.GetLeft(aintLifecycleGrid, intColumn, intRow)
+                .Top = basAuftragUebersicht.GetTop(aintLifecycleGrid, intColumn, intRow)
+                .Width = basAuftragUebersicht.GetWidth(aintLifecycleGrid, intColumn, intRow)
+                .Height = basAuftragUebersicht.GetHeight(aintLifecycleGrid, intColumn, intRow)
+                .Caption = "LEB erstellen"
+                .OnClick = "=OpenAuftragUebersichtLeistungserfassungsblattErstellen()"
                 .Visible = True
             End With
             
@@ -1417,3 +1433,110 @@ Public Function OpenAuftragUebersichtRechnungErstellen()
     End If
     
 End Function
+
+Public Function OpenAuftragUebersichtLeistungserfassungsblattErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basAuftragUebersicht.OpenAuftragUebersichtLeistungserfassungsblattErstellen"
+    End If
+    
+    ' name the opening form
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattErstellen"
+    
+    ' name the current form
+    Dim strFormNameClipboardSource As String
+    strFormNameClipboardSource = "frmAuftragUebersicht"
+    
+    ' name the subform of the current form
+    Dim strSubformName As String
+    strSubformName = "frbSubForm"
+    
+    ' name the attributes that will be used in the to be opened form
+    ' get TicketID
+    ' Dim rstTicket As clsAuftrag
+    ' Set rstTicket = New clsAuftrag
+    
+    Dim strFieldAftrID As String
+    strFieldAftrID = "txt00"
+    
+    ' rstTicket.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldAftrID))
+    
+    ' get AngebotID
+    Dim rstAngebot As clsAngebot
+    Set rstAngebot = New clsAngebot
+    
+    Dim strFieldBWIKey As String
+    strFieldBWIKey = "txt02"
+    rstAngebot.SelectRecordset (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldBWIKey))
+    
+    ' get Einzelauftrag
+    Dim strFieldEAIDAngebot As String
+    strFieldEAIDAngebot = "txt05"
+    
+    Dim strFieldEAIDRechnung As String
+    strFieldEAIDRechnung = "txt10"
+    
+    ' get Rechnung
+    Dim strFieldRechnungNr As String
+    strFieldRechnungNr = "txt08"
+    
+    ' get Leistungserfassungsblatt
+    Dim strFieldLeistungserfassungsblattID As String
+    strFieldLeistungserfassungsblattID = "txt11"
+    
+    ' reset frmLeistungserfassungsblattErstellenClipboard
+    gvarLeistungserfassungsblattErstellenClipboardAftrID = Null
+    gvarLeistungserfassungsblattErstellenClipboardBWIKey = Null
+    gvarLeistungserfassungsblattErstellenClipboardEAIDAngebot = Null
+    gvarLeistungserfassungsblattErstellenClipboardRechnungNr = Null
+    gvarLeistungserfassungsblattErstellenClipboardEAIDRechnung = Null
+    gvarLeistungserfassungsblattErstellenClipboardLeistungserfassungsblattID = Null
+    
+    ' send AftrID and AftrTitel to frmLeistungserfassungsblattErstellen's Clipboard
+    gvarLeistungserfassungsblattErstellenClipboardAftrID = (Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldAftrID))
+    gvarLeistungserfassungsblattErstellenClipboardBWIKey = rstAngebot.BWIKey
+    gvarLeistungserfassungsblattErstellenClipboardEAIDAngebot = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldEAIDAngebot)
+    gvarLeistungserfassungsblattErstellenClipboardRechnungNr = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldRechnungNr)
+    gvarLeistungserfassungsblattErstellenClipboardEAIDRechnung = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldEAIDRechnung)
+    gvarLeistungserfassungsblattErstellenClipboardLeistungserfassungsblattID = Forms.Item(strFormNameClipboardSource).Controls(strSubformName).Form(strFieldLeistungserfassungsblattID)
+    
+    ' check BWIKey
+    If IsNull(gvarLeistungserfassungsblattErstellenClipboardBWIKey) Then
+        MsgBox "Zu dem ausgewählten Datensatz wurde bisher kein Angebot erfasst.", vbCritical, "Angebot erfassen"
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen, no offer to recordset"
+        Exit Function
+    End If
+    
+    ' check BeauftragtDatum
+    If IsNull(rstAngebot.BeauftragtDatum) Then
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen canceled, Error Code 1"
+        MsgBox "Das ausgewählte Angebot wurde bisher nicht beauftragt.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    ' check AbgenommenDatum
+    If IsNull(rstAngebot.AbgenommenDatum) Then
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen canceled, Error Code 1"
+        MsgBox "Die Leistung zu dem ausgewählten Angebot wurde bisher nicht abgenommen.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    ' check RechnungNr
+    If IsNull(gvarLeistungserfassungsblattErstellenClipboardRechnungNr) Then
+        Debug.Print "Error: basAuftragUebersicht.OpenAuftragUebersichtLeistungAbnehmen canceled, Error Code 1"
+        MsgBox "Zu dem ausgewählten Auftrag wurde keine Rechnung erfasst.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    ' open form
+    DoCmd.OpenForm strFormName, acNormal
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "basAuftragUebersicht.OpenAuftragUebersichtLeistungserfassungsblattErstellen executed"
+    End If
+    
+End Function
+
