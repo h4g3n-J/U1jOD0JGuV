@@ -48,7 +48,7 @@ Public Sub BuildAuftragUebersichtSub()
         Dim intColumn As Integer
         Dim intRow As Integer
         
-            intNumberOfColumns = 12
+            intNumberOfColumns = 16
             intNumberOfRows = 2
             intColumnWidth = 1500
             intRowHeight = 330
@@ -410,6 +410,123 @@ Public Sub BuildAuftragUebersichtSub()
             .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
         End With
+
+    'txt12
+    intColumn = 13
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt12"
+            .ControlSource = "AngebotZuRechnungID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl12
+    intColumn = 13
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt12")
+        With lblLabel
+            .Name = "lbl12"
+            .Caption = "AngebotZuRechnungID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+
+    'txt13
+    intColumn = 14
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt13"
+            .ControlSource = "EinzelauftragZuAngebotID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl13
+    intColumn = 14
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt13")
+        With lblLabel
+            .Name = "lbl13"
+            .Caption = "EinzelauftragZuAngebotID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+
+    'txt14
+    intColumn = 15
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt14"
+            .ControlSource = "AuftragZuAngebotID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl14
+    intColumn = 15
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
+        With lblLabel
+            .Name = "lbl14"
+            .Caption = "AuftragZuAngebotID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+
+    'txt15
+    intColumn = 16
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt15"
+            .ControlSource = "EinzelauftragZuRechnungID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl15
+    intColumn = 16
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
+        With lblLabel
+            .Name = "lbl15"
+            .Caption = "EinzelauftragZuRechnungID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+
     ' column added? -> update intNumberOfColumns
     
     ' set oncurrent methode
@@ -612,7 +729,7 @@ Public Sub SearchAuftragUebersicht(ByVal strQueryName As String, Optional varSea
         ' set query Name
         .Name = strQueryName
         ' set query SQL
-        .SQL = " SELECT tblAuftrag.AftrID, tblAuftrag.AftrTitel, tblAngebot.BWIKey, tblAngebot.LeistungsbeschreibungLink, tblAngebot.MengengeruestLink, tblEinzelauftrag.EAkurzKey AS EaAngebot, tblAngebot.BeauftragtDatum, tblAngebot.AbgenommenDatum, tblRechnung.RechnungNr, tblRechnung.RechnungBrutto, tblEinzelauftrag_1.EAkurzKey AS EaRechnung, tblLeistungserfassungsblatt.LeistungserfassungsblattID" & _
+        .SQL = " SELECT tblAuftrag.AftrID, tblAuftrag.AftrTitel, tblAngebot.BWIKey, tblAngebot.LeistungsbeschreibungLink, tblAngebot.MengengeruestLink, tblEinzelauftrag.EAkurzKey AS EaAngebot, tblAngebot.BeauftragtDatum, tblAngebot.AbgenommenDatum, tblRechnung.RechnungNr, tblRechnung.RechnungBrutto, tblEinzelauftrag_1.EAkurzKey AS EaRechnung, tblLeistungserfassungsblatt.LeistungserfassungsblattID, tblRechnungZuLeistungserfassungsblatt.ID AS RechnungZuLeistungserfassungsblattID, tblAngebotZuRechnung.ID AS AngebotZuRechnungID, tblEinzelauftragZuAngebot.ID AS EinzelauftragZuAngebotID, tblAuftragZuAngebot.ID AS AuftragZuAngebotID, tblEinzelauftragZuRechnung.ID As EinzelauftragZuRechnungID" & _
                 " FROM (tblEinzelauftragZuRechnung RIGHT JOIN ((((((((tblAuftrag LEFT JOIN tblAuftragZuAngebot ON tblAuftrag.AftrID = tblAuftragZuAngebot.RefAftrID) LEFT JOIN tblAngebot ON tblAuftragZuAngebot.RefBWIkey = tblAngebot.BWIKey) LEFT JOIN tblEinzelauftragZuAngebot ON tblAngebot.BWIKey = tblEinzelauftragZuAngebot.RefBWIkey) LEFT JOIN tblEinzelauftrag ON tblEinzelauftragZuAngebot.RefEAkurzKey = tblEinzelauftrag.EAkurzKey) LEFT JOIN tblAngebotZuRechnung ON tblAngebot.BWIKey = tblAngebotZuRechnung.RefBWIkey) LEFT JOIN tblRechnung ON tblAngebotZuRechnung.RefRechnungNr = tblRechnung.RechnungNr) LEFT JOIN tblRechnungZuLeistungserfassungsblatt ON tblRechnung.RechnungNr = tblRechnungZuLeistungserfassungsblatt.RefRechnungNr) LEFT JOIN tblLeistungserfassungsblatt ON tblRechnungZuLeistungserfassungsblatt.RefLeistungserfassungsblattID = tblLeistungserfassungsblatt.LeistungserfassungsblattID) ON tblEinzelauftragZuRechnung.RefRechnungNr = tblRechnung.RechnungNr) LEFT JOIN" & _
                 " tblEinzelauftrag As tblEinzelauftrag_1 ON tblEinzelauftragZuRechnung.RefEAkurzKey = tblEinzelauftrag_1.EAkurzKey " & _
                 " WHERE (((tblAuftrag.AftrID) Like '" & varSearchTerm & "')) OR (((tblAuftrag.AftrTitel) Like '" & varSearchTerm & "')) OR (((tblAngebot.BWIKey) Like '" & varSearchTerm & "')) OR (((tblEinzelauftrag.EAkurzKey) Like '" & varSearchTerm & "')) OR (((tblEinzelauftrag_1.EAkurzKey) Like '" & varSearchTerm & "')) OR (((tblLeistungserfassungsblatt.LeistungserfassungsblattID) Like '" & varSearchTerm & "')); "
