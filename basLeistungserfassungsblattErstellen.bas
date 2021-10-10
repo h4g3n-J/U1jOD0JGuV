@@ -2,6 +2,13 @@ Attribute VB_Name = "basLeistungserfassungsblattErstellen"
 Option Compare Database
 Option Explicit
 
+Public gvarLeistungserfassungsblattErstellenClipboardAftrID As Variant
+Public gvarLeistungserfassungsblattErstellenClipboardBWIKey As Variant
+Public gvarLeistungserfassungsblattErstellenClipboardEAIDAngebot As Variant
+Public gvarLeistungserfassungsblattErstellenClipboardRechnungNr As Variant
+Public gvarLeistungserfassungsblattErstellenClipboardEAIDRechnung As Variant
+Public gvarLeistungserfassungsblattErstellenClipboardLeistungserfassungsblattID As Variant
+
 Public Sub buildLeistungserfassungsblattErstellen()
 
     ' command message
@@ -29,6 +36,12 @@ Public Sub buildLeistungserfassungsblattErstellen()
     ' set form caption
     objForm.Caption = strFormName
     
+    ' set On Open event
+    objForm.OnOpen = "=OnOpenFrmLeistungserfassungsblattErstellen()"
+    
+    ' set On Close event
+    objForm.OnClose = "=OnCloseFrmLeistungserfassungsblattErstellen()"
+    
     ' declare command button
     Dim btnButton As CommandButton
     
@@ -37,6 +50,12 @@ Public Sub buildLeistungserfassungsblattErstellen()
     
     ' declare textbox
     Dim txtTextbox As TextBox
+    
+    ' declare combobox
+    Dim cboCombobox As ComboBox
+    
+    ' declare checkbox
+    Dim chkCheckbox As CheckBox
     
     ' declare grid variables
         Dim intNumberOfColumns As Integer
@@ -55,7 +74,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             
         ' grid settings
         intNumberOfColumns = 2
-        intNumberOfRows = 6
+        intNumberOfRows = 19
         intLeft = 566
         intTop = 960
         intWidth = 3120
@@ -69,7 +88,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
     ' create textbox before label, so label can be associated
     'txt00
     intColumn = 2
-    intRow = 1
+    intRow = 3
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt00"
@@ -79,15 +98,16 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
+            .BorderStyle = 0
         End With
     
     'lbl00
     intColumn = 1
-    intRow = 1
+    intRow = 3
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt00")
         With lblLabel
             .Name = "lbl00"
-            .Caption = "Leistungserfassungsblatt"
+            .Caption = "Angebot ID"
             .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -97,7 +117,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
         
     'txt01
     intColumn = 2
-    intRow = 2
+    intRow = 6
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt01"
@@ -107,15 +127,17 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
+            .Format = "short date"
+            .BorderStyle = 0
         End With
         
     'lbl01
     intColumn = 1
-    intRow = 2
+    intRow = 6
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt01")
         With lblLabel
             .Name = "lbl01"
-            .Caption = "RechnungNr"
+            .Caption = "Abgenommen Datum"
             .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -125,7 +147,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
         
     'txt02
     intColumn = 2
-    intRow = 3
+    intRow = 4
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt02"
@@ -135,15 +157,16 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = True
+            .BorderStyle = 0
         End With
         
     'lbl02
     intColumn = 1
-    intRow = 3
+    intRow = 4
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt02")
         With lblLabel
             .Name = "lbl02"
-            .Caption = "Bemerkung"
+            .Caption = "Mengengerüst"
             .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -153,7 +176,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
         
     'txt03
     intColumn = 2
-    intRow = 4
+    intRow = 5
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt03"
@@ -162,16 +185,17 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
-            .IsHyperlink = False
+            .IsHyperlink = True
+            .BorderStyle = 0
         End With
         
     'lbl03
     intColumn = 1
-    intRow = 4
+    intRow = 5
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt03")
         With lblLabel
             .Name = "lbl03"
-            .Caption = "BelegID"
+            .Caption = "Leistungsbeschreibung"
             .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -181,7 +205,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
         
     'txt04
     intColumn = 2
-    intRow = 5
+    intRow = 7
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt04"
@@ -191,15 +215,16 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
             .IsHyperlink = False
+            .BorderStyle = 0
         End With
         
     'lbl04
     intColumn = 1
-    intRow = 5
+    intRow = 7
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt04")
         With lblLabel
             .Name = "lbl04"
-            .Caption = "Brutto"
+            .Caption = "Bemerkung (Angebot)"
             .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
@@ -209,7 +234,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
         
     'txt05
     intColumn = 2
-    intRow = 6
+    intRow = 15
     Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
         With txtTextbox
             .Name = "txt05"
@@ -223,10 +248,381 @@ Public Sub buildLeistungserfassungsblattErstellen()
         
     'lbl05
     intColumn = 1
-    intRow = 6
+    intRow = 15
     Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt05")
         With lblLabel
             .Name = "lbl05"
+            .Caption = "LEB Nummer*"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt06
+    intColumn = 2
+    intRow = 8
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt06"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+            .BorderStyle = 0
+        End With
+        
+    'lbl06
+    intColumn = 1
+    intRow = 8
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt06")
+        With lblLabel
+            .Name = "lbl06"
+            .Caption = "Rechnung Nummer"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'chk07
+    intColumn = 2
+    intRow = 9
+    Set chkCheckbox = CreateControl(strTempFormName, acCheckBox, acDetail)
+        With chkCheckbox
+            .Name = "chk07"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'lbl07
+    intColumn = 1
+    intRow = 9
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "chk07")
+        With lblLabel
+            .Name = "lbl07"
+            .Caption = "Teilrechnung"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'chk08
+    intColumn = 2
+    intRow = 10
+    Set chkCheckbox = CreateControl(strTempFormName, acCheckBox, acDetail)
+        With chkCheckbox
+            .Name = "chk08"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'lbl08
+    intColumn = 1
+    intRow = 10
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "chk08")
+        With lblLabel
+            .Name = "lbl08"
+            .Caption = "Schlussrechnung"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt09
+    intColumn = 2
+    intRow = 11
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt09"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+            .Format = "Currency"
+            .BorderStyle = 0
+        End With
+        
+    'lbl09
+    intColumn = 1
+    intRow = 11
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt09")
+        With lblLabel
+            .Name = "lbl09"
+            .Caption = "Rechnung Brutto"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt10
+    intColumn = 2
+    intRow = 13
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt10"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = True
+            .BorderStyle = 0
+        End With
+        
+    'lbl10
+    intColumn = 1
+    intRow = 13
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt10")
+        With lblLabel
+            .Name = "lbl10"
+            .Caption = "Rechnung Link"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt11
+    intColumn = 2
+    intRow = 16
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt11"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl11
+    intColumn = 1
+    intRow = 16
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt11")
+        With lblLabel
+            .Name = "lbl11"
+            .Caption = "Bemerkung (LEB)"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt12
+    intColumn = 2
+    intRow = 14
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt12"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+            .BorderStyle = 0
+        End With
+        
+    'lbl12
+    intColumn = 1
+    intRow = 14
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt12")
+        With lblLabel
+            .Name = "lbl12"
+            .Caption = "Bemerkung (Rechnung)"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt13
+    intColumn = 2
+    intRow = 1
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt13"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+            .BorderStyle = 0
+        End With
+        
+    'lbl13
+    intColumn = 1
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt13")
+        With lblLabel
+            .Name = "lbl13"
+            .Caption = "Ticket ID"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt14
+    intColumn = 2
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt14"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+            .BorderStyle = 0
+        End With
+        
+    'lbl14
+    intColumn = 1
+    intRow = 2
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt14")
+        With lblLabel
+            .Name = "lbl14"
+            .Caption = "Zusammenfassung"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt15
+    intColumn = 2
+    intRow = 17
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt15"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl15
+    intColumn = 1
+    intRow = 17
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt15")
+        With lblLabel
+            .Name = "lbl15"
+            .Caption = "Beleg ID"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt16
+    intColumn = 2
+    intRow = 12
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt16"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+            .BorderStyle = 0
+        End With
+        
+    'lbl16
+    intColumn = 1
+    intRow = 12
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt16")
+        With lblLabel
+            .Name = "lbl16"
+            .Caption = "Einzelauftrag (Rechnung)"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt17
+    intColumn = 2
+    intRow = 18
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt17"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+            .Format = "Currency"
+        End With
+        
+    'lbl17
+    intColumn = 1
+    intRow = 18
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt17")
+        With lblLabel
+            .Name = "lbl17"
+            .Caption = "LEB Brutto*"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt18
+    intColumn = 2
+    intRow = 19
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt18"
+            .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+        
+    'lbl18
+    intColumn = 1
+    intRow = 19
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt18")
+        With lblLabel
+            .Name = "lbl18"
             .Caption = "Haushaltsjahr"
             .Left = basLeistungserfassungsblattErstellen.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basLeistungserfassungsblattErstellen.GetTop(aintInformationGrid, intColumn, intRow)
@@ -264,7 +660,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             btnButton.Width = 3120
             btnButton.Height = 330
             btnButton.Caption = "Speichern"
-            btnButton.OnClick = "=LeistungserfassungsblattErstellenCreateRecordset()"
+            btnButton.OnClick = "=LeistungserfassungsblattSaveOrCreateRecordset()"
                 
     ' close form
     DoCmd.Close acForm, strTempFormName, acSaveYes
@@ -730,26 +1126,7 @@ Private Sub TestGetWidth()
     
 End Sub
 
-Public Function CloseFormLeistungserfassungsblattErstellen()
-    
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basLeistungserfassungsblattErstellen.CloseForm"
-    End If
-    
-    Dim strFormName As String
-    strFormName = "frmLeistungserfassungsblattErstellen"
-    
-    DoCmd.Close acForm, strFormName, acSaveYes
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basLeistungserfassungsblattErstellen.CloseForm executed"
-    End If
-    
-End Function
-
-Public Function LeistungserfassungsblattErstellenCreateRecordset()
+Private Sub LeistungserfassungsblattErstellenCreateRecordset()
 
     ' command message
     If gconVerbatim Then
@@ -762,27 +1139,252 @@ Public Function LeistungserfassungsblattErstellenCreateRecordset()
     Dim strFormName As String
     strFormName = "frmLeistungserfassungsblattErstellen"
     
-    Dim rstRecordset As clsLeistungserfassungsblatt
-    Set rstRecordset = New clsLeistungserfassungsblatt
+    Dim rstLeistungserfassungsblatt As clsLeistungserfassungsblatt
+    Set rstLeistungserfassungsblatt = New clsLeistungserfassungsblatt
+    
+    Dim rstRechnungZuLeistungserfassungsblatt As clsRechnungZuLeistungserfassungsblatt
+    Set rstRechnungZuLeistungserfassungsblatt = New clsRechnungZuLeistungserfassungsblatt
     
     ' transfer values from form to clsLeistungserfassungsblatt
     With Forms.Item(strFormName)
-        rstRecordset.Leistungserfassungsblatt = !txt00
-        rstRecordset.RechnungNr = !txt01
-        rstRecordset.Bemerkung = !txt02
-        rstRecordset.BelegID = !txt03
-        rstRecordset.Brutto = !txt04
-        rstRecordset.Haushaltsjahr = !txt05
+        rstLeistungserfassungsblatt.LeistungserfassungsblattID = !txt05
+        rstRechnungZuLeistungserfassungsblatt.RefLeistungserfassungsblattID = !txt05
+        rstLeistungserfassungsblatt.Brutto = !txt17
+        rstLeistungserfassungsblatt.Bemerkung = !txt11
+        rstLeistungserfassungsblatt.BelegID = !txt15
+        rstLeistungserfassungsblatt.Haushaltsjahr = !txt18
+        rstRechnungZuLeistungserfassungsblatt.RefRechnungNr = gvarLeistungserfassungsblattErstellenClipboardRechnungNr
     End With
     
     ' create Recordset
-    rstRecordset.CreateRecordset
+    rstLeistungserfassungsblatt.CreateRecordset
+    rstRechnungZuLeistungserfassungsblatt.CreateRecordset
     
     ' event message
     If gconVerbatim Then
         Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenCreateRecordset executed"
     End If
     
+End Sub
+
+Private Sub LeistungserfassungsblattErstellenSaveRecordset()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset"
+    End If
+    
+    Dim strTableName As String
+    strTableName = "tblLeistungserfassungsblatt"
+    
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattErstellen"
+    
+    Dim rstLeistungserfassungsblatt As clsLeistungserfassungsblatt
+    Set rstLeistungserfassungsblatt = New clsLeistungserfassungsblatt
+    
+    ' transfer values from form to clsLeistungserfassungsblatt
+    ' With Forms.Item(strFormName)
+    '     rstLeistungserfassungsblatt.Leistungserfassungsblatt = !txt00
+    '     rstLeistungserfassungsblatt.RechnungNr = !txt01
+    '     rstLeistungserfassungsblatt.Bemerkung = !txt02
+    '     rstLeistungserfassungsblatt.BelegID = !txt03
+    '     rstLeistungserfassungsblatt.Brutto = !txt04
+    '     rstLeistungserfassungsblatt.Haushaltsjahr = !txt05
+    ' End With
+    
+    ' create Recordset
+    ' rstLeistungserfassungsblatt.SaveRecordset
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset executed"
+    End If
+    
+End Sub
+
+Public Function LeistungserfassungsblattSaveOrCreateRecordset()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset"
+    End If
+
+    Dim intUserSelection As Integer
+    intUserSelection = 0
+    
+    Dim strLeistungserfassungsblattID As String
+    strLeistungserfassungsblattID = Forms!frmLeistungserfassungsblattErstellen.Form!txt05
+    
+    Dim strFieldBrutto As String
+    strFieldBrutto = "txt17"
+    
+    Dim strTestDomain01Name As String
+    strTestDomain01Name = "qryChecksumRechnungZuLeistungserfassungsblatt"
+    
+    Dim strTestField01Name As String
+    strTestField01Name = "checksum"
+    
+    Dim strTestDomain02Name As String
+    strTestDomain02Name = "tblLeistungserfassungsblatt"
+    
+    Dim strTestField02Name As String
+    strTestField02Name = "LeistungserfassungsblattID"
+    
+    ' check mandatory fields
+    ' check LeistungserfassungsblattID
+    If IsNull(strLeistungserfassungsblattID) Then
+        Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 1"
+        MsgBox "Sie haben in dem Pflichtfeld 'LEB Nummer' keinen Wert eingegeben.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    ' check Brutto
+    If IsNull(strLeistungserfassungsblattID) Then
+        Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 2"
+        MsgBox "Sie haben in dem Pflichtfeld 'LEB Brutto' keinen Wert eingegeben.", vbCritical, "Speichern"
+        Exit Function
+    End If
+    
+    Dim strTestRelationship As String
+    strTestRelationship = gvarLeistungserfassungsblattErstellenClipboardRechnungNr & strLeistungserfassungsblattID
+
+    ' check if relationship RechnungZuLeistungserfassungsblatt is taken
+    If DCount(strTestField01Name, strTestDomain01Name, strTestField01Name = strTestRelationship) > 0 Then
+        
+        intUserSelection = MsgBox("Der Rechnung '" & gvarLeistungserfassungsblattErstellenClipboardRechnungNr & "' wurde bereits ein Leistungserfassungsblatt mit der ID '" & strLeistungserfassungsblattID & "' zugeordnet. Möchten Sie die Änderungen an diesem Leistungserfassungsblatt speichern?", vbOKCancel, "Speichern")
+        
+        Select Case intUserSelection
+        Case 6
+            basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset
+        Case 2
+            Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 3"
+            Exit Function
+        End Select
+        
+    ' check if LeistungserfassungsblattID is taken
+    ElseIf DCount(strTestField02Name, strTestDomain02Name, strTestField02Name & " like '" & strLeistungserfassungsblattID & "'") > 0 Then
+            
+        intUserSelection = MsgBox("Ein Leistungserfassungsblatt mit der ID '" & strLeistungserfassungsblattID & "' wurde bereits erfasst. Möchten Sie Ihre Änderungen an dem Datensatz speichern und das Leistungserfassungsblatt der Rechnung Nr '" & gvarLeistungserfassungsblattErstellenClipboardRechnungNr & "' zuordnen?")
+        
+        Select Case intUserSelection
+        Case 6
+            basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset
+        Case 2
+            Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
+            Exit Function
+        End Select
+    
+    ' ask user if she wants to create Leistungserfassungsblatt
+    Else
+        intUserSelection = MsgBox("Sind Sie sicher, dass sie das Leistungserfassungsblatt '" & strLeistungserfassungsblattID & "' der Rechnung '" & gvarLeistungserfassungsblattErstellenClipboardRechnungNr & "' zuordnen möchten.", vbYesNo, "Speichern")
+        
+        Select Case intUserSelection
+        Case 6
+            basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenCreateRecordset
+        Case 2
+            Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 5"
+            Exit Function
+        End Select
+        
+    End If
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset executed"
+    End If
+
 End Function
 
+Public Function OnOpenFrmLeistungserfassungsblattErstellen()
 
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattErstellen.OnOpenfrmLeistungserfassungsblattErstellen"
+    End If
+    
+    Dim rstTicket As clsAuftrag
+    Set rstTicket = New clsAuftrag
+    rstTicket.SelectRecordset (gvarLeistungserfassungsblattErstellenClipboardAftrID)
+    
+    Dim rstAngebot As clsAngebot
+    Set rstAngebot = New clsAngebot
+    rstAngebot.SelectRecordset (gvarLeistungserfassungsblattErstellenClipboardBWIKey)
+    
+    Dim rstRechnung As clsRechnung
+    Set rstRechnung = New clsRechnung
+    rstRechnung.SelectRecordset (gvarLeistungserfassungsblattErstellenClipboardRechnungNr)
+    
+    Dim rstLeistungserfassungsblatt As clsLeistungserfassungsblatt
+    Set rstLeistungserfassungsblatt = New clsLeistungserfassungsblatt
+    rstLeistungserfassungsblatt.SelectRecordset (gvarLeistungserfassungsblattErstellenClipboardLeistungserfassungsblattID)
+    
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt13 = rstTicket.AftrID
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt14 = rstTicket.AftrTitel
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt00 = rstAngebot.BWIKey
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt02 = rstAngebot.MengengeruestLink
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt03 = rstAngebot.LeistungsbeschreibungLink
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt01 = rstAngebot.AbgenommenDatum
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt04 = rstAngebot.Bemerkung
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt06 = rstRechnung.RechnungNr
+    Forms!frmLeistungserfassungsblattErstellen.Form!chk07 = Nz(rstRechnung.IstTeilrechnung, False)
+    Forms!frmLeistungserfassungsblattErstellen.Form!chk08 = Nz(rstRechnung.IstSchlussrechnung, False)
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt09 = rstRechnung.RechnungBrutto
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt16 = gvarLeistungserfassungsblattErstellenClipboardEAIDRechnung
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt10 = rstRechnung.RechnungLink
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt12 = rstRechnung.Bemerkung
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt05 = rstLeistungserfassungsblatt.LeistungserfassungsblattID
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt11 = rstLeistungserfassungsblatt.Bemerkung
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt15 = rstLeistungserfassungsblatt.BelegID
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt17 = rstLeistungserfassungsblatt.Brutto
+    Forms!frmLeistungserfassungsblattErstellen.Form!txt18 = rstLeistungserfassungsblatt.Haushaltsjahr
+
+    ' set focus
+    Forms!frmLeistungserfassungsblattErstellen!txt05.SetFocus
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattErstellen.OnOpenfrmLeistungserfassungsblattErstellen executed"
+    End If
+    
+End Function
+
+Public Function CloseFormLeistungserfassungsblattErstellen()
+    
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattErstellen.CloseFormLeistungserfassungsblattErstellen"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattErstellen"
+    
+    DoCmd.Close acForm, strFormName, acSaveYes
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattErstellen.CloseFormLeistungserfassungsblattErstellen executed"
+    End If
+    
+End Function
+
+Public Function OnCloseFrmLeistungserfassungsblattErstellen()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattErstellen.OnCloseFrmLeistungserfassungsblattErstellen"
+    End If
+    
+    gvarLeistungserfassungsblattErstellenClipboardAftrID = Null
+    gvarLeistungserfassungsblattErstellenClipboardBWIKey = Null
+    gvarLeistungserfassungsblattErstellenClipboardEAIDAngebot = Null
+    gvarLeistungserfassungsblattErstellenClipboardRechnungNr = Null
+    gvarLeistungserfassungsblattErstellenClipboardEAIDRechnung = Null
+    gvarLeistungserfassungsblattErstellenClipboardLeistungserfassungsblattID = Null
+
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattErstellen.OnCloseFrmLeistungserfassungsblattErstellen executed"
+    End If
+    
+End Function
