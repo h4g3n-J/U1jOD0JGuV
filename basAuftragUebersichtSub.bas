@@ -48,7 +48,7 @@ Public Sub BuildAuftragUebersichtSub()
         Dim intColumn As Integer
         Dim intRow As Integer
         
-            intNumberOfColumns = 16
+            intNumberOfColumns = 17
             intNumberOfRows = 2
             intColumnWidth = 1500
             intRowHeight = 330
@@ -520,6 +520,35 @@ Public Sub BuildAuftragUebersichtSub()
         With lblLabel
             .Name = "lbl15"
             .Caption = "EinzelauftragZuRechnungID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+        End With
+        
+    'txt16
+    intColumn = 17
+    intRow = 2
+    Set txtTextbox = CreateControl(strTempFormName, acTextBox, acDetail)
+        With txtTextbox
+            .Name = "txt16"
+            .ControlSource = "RechnungZuLeistungserfassungsblattID"
+            .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
+            .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
+            .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
+            .Height = basAuftragUebersichtSub.GetHeight(aintInformationGrid, intColumn, intRow)
+            .Visible = True
+            .IsHyperlink = False
+        End With
+    
+    'lbl16
+    intColumn = 17
+    intRow = 1
+    Set lblLabel = CreateControl(strTempFormName, acLabel, acDetail, "txt16")
+        With lblLabel
+            .Name = "lbl16"
+            .Caption = "RechnungZuLeistungserfassungsblattID"
             .Left = basAuftragUebersichtSub.GetLeft(aintInformationGrid, intColumn, intRow)
             .Top = basAuftragUebersichtSub.GetTop(aintInformationGrid, intColumn, intRow)
             .Width = basAuftragUebersichtSub.GetWidth(aintInformationGrid, intColumn, intRow)
