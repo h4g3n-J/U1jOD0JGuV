@@ -1486,6 +1486,10 @@ Public Function OpenAuftragUebersichtLeistungserfassungsblattErstellen()
     Dim strFieldLeistungserfassungsblattID As String
     strFieldLeistungserfassungsblattID = "txt11"
     
+    ' get RechnungZuLeistungserfassungsblatt
+    Dim strFieldRechnungZuLeistungserfassungsblattID As String
+    strFieldRechnungZuLeistungserfassungsblattID = "txt16"
+    
     ' reset frmLeistungserfassungsblattErstellenClipboard
     gvarLeistungserfassungsblattErstellenClipboardAftrID = Null
     gvarLeistungserfassungsblattErstellenClipboardBWIKey = Null
