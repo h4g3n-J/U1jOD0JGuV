@@ -8,6 +8,7 @@ Public gvarLeistungserfassungsblattErstellenClipboardEAIDAngebot As Variant
 Public gvarLeistungserfassungsblattErstellenClipboardRechnungNr As Variant
 Public gvarLeistungserfassungsblattErstellenClipboardEAIDRechnung As Variant
 Public gvarLeistungserfassungsblattErstellenClipboardLeistungserfassungsblattID As Variant
+Public gvarLeistungserfassungsblattErstellenClipboardRechnungZuLeistungserfassungsblattID As Variant
 
 Public Sub buildLeistungserfassungsblattErstellen()
 
@@ -1126,52 +1127,64 @@ Private Sub TestGetWidth()
     
 End Sub
 
-Private Sub LeistungserfassungsblattErstellenCreateRecordset()
+Private Sub LeistungserfassungsblattCreateRecordset()
+    ' Error Code 1: LeistungserfassungsblattID is not supplied
+    ' Error Code 2: LeistungserfassungsblattID is taken
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenCreateRecordset"
+        Debug.Print "execute basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset"
     End If
     
-    Dim strTableName As String
-    strTableName = "tblLeistungserfassungsblatt"
-    
+    ' set form name
     Dim strFormName As String
     strFormName = "frmLeistungserfassungsblattErstellen"
     
+    ' declare Leistungserfassungsblatt
     Dim rstLeistungserfassungsblatt As clsLeistungserfassungsblatt
     Set rstLeistungserfassungsblatt = New clsLeistungserfassungsblatt
     
-    Dim rstRechnungZuLeistungserfassungsblatt As clsRechnungZuLeistungserfassungsblatt
-    Set rstRechnungZuLeistungserfassungsblatt = New clsRechnungZuLeistungserfassungsblatt
-    
+    ' get LeistungserfassungsblattID
+    Dim strLeistungserfassungsblattID As String
+    strLeistungserfassungsblattID = Forms.Item(strFormName)!txt05
+
+    ' check if LeistungserfassungsblattID is supplied
+    If IsNull(strLeistungserfassungsblattID) Then
+        Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset, Error Code 1"
+        Exit Sub
+    End If
+
+    ' check if LeistungserfassungsblattID is taken
+    If DCount("LeistungserfassungsblattID", "tblLeistungserfassungsblatt", "LeistungserfassungsblattID like '" & strLeistungserfassungsblattID & "'") > 0 Then
+        Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset, Error Code 2"
+        Exit Sub
+    End If
+
     ' transfer values from form to clsLeistungserfassungsblatt
     With Forms.Item(strFormName)
-        rstLeistungserfassungsblatt.LeistungserfassungsblattID = !txt05
-        rstRechnungZuLeistungserfassungsblatt.RefLeistungserfassungsblattID = !txt05
+        rstLeistungserfassungsblatt.LeistungserfassungsblattID = strLeistungserfassungsblattID
         rstLeistungserfassungsblatt.Brutto = !txt17
         rstLeistungserfassungsblatt.Bemerkung = !txt11
         rstLeistungserfassungsblatt.BelegID = !txt15
         rstLeistungserfassungsblatt.Haushaltsjahr = !txt18
-        rstRechnungZuLeistungserfassungsblatt.RefRechnungNr = gvarLeistungserfassungsblattErstellenClipboardRechnungNr
     End With
     
     ' create Recordset
     rstLeistungserfassungsblatt.CreateRecordset
-    rstRechnungZuLeistungserfassungsblatt.CreateRecordset
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenCreateRecordset executed"
+        Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset executed"
     End If
     
 End Sub
 
-Private Sub LeistungserfassungsblattErstellenSaveRecordset()
+Private Sub LeistungserfassungsblattSaveRecordset()
+    ' Error Code 1: recordsetID was not supplied
 
     ' command message
     If gconVerbatim Then
-        Debug.Print "execute basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset"
+        Debug.Print "execute basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveRecordset"
     End If
     
     Dim strTableName As String
@@ -1183,28 +1196,100 @@ Private Sub LeistungserfassungsblattErstellenSaveRecordset()
     Dim rstLeistungserfassungsblatt As clsLeistungserfassungsblatt
     Set rstLeistungserfassungsblatt = New clsLeistungserfassungsblatt
     
-    ' transfer values from form to clsLeistungserfassungsblatt
-    ' With Forms.Item(strFormName)
-    '     rstLeistungserfassungsblatt.Leistungserfassungsblatt = !txt00
-    '     rstLeistungserfassungsblatt.RechnungNr = !txt01
-    '     rstLeistungserfassungsblatt.Bemerkung = !txt02
-    '     rstLeistungserfassungsblatt.BelegID = !txt03
-    '     rstLeistungserfassungsblatt.Brutto = !txt04
-    '     rstLeistungserfassungsblatt.Haushaltsjahr = !txt05
-    ' End With
+    ' get LeistungserfassungsblattID from form
+    Dim strLeistungserfassungsblattID As String
+    strLeistungserfassungsblattID = Forms.Item(strFormName)!txt05
+
+    ' check if LeistungserfassungsblattID is supplied
+    If IsNull(strLeistungserfassungsblattID) Then
+        Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveRecordset, Error Code 1"
+        Exit Function
+    End If
+
+    ' select recordset
+    rstLeistungserfassungsblatt.SelectRecordset (strLeistungserfassungsblattID)
     
-    ' create Recordset
-    ' rstLeistungserfassungsblatt.SaveRecordset
+    ' transfer values from form to clsLeistungserfassungsblatt
+    With Forms.Item(strFormName)
+        rstLeistungserfassungsblatt.RechnungNr = !txt06
+        rstLeistungserfassungsblatt.Bemerkung = !txt11
+        rstLeistungserfassungsblatt.BelegID = !txt03
+        rstLeistungserfassungsblatt.Brutto = !txt17
+        rstLeistungserfassungsblatt.Haushaltsjahr = !txt18
+    End With
+    
+    ' save changes to recordset
+    rstLeistungserfassungsblatt.SaveRecordset
     
     ' event message
     If gconVerbatim Then
-        Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset executed"
+        Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveRecordset executed"
     End If
     
 End Sub
 
-Public Function LeistungserfassungsblattSaveOrCreateRecordset()
+Private Sub RechnungZuLeistungserfassungsblattCreateRecordset()
+    ' Error Code 1: LeistungserfassungsblattID or RechnungNr is not supplied
+    ' Error Code 2: RechnungZuLeistungserfassungsblattID is taken
 
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset"
+    End If
+    
+    ' set form name
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattErstellen"
+    
+    ' get RechnungNr from form
+    Dim strRechnungNr As String
+    strRechnungNr = Forms.Item(strFormName)!txt06
+    
+    ' get LeistungserfassungsblattID from form
+    Dim strLeistungserfassungsblattID As String
+    strLeistungserfassungsblattID = Forms.Item(strFormName)!txt05
+    
+    ' declare RechnungZuLeistungserfassungsblatt
+    Dim rstRechnungZuLeistungserfassungsblatt As clsRechnungZuLeistungserfassungsblatt
+    Set rstRechnungZuLeistungserfassungsblatt = New clsRechnungZuLeistungserfassungsblatt
+    
+    ' check if RechnungNr and LeistungserfassungsblattID are supplied
+    If IsNull(strLeistungserfassungsblattID) Or IsNull(strRechnungNr) Then
+        Debug.Print "Error: LeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset Error Code 1"
+        Exit Sub
+    End If
+
+    Dim strTestRelationship As String
+    strTestRelationship = strRechnungNr & strLeistungserfassungsblattID
+
+    ' check if RechnungZuLeistungserfassungsblatt is taken
+    If DCount("checksum", "qryChecksumRechnungZuLeistungserfassungsblatt", "checksum like '" & strTestRelationship & "'") > 0 Then
+        Debug.Print "Error: RechnungZuLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset, Error Code 2"
+        Exit Sub
+    End If
+
+    ' transfer values to RechnungZuLeistungserfassungsblatt
+    With Forms.Item(strFormName)
+        rstRechnungZuLeistungserfassungsblatt.RefLeistungserfassungsblattID = strLeistungserfassungsblattID
+        rstRechnungZuLeistungserfassungsblatt.RefRechnungNr = strRechnungNr
+    End With
+    
+    ' create RechnungZuLeistungserfassungsblatt recordset
+    rstRechnungZuLeistungserfassungsblatt.CreateRecordset
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset executed"
+    End If
+
+End Sub
+
+Public Function LeistungserfassungsblattSaveOrCreateRecordset()
+    ' Error Code 1: LeistungserfassungsblattID was not supplied
+    ' Error Code 2: RechnungNr was not supplied
+    ' Error Code 3: Brutto was not supplied
+    ' Error Code 4: user canceled function
+    
     ' command message
     If gconVerbatim Then
         Debug.Print "execute basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset"
@@ -1213,82 +1298,86 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
     Dim intUserSelection As Integer
     intUserSelection = 0
     
+    ' set form name
+    Dim strFormName As String
+    strFormName = "frmLeistungserfassungsblattErstellen"
+    
+    ' get RechnungNr from form
+    Dim strRechnungNr As String
+    strRechnungNr = Forms!frmLeistungserfassungsblattErstellen.Form!txt06
+    strRechnungNr = Forms.Item(strFormName)!txt06
+    
+    ' get LeistungserfassungsblattID from form
     Dim strLeistungserfassungsblattID As String
-    strLeistungserfassungsblattID = Forms!frmLeistungserfassungsblattErstellen.Form!txt05
+    strLeistungserfassungsblattID = Forms.Item(strFormName)!txt05
+
+    ' get Brutto from form
+    Dim curBrutto As Currency
+    curBrutto = Forms.Item(strFormName)!txt17
     
-    Dim strFieldBrutto As String
-    strFieldBrutto = "txt17"
-    
-    Dim strTestDomain01Name As String
-    strTestDomain01Name = "qryChecksumRechnungZuLeistungserfassungsblatt"
-    
-    Dim strTestField01Name As String
-    strTestField01Name = "checksum"
-    
-    Dim strTestDomain02Name As String
-    strTestDomain02Name = "tblLeistungserfassungsblatt"
-    
-    Dim strTestField02Name As String
-    strTestField02Name = "LeistungserfassungsblattID"
-    
-    ' check mandatory fields
-    ' check LeistungserfassungsblattID
+    ' # check mandatory values #
+    ' check isNull(LeistungserfassungsblattID)
     If IsNull(strLeistungserfassungsblattID) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 1"
         MsgBox "Sie haben in dem Pflichtfeld 'LEB Nummer' keinen Wert eingegeben.", vbCritical, "Speichern"
         Exit Function
-    End If
-    
-    ' check Brutto
-    If IsNull(strLeistungserfassungsblattID) Then
+    ' check isNull(RechnungNr)
+    ElseIf IsNull(strRechnungNr) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 2"
+        MsgBox "Es wurde keine Rechnung Nummer übergeben. Speichern abgebrochen", vbCritical, "Speichern"
+        Exit Function
+    ' check isNull(Brutto)
+    ElseIf IsNull(curBrutto) Then
+        Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 3"
         MsgBox "Sie haben in dem Pflichtfeld 'LEB Brutto' keinen Wert eingegeben.", vbCritical, "Speichern"
         Exit Function
     End If
     
+    ' # check if RechnungZuLeistungserfassungsblatt is taken #
+    ' calculate testRelationship
     Dim strTestRelationship As String
-    strTestRelationship = gvarLeistungserfassungsblattErstellenClipboardRechnungNr & strLeistungserfassungsblattID
+    strTestRelationship = strRechnungNr & strLeistungserfassungsblattID
 
-    ' check if relationship RechnungZuLeistungserfassungsblatt is taken
-    If DCount(strTestField01Name, strTestDomain01Name, strTestField01Name = strTestRelationship) > 0 Then
-        
-        intUserSelection = MsgBox("Der Rechnung '" & gvarLeistungserfassungsblattErstellenClipboardRechnungNr & "' wurde bereits ein Leistungserfassungsblatt mit der ID '" & strLeistungserfassungsblattID & "' zugeordnet. Möchten Sie die Änderungen an diesem Leistungserfassungsblatt speichern?", vbOKCancel, "Speichern")
-        
-        Select Case intUserSelection
-        Case 6
-            basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset
-        Case 2
-            Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 3"
-            Exit Function
-        End Select
+    If DCount("checksum", "qryChecksumRechnungZuLeistungserfassungsblatt", "checksum like '" & strTestRelationship & "'") > 0 Then
+        ' get user consent
+        intUserSelection = MsgBox("Die Rechnung '" & strRechnungNr & "' wurde bereits mit dem Leistungserfassungsblatt '" & strLeistungserfassungsblattID & "' verknüpft. Möchten Sie Ihre Änderungen an diesem Leistungserfassungsblatt speichern?", vbYesNo, "Speichern")
+            ' evaluate input
+            Select Case intUserSelection
+                ' Yes
+                Case 6
+                    basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveRecordset
+                    ' Exit Function
+                    GoTo ExitFunction
+                ' No
+                Case 7
+                    Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
+                    ' Exit Function
+                    GoTo ExitFunction
+                End Select
+    End If
         
     ' check if LeistungserfassungsblattID is taken
-    ElseIf DCount(strTestField02Name, strTestDomain02Name, strTestField02Name & " like '" & strLeistungserfassungsblattID & "'") > 0 Then
-            
-        intUserSelection = MsgBox("Ein Leistungserfassungsblatt mit der ID '" & strLeistungserfassungsblattID & "' wurde bereits erfasst. Möchten Sie Ihre Änderungen an dem Datensatz speichern und das Leistungserfassungsblatt der Rechnung Nr '" & gvarLeistungserfassungsblattErstellenClipboardRechnungNr & "' zuordnen?")
-        
-        Select Case intUserSelection
-        Case 6
-            basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenSaveRecordset
-        Case 2
-            Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
-            Exit Function
-        End Select
-    
-    ' ask user if she wants to create Leistungserfassungsblatt
+    If DCount("LeistungserfassungsblattID", "tblLeistungserfassungsblatt", "LeistungserfassungsblattID like '" & strLeistungserfassungsblattID & "'") > 0 Then
+        ' get user consent for saving changes on Leistungserfassungsblatt
+        intUserSelection = MsgBox("Das Leistungserfassungsblatt '" & strLeistungserfassungsblattID & "' wurde bereits erfasst. Möchten Sie Ihre Änderungen speichern und das Leistungserfassungsblatt der Rechnung Nr '" & strRechnungNr & "' zuordnen?", vbYesNo, "Speichern")
+            ' evaluate input
+            Select Case intUserSelection
+                ' Yes
+                Case 6
+                    ' save changes
+                    basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveRecordset
+                ' No
+                Case 7
+                    Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
+            End Select
     Else
-        intUserSelection = MsgBox("Sind Sie sicher, dass sie das Leistungserfassungsblatt '" & strLeistungserfassungsblattID & "' der Rechnung '" & gvarLeistungserfassungsblattErstellenClipboardRechnungNr & "' zuordnen möchten.", vbYesNo, "Speichern")
-        
-        Select Case intUserSelection
-        Case 6
-            basLeistungserfassungsblattErstellen.LeistungserfassungsblattErstellenCreateRecordset
-        Case 2
-            Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 5"
-            Exit Function
-        End Select
-        
+        basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset
     End If
 
+    ' create RechnungZuLeistungserfassungsblatt recordset
+    basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
+    
+ExitFunction:
     ' event message
     If gconVerbatim Then
         Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset executed"
