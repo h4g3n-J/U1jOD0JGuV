@@ -100,6 +100,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
+            .Locked = True
         End With
     
     'lbl00
@@ -130,6 +131,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .IsHyperlink = False
             .Format = "short date"
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl01
@@ -159,6 +161,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = True
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl02
@@ -188,6 +191,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = True
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl03
@@ -217,6 +221,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl04
@@ -274,6 +279,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl06
@@ -301,6 +307,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
+            .Locked = True
         End With
         
     'lbl07
@@ -328,6 +335,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Width = basLeistungserfassungsblattErstellen.GetWidth(aintInformationGrid, intColumn, intRow)
             .Height = basLeistungserfassungsblattErstellen.GetHeight(aintInformationGrid, intColumn, intRow)
             .Visible = True
+            .Locked = True
         End With
         
     'lbl08
@@ -358,6 +366,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .IsHyperlink = False
             .Format = "Currency"
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl09
@@ -387,6 +396,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = True
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl10
@@ -444,6 +454,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl12
@@ -473,6 +484,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl13
@@ -502,6 +514,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl14
@@ -559,6 +572,7 @@ Public Sub buildLeistungserfassungsblattErstellen()
             .Visible = True
             .IsHyperlink = False
             .BorderStyle = 0
+            .Locked = True
         End With
         
     'lbl16
