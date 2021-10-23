@@ -1,0 +1,130 @@
+<mxfile host="65bd71144e">
+    <diagram id="8dnJfbRsM65urw3yMW-w" name="Page-1">
+        <mxGraphModel dx="1490" dy="1017" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="2" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="select BWIKey" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="170" y="30" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="3" target="4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="open frmRechnungErstellen" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="117.5" y="130" width="255" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="4" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="send BWIKey to Clipboard" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#dae8fc;" parent="1" vertex="1">
+                    <mxGeometry x="127.5" y="230" width="235" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="insert RechnungNr" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#dae8fc;" parent="1" vertex="1">
+                    <mxGeometry x="137.5" y="330" width="215" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="7" target="10" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="insert RechnungBrutto" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#dae8fc;" parent="1" vertex="1">
+                    <mxGeometry x="185" y="430" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="10" target="12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="insert RechnungLink" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#dae8fc;" parent="1" vertex="1">
+                    <mxGeometry x="185" y="525" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="12" target="14" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="insert RefEAkurzKey" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#dae8fc;" parent="1" vertex="1">
+                    <mxGeometry x="185" y="620" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="True" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" parent="1" source="14" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="14" target="31">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="isNull(RechnungNr) &lt;br&gt;or &lt;br&gt;isNull(RechnungBrutto)&lt;br&gt;or&lt;br&gt;isNull(RechnungLink)&lt;br&gt;or&lt;br&gt;isNull (RefEAkurzKey)" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#FFF2CC;" parent="1" vertex="1">
+                    <mxGeometry x="102.5" y="730" width="285" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="96" value="False" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="17" target="27">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="98" value="True" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="17" target="19">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="1355"/>
+                            <mxPoint x="420" y="1580"/>
+                            <mxPoint x="245" y="1580"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="17" value="AngebotZuRechnung is taken" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#FFF2CC;" parent="1" vertex="1">
+                    <mxGeometry x="141.25" y="1300" width="207.5" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="99" value="False" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="19" target="64">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="EinzelauftragZuRechnung is taken" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#FFF2CC;" parent="1" vertex="1">
+                    <mxGeometry x="132.5" y="1615" width="225" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="94" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="22" target="17">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="RechnungCreateRecordset" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#DAE8FC;" parent="1" vertex="1">
+                    <mxGeometry x="118.75" y="1150" width="252.5" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="27" target="19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="&lt;span&gt;AngebotZuRechnungCreateRecordset&lt;/span&gt;" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#DAE8FC;" parent="1" vertex="1">
+                    <mxGeometry x="118.75" y="1485" width="252.5" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="90" value="False" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="31" target="22">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="91" value="True" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="31" target="37">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="RechnungNr is taken" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#FFF2CC;" parent="1" vertex="1">
+                    <mxGeometry x="167.5" y="980" width="155" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="92" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="37" target="51">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="93" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="37" target="42">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="overwrite Rechnung" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#FFF2CC;" parent="1" vertex="1">
+                    <mxGeometry x="463.13" y="985" width="142.5" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="Cancel" style="ellipse;whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#B85450;fillColor=#F8CECC;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="1970" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="95" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="51" target="17">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" value="RechnungSaveRecordset" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#DAE8FC;" parent="1" vertex="1">
+                    <mxGeometry x="408.75" y="1150" width="251.25" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="101" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#FFFFFF;fontColor=#000000;" edge="1" parent="1" source="64" target="100">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" value="&lt;span&gt;EinzelauftragZuRechnugCreateRecordset&lt;/span&gt;" style="whiteSpace=wrap;html=1;fontColor=#000000;strokeColor=#6c8ebf;fillColor=#DAE8FC;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="1830" width="252.5" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="100" value="RechnungErstellen executed" style="ellipse;whiteSpace=wrap;html=1;strokeColor=#2D7600;fillColor=#D5E8D4;fontColor=#000000;labelBorderColor=#82B366;" vertex="1" parent="1">
+                    <mxGeometry x="186.25" y="1970" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
