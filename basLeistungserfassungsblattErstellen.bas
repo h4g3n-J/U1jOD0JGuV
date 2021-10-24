@@ -1318,7 +1318,6 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
     
     ' get RechnungNr from form
     Dim strRechnungNr As String
-    strRechnungNr = Forms!frmLeistungserfassungsblattErstellen.Form!txt06
     strRechnungNr = Forms.Item(strFormName)!txt06
     
     ' get LeistungserfassungsblattID from form
