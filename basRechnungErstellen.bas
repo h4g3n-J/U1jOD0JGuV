@@ -1315,3 +1315,157 @@ Public Function OnOpenFrmRechnungErstellen()
     End If
     
 End Function
+
+Public Function RechnungSaveOrCreateRecordset()
+    ' Error Code 7: AngebotZuRechung is taken
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.RechnungSaveOrCreateRecordset"
+    End If
+    
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
+    
+    Dim varBWIKey As Variant
+    varBWIKey = Forms.Item(strFormName).Form!txt13
+    
+    Dim varRechnungNr As Variant
+    varRechnungNr = Forms.Item(strFormName).Form!txt06
+    
+    Dim varRechnungBrutto As Variant
+    varRechnungBrutto = Forms.Item(strFormName).Form!txt09
+    
+    Dim varRechnungLink As Variant
+    varRechnungLink = Forms.Item(strFormName).Form!txt10
+    
+    Dim varEAIDRechnung As Variant
+    varEAIDRechnung = Forms.Item(strFormName).Form!cbo16
+    
+    ' # check mandatory values #
+    If IsNull(varBWIKey) Then
+        Debug.Print "Error: basRechnungErstellen.RechnugSaveOrCreateRecordset, Error Code 1"
+        MsgBox "Es wurde keine Angebot Nummer übergeben.", vbCritical, "Speichern"
+    ElseIf IsNull(varRechnungNr) Then
+        Debug.Print "Error: basRechnungErstellen.RechnugSaveOrCreateRecordset, Error Code 2"
+        MsgBox "Sie haben in dem Pflichtfeld 'Rechnung Nummer' keinen Wert eingegeben.", vbCritical, "Speichern"
+    ElseIf IsNull(varRechnungBrutto) Then
+        Debug.Print "Error: basRechnungErstellen.RechnugSaveOrCreateRecordset, Error Code 3"
+        MsgBox "Sie haben in dem Pflichtfeld 'Rechnung Brutto' keinen Wert eingegeben.", vbCritical, "Speichern"
+    ElseIf IsNull(varRechnungLink) Then
+        Debug.Print "Error: basRechnungErstellen.RechnugSaveOrCreateRecordset, Error Code 4"
+        MsgBox "Sie haben in dem Pflichtfeld 'Rechnung Link' keinen Wert eingegeben.", vbCritical, "Speichern"
+    ElseIf IsNull(varEAIDRechnung) Then
+        Debug.Print "Error: basRechnungErstellen.RechnugSaveOrCreateRecordset, Error Code 5"
+        MsgBox "Sie haben in dem Pflichtfeld 'Einzelauftrag (Rechnung)' keinen Wert eingegeben.", vbCritical, "Speichern"
+    End If
+    
+    Dim intUserSelection As Integer
+    ' check if RechnungNr is taken
+    If DCount("RechnungNr", "tblRechnung", "RechnugNr like'" & varRechnungNr & "'") > 0 Then
+        ' get user consent for saving changes on Rechnung
+        intUserSelection = MsgBox("Die Rechnung " & varRechnungNr & " wurde bereits erfasst. Möchten Sie Ihre Änderungen speichern?", vbYesNo, "Speichern")
+        ' evaluate input
+        Select Case intUserSelection
+            ' Yes
+            Case 6
+                ' save changes
+                basRechnungErstellen.RechnungErstellenSaveRecordset
+            ' No
+            Case 7
+                Debug.Print "Error: basRechnungErstellen.RechnungSaveOrCreateRecordset, Error Code 6"
+                ExitSub
+        End Select
+    Else
+        basRechnungErstellen.RechnungCreateRecordset
+    End If
+    
+    Dim strTestRelationsship As String
+    
+    ' check if AngebotZuRechnung is taken
+    strTestRelationsship = varBWIKey & varRechnungNr
+    If DCount("checksum", "qryChecksumAngebotZuRechnung", "checksum like '" & strTestRelationsship & "'") > 0 Then
+        Debug.Print "Error: basRechnungErstellen.RechnungSaveOrCreateRecordset, Error Code 7"
+    Else
+        basRechnungErstellen.AngebotZuRechnungCreateRecordset
+    End If
+        
+    ' check if EinzelauftragZuRechnung is taken
+    strTestRelationsship = varEAIDRechnung & varRechnungNr
+    If DCount("checksum", "qryChecksumEinzelauftragZuRechnung", "checksum like '" & strTestRelationsship & "'") > 0 Then
+        Debug.Print "Error: basRechnungErstellen.RechnungSaveOrCreateRecordset, Error Code 8"
+    Else
+        basRechnungErstellen.EinzelauftragZuRechnungCreateRecordset
+    End If
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.RechnungSaveOrCreateRecordset executed"
+    End If
+
+End Function
+
+Private Sub RechnungCreateRecordset()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.RechnungCreateRecordset"
+    End If
+    
+    
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.RechnungCreateRecordset executed"
+    End If
+
+End Sub
+
+Private Sub RechnungSaveRecordset()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.RechnungSaveRecordset"
+    End If
+    
+    
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.RechnungSaveRecordset executed"
+    End If
+
+End Sub
+
+Private Sub AngebotZuRechnungCreateRecordset()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.AngebotZuRechnungCreateRecordset"
+    End If
+    
+    
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.AngebotZuRechnungCreateRecordset executed"
+    End If
+
+End Sub
+
+Private Sub EinzelauftragZuRechnungCreateRecordset()
+
+    ' command message
+    If gconVerbatim Then
+        Debug.Print "execute basRechnungErstellen.EinzelauftragZuRechnungCreateRecordset"
+    End If
+    
+    
+    
+    ' event message
+    If gconVerbatim Then
+        Debug.Print "basRechnungErstellen.EinzelauftragZuRechnungCreateRecordset executed"
+    End If
+
+End Sub
+
