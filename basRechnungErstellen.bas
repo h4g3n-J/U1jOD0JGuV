@@ -1342,6 +1342,8 @@ Public Function RechnungSaveOrCreateRecordset()
     Dim varEAIDRechnung As Variant
     varEAIDRechnung = Forms.Item(strFormName).Form!cbo16
     
+    Dim strTestRelationsship As String
+    
     ' # check mandatory values #
     If IsNull(varBWIKey) Then
         Debug.Print "Error: basRechnungErstellen.RechnugSaveOrCreateRecordset, Error Code 1"
@@ -1362,8 +1364,17 @@ Public Function RechnungSaveOrCreateRecordset()
     
     Dim intUserSelection As Integer
     ' check if RechnungNr is taken
-    If DCount("RechnungNr", "tblRechnung", "RechnugNr like'" & varRechnungNr & "'") > 0 Then
-        ' get user consent for saving changes on Rechnung
+    If DCount("RechnungNr", "tblRechnung", "RechnugNr like'" & varRechnungNr & "'") = 0 Then
+        
+        ' create Rechnung
+        basRechnungErstellen.RechnungCreateRecordset
+        ' create AngebotZuRechnung
+        basRechnungErstellen.AngebotZuRechungCreateRecordset
+        ' create EinzelauftragZuRechnung
+        basRechnungErstellen.EinzelauftragZuRechnung
+        
+    Else
+        ' get user consent to save changes on Rechnung
         intUserSelection = MsgBox("Die Rechnung " & varRechnungNr & " wurde bereits erfasst. Möchten Sie Ihre Änderungen speichern?", vbYesNo, "Speichern")
         ' evaluate input
         Select Case intUserSelection
@@ -1371,13 +1382,26 @@ Public Function RechnungSaveOrCreateRecordset()
             Case 6
                 ' save changes
                 basRechnungErstellen.RechnungErstellenSaveRecordset
+                
+                ' check if AngebotZuRechnung is taken
+                strTestRelationsship = varBWIKey & varRechnungNr
+                
+                If DCount("checksum", "qryChecksumAngebotZuRechnung", "checksum like'" & strTestRelationsship & "'") = 0 Then
+                    basRechnung.AngebotZuRechnungCreateRecordset
+                End If
+                
+                ' check if EinzelauftragZuRechnung is taken
+                strTestRelationsship = varEAIDRechnung & varRechnungNr
+                
+                If DCount("checksum", "qryEinzelauftragZuRechnung", "checksum like '" & strTestRelationsship & "'") = 0 Then
+                    basRechnung.EinzelauftragZuRechnungCreateRecordset
+                End If
+                
             ' No
             Case 7
                 Debug.Print "Error: basRechnungErstellen.RechnungSaveOrCreateRecordset, Error Code 6"
                 ExitSub
         End Select
-    Else
-        basRechnungErstellen.RechnungCreateRecordset
     End If
     
     Dim strTestRelationsship As String
