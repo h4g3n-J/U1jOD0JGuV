@@ -638,7 +638,8 @@ Public Sub buildRechnungErstellen()
             btnButton.Width = 3120
             btnButton.Height = 330
             btnButton.Caption = "Speichern"
-            btnButton.OnClick = "=RechnungErstellenCreateRecordset()"
+            btnButton.OnClick = "=RechnungSaveOrCreateRecordset()"
+            
                 
     ' close form
     DoCmd.Close acForm, strTempFormName, acSaveYes
@@ -1104,132 +1105,6 @@ Private Sub TestGetWidth()
     
 End Sub
 
-Public Function RechnungErstellenCreateRecordset()
-
-    ' command message
-    If gconVerbatim Then
-        Debug.Print "execute basRechnungErstellen.RechnungErstellenCreateRecordset"
-    End If
-    
-    Dim strTableName As String
-    strTableName = "tblRechnung"
-    
-    Dim strFormName As String
-    strFormName = "frmRechnungErstellen"
-    
-    Dim varRechnungNummer As Variant
-    varRechnungNummer = Forms.Item(strFormName)!txt06
-    
-    Dim varRechnungBrutto As Variant
-    varRechnungBrutto = Forms.Item(strFormName)!txt09
-    
-    Dim varEAIDRechnung As Variant
-    varEAIDRechnung = Forms.Item(strFormName)!cbo16
-    
-    Dim varRechnungLink As Variant
-    varRechnungLink = Forms.Item(strFormName)!txt10
-    
-    ' check if varRechnungNummer is empty
-    If IsNull(varRechnungNummer) Then
-        MsgBox "Sie haben im Pflichtfeld 'Rechnung Nummer' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
-        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
-        Exit Function
-    End If
-    
-    ' check if varRechnungBrutto is empty
-    If IsNull(varRechnungBrutto) Then
-        MsgBox "Sie haben im Pflichtfeld 'Rechnung Brutto' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
-        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
-        Exit Function
-    End If
-    
-    ' check if varEAIDRechnung is empty
-    If IsNull(varEAIDRechnung) Then
-        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
-        MsgBox "Sie haben im Pflichtfeld 'Einzelauftrag (Rechnung)' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
-        Exit Function
-    ' check for forbidden values in varEAIDRechnung
-    ElseIf DCount("[EAkurzKey]", "tblEinzelauftrag", "[EAkurzKey] Like '" & varEAIDRechnung & "'") = 0 Then
-        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 3"
-        MsgBox "Bitte wählen Sie im Feld 'Einzelauftrag (Rechnung)' ausschließlich Werte aus der Drop-Down-Liste.", vbCritical, "Speichern abgebrochen"
-        Exit Function
-    End If
-    
-    ' check if varRechnungLink is empty
-    If IsNull(varRechnungLink) Then
-        MsgBox "Sie haben im Pflichtfeld 'Rechung Link' keinen Wert eingegeben.", vbCritical, "Speichern abgebrochen"
-        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 1"
-        Exit Function
-    End If
-    
-    ' create recordsets
-    Dim rstRechnung As clsRechnung
-    Set rstRechnung = New clsRechnung
-    
-    Dim rstEinzelauftragZuRechnung As clsEinzelauftragZuRechnung
-    Set rstEinzelauftragZuRechnung = New clsEinzelauftragZuRechnung
-    
-    Dim rstAngebotZuRechnung As clsAngebotZuRechnung
-    Set rstAngebotZuRechnung = New clsAngebotZuRechnung
-    
-    ' transfer values from form to clsRechnung
-    With Forms.Item(strFormName)
-        rstRechnung.RechnungNr = varRechnungNummer
-        rstEinzelauftragZuRechnung.RefRechnungNr = varRechnungNummer
-        rstAngebotZuRechnung.RefRechnungNr = varRechnungNummer
-        rstAngebotZuRechnung.RefBWIkey = gvarRechnungErstellenClipboardBWIKey
-        rstRechnung.IstTeilrechnung = !chk07
-        rstRechnung.IstSchlussrechnung = !chk08
-        rstRechnung.RechnungBrutto = !txt09
-        rstEinzelauftragZuRechnung.RefEAkurzKey = varEAIDRechnung
-        rstRechnung.RechnungLink = varRechnungLink
-        rstRechnung.KalkulationLNWLink = !txt11
-        rstRechnung.Bemerkung = !txt12
-    End With
-    
-    ' create recordset rechnung
-    ' check if varRechnungNummer already exists
-    If DCount("[RechnungNr]", "tblRechnung", "[RechnungNr] Like '" & varRechnungNummer & "'") > 0 Then
-        Debug.Print "Error: basAngebotErstellen.AngebotErstellenCreateRecordset, Error Code 2"
-        rstRechnung.SaveRecordset
-        MsgBox "Änderungen gespeichert", vbOKOnly, "Speichern"
-    Else
-        rstRechnung.CreateRecordset
-    End If
-
-    ' check if relationship EinzelauftragZuRechnung already exists
-    Dim strDomainName01 As String
-    strDomainName01 = "qryChecksumEinzelauftragZuRechnung"
-    
-    Dim strDummy As String
-    strDummy = varEAIDRechnung & varRechnungNummer
-    
-    If DCount("[checksum]", strDomainName01, "[checksum] Like '" & strDummy & "'") > 0 Then
-        Debug.Print "Error: clsEinzelauftragZuRechnung.CreateRecordset, Error Code 1"
-    Else
-        ' create recordset EinzelauftragZuRechnung
-        rstEinzelauftragZuRechnung.CreateRecordset
-    End If
-    
-    ' check if relationship AngebotZuRechnung already exists
-    Dim strDomainName02 As String
-    strDomainName02 = "qryChecksumAngebotZuRechnung"
-    
-    strDummy = gvarRechnungErstellenClipboardBWIKey & varRechnungNummer
-    
-    If DCount("[checksum]", strDomainName02, "[checksum] Like '" & strDummy & "'") > 0 Then
-        Debug.Print "Error: clsEinzelauftragZuRechnung.CreateRecordset, Error Code 2"
-    Else
-        rstAngebotZuRechnung.CreateRecordset
-    End If
-    
-    ' event message
-    If gconVerbatim Then
-        Debug.Print "basRechnungErstellen.RechnungErstellenCreateRecordset executed"
-    End If
-    
-End Function
-
 Public Function OnCloseFrmRechnungErstellen()
 
     ' command message
@@ -1430,13 +1305,47 @@ Public Function RechnungSaveOrCreateRecordset()
 End Function
 
 Private Sub RechnungCreateRecordset()
+    ' Error Code 1: RechnungNr was not supplied
+    ' Error Code 2: RechnungNr is taken
 
     ' command message
     If gconVerbatim Then
         Debug.Print "execute basRechnungErstellen.RechnungCreateRecordset"
     End If
     
+    ' set form name
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
     
+    ' declare Rechnung
+    Dim rstRechnung As clsRechnung
+    Set rstRechnung = New clsRechnung
+    
+    ' get RechnungNr
+    Dim varRechnungNr As Variant
+    varRechnungNr = Forms.Item(strFormName)!txt06
+    
+    ' check if RechnungNr not IsNull
+    If IsNull(varRechnungNr) Then
+        Debug.Print "Error: basRechnungErstellen.RechnungCreateRecordset, Error Code 1"
+        Exit Sub
+    End If
+    
+    ' check if RechnungNr is taken
+    If DCount("RechnungNr", "tblRechnung", "RechnungNr like '" & varRechnungNr & "'") > 0 Then
+        Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset, Error Code 2"
+        Exit Sub
+    End If
+    
+    ' move values from form to clsRechnung
+    With Forms.Item(strFormName)
+        rstRechnung.RechnungNr = varRechnungNr
+        rstRechnung.RechnungBrutto = Forms.Item(strFormName)!txt09
+        rstRechnung.RechnungLink = Forms.Item(strFormName)!txt10
+    End With
+    
+    ' create recordset
+    rstRechnung.CreateRecordset
     
     ' event message
     If gconVerbatim Then
@@ -1446,13 +1355,39 @@ Private Sub RechnungCreateRecordset()
 End Sub
 
 Private Sub RechnungSaveRecordset()
-
+    ' Error Code 1: RechnungNr was not supplied
+    
     ' command message
     If gconVerbatim Then
         Debug.Print "execute basRechnungErstellen.RechnungSaveRecordset"
     End If
     
+    ' set form name
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
     
+    ' get RechnungNr from form
+    Dim varRechnungNr As Variant
+    varRechnungNr = Forms.Item(strFormName)!txt06
+    
+    ' check if RechnungNr was supplied
+    If IsNull(varRechnungNr) Then
+        Debug.Print "Error: basRechnungErstellen.RechnungSaveRecordset, Error Code 1"
+        Exit Sub
+    End If
+    
+    ' select recordset
+    Dim rstRechnung As clsRechnung
+    Set rstRechnung = New clsRechnung
+    
+    rstRechnung.SelectRecordset (varRechnungNr)
+    
+    ' transfer values from form to Rechnung
+    rstRechnung.RechnungBrutto = Forms.Item(strFormName)!txt09
+    rstRechnung.RechnungLink = Forms.Item(strFormName)!txt10
+    
+    ' save changes to recordset
+    rstRechnung.SaveRecordset
     
     ' event message
     If gconVerbatim Then
@@ -1462,13 +1397,54 @@ Private Sub RechnungSaveRecordset()
 End Sub
 
 Private Sub AngebotZuRechnungCreateRecordset()
+    ' Error Code 1: BWIKey was not supplied
+    ' Error Code 2: RechnungNr was not supplied
+    ' Error Code 3: RechnungZuLeistungserfassungsblattID is taken
 
     ' command message
     If gconVerbatim Then
         Debug.Print "execute basRechnungErstellen.AngebotZuRechnungCreateRecordset"
     End If
     
+    ' set form name
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
     
+    ' get RechnungNr from form
+    Dim varRechnungNr As Variant
+    varRechnungNr = Forms.Item(strFormName)!txt06
+    
+    ' get BWIKey from form
+    Dim varBWIKey As Variant
+    varBWIKey = Forms.Item(strFormName)!txt00
+    
+    ' check if RechnungNr and BWIKey were supplied
+    If IsNull(varBWIKey) Then
+        Debug.Print "Error: basRechnungErstellen.AngebotZuRechnungCreateRecordset, Error Code 1"
+        Exit Sub
+    ElseIf IsNull(varRechnungNr) Then
+        Debug.Print "Error: basRechnungErstellen.AngebotZuRechnungCreateRecordset, Error Code 2"
+        Exit Sub
+    End If
+    
+    ' check if AngebotZuRechnung is taken
+    Dim strTestRelationship As String
+    strTestRelationship = varBWIKey & varRechnungNr
+    
+    If DCount("checksum", "qryChecksumAngebotZuRechnung", "checksum like '" & strTestRelationship & "'") > 0 Then
+        Debug.Print "Error: basRechnungErstellen.AngebotZuRechnungCreateRecordset, Error Code 3"
+        Exit Sub
+    End If
+    
+    ' move values to AngebotZuRechnung
+    Dim rstAngebotZuRechnung As clsAngebotZuRechnung
+    Set rstAngebotZuRechnung = New clsAngebotZuRechnung
+    
+    rstAngebotZuRechnung.RefBWIkey = varBWIKey
+    rstAngebotZuRechnung.RefRechnungNr = varRechnungNr
+    
+    ' create AngebotZuRechnung recordset
+    rstAngebotZuRechnung.CreateRecordset
     
     ' event message
     If gconVerbatim Then
@@ -1478,13 +1454,54 @@ Private Sub AngebotZuRechnungCreateRecordset()
 End Sub
 
 Private Sub EinzelauftragZuRechnungCreateRecordset()
+    ' Error Code 1: EAIDRechnung was not supplied
+    ' Error Code 2: RechnungNr was not supplied
+    ' Error Code 3: EinzelauftragZuRechnung is taken
 
     ' command message
     If gconVerbatim Then
         Debug.Print "execute basRechnungErstellen.EinzelauftragZuRechnungCreateRecordset"
     End If
     
+    ' set form name
+    Dim strFormName As String
+    strFormName = "frmRechnungErstellen"
     
+    ' get RechnungNr from form
+    Dim varRechnungNr As Variant
+    varRechnungNr = Forms.Item(strFormName)!txt06
+    
+    ' get EAIDRechnung from form
+    Dim varEAIDRechnung As Variant
+    varEAIDRechnung = Forms.Item(strFormName)!cbo16
+    
+    ' check if RechnungNr and EAIDRechnung were supplied
+    If IsNull(varRechnungNr) Then
+        Debug.Print "Error: basRechnungErstellen.EinzelauftragZuRechnungCreateRecordset, Error Code 2"
+        Exit Sub
+    ElseIf IsNull(varEAIDRechnung) Then
+        Debug.Print "Error: basRechnungErstellen.EinzelauftragZuRechnungCreateRecordset, Error Code 1"
+        Exit Sub
+    End If
+    
+    ' check if EinzelauftragZuRechnung is taken
+    Dim strTestRelationship As String
+    strTestRelationship = varEAIDRechnung & varRechnungNr
+    
+    If DCount("checksum", "qryChecksumEinzelauftragZuRechnung", "checksum like'" & strTestRelationship & "'") > 0 Then
+        Debug.Print "Error: basRechnungErstellen.EinzelauftragZuRechnungCreateRecordset, Error Code 3"
+        Exit Sub
+    End If
+    
+    ' move values to EinzelauftragZuRechnung
+    Dim rstEinzelauftragZuRechnung As clsEinzelauftragZuRechnung
+    Set rstEinzelauftragZuRechnung = New clsEinzelauftragZuRechnung
+    
+    rstEinzelauftragZuRechnung.RefEAkurzKey = varEAIDRechnung
+    rstEinzelauftragZuRechnung.RefRechnungNr = varRechnungNr
+    
+    ' create EinzelauftragZuRechnung
+    rstEinzelauftragZuRechnung.CreateRecordset
     
     ' event message
     If gconVerbatim Then
