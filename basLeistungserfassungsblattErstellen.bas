@@ -1283,10 +1283,8 @@ Private Sub RechnungZuLeistungserfassungsblattCreateRecordset()
     End If
 
     ' transfer values to RechnungZuLeistungserfassungsblatt
-    With Forms.Item(strFormName)
-        rstRechnungZuLeistungserfassungsblatt.RefLeistungserfassungsblattID = strLeistungserfassungsblattID
-        rstRechnungZuLeistungserfassungsblatt.RefRechnungNr = strRechnungNr
-    End With
+    rstRechnungZuLeistungserfassungsblatt.RefLeistungserfassungsblattID = strLeistungserfassungsblattID
+    rstRechnungZuLeistungserfassungsblatt.RefRechnungNr = strRechnungNr
     
     ' create RechnungZuLeistungserfassungsblatt recordset
     rstRechnungZuLeistungserfassungsblatt.CreateRecordset
