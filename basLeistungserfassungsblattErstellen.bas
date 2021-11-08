@@ -1317,62 +1317,49 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
     strFormName = "frmLeistungserfassungsblattErstellen"
     
     ' get RechnungNr from form
-    Dim strRechnungNr As String
-    strRechnungNr = Forms.Item(strFormName)!txt06
+    Dim varRechnungNr As Variant
+    varRechnungNr = Forms.Item(strFormName)!txt06
     
     ' get LeistungserfassungsblattID from form
-    Dim strLeistungserfassungsblattID As String
-    strLeistungserfassungsblattID = Forms.Item(strFormName)!txt05
+    Dim varLeistungserfassungsblattID As Variant
+    varLeistungserfassungsblattID = Forms.Item(strFormName)!txt05
 
     ' get Brutto from form
-    Dim curBrutto As Currency
-    curBrutto = Forms.Item(strFormName)!txt17
+    Dim varBrutto As Variant
+    varBrutto = Forms.Item(strFormName)!txt17
     
     ' # check mandatory values #
     ' check isNull(LeistungserfassungsblattID)
-    If IsNull(strLeistungserfassungsblattID) Then
+    If IsNull(varLeistungserfassungsblattID) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 1"
-        MsgBox "Sie haben in dem Pflichtfeld 'LEB Nummer' keinen Wert eingegeben.", vbCritical, "Speichern"
-        Exit Function
+        MsgBox "Sie haben im Pflichtfeld 'LEB Nummer' keinen Wert eingegeben.", vbCritical, "Speichern"
+        GoTo CloseFunction
     ' check isNull(RechnungNr)
-    ElseIf IsNull(strRechnungNr) Then
+    ElseIf IsNull(varRechnungNr) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 2"
         MsgBox "Es wurde keine Rechnung Nummer übergeben. Speichern abgebrochen", vbCritical, "Speichern"
-        Exit Function
+        GoTo CloseFunction
     ' check isNull(Brutto)
-    ElseIf IsNull(curBrutto) Then
+    ElseIf IsNull(varBrutto) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 3"
-        MsgBox "Sie haben in dem Pflichtfeld 'LEB Brutto' keinen Wert eingegeben.", vbCritical, "Speichern"
-        Exit Function
+        MsgBox "Sie haben im Pflichtfeld 'LEB Brutto' keinen Wert eingegeben.", vbCritical, "Speichern"
+        GoTo CloseFunction
     End If
     
-    ' # check if RechnungZuLeistungserfassungsblatt is taken #
-    ' calculate testRelationship
-    Dim strTestRelationship As String
-    strTestRelationship = strRechnungNr & strLeistungserfassungsblattID
-
-    If DCount("checksum", "qryChecksumRechnungZuLeistungserfassungsblatt", "checksum like '" & strTestRelationship & "'") > 0 Then
-        ' get user consent
-        intUserSelection = MsgBox("Die Rechnung '" & strRechnungNr & "' wurde bereits mit dem Leistungserfassungsblatt '" & strLeistungserfassungsblattID & "' verknüpft. Möchten Sie Ihre Änderungen an diesem Leistungserfassungsblatt speichern?", vbYesNo, "Speichern")
-            ' evaluate input
-            Select Case intUserSelection
-                ' Yes
-                Case 6
-                    basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveRecordset
-                    ' Exit Function
-                    GoTo ExitFunction
-                ' No
-                Case 7
-                    Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
-                    ' Exit Function
-                    GoTo ExitFunction
-                End Select
-    End If
-        
     ' check if LeistungserfassungsblattID is taken
-    If DCount("LeistungserfassungsblattID", "tblLeistungserfassungsblatt", "LeistungserfassungsblattID like '" & strLeistungserfassungsblattID & "'") > 0 Then
-        ' get user consent for saving changes on Leistungserfassungsblatt
-        intUserSelection = MsgBox("Das Leistungserfassungsblatt '" & strLeistungserfassungsblattID & "' wurde bereits erfasst. Möchten Sie Ihre Änderungen speichern und das Leistungserfassungsblatt der Rechnung Nr '" & strRechnungNr & "' zuordnen?", vbYesNo, "Speichern")
+    If DCount("LeistungserfassungsblattID", "tblLeistungserfassungsblatt", "LeistungserfassungsblattID like '" & varLeistungserfassungsblattID & "'") = 0 Then
+        
+        ' create Leistungserfassungsblatt
+        basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset
+        
+        ' create RechnungZuLeistungserfassungsblatt
+        basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
+        
+        GoTo CloseFunction
+        
+    Else
+        ' get user consent to save changes to Leistungserfassungsblatt
+        intUserSelection = MsgBox("Das Leistungserfassungsblatt '" & varLeistungserfassungsblattID & "' wurde bereits erfasst. Möchten Sie Ihre Änderungen speichern?", vbYesNo, "Speichern")
             ' evaluate input
             Select Case intUserSelection
                 ' Yes
@@ -1382,15 +1369,19 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
                 ' No
                 Case 7
                     Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
+                    GoTo CloseFunction
             End Select
-    Else
-        basLeistungserfassungsblattErstellen.LeistungserfassungsblattCreateRecordset
+    End If
+    
+    ' # check if RechnungZuLeistungserfassungsblatt is taken #
+    Dim strTestRelationship As String
+    strTestRelationship = varRechnungNr & varLeistungserfassungsblattID
+
+    If DCount("checksum", "qryChecksumRechnungZuLeistungserfassungsblatt", "checksum like '" & strTestRelationship & "'") = 0 Then
+        basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
     End If
 
-    ' create RechnungZuLeistungserfassungsblatt recordset
-    basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
-    
-ExitFunction:
+CloseFunction:
     ' event message
     If gconVerbatim Then
         Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset executed"
