@@ -1333,17 +1333,17 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
     If IsNull(varLeistungserfassungsblattID) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 1"
         MsgBox "Sie haben im Pflichtfeld 'LEB Nummer' keinen Wert eingegeben.", vbCritical, "Speichern"
-        GoTo CloseFunction
+        GoTo ExitProc
     ' check isNull(RechnungNr)
     ElseIf IsNull(varRechnungNr) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 2"
         MsgBox "Es wurde keine Rechnung Nummer übergeben. Speichern abgebrochen", vbCritical, "Speichern"
-        GoTo CloseFunction
+        GoTo ExitProc
     ' check isNull(Brutto)
     ElseIf IsNull(varBrutto) Then
         Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 3"
         MsgBox "Sie haben im Pflichtfeld 'LEB Brutto' keinen Wert eingegeben.", vbCritical, "Speichern"
-        GoTo CloseFunction
+        GoTo ExitProc
     End If
     
     ' check if LeistungserfassungsblattID is taken
@@ -1355,7 +1355,7 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
         ' create RechnungZuLeistungserfassungsblatt
         basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
         
-        GoTo CloseFunction
+        GoTo ExitProc
         
     Else
         ' get user consent to save changes to Leistungserfassungsblatt
@@ -1369,7 +1369,7 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
                 ' No
                 Case 7
                     Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
-                    GoTo CloseFunction
+                    GoTo ExitProc
             End Select
     End If
     
@@ -1381,7 +1381,7 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
         basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
     End If
 
-CloseFunction:
+ExitProc:
     ' event message
     If gconVerbatim Then
         Debug.Print "basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset executed"
