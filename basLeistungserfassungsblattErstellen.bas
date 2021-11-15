@@ -1366,19 +1366,21 @@ Public Function LeistungserfassungsblattSaveOrCreateRecordset()
                 Case 6
                     ' save changes
                     basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveRecordset
+                    
+                    ' # check if RechnungZuLeistungserfassungsblatt is taken #
+                    Dim strTestRelationship As String
+                    strTestRelationship = varRechnungNr & varLeistungserfassungsblattID
+
+                    If DCount("checksum", "qryChecksumRechnungZuLeistungserfassungsblatt", "checksum like '" & strTestRelationship & "'") = 0 Then
+                        basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
+                    End If
+                    
                 ' No
                 Case 7
+                    ' cancel procedure
                     Debug.Print "Error: basLeistungserfassungsblattErstellen.LeistungserfassungsblattSaveOrCreateRecordset, Error Code 4"
                     GoTo ExitProc
             End Select
-    End If
-    
-    ' # check if RechnungZuLeistungserfassungsblatt is taken #
-    Dim strTestRelationship As String
-    strTestRelationship = varRechnungNr & varLeistungserfassungsblattID
-
-    If DCount("checksum", "qryChecksumRechnungZuLeistungserfassungsblatt", "checksum like '" & strTestRelationship & "'") = 0 Then
-        basLeistungserfassungsblattErstellen.RechnungZuLeistungserfassungsblattCreateRecordset
     End If
 
 ExitProc:
